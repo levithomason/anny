@@ -47,6 +47,7 @@ var util = {
 ///////////////////////////////////////////////////////////////////////////////
 
 function Neuron(output, bias) {
+  console.log(Neuron.count);
   this.id = Neuron.count++;
 
   // connections
@@ -103,6 +104,8 @@ Neuron.prototype.connect = function(target) {
 ///////////////////////////////////////////////////////////////////////////////
 
 function Layer(numNeurons) {
+  // TODO: support convolution networks which use grid layers
+  // http://andrew.gibiansky.com/blog/machine-learning/convolutional-neural-networks/
   var self = this;
   self.neurons = [];
 
@@ -111,6 +114,18 @@ function Layer(numNeurons) {
     self.neurons.push(new Neuron())
   });
 }
+
+/**
+ * Connects every neuron in this Layer to each neuron in the `target` Layer.
+ * @param {Layer} targetLayer - The Layer to connect to.
+ */
+Layer.prototype.connect = function(targetLayer) {
+  _.each(this.neurons, function(source) {
+    _.each(targetLayer.neurons, function(target) {
+      source.connect(target);
+    });
+  });
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -141,14 +156,26 @@ function Network() {
   var numOutputs = _.last(args);
   var hiddenLayers = _.slice(args, 1, args.length - 1);
 
-  this.layers = {
-    input: new Layer(numInputs),
-    hidden: [],
-    output: new Layer(numOutputs)
-  };
+  self.layers = [];
 
-  // add hidden layers as layers.hidden1, layers.hidden2, etc.
-  _.each(hiddenLayers, function(numNeurons) {
-    self.layers.hidden.push(new Layer(numNeurons));
+  // input layer
+  self.layers.push(new Layer(numInputs));
+
+  // hidden layers
+  _.each(hiddenLayers, function(numNeurons, i) {
+    // add layer
+    self.layers.push(new Layer(numNeurons));
   });
+
+  // output layer
+  self.layers.push(new Layer(numOutputs));
+
+  // connect layers
+  _.each(self.layers, function(layer, i) {
+    var next = self.layers[i + 1];
+    if (next) {
+      layer.connect(next);
+    }
+  });
+
 }
