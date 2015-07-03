@@ -16,24 +16,15 @@ angular.module('App')
         var nodes = [];
         var edges = [];
         _.each(scope.nodes, function(node, i) {
-          nodes.push({id: i, label: 'n' + i});
+          nodes.push({id: node.id, label: 'n' + node.id});
 
-          // TODO: need node id's for connections
-          //_.each(node.outgoing, function(connection) {
-          //  edges.push({from: i, to: })
-          //});
+          _.each(node.outgoing, function(connection) {
+            edges.push({from: node.id, to: connection.target.id})
+          });
         });
 
-        // create an array with nodes
         var nodeSet = new vis.DataSet(nodes);
-
-        // create an array with edges
-        var edgeSet = new vis.DataSet([
-          {from: 1, to: 3},
-          {from: 1, to: 2},
-          {from: 2, to: 4},
-          {from: 2, to: 5}
-        ]);
+        var edgeSet = new vis.DataSet(edges);
 
         // create a network
         var data = {
@@ -42,7 +33,6 @@ angular.module('App')
         };
 
         var options = {};
-
         var network = new vis.Network(elm[0], data, options);
       }
     }

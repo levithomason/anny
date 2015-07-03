@@ -47,6 +47,8 @@ var util = {
 ///////////////////////////////////////////////////////////////////////////////
 
 function Neuron(output, bias) {
+  this.id = Neuron.count++;
+
   // connections
   this.incoming = [];
   this.outgoing = [];
@@ -59,6 +61,8 @@ function Neuron(output, bias) {
   // activation
   this.activationFn = activation.tanh;
 }
+
+Neuron.count = 0;
 
 Neuron.connection = function(source, target) {
   // 4.6 initializing the weights (16)
@@ -99,30 +103,52 @@ Neuron.prototype.connect = function(target) {
 ///////////////////////////////////////////////////////////////////////////////
 
 function Layer(numNeurons) {
-  this.neurons = [];
+  var self = this;
+  self.neurons = [];
 
   // add neurons
-  for (var i = 0; i < numNeurons; i += 1) {
-    this.neurons.push(new Neuron())
-  }
+  _.times(numNeurons, function() {
+    self.neurons.push(new Neuron())
+  });
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Network of layers of neurons.  One layer per argument.
+ * First argument represents the input layer.
+ * Last argument represents the output layer.
+ * All arguments in between are hidden layers.
+ * @param {...number} arguments - Number of neurons in the layer.
+ * @constructor
+ *
+ * @example
+ * // 2 inputs
+ * // 1 output
+ * var net = new Network(2, 1);
+ *
+ * @example
+ * // 16 inputs
+ * // 10 neuron hidden layer
+ * // 4 neuron hidden layer
+ * // 1 output
+ * var net = new Network(16, 10, 4, 1);
+ */
 function Network() {
+  var self = this;
   var args = Array.prototype.slice.call(arguments);
-  var numInputs = args.unshift();
-  var numOutputs = args.pop();
-  var hiddenLayers = args;
+  var numInputs = _.first(args);
+  var numOutputs = _.last(args);
+  var hiddenLayers = _.slice(args, 1, args.length - 1);
 
   this.layers = {
     input: new Layer(numInputs),
+    hidden: [],
     output: new Layer(numOutputs)
   };
 
   // add hidden layers as layers.hidden1, layers.hidden2, etc.
-  _.each(hiddenLayers, function(numNeurons, index) {
-    var name = 'hidden' + index + 1;
-    self.layers[name](new Layer(numNeurons))
+  _.each(hiddenLayers, function(numNeurons) {
+    self.layers.hidden.push(new Layer(numNeurons));
   });
 }
