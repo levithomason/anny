@@ -126,19 +126,3 @@ function Network() {
     self.layers[name](new Layer(numNeurons))
   });
 }
-
-///////////////////////////////////////////////////////////////////////////////
-var a = new Neuron();
-var b = new Neuron();
-a.connect(b);
-
-var neurons = [a,b];
-
-// add neurons to the dom
-var neuronEle = $('.neurons');
-
-_.each(neurons, function(n) {
-  delete n.incoming; // circular refs
-  delete n.outgoing; // circular refs
-  neuronEle.append('<pre>' + JSON.stringify(n, null, 2) + '</pre>');
-});
