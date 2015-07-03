@@ -22,8 +22,6 @@ angular.module('App')
           //_.each(node.outgoing, function(connection) {
           //  edges.push({from: i, to: })
           //});
-
-          console.log(node);
         });
 
         // create an array with nodes
