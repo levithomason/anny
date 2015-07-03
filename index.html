@@ -1,17 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="App">
 <head>
-    <meta charset="UTF-8">
-    <title>Ann</title>
-  
-    <script src="bower_components/lodash/lodash.min.js"></script>
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-  
-    <script src="js/neuron.js"></script>
-</head>
-<body>
+  <meta charset="UTF-8">
+  <title>Ann</title>
 
-<h1>Ann</h1>
+  <link rel="stylesheet" href="bower_components/bootstrap-css/css/bootstrap.min.css"/>
+
+  <script src="bower_components/lodash/lodash.min.js"></script>
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="js/neuron.js"></script>
+  <script src="js/app.js"></script>
+</head>
+<body ng-controller="Controller">
+
+<div class="container">
+  <h1>Ann</h1>
+  {{ foo }}
+</div>
 
 </body>
 </html>

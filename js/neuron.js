@@ -46,16 +46,16 @@ var util = {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-function Neuron(bias) {
+function Neuron(output, bias) {
   // connections
   this.incoming = [];
   this.outgoing = [];
 
   // signal values
-  this.inputValue = 0;
-  this.outputValue = 0;
+  this.input = 0;
+  this.output = output || 0;
   this.bias = bias || _.random(-0.2, 0.2);
-  
+
   // activation
   this.activationFn = activation.tanh;
 }
@@ -72,19 +72,21 @@ Neuron.connection = function(source, target) {
 
 Neuron.prototype.activate = function() {
   var self = this;
+  var averageInput = self.input / (self.incoming.length || 1);
+  var shouldFire;
 
-  // sum up input values
-  _.each(self.incoming, function(connection) {
-    var output = connection.source.output;
-    var weight = connection.weight;
-    self.input += output * weight;
-  });
+  // set output from inputs
+  self.output = self.activationFn(averageInput);
 
-  // average input value
-  self.input /= self.incoming.length;
-  
-  // activate, compute output
-  self.output = self.activationFn(self.input);
+  shouldFire = self.output + self.bias > 0;
+
+  if (shouldFire) {
+    // send output upstream
+    _.each(self.outgoing, function(connection) {
+      connection.target.input += self.output * connection.weight;
+    });
+  }
+
   return self.output;
 };
 
@@ -124,3 +126,19 @@ function Network() {
     self.layers[name](new Layer(numNeurons))
   });
 }
+
+///////////////////////////////////////////////////////////////////////////////
+var a = new Neuron();
+var b = new Neuron();
+a.connect(b);
+
+var neurons = [a,b];
+
+// add neurons to the dom
+var neuronEle = $('.neurons');
+
+_.each(neurons, function(n) {
+  delete n.incoming; // circular refs
+  delete n.outgoing; // circular refs
+  neuronEle.append('<pre>' + JSON.stringify(n, null, 2) + '</pre>');
+});
