@@ -1,11 +1,9 @@
-Ann
-===
+Anny
+====
 
-[**Demo**](http://levithomason.github.io/ann/)
+Anny is an artificial neural network, yo!
 
-## Equations
-Network initialization 
-http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf
+[**Demo**](http://levithomason.github.io/anny/)
 
 ## Hacking
 
@@ -13,3 +11,7 @@ http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf
 
 `gulp help` for more help.
 
+## Notes
+
+Network initialization 
+http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf

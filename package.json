@@ -1,7 +1,7 @@
 {
-  "name": "ann",
+  "name": "anny",
   "version": "1.0.0",
-  "description": "Ann ===",
+  "description": "An artificial neural network, yo!",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/levithomason/ann.git"
+    "url": "git+https://github.com/levithomason/anny.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/levithomason/ann/issues"
+    "url": "https://github.com/levithomason/anny/issues"
   },
-  "homepage": "https://github.com/levithomason/ann#readme",
+  "homepage": "https://github.com/levithomason/anny#readme",
   "dependencies": {
     "del": "^1.2.0",
     "gulp": "^3.9.0",
