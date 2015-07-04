@@ -166,6 +166,20 @@ Layer.prototype.connect = function(targetLayer) {
 };
 
 /**
+ * Activates all the Neurons in this layer with the given array of values.
+ * @param {number[]} values - Map of input values for each Neuron.
+ */
+Layer.prototype.activate = function(values) {
+  var self = this;
+
+  _.each(values, function(val, i) {
+    var neuron = self.neurons[i];
+    neuron.input = val;
+    neuron.activate();
+  });
+};
+
+/**
  * Creates a Network of Layers consisting of Neurons.  One layer per argument.
  * First argument represents the input layer.
  * Last argument represents the output layer.
