@@ -66,10 +66,10 @@ angular.module('App')
             normal: {
               color: {
                 border: 'hsl(210, 30%, 30%)',
-                background: 'hsl(210, 70%, 70%)',
+                background: 'hsl(210, 80%, 80%)',
                 hover: {
                   border: 'hsl(210, 50%, 50%)',
-                  background: 'hsl(210, 70%, 70%)',
+                  background: 'hsl(210, 80%, 80%)',
                 },
                 highlight: {
                   border: 'hsl(210, 70%, 70%)',
@@ -80,14 +80,14 @@ angular.module('App')
             gate: {
               color: {
                 border: 'hsl(30, 30%, 30%)',
-                background: 'hsl(30, 70%, 60%)',
+                background: 'hsl(30, 100%, 70%)',
                 hover: {
                   border: 'hsl(30, 50%, 50%)',
-                  background: 'hsl(30, 70%, 60%)',
+                  background: 'hsl(30, 100%, 70%)',
                 },
                 highlight: {
                   border: 'hsl(30, 70%, 60%)',
-                  background: 'hsl(30, 80%, 70%)',
+                  background: 'hsl(30, 100%, 70%)',
                 },
               }
             }
