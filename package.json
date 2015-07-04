@@ -4,7 +4,10 @@
   "description": "Ann ===",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "bower install",
+    "prestart": "npm i",
+    "start": "gulp"
   },
   "repository": {
     "type": "git",
