@@ -188,7 +188,8 @@ function Network() {
   self.layers = [];
 
   // input layer
-  self.layers.push(new Layer(numInputs));
+  self.input = new Layer(numInputs);
+  self.layers.push(self.input);
 
   // hidden layers
   _.each(hiddenLayers, function(numNeurons, i) {
@@ -197,7 +198,8 @@ function Network() {
   });
 
   // output layer
-  self.layers.push(new Layer(numOutputs));
+  self.output = new Layer(numOutputs);
+  self.layers.push(self.output);
 
   // connect layers
   _.each(self.layers, function(layer, i) {

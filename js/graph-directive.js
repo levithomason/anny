@@ -24,7 +24,7 @@ angular.module('App')
           _.each(layer.neurons, function(neuron) {
             nodes.push({
               id: neuron.id,
-              title: 'bias: ' + neuron.bias,
+              title: 'id: ' + neuron.id + ', bias: ' + neuron.bias,
               level: layerIndex,
               value: (neuron.bias + 0.2) * 10,
               group: neuron.bias > 0 ? 'gate' : 'normal'
@@ -112,7 +112,7 @@ angular.module('App')
           },
           interaction: {
             hover: true,
-            tooltipDelay: 100
+            tooltipDelay: 200
           }
         };
 
