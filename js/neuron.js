@@ -14,6 +14,23 @@ var activation = {
   }
 };
 
+var heuristics = {
+  initialBias: function() {
+    return _.random(-0.2, 0.2);
+  },
+  initialWeight: function(numConnections) {
+    // 4.6 Initializing the weights (16)
+    var maxWeight;
+
+    // give weight as if this connection were also added
+    numConnections = numConnections + 1 || 1;
+
+    // TODO: weight per connection is constant.  These values can be cached.
+    maxWeight = Math.pow(numConnections, -1 / 2);
+    return _.random(-maxWeight, maxWeight, true);
+  }
+};
+
 var util = {
   getFastestActivation: function() {
     var cycles = '10,000,000';
@@ -46,8 +63,7 @@ var util = {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-function Neuron(output, bias) {
-  console.log(Neuron.count);
+function Neuron() {
   this.id = Neuron.count++;
 
   // connections
@@ -56,8 +72,8 @@ function Neuron(output, bias) {
 
   // signal values
   this.input = 0;
-  this.output = output || 0;
-  this.bias = bias || _.random(-0.2, 0.2);
+  this.output = 0;
+  this.bias = heuristics.initialBias();
 
   // activation
   this.activationFn = activation.tanh;
@@ -65,14 +81,12 @@ function Neuron(output, bias) {
 
 Neuron.count = 0;
 
-Neuron.connection = function(source, target) {
-  // 4.6 initializing the weights (16)
-  var numConnections = target.incoming.length;
-  var maxWeight = numConnections ? Math.pow(numConnections, -1 / 2) : Math.random();
-
-  this.weight = _.random(0, maxWeight) - maxWeight / 2;
-  this.source = source;
-  this.target = target;
+Neuron.connection = function(source, target, weight) {
+  return {
+    source: source,
+    target: target,
+    weight: weight || heuristics.initialWeight(target.incoming.length)
+  };
 };
 
 Neuron.prototype.activate = function() {
@@ -95,8 +109,8 @@ Neuron.prototype.activate = function() {
   return self.output;
 };
 
-Neuron.prototype.connect = function(target) {
-  var connection = new Neuron.connection(this, target);
+Neuron.prototype.connect = function(target, weight) {
+  var connection = Neuron.connection(this, target, weight);
   this.outgoing.push(connection);
   target.incoming.push(connection);
 };
@@ -117,20 +131,35 @@ function Layer(numNeurons) {
 
 /**
  * Connects every neuron in this Layer to each neuron in the `target` Layer.
+ * Sets the connection weights.
  * @param {Layer} targetLayer - The Layer to connect to.
  */
 Layer.prototype.connect = function(targetLayer) {
-  _.each(this.neurons, function(source) {
+  var self = this;
+
+  _.each(self.neurons, function(source) {
+    // every neuron in this layer is connected to each neuron in the next.
+    // we can assume the numConnections to be the num of neurons in this layer.
+
+    // 4.6 initializing the weights (16)
+    // TODO: weight is set by num of connections.  These can be cached values.
+    var numConnections = self.neurons.length;
+    var maxWeight = Math.pow(numConnections, -1 / 2);
+
+    // connect to each neuron in this layer
     _.each(targetLayer.neurons, function(target) {
-      source.connect(target);
+      var weight = _.random(-maxWeight, maxWeight);
+      source.connect(target, weight);
     });
+
+
   });
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 
 /**
- * Network of layers of neurons.  One layer per argument.
+ * Creates a Network of Layers consisting of Neurons.  One layer per argument.
  * First argument represents the input layer.
  * Last argument represents the output layer.
  * All arguments in between are hidden layers.
@@ -177,5 +206,4 @@ function Network() {
       layer.connect(next);
     }
   });
-
 }

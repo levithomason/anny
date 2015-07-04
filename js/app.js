@@ -3,5 +3,9 @@ angular.module('App', [])
   .controller('Controller', function($scope) {
     $scope.neurons = [];
 
-    $scope.network = new Network(2, 4, 1);
+    var inputs = _.random(2, 8);
+    var hidden = _.random(4, 8);
+    var outputs = _.random(1, 3);
+    
+    $scope.network = new Network(inputs, hidden, outputs);
   });

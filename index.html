@@ -15,14 +15,21 @@
   <script src="js/neuron.js"></script>
   <script src="js/app.js"></script>
   <script src="js/graph-directive.js"></script>
+
+  <style>
+    body {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: hsl(190, 5%, 20%);
+    }
+  </style>
 </head>
 <body ng-controller="Controller">
 
-<div class="container">
-  <h1 class="page-header">Ann</h1>
-
-  <vis-graph network="network"></vis-graph>
-</div>
+<vis-graph network="network"></vis-graph>
 
 </body>
 </html>
