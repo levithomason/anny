@@ -1,38 +1,9 @@
-var activation = {
-  softplus: function softplus(x) {
-    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-    // http://www.quora.com/What-is-special-about-rectifier-neural-units-used-in-NN-learning
-    return Math.log(1 + Math.exp(x));
-  },
-  tanh: function tanh(x) {
-    // 4.4 The Sigmoid Fig. 4.b, Recommended.
-    return 1.7159 * Math.tanh(2 / 3 * x);
-  },
-  sigmoid: function sigmoid(x) {
-    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
-    return 1 / (1 + Math.exp(-x));
-  }
-};
-
-var heuristics = {
-  initialBias: function() {
-    return _.random(-0.2, 0.2);
-  },
-  initialWeight: function(numConnections) {
-    // 4.6 Initializing the weights (16)
-    var maxWeight;
-
-    // give weight as if this connection were also added
-    numConnections = numConnections + 1 || 1;
-
-    // TODO: weight per connection is constant.  These values can be cached.
-    maxWeight = Math.pow(numConnections, -1 / 2);
-    return _.random(-maxWeight, maxWeight, true);
-  }
-};
-
 var util = {
-  getFastestActivation: function() {
+  /**
+   * Times all activation functions logging the results.
+   * @returns {any|T|*}
+   */
+  findFastestActivation: function() {
     var cycles = '10,000,000';
     var fastest;
     var results = [];
@@ -61,7 +32,46 @@ var util = {
   }
 };
 
-///////////////////////////////////////////////////////////////////////////////
+/**
+ * Activation functions.
+ * @type {object}
+ */
+var activation = {
+  softplus: function softplus(x) {
+    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
+    // http://www.quora.com/What-is-special-about-rectifier-neural-units-used-in-NN-learning
+    return Math.log(1 + Math.exp(x));
+  },
+  tanh: function tanh(x) {
+    // 4.4 The Sigmoid Fig. 4.b, Recommended.
+    return 1.7159 * Math.tanh(2 / 3 * x);
+  },
+  sigmoid: function sigmoid(x) {
+    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
+    return 1 / (1 + Math.exp(-x));
+  }
+};
+
+/**
+ * Initialze Neuron and Connection values.
+ * @type {{initialBias: Function, initialWeight: Function}}
+ */
+var initialize = {
+  bias: function() {
+    return _.random(-0.2, 0.2);
+  },
+  weight: function(numConnections) {
+    // 4.6 Initializing the weights (16)
+    var maxWeight;
+
+    // give weight as if this connection were also added
+    numConnections = numConnections + 1 || 1;
+
+    // TODO: weight per connection is constant.  These values can be cached.
+    maxWeight = Math.pow(numConnections, -1 / 2);
+    return _.random(-maxWeight, maxWeight, true);
+  }
+};
 
 function Neuron() {
   this.id = Neuron.count++;
@@ -73,7 +83,7 @@ function Neuron() {
   // signal values
   this.input = 0;
   this.output = 0;
-  this.bias = heuristics.initialBias();
+  this.bias = initialize.bias();
 
   // activation
   this.activationFn = activation.tanh;
@@ -85,7 +95,7 @@ Neuron.connection = function(source, target, weight) {
   return {
     source: source,
     target: target,
-    weight: weight || heuristics.initialWeight(target.incoming.length)
+    weight: weight || initialize.weight(target.incoming.length)
   };
 };
 
@@ -96,7 +106,6 @@ Neuron.prototype.activate = function() {
 
   // set output from inputs
   self.output = self.activationFn(averageInput);
-
   shouldFire = self.output + self.bias > 0;
 
   if (shouldFire) {
@@ -115,11 +124,15 @@ Neuron.prototype.connect = function(target, weight) {
   target.incoming.push(connection);
 };
 
-///////////////////////////////////////////////////////////////////////////////
-
+/**
+ * Creates a single dimension Layer of Neurons.
+ * @param {string} numNeurons -
+ * @constructor
+ */
 function Layer(numNeurons) {
   // TODO: support convolution networks which use grid layers
   // http://andrew.gibiansky.com/blog/machine-learning/convolutional-neural-networks/
+
   var self = this;
   self.neurons = [];
 
@@ -130,8 +143,7 @@ function Layer(numNeurons) {
 }
 
 /**
- * Connects every neuron in this Layer to each neuron in the `target` Layer.
- * Sets the connection weights.
+ * Connects every Neuron in this Layer to each Neuron in the `target` Layer.
  * @param {Layer} targetLayer - The Layer to connect to.
  */
 Layer.prototype.connect = function(targetLayer) {
@@ -141,22 +153,17 @@ Layer.prototype.connect = function(targetLayer) {
     // every neuron in this layer is connected to each neuron in the next.
     // we can assume the numConnections to be the num of neurons in this layer.
 
-    // 4.6 initializing the weights (16)
-    // TODO: weight is set by num of connections.  These can be cached values.
     var numConnections = self.neurons.length;
-    var maxWeight = Math.pow(numConnections, -1 / 2);
 
     // connect to each neuron in this layer
     _.each(targetLayer.neurons, function(target) {
-      var weight = _.random(-maxWeight, maxWeight);
+      var weight = initialize.weight(numConnections);
       source.connect(target, weight);
     });
 
 
   });
 };
-
-///////////////////////////////////////////////////////////////////////////////
 
 /**
  * Creates a Network of Layers consisting of Neurons.  One layer per argument.

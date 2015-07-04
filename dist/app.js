@@ -1,5 +1,19 @@
-angular.module('App')
-  .directive('visGraph', function() {
+var inputs = _.random(2, 8);
+var hidden = _.random(4, 8);
+var outputs = _.random(1, 3);
+var network = new Network(inputs, hidden, outputs);
+
+angular.module('App', [
+  'App.vis'
+])
+  .controller('Controller', ["$scope", function($scope) {
+    $scope.network = network;
+  }]);
+
+angular.module('App.vis', []);
+
+angular.module('App.vis')
+  .directive('visNetwork', function() {
     return {
       replace: true,
       scope: {
@@ -26,7 +40,7 @@ angular.module('App')
               id: neuron.id,
               title: 'id: ' + neuron.id + ', bias: ' + neuron.bias,
               level: layerIndex,
-              value: (neuron.bias + 0.2) * 10,
+              value: Math.abs(neuron.bias * 10),
               group: neuron.bias > 0 ? 'gate' : 'normal'
             });
 
@@ -35,7 +49,7 @@ angular.module('App')
               edges.push({
                 from: connection.source.id,
                 to: connection.target.id,
-                value: (connection.weight + 0.5) * 2,
+                value: Math.abs(connection.weight * 2),
                 title: 'weight: ' + connection.weight,
               })
             })
@@ -79,14 +93,14 @@ angular.module('App')
             },
             gate: {
               color: {
-                border: 'hsl(30, 30%, 30%)',
+                border: 'hsl(30, 20%, 28%)',
                 background: 'hsl(30, 100%, 70%)',
                 hover: {
-                  border: 'hsl(30, 50%, 50%)',
+                  border: 'hsl(30, 40%, 45%)',
                   background: 'hsl(30, 100%, 70%)',
                 },
                 highlight: {
-                  border: 'hsl(30, 70%, 60%)',
+                  border: 'hsl(30, 60%, 55%)',
                   background: 'hsl(30, 100%, 70%)',
                 },
               }
@@ -113,6 +127,26 @@ angular.module('App')
           interaction: {
             hover: true,
             tooltipDelay: 200
+          },
+          physics: {
+            enabled: true,
+            hierarchicalRepulsion: {
+              centralGravity: 0,
+              springLength: 50,
+              springConstant: 0.002,
+              nodeDistance: 80,
+              damping: 0.4
+            },
+            maxVelocity: 50,
+            minVelocity: 0.1,
+            stabilization: {
+              enabled: true,
+              iterations: 0,
+              updateInterval: 0,
+              onlyDynamicEdges: false,
+              fit: true
+            },
+            timestep: 0.5
           }
         };
 
