@@ -9,8 +9,9 @@ gulp.task('build', 'create a fresh build', function(cb) {
     'clean-build',
     [
       'build-anny',
-      'build-ngapp',
+      'build-html',
       'build-less',
+      'build-ngapp',
     ],
     cb
   )
@@ -18,26 +19,6 @@ gulp.task('build', 'create a fresh build', function(cb) {
 
 gulp.task('clean-build', function(cb) {
   del(paths.dist, cb);
-});
-
-gulp.task('build-less', function() {
-  var minifyOpts = {keepSpecialComments: 0};
-
-  return gulp.src([
-    paths.src + '/less/variables.less',
-    paths.src + '/less/global.less',
-    paths.src + '/**/*.less',
-  ])
-    .pipe(g.plumber())
-    .pipe(g.cached('less'))
-    .pipe(g.autoprefixer())
-    .pipe(g.remember('less'))
-    .pipe(g.concat('app.css'))
-    .pipe(g.less())
-    .pipe(gulp.dest(paths.dist))
-    .pipe(g.minifyCss(minifyOpts))
-    .pipe(g.rename('app.min.css'))
-    .pipe(gulp.dest(paths.dist));
 });
 
 
@@ -58,6 +39,34 @@ gulp.task('build-anny', function(cb) {
     .pipe(gulp.dest(paths.dist));
 });
 
+gulp.task('build-html', function(cb) {
+  return gulp.src([
+    paths.src + '/**/*.html'
+  ])
+    .pipe(gulp.dest(paths.dist));
+});
+
+gulp.task('build-less', function() {
+  var minifyOpts = {keepSpecialComments: 0};
+
+  return gulp.src([
+    paths.src + '/less/variables.less',
+    paths.src + '/less/global.less',
+    paths.src + '/**/*variables.less',
+    paths.src + '/**/*.less',
+  ])
+    .pipe(g.plumber())
+    .pipe(g.cached('less'))
+    .pipe(g.autoprefixer())
+    .pipe(g.remember('less'))
+    .pipe(g.concat('app.css'))
+    .pipe(g.less())
+    .pipe(gulp.dest(paths.dist))
+    .pipe(g.minifyCss(minifyOpts))
+    .pipe(g.rename('app.min.css'))
+    .pipe(gulp.dest(paths.dist));
+});
+
 gulp.task('build-ngapp', function(cb) {
   return gulp.src([
     paths.src + '/app.js',
@@ -70,6 +79,7 @@ gulp.task('build-ngapp', function(cb) {
     paths.src + '/**/*-directive.js',
     paths.src + '/**/*-controller.js',
   ])
+    .pipe(g.plumber())
     .pipe(g.ngAnnotate())
     .pipe(g.concat('app.js'))
     .pipe(gulp.dest(paths.dist))

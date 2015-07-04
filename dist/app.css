@@ -6,3 +6,25 @@ body {
   bottom: 0;
   background: #303536;
 }
+.ay-toolbar {
+  position: fixed;
+  top: 20px;
+  z-index: 100;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.ay-toolbar .item {
+  height: 2em;
+  min-width: 2em;
+  font-size: 1em;
+  text-align: center;
+  line-height: 2em;
+  color: #eeeeee;
+  background: #555555;
+  cursor: pointer;
+}
+.ay-toolbar .item:hover {
+  background: #6f6f6f;
+}

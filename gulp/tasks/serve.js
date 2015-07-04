@@ -4,7 +4,8 @@ var paths = require('../paths');
 
 gulp.task('serve', 'start the livereload dev server', function(cb) {
   return gulp.src([
-    paths.root
+    paths.root,
+    paths.dist,
   ])
     .pipe(g.webserver({
       port: 8000,

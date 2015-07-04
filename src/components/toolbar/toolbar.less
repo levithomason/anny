@@ -1,0 +1,20 @@
+.ay-toolbar {
+  position: fixed;
+  top: 20px;
+  z-index: 100;
+  user-select: none;
+
+  .item {
+    height: @ay-toolbar-item-size;
+    min-width: @ay-toolbar-item-size;
+    font-size: floor(@ay-toolbar-item-size / 2);
+    text-align: center;
+    line-height: @ay-toolbar-item-size;
+    color: @ay-toolbar-item-color;
+    background: @ay-toolbar-item-bg;
+    cursor: pointer;
+    &:hover {
+      background: lighten(@ay-toolbar-item-bg, 10);
+    }
+  }
+}

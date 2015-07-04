@@ -24,10 +24,11 @@ angular.module('App.vis')
           _.each(layer.neurons, function(neuron) {
             nodes.push({
               id: neuron.id,
+              label: neuron.input,
               title: 'id: ' + neuron.id + ', bias: ' + neuron.bias,
               level: layerIndex,
               value: Math.abs(neuron.bias * 10),
-              group: neuron.bias > 0 ? 'gate' : 'normal'
+              group: neuron.bias > 0 ? 'gate' : 'normal',
             });
 
             // connections
@@ -55,12 +56,18 @@ angular.module('App.vis')
           nodes: {
             borderWidth: 0.1,
             borderWidthSelected: 0.1,
-            shape: 'dot',
+            shape: 'circle',
             scaling: {
               min: 3,
               max: 10
             },
-            mass: 0.7
+            font: {
+              color: '#FFF',
+              size: 16,
+              face: 'Source Code Pro'
+            },
+            labelHighlightBold: false,
+            mass: 1
           },
           groups: {
             normal: {
@@ -93,9 +100,12 @@ angular.module('App.vis')
             }
           },
           edges: {
+            color: {
+              inherit: 'from',
+            },
             smooth: {
               enabled: true,
-              type: "dynamic",
+              type: 'dynamic',
               roundness: 0.5
             },
             scaling: {

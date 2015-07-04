@@ -4,7 +4,8 @@ var outputs = _.random(1, 3);
 var network = new Network(inputs, hidden, outputs);
 
 angular.module('App', [
-  'App.vis'
+  'App.vis',
+  'App.toolbar',
 ])
   .controller('Controller', function($scope) {
     $scope.network = network;

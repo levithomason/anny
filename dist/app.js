@@ -4,13 +4,29 @@ var outputs = _.random(1, 3);
 var network = new Network(inputs, hidden, outputs);
 
 angular.module('App', [
-  'App.vis'
+  'App.vis',
+  'App.toolbar',
 ])
   .controller('Controller', ["$scope", function($scope) {
     $scope.network = network;
   }]);
 
+angular.module('App.toolbar', []);
+
 angular.module('App.vis', []);
+
+angular.module('App.toolbar')
+
+  .directive('toolbar', function() {
+    return {
+      replace: true,
+      scope: {},
+      templateUrl: 'components/toolbar/toolbar.html',
+      link: function(scope, elm, attrs) {
+
+      }
+    }
+  });
 
 angular.module('App.vis')
   .directive('visNetwork', function() {
@@ -38,10 +54,11 @@ angular.module('App.vis')
           _.each(layer.neurons, function(neuron) {
             nodes.push({
               id: neuron.id,
+              label: neuron.input,
               title: 'id: ' + neuron.id + ', bias: ' + neuron.bias,
               level: layerIndex,
               value: Math.abs(neuron.bias * 10),
-              group: neuron.bias > 0 ? 'gate' : 'normal'
+              group: neuron.bias > 0 ? 'gate' : 'normal',
             });
 
             // connections
@@ -69,12 +86,18 @@ angular.module('App.vis')
           nodes: {
             borderWidth: 0.1,
             borderWidthSelected: 0.1,
-            shape: 'dot',
+            shape: 'circle',
             scaling: {
               min: 3,
               max: 10
             },
-            mass: 0.7
+            font: {
+              color: '#FFF',
+              size: 16,
+              face: 'Source Code Pro'
+            },
+            labelHighlightBold: false,
+            mass: 1
           },
           groups: {
             normal: {
@@ -107,9 +130,12 @@ angular.module('App.vis')
             }
           },
           edges: {
+            color: {
+              inherit: 'from',
+            },
             smooth: {
               enabled: true,
-              type: "dynamic",
+              type: 'dynamic',
               roundness: 0.5
             },
             scaling: {
