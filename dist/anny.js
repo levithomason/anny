@@ -99,16 +99,24 @@ Neuron.connection = function(source, target, weight) {
   };
 };
 
-Neuron.prototype.activate = function() {
+/**
+ * Activate this Neuron potentially causing it to fire its outputs.
+ * @param {number} [inputValue] - If omitted the current value will be used.
+ * @returns {number|*}
+ */
+Neuron.prototype.activate = function(inputValue) {
+  console.log('ni', inputValue);
   var self = this;
   var averageInput = self.input / (self.incoming.length || 1);
-  var shouldFire;
+
+  if (inputValue) {
+    self.input = inputValue;
+  }
 
   // set output from inputs
-  self.output = self.activationFn(averageInput);
-  shouldFire = self.output + self.bias > 0;
+  self.output = self.activationFn(inputValue || averageInput);
 
-  if (shouldFire) {
+  if (self.output + self.bias >= 0) {
     // send output upstream
     _.each(self.outgoing, function(connection) {
       connection.target.input += self.output * connection.weight;
@@ -119,6 +127,12 @@ Neuron.prototype.activate = function() {
 };
 
 Neuron.prototype.connect = function(target, weight) {
+  var connection = Neuron.connection(this, target, weight);
+  this.outgoing.push(connection);
+  target.incoming.push(connection);
+};
+
+Neuron.prototype.receiveInput = function(target, weight) {
   var connection = Neuron.connection(this, target, weight);
   this.outgoing.push(connection);
   target.incoming.push(connection);
@@ -160,22 +174,18 @@ Layer.prototype.connect = function(targetLayer) {
       var weight = initialize.weight(numConnections);
       source.connect(target, weight);
     });
-
-
   });
 };
 
 /**
- * Activates all the Neurons in this layer with the given array of values.
+ * Activates all the Neurons in this Layer with the given array of values.
  * @param {number[]} values - Map of input values for each Neuron.
  */
 Layer.prototype.activate = function(values) {
-  var self = this;
+  console.log('li');
 
-  _.each(values, function(val, i) {
-    var neuron = self.neurons[i];
-    neuron.input = val;
-    neuron.activate();
+  _.each(this.neurons, function(neuron, i) {
+    neuron.activate(values ? values[i] : undefined);
   });
 };
 
@@ -230,3 +240,17 @@ function Network() {
     }
   });
 }
+
+/**
+ * Activates all the Neurons in the input Layer with the given array of values.
+ * @param {number[]} values - Map of input values for each Neuron.
+ */
+Network.prototype.activate = function(values) {
+  this.input.activate(values);
+
+  _.each(this.layers, function(layer, i) {
+    if (i > 0) {
+      layer.activate()
+    }
+  });
+};

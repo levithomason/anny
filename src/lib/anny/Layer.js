@@ -34,21 +34,17 @@ Layer.prototype.connect = function(targetLayer) {
       var weight = initialize.weight(numConnections);
       source.connect(target, weight);
     });
-
-
   });
 };
 
 /**
- * Activates all the Neurons in this layer with the given array of values.
+ * Activates all the Neurons in this Layer with the given array of values.
  * @param {number[]} values - Map of input values for each Neuron.
  */
 Layer.prototype.activate = function(values) {
-  var self = this;
+  console.log('li');
 
-  _.each(values, function(val, i) {
-    var neuron = self.neurons[i];
-    neuron.input = val;
-    neuron.activate();
+  _.each(this.neurons, function(neuron, i) {
+    neuron.activate(values ? values[i] : undefined);
   });
 };
