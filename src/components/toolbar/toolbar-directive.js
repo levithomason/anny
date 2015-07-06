@@ -8,7 +8,7 @@ angular.module('App.toolbar')
       },
       templateUrl: 'components/toolbar/toolbar.html',
       link: function(scope, elm, attrs) {
-        scope.randomizeInputs = function() {
+        scope.activateRandom = function() {
           var inputs = [];
 
           for (var i = 0; i < scope.network.input.neurons.length; i += 1) {
@@ -16,7 +16,7 @@ angular.module('App.toolbar')
           }
 
           scope.network.activate(inputs);
-        }
+        };
       }
     }
   });

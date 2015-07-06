@@ -105,7 +105,6 @@ Neuron.connection = function(source, target, weight) {
  * @returns {number|*}
  */
 Neuron.prototype.activate = function(inputValue) {
-  console.log('ni', inputValue);
   var self = this;
   var averageInput = self.input / (self.incoming.length || 1);
 
@@ -182,8 +181,6 @@ Layer.prototype.connect = function(targetLayer) {
  * @param {number[]} values - Map of input values for each Neuron.
  */
 Layer.prototype.activate = function(values) {
-  console.log('li');
-
   _.each(this.neurons, function(neuron, i) {
     neuron.activate(values ? values[i] : undefined);
   });
@@ -242,15 +239,11 @@ function Network() {
 }
 
 /**
- * Activates all the Neurons in the input Layer with the given array of values.
- * @param {number[]} values - Map of input values for each Neuron.
+ * Activates each Layer in the Network.
+ * @param {number[]} [values] - Map of values to the input Layer.
  */
 Network.prototype.activate = function(values) {
-  this.input.activate(values);
-
   _.each(this.layers, function(layer, i) {
-    if (i > 0) {
-      layer.activate()
-    }
+    i === 0 ? layer.activate(values) : layer.activate();
   });
 };

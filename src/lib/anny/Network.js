@@ -51,15 +51,11 @@ function Network() {
 }
 
 /**
- * Activates all the Neurons in the input Layer with the given array of values.
- * @param {number[]} values - Map of input values for each Neuron.
+ * Activates each Layer in the Network.
+ * @param {number[]} [values] - Map of values to the input Layer.
  */
 Network.prototype.activate = function(values) {
-  this.input.activate(values);
-
   _.each(this.layers, function(layer, i) {
-    if (i > 0) {
-      layer.activate()
-    }
+    i === 0 ? layer.activate(values) : layer.activate();
   });
 };

@@ -42,8 +42,6 @@ Layer.prototype.connect = function(targetLayer) {
  * @param {number[]} values - Map of input values for each Neuron.
  */
 Layer.prototype.activate = function(values) {
-  console.log('li');
-
   _.each(this.neurons, function(neuron, i) {
     neuron.activate(values ? values[i] : undefined);
   });

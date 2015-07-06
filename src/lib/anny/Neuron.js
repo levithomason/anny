@@ -30,7 +30,6 @@ Neuron.connection = function(source, target, weight) {
  * @returns {number|*}
  */
 Neuron.prototype.activate = function(inputValue) {
-  console.log('ni', inputValue);
   var self = this;
   var averageInput = self.input / (self.incoming.length || 1);
 

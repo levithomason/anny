@@ -5,17 +5,17 @@ function visNetworkOptions() {
   options.nodes = {
     borderWidth: 0.1,
     borderWidthSelected: 0.1,
-    shape: 'circle',
+    shape: 'dot',
     scaling: {
-      min: 3,
-      max: 10
+      min: 5,
+      max: 15
     },
     font: {
-      color: '#FFF',
-      size: 16,
-      face: 'Source Code Pro'
+      color: '#777',
+      size: 12,
+      face: 'Lato'
     },
-    labelHighlightBold: false,
+    labelHighlightBold: true,
     mass: 1
   };
 
@@ -23,28 +23,28 @@ function visNetworkOptions() {
   options.groups = {
     normal: {
       color: {
-        border: 'hsl(210, 30%, 30%)',
+        border: 'hsl(210, 20%, 25%)',
         background: 'hsl(210, 80%, 80%)',
         hover: {
-          border: 'hsl(210, 50%, 50%)',
+          border: 'hsl(210, 35%, 45%)',
           background: 'hsl(210, 80%, 80%)',
         },
         highlight: {
-          border: 'hsl(210, 70%, 70%)',
+          border: 'hsl(210, 60%, 70%)',
           background: 'hsl(210, 80%, 80%)',
         },
       }
     },
     gate: {
       color: {
-        border: 'hsl(30, 20%, 28%)',
+        border: 'hsl(30, 15%, 25%)',
         background: 'hsl(30, 100%, 70%)',
         hover: {
-          border: 'hsl(30, 40%, 45%)',
+          border: 'hsl(30, 40%, 40%)',
           background: 'hsl(30, 100%, 70%)',
         },
         highlight: {
-          border: 'hsl(30, 60%, 55%)',
+          border: 'hsl(30, 60%, 60%)',
           background: 'hsl(30, 100%, 70%)',
         },
       }
@@ -53,17 +53,14 @@ function visNetworkOptions() {
 
   // Edges
   options.edges = {
-    color: {
-      inherit: 'from',
-    },
     smooth: {
-      enabled: true,
+      enabled: false, // faster rendering
       type: 'dynamic',
       roundness: 0.5
     },
     scaling: {
-      min: 0,
-      max: 2,
+      min: 0.2,
+      max: 4,
     },
     hoverWidth: 1,
     selectionWidth: 1.5,
@@ -79,7 +76,7 @@ function visNetworkOptions() {
   // Interaction
   options.interaction = {
     hover: true,
-    tooltipDelay: 200
+    tooltipDelay: 150
   };
 
   // Physics

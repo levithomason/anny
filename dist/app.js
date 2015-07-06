@@ -22,17 +22,17 @@ function visNetworkOptions() {
   options.nodes = {
     borderWidth: 0.1,
     borderWidthSelected: 0.1,
-    shape: 'circle',
+    shape: 'dot',
     scaling: {
-      min: 3,
-      max: 10
+      min: 5,
+      max: 15
     },
     font: {
-      color: '#FFF',
-      size: 16,
-      face: 'Source Code Pro'
+      color: '#777',
+      size: 12,
+      face: 'Lato'
     },
-    labelHighlightBold: false,
+    labelHighlightBold: true,
     mass: 1
   };
 
@@ -40,28 +40,28 @@ function visNetworkOptions() {
   options.groups = {
     normal: {
       color: {
-        border: 'hsl(210, 30%, 30%)',
+        border: 'hsl(210, 20%, 25%)',
         background: 'hsl(210, 80%, 80%)',
         hover: {
-          border: 'hsl(210, 50%, 50%)',
+          border: 'hsl(210, 35%, 45%)',
           background: 'hsl(210, 80%, 80%)',
         },
         highlight: {
-          border: 'hsl(210, 70%, 70%)',
+          border: 'hsl(210, 60%, 70%)',
           background: 'hsl(210, 80%, 80%)',
         },
       }
     },
     gate: {
       color: {
-        border: 'hsl(30, 20%, 28%)',
+        border: 'hsl(30, 15%, 25%)',
         background: 'hsl(30, 100%, 70%)',
         hover: {
-          border: 'hsl(30, 40%, 45%)',
+          border: 'hsl(30, 40%, 40%)',
           background: 'hsl(30, 100%, 70%)',
         },
         highlight: {
-          border: 'hsl(30, 60%, 55%)',
+          border: 'hsl(30, 60%, 60%)',
           background: 'hsl(30, 100%, 70%)',
         },
       }
@@ -70,17 +70,14 @@ function visNetworkOptions() {
 
   // Edges
   options.edges = {
-    color: {
-      inherit: 'from',
-    },
     smooth: {
-      enabled: true,
+      enabled: false, // faster rendering
       type: 'dynamic',
       roundness: 0.5
     },
     scaling: {
-      min: 0,
-      max: 2,
+      min: 0.2,
+      max: 4,
     },
     hoverWidth: 1,
     selectionWidth: 1.5,
@@ -96,7 +93,7 @@ function visNetworkOptions() {
   // Interaction
   options.interaction = {
     hover: true,
-    tooltipDelay: 200
+    tooltipDelay: 150
   };
 
   // Physics
@@ -137,7 +134,7 @@ angular.module('App.toolbar')
       },
       templateUrl: 'components/toolbar/toolbar.html',
       link: function(scope, elm, attrs) {
-        scope.randomizeInputs = function() {
+        scope.activateRandom = function() {
           var inputs = [];
 
           for (var i = 0; i < scope.network.input.neurons.length; i += 1) {
@@ -145,7 +142,7 @@ angular.module('App.toolbar')
           }
 
           scope.network.activate(inputs);
-        }
+        };
       }
     }
   });
@@ -169,22 +166,40 @@ function visNetwork(visNetworkOptions) {
 
           // neurons
           _.each(layer.neurons, function(neuron) {
+            var bias = neuron.bias.toFixed(3);
+            var id = neuron.id;
+            var input = neuron.input.toFixed(3);
+            var output = neuron.output.toFixed(3);
+
             nodes.push({
-              id: neuron.id,
-              label: neuron.input,
-              title: 'id: ' + neuron.id + ', bias: ' + neuron.bias,
+              id: id,
+              title: [
+                '<b>id:</b> ', id, '<br/>',
+                '<b>in:</b> ', input, '<br/>',
+                '<b>out:</b> ', output, '<br/>',
+                '<b>bias:</b> ' + bias
+              ].join(''),
               level: layerIndex,
-              value: Math.abs(neuron.bias * 10),
-              group: neuron.bias > 0 ? 'gate' : 'normal',
+              label: output,
+              value: Math.abs(bias),
+              group: bias > 0 ? 'gate' : 'normal',
             });
 
             // connections
             _.each(neuron.outgoing, function(connection) {
+              var weight = connection.weight;
+
               edges.push({
                 from: connection.source.id,
                 to: connection.target.id,
-                value: Math.abs(connection.weight * 2),
-                title: 'weight: ' + connection.weight,
+                value: Math.abs(weight),
+                title: 'weight: ' + weight,
+                // matches border colors in netowrk options factory
+                color: {
+                  color: weight >= 0 ? 'hsl(210, 20%, 25%)' : 'hsl(30, 15%, 25%)',
+                  hover: weight >= 0 ? 'hsl(210, 35%, 45%)' : 'hsl(30, 40%, 40%)',
+                  highlight: weight >= 0 ? 'hsl(210, 60%, 70%)' : 'hsl(30, 60%, 60%)',
+                }
               })
             })
           });
@@ -204,9 +219,10 @@ function visNetwork(visNetworkOptions) {
       var network = new vis.Network(elm[0], scope.getData(), visNetworkOptions);
 
       scope.$watch(function() {
+        // just watch the input of the first neuron
+        // watch doesn't like the circular ref in neuron.connection
         return scope.network.input.neurons[0].input;
       }, function(newVal, oldVal) {
-        console.log(newVal, oldVal, !angular.equals(newVal, oldVal));
         if (!angular.equals(newVal, oldVal)) {
           scope.update();
         }
