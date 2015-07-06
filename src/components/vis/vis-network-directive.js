@@ -1,19 +1,17 @@
-function visNetwork(visNetworkOptions) {
+function visNetwork(visNetworkOptions, AnnyFactory) {
   return {
     replace: true,
-    scope: {
-      network: '=',
-      nodes: '=',
-      edges: '='
-    },
+    scope: {},
     template: '<div class="vis-network"></div>',
     link: function(scope, elm, attrs) {
+      scope.network;
+
       scope.getData = function() {
         var nodes = [];
         var edges = [];
 
         // layers
-        _.each(scope.network.layers, function(layer, layerIndex) {
+        _.each(AnnyFactory.network.layers, function(layer, layerIndex) {
 
           // neurons
           _.each(layer.neurons, function(neuron) {
@@ -38,7 +36,7 @@ function visNetwork(visNetworkOptions) {
 
             // connections
             _.each(neuron.outgoing, function(connection) {
-              var weight = connection.weight;
+              var weight = connection.weight.toFixed(3);
 
               edges.push({
                 from: connection.source.id,
@@ -62,22 +60,23 @@ function visNetwork(visNetworkOptions) {
         };
       };
 
-      scope.update = function() {
-        console.log('update network');
-        network.setData(scope.getData());
+      // causes a refresh of the network graph
+      scope.setData = function() {
+        scope.network.setData(scope.getData());
       };
 
-      var network = new vis.Network(elm[0], scope.getData(), visNetworkOptions);
-
+      // just watch the input of the first neuron for changes
+      // watch doesn't like the circular ref in neuron.connection
       scope.$watch(function() {
-        // just watch the input of the first neuron
-        // watch doesn't like the circular ref in neuron.connection
-        return scope.network.input.neurons[0].input;
+        return AnnyFactory.network.input.neurons[0].input;
       }, function(newVal, oldVal) {
         if (!angular.equals(newVal, oldVal)) {
-          scope.update();
+          scope.setData();
         }
-      })
+      });
+
+      // create network
+      scope.network = new vis.Network(elm[0], scope.getData(), visNetworkOptions);
     }
   }
 }
