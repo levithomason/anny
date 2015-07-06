@@ -144,7 +144,7 @@ angular.module('App.toolbar')
     return {
       replace: true,
       scope: {},
-      templateUrl: '/components/toolbar/toolbar.html',
+      templateUrl: 'dist/components/toolbar/toolbar.html',
       link: function(scope, elm, attrs) {
         scope.activateRandom = function() {
           var inputs = [];
