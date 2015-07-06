@@ -7,9 +7,9 @@ angular.module('App', [
 
 angular.module('anny', []);
 
-angular.module('App.vis', []);
-
 angular.module('App.toolbar', []);
+
+angular.module('App.vis', []);
 
 function AnnyFactory() {
   var anny = {};
@@ -138,6 +138,31 @@ function visNetworkOptions() {
 angular.module('App.vis')
   .factory('visNetworkOptions', visNetworkOptions);
 
+angular.module('App.toolbar')
+
+  .directive('toolbar', ["AnnyFactory", "$window", function(AnnyFactory, $window) {
+    return {
+      replace: true,
+      scope: {},
+      templateUrl: '/components/toolbar/toolbar.html',
+      link: function(scope, elm, attrs) {
+        scope.activateRandom = function() {
+          var inputs = [];
+
+          for (var i = 0; i < AnnyFactory.network.input.neurons.length; i += 1) {
+            inputs.push(_.random(true));
+          }
+
+          AnnyFactory.network.activate(inputs);
+        };
+
+        scope.refresh = function() {
+          $window.location.reload()
+        };
+      }
+    }
+  }]);
+
 function visNetwork(visNetworkOptions, AnnyFactory) {
   return {
     replace: true,
@@ -224,28 +249,3 @@ visNetwork.$inject = ["visNetworkOptions", "AnnyFactory"];
 
 angular.module('App.vis')
   .directive('visNetwork', visNetwork);
-
-angular.module('App.toolbar')
-
-  .directive('toolbar', ["AnnyFactory", "$window", function(AnnyFactory, $window) {
-    return {
-      replace: true,
-      scope: {},
-      templateUrl: 'components/toolbar/toolbar.html',
-      link: function(scope, elm, attrs) {
-        scope.activateRandom = function() {
-          var inputs = [];
-
-          for (var i = 0; i < AnnyFactory.network.input.neurons.length; i += 1) {
-            inputs.push(_.random(true));
-          }
-
-          AnnyFactory.network.activate(inputs);
-        };
-
-        scope.refresh = function() {
-          $window.location.reload()
-        };
-      }
-    }
-  }]);
