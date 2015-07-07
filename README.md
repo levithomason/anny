@@ -2,6 +2,7 @@ Anny
 ====
 
 Anny is an artificial neural network, yo!
+>She is a work in progress.  Not ready for the limelight.
 
 [**Demo**](http://levithomason.github.io/anny/)
 
@@ -10,10 +11,6 @@ Anny is an artificial neural network, yo!
 `npm start` installs deps, builds, serves, and watches.
 
 `gulp help` for more help.
-
-## Roadmap
-
-See the [Pivotal](https://www.pivotaltracker.com/n/projects/1381020) project.
 
 ## Inspirations
 
