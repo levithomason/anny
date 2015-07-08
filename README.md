@@ -1,3 +1,7 @@
+<p align="center">
+  <img height="150" width="150" src="https://raw.githubusercontent.com/levithomason/anny/master/logo.png">
+</p>
+
 Anny
 ====
 
@@ -14,11 +18,9 @@ Anny is an artificial neural network, yo!
 
 ## Inspirations
 
-**Order of Enlightenment**
-
 1. [Watching](https://www.youtube.com/watch?v=EfGD2qveGdQ) DeepMind's DQN teach itself to play Atari.
 2. [Playing](http://cs.stanford.edu/people/karpathy/reinforcejs/waterworld.html) with WaterWorld, a DQN implementation in JavaScript (REINFORCEjs).
-3. Realizing DeepMind' work was public, and this can be done in a browser.
+3. Realizing DeepMind's work was public, and this can be done in a browser.
 
 **Libraries**
 
