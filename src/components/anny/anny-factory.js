@@ -1,16 +1,16 @@
 function AnnyFactory() {
-  var anny = {};
+  var factory = {};
 
-  anny.init = function() {
+  factory.init = function() {
     var inputs = _.random(2, 8);
     var hidden = _.random(4, 8);
     var outputs = _.random(1, 3);
-    anny.network = new Network(inputs, hidden, outputs);
+    factory.network = new anny.Network(inputs, hidden, outputs);
   };
 
-  anny.init();
+  factory.init();
 
-  return anny;
+  return factory;
 }
 
 angular.module('anny')

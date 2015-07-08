@@ -38,5 +38,10 @@
     "gulp-webserver": "^0.9.1",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.1"
+  },
+  "devDependencies": {
+    "gulp-util": "^3.0.6",
+    "node-libs-browser": "^0.5.2",
+    "webpack": "^1.10.1"
   }
 }

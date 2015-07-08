@@ -9,14 +9,14 @@
  * @example
  * // 2 inputs
  * // 1 output
- * var net = new Network(2, 1);
+ * var net = new anny.Network(2, 1);
  *
  * @example
  * // 16 inputs
  * // 10 neuron hidden layer
  * // 4 neuron hidden layer
  * // 1 output
- * var net = new Network(16, 10, 4, 1);
+ * var net = new anny.Network(16, 10, 4, 1);
  */
 function Network() {
   var self = this;
@@ -28,17 +28,17 @@ function Network() {
   self.layers = [];
 
   // input layer
-  self.input = new Layer(numInputs);
+  self.input = new anny.Layer(numInputs);
   self.layers.push(self.input);
 
   // hidden layers
   _.each(hiddenLayers, function(numNeurons, i) {
     // add layer
-    self.layers.push(new Layer(numNeurons));
+    self.layers.push(new anny.Layer(numNeurons));
   });
 
   // output layer
-  self.output = new Layer(numOutputs);
+  self.output = new anny.Layer(numOutputs);
   self.layers.push(self.output);
 
   // connect layers
@@ -59,3 +59,5 @@ Network.prototype.activate = function(values) {
     i === 0 ? layer.activate(values) : layer.activate();
   });
 };
+
+module.exports = Network;

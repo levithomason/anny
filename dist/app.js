@@ -7,23 +7,23 @@ angular.module('App', [
 
 angular.module('anny', []);
 
-angular.module('App.toolbar', []);
-
 angular.module('App.vis', []);
 
-function AnnyFactory() {
-  var anny = {};
+angular.module('App.toolbar', []);
 
-  anny.init = function() {
+function AnnyFactory() {
+  var factory = {};
+
+  factory.init = function() {
     var inputs = _.random(2, 8);
     var hidden = _.random(4, 8);
     var outputs = _.random(1, 3);
-    anny.network = new Network(inputs, hidden, outputs);
+    factory.network = new anny.Network(inputs, hidden, outputs);
   };
 
-  anny.init();
+  factory.init();
 
-  return anny;
+  return factory;
 }
 
 angular.module('anny')
@@ -138,31 +138,6 @@ function visNetworkOptions() {
 angular.module('App.vis')
   .factory('visNetworkOptions', visNetworkOptions);
 
-angular.module('App.toolbar')
-
-  .directive('toolbar', ["AnnyFactory", "$window", function(AnnyFactory, $window) {
-    return {
-      replace: true,
-      scope: {},
-      templateUrl: 'dist/components/toolbar/toolbar.html',
-      link: function(scope, elm, attrs) {
-        scope.activateRandom = function() {
-          var inputs = [];
-
-          for (var i = 0; i < AnnyFactory.network.input.neurons.length; i += 1) {
-            inputs.push(_.random(true));
-          }
-
-          AnnyFactory.network.activate(inputs);
-        };
-
-        scope.refresh = function() {
-          $window.location.reload()
-        };
-      }
-    }
-  }]);
-
 function visNetwork(visNetworkOptions, AnnyFactory) {
   return {
     replace: true,
@@ -249,3 +224,28 @@ visNetwork.$inject = ["visNetworkOptions", "AnnyFactory"];
 
 angular.module('App.vis')
   .directive('visNetwork', visNetwork);
+
+angular.module('App.toolbar')
+
+  .directive('toolbar', ["AnnyFactory", "$window", function(AnnyFactory, $window) {
+    return {
+      replace: true,
+      scope: {},
+      templateUrl: 'dist/components/toolbar/toolbar.html',
+      link: function(scope, elm, attrs) {
+        scope.activateRandom = function() {
+          var inputs = [];
+
+          for (var i = 0; i < AnnyFactory.network.input.neurons.length; i += 1) {
+            inputs.push(_.random(true));
+          }
+
+          AnnyFactory.network.activate(inputs);
+        };
+
+        scope.refresh = function() {
+          $window.location.reload()
+        };
+      }
+    }
+  }]);

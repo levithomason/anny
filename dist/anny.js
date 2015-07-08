@@ -1,249 +1,512 @@
-var util = {
-  /**
-   * Times all activation functions logging the results.
-   * @returns {any|T|*}
-   */
-  findFastestActivation: function() {
-    var cycles = '10,000,000';
-    var fastest;
-    var results = [];
-    var start;
-    var ms;
-    var x = Math.random() - 0.5;
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
 
-    console.log('cycles:', cycles);
-    console.log('value:', x);
-    console.log('----------------');
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
 
-    for (var fn in activation) {
-      start = new Date();
-      _.times(cycles.replace(/,/g, ''), function() {
-        activation[fn](x);
-      });
-      ms = new Date() - start;
-      results.push({fn: fn, ms: ms});
-      console.log(fn, ms + 'ms');
-    }
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
 
-    fastest = _.min(results, 'ms');
-    console.log('----------------');
-    console.debug(fastest.fn, ' @ ', fastest.ms + 'ms');
-    return fastest;
-  }
-};
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
 
-/**
- * Activation functions.
- * @type {object}
- */
-var activation = {
-  softplus: function softplus(x) {
-    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-    // http://www.quora.com/What-is-special-about-rectifier-neural-units-used-in-NN-learning
-    return Math.log(1 + Math.exp(x));
-  },
-  tanh: function tanh(x) {
-    // 4.4 The Sigmoid Fig. 4.b, Recommended.
-    return 1.7159 * Math.tanh(2 / 3 * x);
-  },
-  sigmoid: function sigmoid(x) {
-    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
-    return 1 / (1 + Math.exp(-x));
-  }
-};
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
-/**
- * Initialze Neuron and Connection values.
- * @type {{initialBias: Function, initialWeight: Function}}
- */
-var initialize = {
-  bias: function() {
-    return _.random(-0.2, 0.2);
-  },
-  weight: function(numConnections) {
-    // 4.6 Initializing the weights (16)
-    var maxWeight;
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
 
-    // give weight as if this connection were also added
-    numConnections = numConnections + 1 || 1;
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
 
-    // TODO: weight per connection is constant.  These values can be cached.
-    maxWeight = Math.pow(numConnections, -1 / 2);
-    return _.random(-maxWeight, maxWeight, true);
-  }
-};
 
-function Neuron() {
-  this.id = Neuron.count++;
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
 
-  // connections
-  this.incoming = [];
-  this.outgoing = [];
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
 
-  // signal values
-  this.input = 0;
-  this.output = 0;
-  this.bias = initialize.bias();
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
 
-  // activation
-  this.activationFn = activation.tanh;
-}
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
 
-Neuron.count = 0;
+	/* WEBPACK VAR INJECTION */(function(global) {var ACTIVATION = __webpack_require__(2);
+	var INITIALIZE = __webpack_require__(3);
+	var Layer = __webpack_require__(4);
+	var Network = __webpack_require__(1);
+	var Neuron = __webpack_require__(5);
+	var util = __webpack_require__(6);
 
-Neuron.connection = function(source, target, weight) {
-  return {
-    source: source,
-    target: target,
-    weight: weight || initialize.weight(target.incoming.length)
-  };
-};
+	var anny = {
+	  ACTIVATION: ACTIVATION,
+	  INITIALIZE: INITIALIZE,
+	  Layer: Layer,
+	  Network: Network,
+	  Neuron: Neuron,
+	  util: util
+	};
 
-/**
- * Activate this Neuron potentially causing it to fire its outputs.
- * @param {number} [inputValue] - If omitted the current value will be used.
- * @returns {number|*}
- */
-Neuron.prototype.activate = function(inputValue) {
-  var self = this;
-  var averageInput = self.input / (self.incoming.length || 1);
+	if (window) {
+	  global.anny = anny;
+	}
 
-  if (inputValue) {
-    self.input = inputValue;
-  }
+	module.exports = anny;
 
-  // set output from inputs
-  self.output = self.activationFn(inputValue || averageInput);
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-  if (self.output + self.bias >= 0) {
-    // send output upstream
-    _.each(self.outgoing, function(connection) {
-      connection.target.input += self.output * connection.weight;
-    });
-  }
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
 
-  return self.output;
-};
+	/**
+	 * Creates a Network of Layers consisting of Neurons.  One layer per argument.
+	 * First argument represents the input layer.
+	 * Last argument represents the output layer.
+	 * All arguments in between are hidden layers.
+	 * @param {...number} arguments - Number of neurons in the layer.
+	 * @constructor
+	 *
+	 * @example
+	 * // 2 inputs
+	 * // 1 output
+	 * var net = new anny.Network(2, 1);
+	 *
+	 * @example
+	 * // 16 inputs
+	 * // 10 neuron hidden layer
+	 * // 4 neuron hidden layer
+	 * // 1 output
+	 * var net = new anny.Network(16, 10, 4, 1);
+	 */
+	function Network() {
+	  var self = this;
+	  var args = Array.prototype.slice.call(arguments);
+	  var numInputs = _.first(args);
+	  var numOutputs = _.last(args);
+	  var hiddenLayers = _.slice(args, 1, args.length - 1);
 
-Neuron.prototype.connect = function(target, weight) {
-  var connection = Neuron.connection(this, target, weight);
-  this.outgoing.push(connection);
-  target.incoming.push(connection);
-};
+	  self.layers = [];
 
-Neuron.prototype.receiveInput = function(target, weight) {
-  var connection = Neuron.connection(this, target, weight);
-  this.outgoing.push(connection);
-  target.incoming.push(connection);
-};
+	  // input layer
+	  self.input = new anny.Layer(numInputs);
+	  self.layers.push(self.input);
 
-/**
- * Creates a single dimension Layer of Neurons.
- * @param {string} numNeurons -
- * @constructor
- */
-function Layer(numNeurons) {
-  // TODO: support convolution networks which use grid layers
-  // http://andrew.gibiansky.com/blog/machine-learning/convolutional-neural-networks/
+	  // hidden layers
+	  _.each(hiddenLayers, function(numNeurons, i) {
+	    // add layer
+	    self.layers.push(new anny.Layer(numNeurons));
+	  });
 
-  var self = this;
-  self.neurons = [];
+	  // output layer
+	  self.output = new anny.Layer(numOutputs);
+	  self.layers.push(self.output);
 
-  // add neurons
-  _.times(numNeurons, function() {
-    self.neurons.push(new Neuron())
-  });
-}
+	  // connect layers
+	  _.each(self.layers, function(layer, i) {
+	    var next = self.layers[i + 1];
+	    if (next) {
+	      layer.connect(next);
+	    }
+	  });
+	}
 
-/**
- * Connects every Neuron in this Layer to each Neuron in the `target` Layer.
- * @param {Layer} targetLayer - The Layer to connect to.
- */
-Layer.prototype.connect = function(targetLayer) {
-  var self = this;
+	/**
+	 * Activates each Layer in the Network.
+	 * @param {number[]} [values] - Map of values to the input Layer.
+	 */
+	Network.prototype.activate = function(values) {
+	  _.each(this.layers, function(layer, i) {
+	    i === 0 ? layer.activate(values) : layer.activate();
+	  });
+	};
 
-  _.each(self.neurons, function(source) {
-    // every neuron in this layer is connected to each neuron in the next.
-    // we can assume the numConnections to be the num of neurons in this layer.
+	module.exports = Network;
 
-    var numConnections = self.neurons.length;
 
-    // connect to each neuron in this layer
-    _.each(targetLayer.neurons, function(target) {
-      var weight = initialize.weight(numConnections);
-      source.connect(target, weight);
-    });
-  });
-};
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
 
-/**
- * Activates all the Neurons in this Layer with the given array of values.
- * @param {number[]} values - Map of input values for each Neuron.
- */
-Layer.prototype.activate = function(values) {
-  _.each(this.neurons, function(neuron, i) {
-    neuron.activate(values ? values[i] : undefined);
-  });
-};
+	/**
+	 * Activation functions for Neurons and Layers.
+	 * @type {object}
+	 */
+	var ACTIVATION = {
+	  softplus: function softplus(x) {
+	    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
+	    // http://www.quora.com/What-is-special-about-rectifier-neural-units-used-in-NN-learning
+	    return Math.log(1 + Math.exp(Math.E, x));
+	  },
 
-/**
- * Creates a Network of Layers consisting of Neurons.  One layer per argument.
- * First argument represents the input layer.
- * Last argument represents the output layer.
- * All arguments in between are hidden layers.
- * @param {...number} arguments - Number of neurons in the layer.
- * @constructor
- *
- * @example
- * // 2 inputs
- * // 1 output
- * var net = new Network(2, 1);
- *
- * @example
- * // 16 inputs
- * // 10 neuron hidden layer
- * // 4 neuron hidden layer
- * // 1 output
- * var net = new Network(16, 10, 4, 1);
- */
-function Network() {
-  var self = this;
-  var args = Array.prototype.slice.call(arguments);
-  var numInputs = _.first(args);
-  var numOutputs = _.last(args);
-  var hiddenLayers = _.slice(args, 1, args.length - 1);
+	  tanh: function tanh(x) {
+	    // 4.4 The Sigmoid Fig. 4.b, Recommended.
+	    return 1.7159 * Math.tanh(2 / 3 * x);
+	  },
 
-  self.layers = [];
+	  rationalTanh: function rational_tanh(x) {
+	    // http://stackoverflow.com/questions/6118028/fast-hyperbolic-tangent-approximation-in-javascript
+	    if (x < -3)
+	      return -1;
+	    else if (x > 3)
+	      return 1;
+	    else
+	      return x * ( 27 + x * x ) / ( 27 + 9 * x * x );
+	  },
 
-  // input layer
-  self.input = new Layer(numInputs);
-  self.layers.push(self.input);
+	  sigmoid: function sigmoid(x) {
+	    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
+	    return 1 / (1 + Math.exp(Math.E, -x));
+	  },
 
-  // hidden layers
-  _.each(hiddenLayers, function(numNeurons, i) {
-    // add layer
-    self.layers.push(new Layer(numNeurons));
-  });
 
-  // output layer
-  self.output = new Layer(numOutputs);
-  self.layers.push(self.output);
+	  // The following are from:
+	  // http://www.fmi.uni-sofia.bg/fmi/statist/education/textbook/eng/glosa.html
 
-  // connect layers
-  _.each(self.layers, function(layer, i) {
-    var next = self.layers[i + 1];
-    if (next) {
-      layer.connect(next);
-    }
-  });
-}
+	  /**
+	   * The activation level is passed on directly as the output. Used in a
+	   * variety of network types, including linear networks, and the output layer
+	   * of radial basis function networks.
+	   * Range: (-inf,+inf)
+	   * @param {number} x
+	   */
+	  identity: function(x) {
+	    return x;
+	  },
 
-/**
- * Activates each Layer in the Network.
- * @param {number[]} [values] - Map of values to the input Layer.
- */
-Network.prototype.activate = function(values) {
-  _.each(this.layers, function(layer, i) {
-    i === 0 ? layer.activate(values) : layer.activate();
-  });
-};
+	  /**
+	   * This is an S-shaped (sigmoid) curve, with output in the range (0,1).
+	   * Range: (0,+1)
+	   * @param {number} x
+	   */
+	  logistic: function(x) {
+	    return 1 / (1 + Math.exp(Math.E, -x));
+	  },
+
+	  /**
+	   * The hyperbolic tangent function (tanh): a sigmoid curve, like the logistic
+	   * function, except that output lies in the range (-1,+1). Often performs
+	   * better than the logistic function because of its symmetry. Ideal for
+	   * customization of multilayer perceptrons, particularly the hidden layers.
+	   * Range: (-1,+1)
+	   * @param {number} x
+	   */
+	  hyperbolic: function(x) {
+	    return Math.pow(Math.E, x) - Math.pow(Math.E, -x) /
+	      Math.pow(Math.E, x) + Math.pow(Math.E, -x);
+	  },
+
+	  /**
+	   * The negative exponential function. Ideal for use with radial units. The
+	   * combination of radial synaptic function and negative exponential
+	   * activation function produces units that model a Gaussian (bell-shaped)
+	   * function centered at the weight vector. The standard deviation of the
+	   * Gaussian is given by "sigma = Math.sqrt(1/d)", where d is the "deviation"
+	   * of the unit stored in the unit's threshold.
+	   * Range: (0, +inf)
+	   * @param {number} x
+	   */
+	  exponential: function(x) {
+	    return Math.pow(Math.E, -x);
+	  },
+
+	  /**
+	   * Exponential function, with results normalized so that the sum of
+	   * activations across the layer is 1.0. Can be used in the output layer of
+	   * multilayer perceptrons for classification problems, so that the outputs
+	   * can be interpreted as probabilities of class membership (Bishop, 1995;
+	   * Bridle, 1990).
+	   * Range: (0,+1)
+	   * @param {number} x - The value.
+	   * @param {number[]} vector - The array of values that `x` is a member of.
+	   */
+	  softmax: function(x, vector) {
+	    return Math.pow(Math.E, x) / _.sum(_.map(vector, function(xi) {
+	        return Math.pow(Math.E, xi);
+	      }));
+	  },
+
+	  /**
+	   * Normalizes the outputs to sum to 1.0. Used in probablist neural networks
+	   * (PNNs) to allow the outputs to be interpreted as probabilities.
+	   * Range: (0,+1)
+	   * @param {number} x - The value.
+	   * @param {number[]} vector - The array of values that `x` is a member of.
+	   */
+	  unitSum: function(x, vector) {
+	    return x / _.sum(_.map(vector, function(xi) {
+	        return xi;
+	      }));
+	  },
+
+	  /**
+	   * Used to transform the squared distance activation in a self oranizing
+	   * feature map (SOFM) network or Cluster network to the actual distance as
+	   * an output.
+	   * Range: (0, +inf)
+	   * @param {number} x
+	   */
+	  squareRoot: function(x) {
+	    return Math.sqrt(x);
+	  },
+
+	  /**
+	   * Possibly useful if recognizing radially-distributed data; not used by
+	   * default.
+	   * Range: [0,+1]
+	   * @param {number} x
+	   */
+	  sine: function(x) {
+	    return Math.sin(x);
+	  },
+
+	  /**
+	   * A piece-wise linear version of the sigmoid function. Relatively poor
+	   * training performance, but fast execution.
+	   * Range: [-1,+1]
+	   * @param {number} x
+	   */
+	  ramp: function(x) {
+	    return x >= 1 ? 1 : x <= -1 ? -1 : x;
+	  },
+
+	  /**
+	   * Outputs either 1.0 or 0.0, depending on whether the Synaptic value is
+	   * positive or negative. Can be used to model simple networks such as
+	   * perceptrons.
+	   * Range: [0,+1]
+	   * @param {number} x
+	   */
+	  step: function(x) {
+	    return x < 0 ? 0 : 1;
+	  }
+	};
+
+	module.exports = ACTIVATION;
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	// Initialze Neuron and Connection values.
+	var INITIALIZE = {
+	  /**
+	   * Initialize the bias for a Neuron.
+	   * @returns {number}
+	   */
+	  bias: function() {
+	    return _.random(-0.2, 0.2);
+	  },
+
+	  /**
+	   * Initilize the weight for a Neuron.connection.
+	   * @param numConnections
+	   * @returns {number}
+	   */
+	  weight: function(numConnections) {
+	    // 4.6 Initializing the weights (16)
+	    var maxWeight;
+
+	    // give weight as if this connection were also added
+	    numConnections = numConnections + 1 || 1;
+
+	    // TODO: weight per connection is constant.  These values can be cached.
+	    maxWeight = Math.pow(numConnections, -1 / 2);
+	    return _.random(-maxWeight, maxWeight, true);
+	  }
+	};
+
+	module.exports = INITIALIZE;
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	/**
+	 * Creates a single dimension Layer of Neurons.
+	 * @param {string} numNeurons -
+	 * @constructor
+	 */
+	function Layer(numNeurons) {
+	  // TODO: support convolution networks which use grid layers
+	  // http://andrew.gibiansky.com/blog/machine-learning/convolutional-neural-networks/
+
+	  var self = this;
+	  self.neurons = [];
+
+	  // add neurons
+	  _.times(numNeurons, function() {
+	    self.neurons.push(new anny.Neuron())
+	  });
+	}
+
+	/**
+	 * Connects every Neuron in this Layer to each Neuron in the `target` Layer.
+	 * @param {Layer} targetLayer - The Layer to connect to.
+	 */
+	Layer.prototype.connect = function(targetLayer) {
+	  var self = this;
+
+	  _.each(self.neurons, function(source) {
+	    // every neuron in this layer is connected to each neuron in the next.
+	    // we can assume the numConnections to be the num of neurons in this layer.
+
+	    var numConnections = self.neurons.length;
+
+	    // connect to each neuron in this layer
+	    _.each(targetLayer.neurons, function(target) {
+	      var weight = anny.INITIALIZE.weight(numConnections);
+	      source.connect(target, weight);
+	    });
+	  });
+	};
+
+	/**
+	 * Activates all the Neurons in this Layer with the given array of values.
+	 * @param {number[]} values - Map of input values for each Neuron.
+	 */
+	Layer.prototype.activate = function(values) {
+	  _.each(this.neurons, function(neuron, i) {
+	    neuron.activate(values ? values[i] : undefined);
+	  });
+	};
+
+	module.exports = Layer;
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	function Neuron() {
+	  this.id = Neuron.count++;
+
+	  // connections
+	  this.incoming = [];
+	  this.outgoing = [];
+
+	  // signal values
+	  this.input = 0;
+	  this.output = 0;
+	  this.bias = anny.INITIALIZE.bias();
+
+	  // activation
+	  this.activationFn = anny.ACTIVATION.tanh;
+	}
+
+	Neuron.count = 0;
+
+	Neuron.connection = function(source, target, weight) {
+	  return {
+	    source: source,
+	    target: target,
+	    weight: weight || anny.INITIALIZE.weight(target.incoming.length)
+	  };
+	};
+
+	/**
+	 * Activate this Neuron potentially causing it to fire its outputs.
+	 * @param {number} [inputValue] - If omitted the current value will be used.
+	 * @returns {number|*}
+	 */
+	Neuron.prototype.activate = function(inputValue) {
+	  var self = this;
+	  var averageInput = self.input / (self.incoming.length || 1);
+
+	  if (inputValue) {
+	    self.input = inputValue;
+	  }
+
+	  // set output from inputs
+	  self.output = self.activationFn(inputValue || averageInput);
+
+	  if (self.output + self.bias >= 0) {
+	    // send output upstream
+	    _.each(self.outgoing, function(connection) {
+	      connection.target.input += self.output * connection.weight;
+	    });
+	  }
+
+	  return self.output;
+	};
+
+	Neuron.prototype.connect = function(target, weight) {
+	  var connection = Neuron.connection(this, target, weight);
+	  this.outgoing.push(connection);
+	  target.incoming.push(connection);
+	};
+
+	Neuron.prototype.receiveInput = function(target, weight) {
+	  var connection = Neuron.connection(this, target, weight);
+	  this.outgoing.push(connection);
+	  target.incoming.push(connection);
+	};
+
+	module.exports = Neuron;
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	var util = {
+	  /**
+	   * A hack that times all activation functions, logging the results.
+	   */
+	  findFastestActivation: function() {
+	    var epochs = 5000000;
+	    var results = [];
+	    var start;
+	    var ms;
+	    var x = Math.random() - 0.5;
+
+	    console.log('epochs:', epochs);
+	    console.log('value:', x);
+	    console.log('...this will take a while');
+
+	    for (var fn in anny.ACTIVATION) {
+	      start = new Date();
+	      _.times(epochs, function() {
+	        anny.ACTIVATION[fn](x);
+	      });
+	      ms = new Date() - start;
+	      var bar = _.repeat('=', Math.round(ms / (epochs / 250000)));
+
+	      results.push({
+	        bar: ['|' + bar + '>', ms, fn].join(' '),
+	        ms: ms
+	      });
+	    }
+
+	    // log results
+	    console.log('_______________ results in ms _______________');
+	    var sortedResults = _.sortBy(results, function(result) {
+	      return result.ms;
+	    });
+
+	    _.map(sortedResults, function(result) {
+	      return console.log(result.bar)
+	    });
+	  }
+	};
+
+	module.exports = util;
+
+
+/***/ }
+/******/ ]);

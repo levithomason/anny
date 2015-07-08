@@ -12,7 +12,7 @@ function Layer(numNeurons) {
 
   // add neurons
   _.times(numNeurons, function() {
-    self.neurons.push(new Neuron())
+    self.neurons.push(new anny.Neuron())
   });
 }
 
@@ -31,7 +31,7 @@ Layer.prototype.connect = function(targetLayer) {
 
     // connect to each neuron in this layer
     _.each(targetLayer.neurons, function(target) {
-      var weight = initialize.weight(numConnections);
+      var weight = anny.INITIALIZE.weight(numConnections);
       source.connect(target, weight);
     });
   });
@@ -46,3 +46,5 @@ Layer.prototype.activate = function(values) {
     neuron.activate(values ? values[i] : undefined);
   });
 };
+
+module.exports = Layer;

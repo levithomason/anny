@@ -8,10 +8,10 @@ function Neuron() {
   // signal values
   this.input = 0;
   this.output = 0;
-  this.bias = initialize.bias();
+  this.bias = anny.INITIALIZE.bias();
 
   // activation
-  this.activationFn = activation.tanh;
+  this.activationFn = anny.ACTIVATION.tanh;
 }
 
 Neuron.count = 0;
@@ -20,7 +20,7 @@ Neuron.connection = function(source, target, weight) {
   return {
     source: source,
     target: target,
-    weight: weight || initialize.weight(target.incoming.length)
+    weight: weight || anny.INITIALIZE.weight(target.incoming.length)
   };
 };
 
@@ -61,3 +61,5 @@ Neuron.prototype.receiveInput = function(target, weight) {
   this.outgoing.push(connection);
   target.incoming.push(connection);
 };
+
+module.exports = Neuron;

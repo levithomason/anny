@@ -1,11 +1,18 @@
-/**
- * Initialze Neuron and Connection values.
- * @type {{initialBias: Function, initialWeight: Function}}
- */
-var initialize = {
+// Initialze Neuron and Connection values.
+var INITIALIZE = {
+  /**
+   * Initialize the bias for a Neuron.
+   * @returns {number}
+   */
   bias: function() {
     return _.random(-0.2, 0.2);
   },
+
+  /**
+   * Initilize the weight for a Neuron.connection.
+   * @param numConnections
+   * @returns {number}
+   */
   weight: function(numConnections) {
     // 4.6 Initializing the weights (16)
     var maxWeight;
@@ -18,3 +25,5 @@ var initialize = {
     return _.random(-maxWeight, maxWeight, true);
   }
 };
+
+module.exports = INITIALIZE;
