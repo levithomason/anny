@@ -14,6 +14,10 @@ body {
 .icon {
   vertical-align: middle;
 }
+.vis-network {
+  width: 100%;
+  height: 100%;
+}
 .ay-toolbar {
   position: fixed;
   top: 20px;
@@ -33,9 +37,11 @@ body {
   color: #eeeeee;
   background: #555555;
   cursor: pointer;
+  text-decoration: none;
 }
 .ay-toolbar .item:hover {
   background: #6f6f6f;
+  text-decoration: none;
 }
 .ay-toolbar .item + .item {
   margin-left: 0.25rem;
@@ -43,8 +49,4 @@ body {
 .ay-toolbar .item .icon {
   font-size: 1.5rem;
   margin-right: 0.5rem;
-}
-.vis-network {
-  width: 100%;
-  height: 100%;
 }
