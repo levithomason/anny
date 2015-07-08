@@ -1,5 +1,7 @@
 <p align="center">
-  <img height="150" width="150" src="https://raw.githubusercontent.com/levithomason/anny/master/logo.png">
+  <a href="http://levithomason.github.io/anny/">
+    <img height="150" width="150" src="https://raw.githubusercontent.com/levithomason/anny/master/logo.png">
+  </a>
 </p>
 
 Anny
