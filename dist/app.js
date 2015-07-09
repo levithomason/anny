@@ -13,10 +13,14 @@ angular.module('App.vis', []);
 
 function AnnyFactory($rootScope) {
   var factory = {};
-  factory.network = {};
 
   factory.init = function() {
-    factory.newNetwork();
+    factory.network = new anny.Network(factory.getRandomLayers());
+  };
+
+  factory.activate = function(inputs) {
+    factory.network.activate(inputs);
+    factory.emitChange();
   };
 
   factory.getRandomLayers = function() {
@@ -35,13 +39,7 @@ function AnnyFactory($rootScope) {
   factory.newNetwork = function(layers) {
     layers = layers || factory.getRandomLayers();
 
-    var newNet = new anny.Network(layers);
-
-    _.each(factory.network, function(val, key) {
-      delete factory.network[key];
-    });
-
-    factory.network = angular.extend(factory.network, newNet);
+    factory.network = new anny.Network(layers);
 
     factory.emitChange();
   };
@@ -176,9 +174,6 @@ angular.module('App.toolbar')
       scope: {},
       templateUrl: 'dist/components/toolbar/toolbar.html',
       link: function(scope, elm, attrs) {
-        scope.init = function() {
-        };
-
         scope.randomNet = function() {
           AnnyFactory.newNetwork();
         };
@@ -190,14 +185,8 @@ angular.module('App.toolbar')
             inputs.push(_.random(true));
           }
 
-          AnnyFactory.network.activate(inputs);
+          AnnyFactory.activate(inputs);
         };
-
-        scope.refresh = function() {
-          $window.location.reload()
-        };
-
-        scope.init();
       }
     }
   }]);

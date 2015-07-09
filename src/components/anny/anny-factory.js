@@ -1,9 +1,13 @@
 function AnnyFactory($rootScope) {
   var factory = {};
-  factory.network = {};
 
   factory.init = function() {
-    factory.newNetwork();
+    factory.network = new anny.Network(factory.getRandomLayers());
+  };
+
+  factory.activate = function(inputs) {
+    factory.network.activate(inputs);
+    factory.emitChange();
   };
 
   factory.getRandomLayers = function() {
@@ -22,13 +26,7 @@ function AnnyFactory($rootScope) {
   factory.newNetwork = function(layers) {
     layers = layers || factory.getRandomLayers();
 
-    var newNet = new anny.Network(layers);
-
-    _.each(factory.network, function(val, key) {
-      delete factory.network[key];
-    });
-
-    factory.network = angular.extend(factory.network, newNet);
+    factory.network = new anny.Network(layers);
 
     factory.emitChange();
   };

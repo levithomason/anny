@@ -6,9 +6,6 @@ angular.module('App.toolbar')
       scope: {},
       templateUrl: 'dist/components/toolbar/toolbar.html',
       link: function(scope, elm, attrs) {
-        scope.init = function() {
-        };
-
         scope.randomNet = function() {
           AnnyFactory.newNetwork();
         };
@@ -20,14 +17,8 @@ angular.module('App.toolbar')
             inputs.push(_.random(true));
           }
 
-          AnnyFactory.network.activate(inputs);
+          AnnyFactory.activate(inputs);
         };
-
-        scope.refresh = function() {
-          $window.location.reload()
-        };
-
-        scope.init();
       }
     }
   });
