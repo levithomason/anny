@@ -1,11 +1,18 @@
 angular.module('App.toolbar')
 
-  .directive('toolbar', function(AnnyFactory, $window) {
+  .directive('toolbar', function(AnnyFactory, $window, $rootScope) {
     return {
       replace: true,
       scope: {},
       templateUrl: 'dist/components/toolbar/toolbar.html',
       link: function(scope, elm, attrs) {
+        scope.init = function() {
+        };
+
+        scope.randomNet = function() {
+          AnnyFactory.newNetwork();
+        };
+
         scope.activateRandom = function() {
           var inputs = [];
 
@@ -19,6 +26,8 @@ angular.module('App.toolbar')
         scope.refresh = function() {
           $window.location.reload()
         };
+
+        scope.init();
       }
     }
   });

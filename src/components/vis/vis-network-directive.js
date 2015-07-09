@@ -1,11 +1,9 @@
-function visNetwork(visNetworkOptions, AnnyFactory) {
+function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
   return {
     replace: true,
     scope: {},
     template: '<div class="vis-network"></div>',
     link: function(scope, elm, attrs) {
-      scope.network;
-
       scope.getData = function() {
         var nodes = [];
         var edges = [];
@@ -65,14 +63,8 @@ function visNetwork(visNetworkOptions, AnnyFactory) {
         scope.network.setData(scope.getData());
       };
 
-      // just watch the input of the first neuron for changes
-      // watch doesn't like the circular ref in neuron.connection
-      scope.$watch(function() {
-        return AnnyFactory.network.input.neurons[0].input;
-      }, function(newVal, oldVal) {
-        if (!angular.equals(newVal, oldVal)) {
-          scope.setData();
-        }
+      $rootScope.$on('anny:changed', function() {
+        scope.setData();
       });
 
       // create network

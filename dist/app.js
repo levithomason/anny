@@ -5,26 +5,56 @@ angular.module('App', [
   'App.toolbar',
 ]);
 
-angular.module('anny', []);
-
 angular.module('App.toolbar', []);
+
+angular.module('anny', []);
 
 angular.module('App.vis', []);
 
-function AnnyFactory() {
+function AnnyFactory($rootScope) {
   var factory = {};
+  factory.network = {};
 
   factory.init = function() {
-    var inputs = _.random(2, 8);
-    var hidden = _.random(4, 8);
-    var outputs = _.random(1, 3);
-    factory.network = new anny.Network(inputs, hidden, outputs);
+    factory.newNetwork();
+  };
+
+  factory.getRandomLayers = function() {
+    var inputs = _.random(2, 6);
+    var outputs = _.random(1, 2);
+    var numHiddenLayers = _.random(0, 2);
+    var hiddenLayers = [];
+
+    _.times(numHiddenLayers, function() {
+      hiddenLayers.push(_.random(3, 5));
+    });
+
+    return [].concat(inputs, hiddenLayers, outputs);
+  };
+
+  factory.newNetwork = function(layers) {
+    layers = layers || factory.getRandomLayers();
+
+    var newNet = new anny.Network(layers);
+
+    _.each(factory.network, function(val, key) {
+      delete factory.network[key];
+    });
+
+    factory.network = angular.extend(factory.network, newNet);
+
+    factory.emitChange();
+  };
+
+  factory.emitChange = function() {
+    $rootScope.$broadcast('anny:changed');
   };
 
   factory.init();
 
   return factory;
 }
+AnnyFactory.$inject = ["$rootScope"];
 
 angular.module('anny')
   .factory('AnnyFactory', AnnyFactory);
@@ -140,12 +170,19 @@ angular.module('App.vis')
 
 angular.module('App.toolbar')
 
-  .directive('toolbar', ["AnnyFactory", "$window", function(AnnyFactory, $window) {
+  .directive('toolbar', ["AnnyFactory", "$window", "$rootScope", function(AnnyFactory, $window, $rootScope) {
     return {
       replace: true,
       scope: {},
       templateUrl: 'dist/components/toolbar/toolbar.html',
       link: function(scope, elm, attrs) {
+        scope.init = function() {
+        };
+
+        scope.randomNet = function() {
+          AnnyFactory.newNetwork();
+        };
+
         scope.activateRandom = function() {
           var inputs = [];
 
@@ -159,18 +196,18 @@ angular.module('App.toolbar')
         scope.refresh = function() {
           $window.location.reload()
         };
+
+        scope.init();
       }
     }
   }]);
 
-function visNetwork(visNetworkOptions, AnnyFactory) {
+function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
   return {
     replace: true,
     scope: {},
     template: '<div class="vis-network"></div>',
     link: function(scope, elm, attrs) {
-      scope.network;
-
       scope.getData = function() {
         var nodes = [];
         var edges = [];
@@ -230,14 +267,8 @@ function visNetwork(visNetworkOptions, AnnyFactory) {
         scope.network.setData(scope.getData());
       };
 
-      // just watch the input of the first neuron for changes
-      // watch doesn't like the circular ref in neuron.connection
-      scope.$watch(function() {
-        return AnnyFactory.network.input.neurons[0].input;
-      }, function(newVal, oldVal) {
-        if (!angular.equals(newVal, oldVal)) {
-          scope.setData();
-        }
+      $rootScope.$on('anny:changed', function() {
+        scope.setData();
       });
 
       // create network
@@ -245,7 +276,7 @@ function visNetwork(visNetworkOptions, AnnyFactory) {
     }
   }
 }
-visNetwork.$inject = ["visNetworkOptions", "AnnyFactory"];
+visNetwork.$inject = ["visNetworkOptions", "AnnyFactory", "$rootScope"];
 
 angular.module('App.vis')
   .directive('visNetwork', visNetwork);

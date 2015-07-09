@@ -1,29 +1,30 @@
 /**
- * Creates a Network of Layers consisting of Neurons.  One layer per argument.
- * First argument represents the input layer.
- * Last argument represents the output layer.
- * All arguments in between are hidden layers.
- * @param {...number} arguments - Number of neurons in the layer.
+ * Creates a Network of Layers consisting of Neurons. Each array element
+ * indicates a layer.  The value indicates the number of Neurons in that Layer.
+ *
+ * The first element represents the number of Neurons in the input Layer.
+ * The last element represents the number of Neurons in the output Layer.
+ * Each element in between represents a hidden Layer with n Neurons.
+ * @param {number[]} layerSizes - Number of neurons in each layer.
  * @constructor
  *
  * @example
  * // 2 inputs
  * // 1 output
- * var net = new anny.Network(2, 1);
+ * var net = new anny.Network([2, 1]);
  *
  * @example
  * // 16 inputs
  * // 10 neuron hidden layer
  * // 4 neuron hidden layer
  * // 1 output
- * var net = new anny.Network(16, 10, 4, 1);
+ * var net = new anny.Network([16, 10, 4, 1]);
  */
-function Network() {
+function Network(layerSizes) {
   var self = this;
-  var args = Array.prototype.slice.call(arguments);
-  var numInputs = _.first(args);
-  var numOutputs = _.last(args);
-  var hiddenLayers = _.slice(args, 1, args.length - 1);
+  var numInputs = _.first(layerSizes);
+  var numOutputs = _.last(layerSizes);
+  var hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
 
   self.layers = [];
 

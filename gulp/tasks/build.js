@@ -34,6 +34,10 @@ gulp.task('build-anny', function(cb) {
       output: {
         library: 'anny',
         libraryTarget: 'umd'
+      },
+      resolve: {
+        root: paths.root,
+        modulesDirectories: paths.node_modules
       }
     }
   };
@@ -71,14 +75,6 @@ gulp.task('build-anny', function(cb) {
 
     cb();
   });
-  //
-  //return gulp.src()
-  //  .pipe(g.plumber())
-  //
-  //  .pipe(gulp.dest(paths.dist))
-  //  .pipe(g.uglify())
-  //  .pipe(g.rename({extname: '.min.js'}))
-  //  .pipe(gulp.dest(paths.dist));
 });
 
 gulp.task('build-html', function(cb) {
