@@ -21,6 +21,10 @@
   },
   "homepage": "https://github.com/levithomason/anny#readme",
   "dependencies": {
+  },
+  "devDependencies": {
+    "bower": "^1.4.1",
+    "chai": "^3.0.0",
     "del": "^1.2.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
@@ -36,17 +40,13 @@
     "gulp-remember": "^0.3.0",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.2.0",
+    "gulp-util": "^3.0.6",
     "gulp-webserver": "^0.9.1",
     "lodash": "^3.10.0",
-    "require-dir": "^0.3.0",
-    "run-sequence": "^1.1.1"
-  },
-  "devDependencies": {
-    "chai": "^3.0.0",
-    "gulp-util": "^3.0.6",
     "mocha": "^2.2.5",
     "node-libs-browser": "^0.5.2",
     "require-dir": "^0.3.0",
+    "run-sequence": "^1.1.1",
     "sinon": "^1.15.4",
     "sinon-chai": "^2.8.0",
     "webpack": "^1.10.1"
