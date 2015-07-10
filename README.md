@@ -6,6 +6,7 @@
 
 Anny
 ====
+![build](https://codeship.com/projects/e6501e60-0902-0133-c93c-7e3d949a1704/status?branch=master)
 
 Anny is an artificial neural network, yo!
 >She is a work in progress.  Not ready for the limelight.
