@@ -9,6 +9,3 @@ var anny = {
 };
 
 module.exports = anny;
-
-// expose global in browser
-(typeof window === 'undefined' ? {} : window).anny = anny;

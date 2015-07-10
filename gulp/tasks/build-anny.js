@@ -25,17 +25,16 @@ gulp.task('build-anny-js', function(cb) {
     output: {
       path: paths.annyDist,
       filename: 'anny.js',
-      output: {
-        libraryTarget: 'umd'
-      },
-      resolve: {
-        root: paths.root,
-        modulesDirectories: paths.node_modules
-      }
+      libraryTarget: 'umd',
+      library: 'anny'
+    },
+    resolve: {
+      root: paths.root,
+      modulesDirectories: paths.node_modules
     }
   };
 
-  // http://webpack.github.io/docs/node.js-api.html#stats
+// http://webpack.github.io/docs/node.js-api.html#stats
   var webpackOutputOpts = {
     hash: false,            // the hash of the compilation
     version: false,         // webpack version info
@@ -55,7 +54,7 @@ gulp.task('build-anny-js', function(cb) {
     assetsSort: ''          // (string) sort the assets by that field
   };
 
-  // run webpack
+// run webpack
   webpack(webpackOpts, function(err, stats) {
     if (err) {
       throw new g.util.PluginError('webpack', err);
@@ -68,4 +67,5 @@ gulp.task('build-anny-js', function(cb) {
 
     cb();
   });
-});
+})
+;
