@@ -5,9 +5,9 @@ angular.module('App', [
   'App.toolbar',
 ]);
 
-angular.module('App.toolbar', []);
-
 angular.module('anny', []);
+
+angular.module('App.toolbar', []);
 
 angular.module('App.vis', []);
 
@@ -168,11 +168,11 @@ angular.module('App.vis')
 
 angular.module('App.toolbar')
 
-  .directive('toolbar', ["AnnyFactory", "$window", "$rootScope", function(AnnyFactory, $window, $rootScope) {
+  .directive('toolbar', ["AnnyFactory", function(AnnyFactory) {
     return {
       replace: true,
       scope: {},
-      templateUrl: 'dist/components/toolbar/toolbar.html',
+      templateUrl: 'app/dist/components/toolbar/toolbar.html',
       link: function(scope, elm, attrs) {
         scope.randomNet = function() {
           AnnyFactory.newNetwork();

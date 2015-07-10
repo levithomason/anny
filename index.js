@@ -1,5 +1,6 @@
 var anny = {
   ACTIVATION: require('./lib/ACTIVATION'),
+  ERROR: require('./lib/ERROR'),
   INITIALIZE: require('./lib/INITIALIZE'),
   Layer: require('./lib/Layer'),
   Network: require('./lib/Network'),
@@ -7,8 +8,7 @@ var anny = {
   util: require('./lib/util')
 };
 
-if (window) {
-  global.anny = anny;
-}
-
 module.exports = anny;
+
+// expose global in browser
+(typeof window === 'undefined' ? {} : window).anny = anny;

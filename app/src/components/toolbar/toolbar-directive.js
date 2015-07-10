@@ -1,10 +1,10 @@
 angular.module('App.toolbar')
 
-  .directive('toolbar', function(AnnyFactory, $window, $rootScope) {
+  .directive('toolbar', function(AnnyFactory) {
     return {
       replace: true,
       scope: {},
-      templateUrl: 'dist/components/toolbar/toolbar.html',
+      templateUrl: 'app/dist/components/toolbar/toolbar.html',
       link: function(scope, elm, attrs) {
         scope.randomNet = function() {
           AnnyFactory.newNetwork();

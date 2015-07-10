@@ -5,7 +5,7 @@ var paths = require('../paths');
 gulp.task('serve', 'start the livereload dev server', function(cb) {
   return gulp.src([
     paths.root,
-    paths.dist,
+    paths.appDist,
   ])
     .pipe(g.webserver({
       port: 8000,
@@ -16,9 +16,10 @@ gulp.task('serve', 'start the livereload dev server', function(cb) {
       livereload: {
         enable: true,
         filter: function(filePath) {
-          var isDist = filePath.match(paths.dist);
-          var shouldReload = isDist;
-          // console.log(shouldReload, isDist);
+          var isAppDist = filePath.match(paths.appDist);
+          var isAnnyDist = filePath.match(paths.appDist);
+          var shouldReload = isAppDist || isAnnyDist;
+          // console.log(shouldReload, isAppDist, isAnnyDist);
 
           return shouldReload;
         }

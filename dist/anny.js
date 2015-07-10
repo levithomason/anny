@@ -44,95 +44,24 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {var anny = {
-	  ACTIVATION: __webpack_require__(2),
+	var anny = {
+	  ACTIVATION: __webpack_require__(1),
+	  ERROR: __webpack_require__(2),
 	  INITIALIZE: __webpack_require__(3),
 	  Layer: __webpack_require__(4),
-	  Network: __webpack_require__(1),
-	  Neuron: __webpack_require__(5),
-	  util: __webpack_require__(6)
+	  Network: __webpack_require__(5),
+	  Neuron: __webpack_require__(6),
+	  util: __webpack_require__(7)
 	};
-
-	if (window) {
-	  global.anny = anny;
-	}
 
 	module.exports = anny;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+	// expose global in browser
+	(typeof window === 'undefined' ? {} : window).anny = anny;
+
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
-
-	/**
-	 * Creates a Network of Layers consisting of Neurons. Each array element
-	 * indicates a layer.  The value indicates the number of Neurons in that Layer.
-	 *
-	 * The first element represents the number of Neurons in the input Layer.
-	 * The last element represents the number of Neurons in the output Layer.
-	 * Each element in between represents a hidden Layer with n Neurons.
-	 * @param {number[]} layerSizes - Number of neurons in each layer.
-	 * @constructor
-	 *
-	 * @example
-	 * // 2 inputs
-	 * // 1 output
-	 * var net = new anny.Network([2, 1]);
-	 *
-	 * @example
-	 * // 16 inputs
-	 * // 10 neuron hidden layer
-	 * // 4 neuron hidden layer
-	 * // 1 output
-	 * var net = new anny.Network([16, 10, 4, 1]);
-	 */
-	function Network(layerSizes) {
-	  var self = this;
-	  var numInputs = _.first(layerSizes);
-	  var numOutputs = _.last(layerSizes);
-	  var hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
-
-	  self.layers = [];
-
-	  // input layer
-	  self.input = new anny.Layer(numInputs);
-	  self.layers.push(self.input);
-
-	  // hidden layers
-	  _.each(hiddenLayers, function(numNeurons, i) {
-	    // add layer
-	    self.layers.push(new anny.Layer(numNeurons));
-	  });
-
-	  // output layer
-	  self.output = new anny.Layer(numOutputs);
-	  self.layers.push(self.output);
-
-	  // connect layers
-	  _.each(self.layers, function(layer, i) {
-	    var next = self.layers[i + 1];
-	    if (next) {
-	      layer.connect(next);
-	    }
-	  });
-	}
-
-	/**
-	 * Activates each Layer in the Network.
-	 * @param {number[]} [values] - Map of values to the input Layer.
-	 */
-	Network.prototype.activate = function(values) {
-	  _.each(this.layers, function(layer, i) {
-	    i === 0 ? layer.activate(values) : layer.activate();
-	  });
-	};
-
-	module.exports = Network;
-
-
-/***/ },
-/* 2 */
 /***/ function(module, exports) {
 
 	/**
@@ -293,6 +222,34 @@
 
 
 /***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	/**
+	 * Functions for calculating the error.  The error is simply the difference
+	 * between the correct output and the actual output.
+	 * @type {object}
+	 */
+	var ERROR = {
+	  // These taken from: https://www.youtube.com/watch?v=U4BTzF3Wzt0
+
+	  meanSquared: function meanSquared(x) {
+	    // TODO: fill it in
+	  },
+
+	  rootMeanSquared: function rootMeanSquared(x) {
+	    // TODO: fill it in
+	  },
+
+	  arcTan: function arcTan(x) {
+	    // TODO: fill it in
+	  }
+	};
+
+	module.exports = ERROR;
+
+
+/***/ },
 /* 3 */
 /***/ function(module, exports) {
 
@@ -387,6 +344,76 @@
 /* 5 */
 /***/ function(module, exports) {
 
+	/**
+	 * Creates a Network of Layers consisting of Neurons. Each array element
+	 * indicates a layer.  The value indicates the number of Neurons in that Layer.
+	 *
+	 * The first element represents the number of Neurons in the input Layer.
+	 * The last element represents the number of Neurons in the output Layer.
+	 * Each element in between represents a hidden Layer with n Neurons.
+	 * @param {number[]} layerSizes - Number of neurons in each layer.
+	 * @constructor
+	 *
+	 * @example
+	 * // 2 inputs
+	 * // 1 output
+	 * var net = new anny.Network([2, 1]);
+	 *
+	 * @example
+	 * // 16 inputs
+	 * // 10 neuron hidden layer
+	 * // 4 neuron hidden layer
+	 * // 1 output
+	 * var net = new anny.Network([16, 10, 4, 1]);
+	 */
+	function Network(layerSizes) {
+	  var self = this;
+	  var numInputs = _.first(layerSizes);
+	  var numOutputs = _.last(layerSizes);
+	  var hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
+
+	  self.layers = [];
+
+	  // input layer
+	  self.input = new anny.Layer(numInputs);
+	  self.layers.push(self.input);
+
+	  // hidden layers
+	  _.each(hiddenLayers, function(numNeurons, i) {
+	    // add layer
+	    self.layers.push(new anny.Layer(numNeurons));
+	  });
+
+	  // output layer
+	  self.output = new anny.Layer(numOutputs);
+	  self.layers.push(self.output);
+
+	  // connect layers
+	  _.each(self.layers, function(layer, i) {
+	    var next = self.layers[i + 1];
+	    if (next) {
+	      layer.connect(next);
+	    }
+	  });
+	}
+
+	/**
+	 * Activates each Layer in the Network.
+	 * @param {number[]} [values] - Map of values to the input Layer.
+	 */
+	Network.prototype.activate = function(values) {
+	  _.each(this.layers, function(layer, i) {
+	    i === 0 ? layer.activate(values) : layer.activate();
+	  });
+	};
+
+	module.exports = Network;
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
 	function Neuron() {
 	  this.id = Neuron.count++;
 
@@ -455,7 +482,7 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	var util = {

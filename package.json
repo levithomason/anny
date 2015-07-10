@@ -4,7 +4,8 @@
   "description": "An artificial neural network, yo!",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
+    "test-watch": "mocha -w",
     "postinstall": "bower install",
     "prestart": "npm i",
     "start": "gulp"
@@ -36,13 +37,18 @@
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.2.0",
     "gulp-webserver": "^0.9.1",
+    "lodash": "^3.10.0",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.1"
   },
   "devDependencies": {
+    "chai": "^3.0.0",
     "gulp-util": "^3.0.6",
+    "mocha": "^2.2.5",
     "node-libs-browser": "^0.5.2",
     "require-dir": "^0.3.0",
+    "sinon": "^1.15.4",
+    "sinon-chai": "^2.8.0",
     "webpack": "^1.10.1"
   }
 }

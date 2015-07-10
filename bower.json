@@ -14,9 +14,9 @@
   ],
   "dependencies": {
     "jquery": "~2.1.4",
-    "lodash": "~3.10.0",
     "angular": "~1.4.1",
     "vis": "~4.4.0",
-    "ionicons": "~2.0.1"
+    "ionicons": "~2.0.1",
+    "lodash": "~3.10.0"
   }
 }

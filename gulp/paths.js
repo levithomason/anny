@@ -3,9 +3,12 @@ var ROOT = path.dirname(__dirname);
 
 var paths = {
   root: ROOT,
-  src: ROOT + '/src',
-  dist: ROOT + '/dist',
-  anny: ROOT + '/src/lib/anny',
+  appSrc: ROOT + '/app/src',
+  appBower: ROOT + '/app/bower',
+  appDist: ROOT + '/app/dist',
+  annyDist: ROOT + '/dist',
+  annyLib: ROOT + '/lib',
+  annyEntry: ROOT + '/index.js',
   node_modules: ROOT + '/node_modules'
 };
 
