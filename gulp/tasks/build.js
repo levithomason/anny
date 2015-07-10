@@ -1,15 +1,13 @@
 var g = require('gulp-load-plugins')();
 var gulp = g.help(require('gulp'), require('../gulphelp'));
 var runSequence = require('run-sequence');
-var paths = require('../paths');
 
-gulp.task('default', 'build, serve, watch', function(cb) {
+gulp.task('build', 'create a fresh anny and app build', function(cb) {
   runSequence(
     [
-      'build',
-      'serve',
-      'watch'
+      'build-anny',
+      'build-app'
     ],
     cb
-  )
+  );
 });

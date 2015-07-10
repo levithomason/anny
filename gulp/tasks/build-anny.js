@@ -4,7 +4,7 @@ var del = require('del');
 var runSequence = require('run-sequence');
 var paths = require('../paths');
 
-gulp.task('build-anny', 'create a fresh anny build', function(cb) {
+gulp.task('build-anny', function(cb) {
   runSequence(
     'clean-build-anny',
     'build-anny-js',

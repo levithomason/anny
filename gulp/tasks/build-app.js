@@ -4,7 +4,7 @@ var del = require('del');
 var runSequence = require('run-sequence');
 var paths = require('../paths');
 
-gulp.task('build-app', 'create a fresh app build', function(cb) {
+gulp.task('build-app', function(cb) {
   runSequence(
     'clean-app-build',
     [
