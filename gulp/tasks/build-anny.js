@@ -31,6 +31,11 @@ gulp.task('build-anny-js', function(cb) {
     resolve: {
       root: paths.root,
       modulesDirectories: paths.node_modules
+    },
+    module: {
+      loaders: [
+        {test: /\.js$/, loader: 'eslint-loader', exclude: /node_modules/}
+      ]
     }
   };
 
