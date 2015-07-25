@@ -39,7 +39,7 @@ gulp.task('build-anny-js', function(cb) {
     }
   };
 
-// http://webpack.github.io/docs/node.js-api.html#stats
+  // http://webpack.github.io/docs/node.js-api.html#stats
   var webpackOutputOpts = {
     hash: false,            // the hash of the compilation
     version: false,         // webpack version info
@@ -72,5 +72,4 @@ gulp.task('build-anny-js', function(cb) {
 
     cb();
   });
-})
-;
+});

@@ -273,10 +273,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var INITIALIZE = {
 	  /**
 	   * Initialize the bias for a Neuron.
+	   * @param {number} [range=0.2]
 	   * @returns {number}
 	   */
-	  bias: function() {
-	    return _.random(-0.2, 0.2);
+	  bias: function bias(range) {
+	    var val = !_.isUndefined(range) ? range : 0.2;
+	    return _.random(-val, val);
 	  },
 
 	  /**
@@ -284,7 +286,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param numConnections
 	   * @returns {number}
 	   */
-	  weight: function(numConnections) {
+	  weight: function weight(numConnections) {
 	    // 4.6 Initializing the weights (16)
 	    // give weight as if this connection were also added
 	    // TODO: weight per connection is constant.  These values can be cached.
@@ -393,24 +395,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {number|*}
 	 */
 	Neuron.prototype.activate = function(inputValue) {
-	  var self = this;
-	  var averageInput = self.input / (self.incoming.length || 1);
+	  var averageInput = this.input / (this.incoming.length || 1);
 
 	  if (inputValue) {
-	    self.input = inputValue;
+	    this.input = inputValue;
 	  }
 
 	  // set output from inputs
-	  self.output = self.activationFn(inputValue || averageInput);
+	  this.output = this.activationFn(inputValue || averageInput);
 
-	  if (self.output + self.bias >= 0) {
+	  if (this.output + this.bias >= 0) {
 	    // send output upstream
-	    _.each(self.outgoing, function(connection) {
-	      connection.target.input += self.output * connection.weight;
-	    });
+	    _.each(this.outgoing, function(connection) {
+	      connection.target.input += this.output * connection.weight;
+	    }, this);
 	  }
+	  // console.log(
+	  //   'n' + this.id,
+	  //   'in', this.input,
+	  //   'val', inputValue || averageInput,
+	  //   'out', this.output
+	  // );
 
-	  return self.output;
+	  return this.output;
 	};
 
 	Neuron.prototype.connect = function(target, weight) {
@@ -487,16 +494,70 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
+	 * Activate the network with a given set of `input` values.
+	 * @param {number[]} input - Values to activate the Network input Neurons.
+	 * Values should be normalized between -1 and 1 using Util.normalize.
+	 * @returns {*} output values
+	 */
+	Network.prototype.activate = function(input) {
+	  _.each(this.layers, function(layer, i) {
+	    layer.activate(i === 0 ? input : undefined);
+	  });
+
+	  return _.map(this.output.neurons, function(neuron) {
+	    return neuron.output;
+	  });
+	};
+
+	/**
 	 * Train the Network to produce the output from the given input.
 	 * @param {object[]} [data] - Array of objects in the form
-	 * `{inputs: [], expected: []}`.
+	 * `{input: [], output: []}`.
 	 */
 	Network.prototype.train = function(data) {
-	  // TODO: left off here
-	  console.log(data);
+	  _.each(data, function(sample, i) {
+	    // warn if training sample and Network have a different number of outputs
+	    if (sample.output.length !== this.output.neurons.length) {
+	      console.warn([
+	        'Training sample', i + 1, 'defines', sample.output.length, 'expects',
+	        'output(s) but the Network has', this.output.neurons.length, '.',
+	        '\n\nExcess expected outputs will be disregarded.',
+	        '\nNeurons without an expected output will have an error of 0.'
+	      ].join(' '));
+	    }
+	    var actual = this.activate(sample.input);
+	    var error = _.map(actual, function(output, i) {
+	      return output - sample.output[i] || 0;
+	    });
+
+	    console.log(
+	      'input ', sample.input,
+	      '\noutput', sample.output,
+	      '\nactual', actual,
+	      '\nerror ', error
+	    );
+
+	    // TODO: now, backpropagate the error, updating the weights.
+	    // https://en.wikibooks.org
+	    //   /wiki/Artificial_Neural_Networks/Error-Correction_Learning
+	    //
+	    // this.correct(error);
+	  }, this);
 	};
 
 	module.exports = Network;
+
+	console.debug('See Network line 110 for this output:');
+
+	var network = new Network([1, 3, 1]);
+
+	var trainingSet = _.times(3, function() {
+	  // train to predict sin fn output
+	  var n = _.random(-1000, 1000, true);
+	  return {input: [n], output: [Math.sin(n)]};
+	});
+
+	network.train(trainingSet);
 
 
 /***/ },
@@ -539,6 +600,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    _.each(_.sortBy(results, 'ms'), function(result) {
 	      console.log(result.bar);
+	    });
+	  },
+	  /**
+	   * Normalizes an `array` of numbers to a range from -1 to 1.
+	   * @param {number[]} array
+	   */
+	  normalize: function normalize(array) {
+	    var min = _.min(array);
+	    var max = _.max(array);
+	    var range = max - min;
+	    var offset = 0 - min;
+	    return _.map(array, function(n) {
+	      return (n + offset) / (range / 2) - 1;
 	    });
 	  }
 	};
