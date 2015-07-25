@@ -78,7 +78,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ACTIVATION = {
 	  softplus: function softplus(x) {
 	    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-	    // http://www.quora.com/What-is-special-about-rectifier-neural-units-used-in-NN-learning
 	    return Math.log(1 + Math.exp(Math.E, x));
 	  },
 
@@ -87,14 +86,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return 1.7159 * Math.tanh(2 / 3 * x);
 	  },
 
-	  rationalTanh: function rational_tanh(x) {
-	    // http://stackoverflow.com/questions/6118028/fast-hyperbolic-tangent-approximation-in-javascript
-	    if (x < -3)
+	  rationalTanh: function rationalTanh(x) {
+	    // http://stackoverflow.com/questions/6118028/
+	    //   fast-hyperbolic-tangent-approximation-in-javascript
+	    if (x < -3) {
 	      return -1;
-	    else if (x > 3)
+	    }
+	    if (x > 3) {
 	      return 1;
-	    else
-	      return x * ( 27 + x * x ) / ( 27 + 9 * x * x );
+	    }
+	    return x * ( 27 + x * x ) / ( 27 + 9 * x * x );
 	  },
 
 	  sigmoid: function sigmoid(x) {
@@ -113,7 +114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Range: (-inf,+inf)
 	   * @param {number} x
 	   */
-	  identity: function(x) {
+	  identity: function identity(x) {
 	    return x;
 	  },
 
@@ -122,7 +123,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Range: (0,+1)
 	   * @param {number} x
 	   */
-	  logistic: function(x) {
+	  logistic: function logistic(x) {
 	    return 1 / (1 + Math.exp(Math.E, -x));
 	  },
 
@@ -134,7 +135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Range: (-1,+1)
 	   * @param {number} x
 	   */
-	  hyperbolic: function(x) {
+	  hyperbolic: function hyperbolic(x) {
 	    return Math.pow(Math.E, x) - Math.pow(Math.E, -x) /
 	      Math.pow(Math.E, x) + Math.pow(Math.E, -x);
 	  },
@@ -149,7 +150,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Range: (0, +inf)
 	   * @param {number} x
 	   */
-	  exponential: function(x) {
+	  exponential: function exponential(x) {
 	    return Math.pow(Math.E, -x);
 	  },
 
@@ -163,7 +164,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} x - The value.
 	   * @param {number[]} vector - The array of values that `x` is a member of.
 	   */
-	  softmax: function(x, vector) {
+	  softmax: function softmax(x, vector) {
 	    return Math.pow(Math.E, x) / _.sum(_.map(vector, function(xi) {
 	        return Math.pow(Math.E, xi);
 	      }));
@@ -176,7 +177,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} x - The value.
 	   * @param {number[]} vector - The array of values that `x` is a member of.
 	   */
-	  unitSum: function(x, vector) {
+	  unitSum: function unitSum(x, vector) {
 	    return x / _.sum(_.map(vector, function(xi) {
 	        return xi;
 	      }));
@@ -189,7 +190,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Range: (0, +inf)
 	   * @param {number} x
 	   */
-	  squareRoot: function(x) {
+	  squareRoot: function squareRoot(x) {
 	    return Math.sqrt(x);
 	  },
 
@@ -199,7 +200,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Range: [0,+1]
 	   * @param {number} x
 	   */
-	  sine: function(x) {
+	  sine: function sine(x) {
 	    return Math.sin(x);
 	  },
 
@@ -209,8 +210,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Range: [-1,+1]
 	   * @param {number} x
 	   */
-	  ramp: function(x) {
-	    return x >= 1 ? 1 : x <= -1 ? -1 : x;
+	  ramp: function ramp(x) {
+	    if (x >= 1) {
+	      return 1;
+	    }
+
+	    if (x <= -1) {
+	      return -1;
+	    }
+
+	    return x;
 	  },
 
 	  /**
@@ -220,7 +229,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Range: [0,+1]
 	   * @param {number} x
 	   */
-	  step: function(x) {
+	  step: function step(x) {
 	    return x < 0 ? 0 : 1;
 	  }
 	};
@@ -233,22 +242,22 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	/**
-	 * Functions for calculating the error.  The error is simply the difference
+	 * Functions for calculating Network error.  The error is simply the difference
 	 * between the correct output and the actual output.
 	 * @type {object}
 	 */
 	var ERROR = {
 	  // These taken from: https://www.youtube.com/watch?v=U4BTzF3Wzt0
 
-	  meanSquared: function meanSquared(x) {
+	  meanSquared: function meanSquared() {
 	    // TODO: fill it in
 	  },
 
-	  rootMeanSquared: function rootMeanSquared(x) {
+	  rootMeanSquared: function rootMeanSquared() {
 	    // TODO: fill it in
 	  },
 
-	  arcTan: function arcTan(x) {
+	  arcTan: function arcTan() {
 	    // TODO: fill it in
 	  }
 	};
@@ -277,13 +286,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  weight: function(numConnections) {
 	    // 4.6 Initializing the weights (16)
-	    var maxWeight;
-
 	    // give weight as if this connection were also added
-	    numConnections = numConnections + 1 || 1;
-
 	    // TODO: weight per connection is constant.  These values can be cached.
-	    maxWeight = Math.pow(numConnections, -1 / 2);
+	    var maxWeight = Math.pow(numConnections + 1 || 1, -1 / 2);
 	    return _.random(-maxWeight, maxWeight, true);
 	  }
 	};
@@ -305,14 +310,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function Layer(numNeurons) {
 	  // TODO: support convolution networks which use grid layers
-	  // http://andrew.gibiansky.com/blog/machine-learning/convolutional-neural-networks/
 
 	  var self = this;
 	  self.neurons = [];
 
 	  // add neurons
 	  _.times(numNeurons, function() {
-	    self.neurons.push(new Neuron())
+	    self.neurons.push(new Neuron());
 	  });
 	}
 
@@ -465,7 +469,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  self.layers.push(self.input);
 
 	  // hidden layers
-	  _.each(hiddenLayers, function(numNeurons, i) {
+	  _.each(hiddenLayers, function(numNeurons) {
 	    self.layers.push(new Layer(numNeurons));
 	  });
 
@@ -489,9 +493,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	Network.prototype.train = function(data) {
 	  // TODO: left off here
-	  _.each(this.layers, function(layer, i) {
-	    i === 0 ? layer.activate(values) : layer.activate();
-	  });
+	  console.log(data);
 	};
 
 	module.exports = Network;
@@ -499,7 +501,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 7 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	var ACTIVATION = __webpack_require__(1);
 
 	var util = {
 	  /**
@@ -516,10 +520,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    console.log('value:', x);
 	    console.log('...this will take a while');
 
-	    for (var fn in anny.ACTIVATION) {
+	    _.each(ACTIVATION, function(fn) {
 	      start = new Date();
 	      _.times(epochs, function() {
-	        anny.ACTIVATION[fn](x);
+	        ACTIVATION[fn](x);
 	      });
 	      ms = new Date() - start;
 	      var bar = _.repeat('=', Math.round(ms / (epochs / 250000)));
@@ -528,16 +532,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        bar: ['|' + bar + '>', ms, fn].join(' '),
 	        ms: ms
 	      });
-	    }
+	    });
 
 	    // log results
 	    console.log('_______________ results in ms _______________');
-	    var sortedResults = _.sortBy(results, function(result) {
-	      return result.ms;
-	    });
 
-	    _.map(sortedResults, function(result) {
-	      return console.log(result.bar)
+	    _.each(_.sortBy(results, 'ms'), function(result) {
+	      console.log(result.bar);
 	    });
 	  }
 	};

@@ -59,7 +59,7 @@ gulp.task('build-anny-js', function(cb) {
     assetsSort: ''          // (string) sort the assets by that field
   };
 
-// run webpack
+  // run webpack
   webpack(webpackOpts, function(err, stats) {
     if (err) {
       throw new g.util.PluginError('webpack', err);
