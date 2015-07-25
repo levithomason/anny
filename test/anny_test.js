@@ -1,3 +1,5 @@
+var anny = require('../index');
+
 describe('anny', function() {
   it('has activation functions', function() {
     anny.ACTIVATION.should.be.a('object');

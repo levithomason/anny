@@ -6,5 +6,3 @@ global.should = chai.should();
 chai.use(sinonChai);
 
 global._ = require('lodash');
-
-global.anny = require('../index');
