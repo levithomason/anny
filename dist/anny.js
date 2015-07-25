@@ -59,8 +59,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  ERROR: __webpack_require__(2),
 	  INITIALIZE: __webpack_require__(3),
 	  Layer: __webpack_require__(4),
-	  Network: __webpack_require__(5),
-	  Neuron: __webpack_require__(6),
+	  Network: __webpack_require__(6),
+	  Neuron: __webpack_require__(5),
 	  util: __webpack_require__(7)
 	};
 
@@ -293,7 +293,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	var INITIALIZE = __webpack_require__(3);
+	var Neuron = __webpack_require__(5);
 
 	/**
 	 * Creates a single dimension Layer of Neurons.
@@ -309,7 +312,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // add neurons
 	  _.times(numNeurons, function() {
-	    self.neurons.push(new anny.Neuron())
+	    self.neurons.push(new Neuron())
 	  });
 	}
 
@@ -328,7 +331,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    // connect to each neuron in this layer
 	    _.each(targetLayer.neurons, function(target) {
-	      var weight = anny.INITIALIZE.weight(numConnections);
+	      var weight = INITIALIZE.weight(numConnections);
 	      source.connect(target, weight);
 	    });
 	  });
@@ -349,77 +352,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 5 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * Creates a Network of Layers consisting of Neurons. Each array element
-	 * indicates a layer.  The value indicates the number of Neurons in that Layer.
-	 *
-	 * The first element represents the number of Neurons in the input Layer.
-	 * The last element represents the number of Neurons in the output Layer.
-	 * Each element in between represents a hidden Layer with n Neurons.
-	 * @param {number[]} layerSizes - Number of neurons in each layer.
-	 * @constructor
-	 *
-	 * @example
-	 * // 2 inputs
-	 * // 1 output
-	 * var net = new anny.Network([2, 1]);
-	 *
-	 * @example
-	 * // 16 inputs
-	 * // 10 neuron hidden layer
-	 * // 4 neuron hidden layer
-	 * // 1 output
-	 * var net = new anny.Network([16, 10, 4, 1]);
-	 */
-	function Network(layerSizes) {
-	  var self = this;
-	  var numInputs = _.first(layerSizes);
-	  var numOutputs = _.last(layerSizes);
-	  var hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
-
-	  self.layers = [];
-
-	  // input layer
-	  self.input = new anny.Layer(numInputs);
-	  self.layers.push(self.input);
-
-	  // hidden layers
-	  _.each(hiddenLayers, function(numNeurons, i) {
-	    // add layer
-	    self.layers.push(new anny.Layer(numNeurons));
-	  });
-
-	  // output layer
-	  self.output = new anny.Layer(numOutputs);
-	  self.layers.push(self.output);
-
-	  // connect layers
-	  _.each(self.layers, function(layer, i) {
-	    var next = self.layers[i + 1];
-	    if (next) {
-	      layer.connect(next);
-	    }
-	  });
-	}
-
-	/**
-	 * Activates each Layer in the Network.
-	 * @param {number[]} [values] - Map of values to the input Layer.
-	 */
-	Network.prototype.activate = function(values) {
-	  _.each(this.layers, function(layer, i) {
-	    i === 0 ? layer.activate(values) : layer.activate();
-	  });
-	};
-
-	module.exports = Network;
-
-
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
+	var INITIALIZE = __webpack_require__(3);
+	var ACTIVATION = __webpack_require__(1);
 
 	function Neuron() {
 	  this.id = Neuron.count++;
@@ -431,10 +367,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // signal values
 	  this.input = 0;
 	  this.output = 0;
-	  this.bias = anny.INITIALIZE.bias();
+	  this.bias = INITIALIZE.bias();
 
 	  // activation
-	  this.activationFn = anny.ACTIVATION.tanh;
+	  this.activationFn = ACTIVATION.tanh;
 	}
 
 	Neuron.count = 0;
@@ -443,7 +379,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return {
 	    source: source,
 	    target: target,
-	    weight: weight || anny.INITIALIZE.weight(target.incoming.length)
+	    weight: weight || INITIALIZE.weight(target.incoming.length)
 	  };
 	};
 
@@ -486,6 +422,79 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	module.exports = Neuron;
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Layer = __webpack_require__(4);
+
+	/**
+	 * Creates a Network of Layers consisting of Neurons. Each array element
+	 * indicates a layer.  The value indicates the number of Neurons in that Layer.
+	 *
+	 * The first element represents the number of Neurons in the input Layer.
+	 * The last element represents the number of Neurons in the output Layer.
+	 * Each element in between represents a hidden Layer with n Neurons.
+	 * @param {number[]} layerSizes - Number of neurons in each layer.
+	 * @constructor
+	 *
+	 * @example
+	 * // 2 inputs
+	 * // 1 output
+	 * var net = new Network([2, 1]);
+	 *
+	 * @example
+	 * // 16 inputs
+	 * // 10 neuron hidden layer
+	 * // 4 neuron hidden layer
+	 * // 1 output
+	 * var net = new Network([16, 10, 4, 1]);
+	 */
+	function Network(layerSizes) {
+	  var self = this;
+	  var numInputs = _.first(layerSizes);
+	  var numOutputs = _.last(layerSizes);
+	  var hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
+
+	  self.layers = [];
+
+	  // input layer
+	  self.input = new Layer(numInputs);
+	  self.layers.push(self.input);
+
+	  // hidden layers
+	  _.each(hiddenLayers, function(numNeurons, i) {
+	    self.layers.push(new Layer(numNeurons));
+	  });
+
+	  // output layer
+	  self.output = new Layer(numOutputs);
+	  self.layers.push(self.output);
+
+	  // connect layers
+	  _.each(self.layers, function(layer, i) {
+	    var next = self.layers[i + 1];
+	    if (next) {
+	      layer.connect(next);
+	    }
+	  });
+	}
+
+	/**
+	 * Train the Network to produce the output from the given input.
+	 * @param {object[]} [data] - Array of objects in the form
+	 * `{inputs: [], expected: []}`.
+	 */
+	Network.prototype.train = function(data) {
+	  // TODO: left off here
+	  _.each(this.layers, function(layer, i) {
+	    i === 0 ? layer.activate(values) : layer.activate();
+	  });
+	};
+
+	module.exports = Network;
 
 
 /***/ },
