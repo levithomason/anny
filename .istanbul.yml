@@ -1,0 +1,8 @@
+instrumentation:
+    excludes: [app, dist, gulp, test]
+check:
+    global:
+        statements: 0
+        lines: 0
+        branches: 0
+        functions: 0
