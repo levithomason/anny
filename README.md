@@ -15,9 +15,15 @@ Anny is an artificial neural network, yo!
 
 ## Hacking
 
-`npm start` installs deps, builds, serves, and watches.
+```terminal
+gulp help                 list gulp commands and help
 
-`gulp help` for more help.
+npm start                 install dependencies, build, serve, and watch
+npm test                  run tests and generate coverage
+npm run test-watch        run tests and watch for changes
+npm run check-coverage    check test coverage thresholds
+npm run report-coverage   submit coverage info, requires CODECLIMATE_REPO_TOKEN
+```
 
 ## Inspirations
 
