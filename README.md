@@ -6,7 +6,7 @@
 
 Anny
 ====
-![build](https://codeship.com/projects/e6501e60-0902-0133-c93c-7e3d949a1704/status?branch=master)
+![build](https://codeship.com/projects/e6501e60-0902-0133-c93c-7e3d949a1704/status?branch=master) [![Test Coverage](https://codeclimate.com/github/levithomason/anny/badges/coverage.svg)](https://codeclimate.com/github/levithomason/anny/coverage)[![Code Climate](https://codeclimate.com/github/levithomason/anny/badges/gpa.svg)](https://codeclimate.com/github/levithomason/anny)
 
 Anny is an artificial neural network, yo!
 >She is a work in progress.  Not ready for the limelight.
