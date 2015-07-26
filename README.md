@@ -6,7 +6,7 @@
 
 Anny
 ====
-[![Codeship](https://codeship.com/projects/90438)](https://img.shields.io/codeship/e6501e60-0902-0133-c93c-7e3d949a1704.svg?style=flat-square)
+[![Codeship](https://codeship.com/projects/90438)](https://img.shields.io/codeship/e6501e60-0902-0133-c93c-7e3d949a1704/master.svg?style=flat-square)
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/github/levithomason/anny.svg?style=flat-square)](https://codeclimate.com/github/levithomason/anny/coverage)
 [![Code Climate](https://img.shields.io/codeclimate/github/levithomason/anny.svg?style=flat-square)](https://codeclimate.com/github/levithomason/anny)
 
