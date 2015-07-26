@@ -34,7 +34,7 @@ gulp.task('build-app-less', function() {
     paths.appSrc + '/less/variables.less',
     paths.appSrc + '/less/global.less',
     paths.appSrc + '/**/*variables.less',
-    paths.appSrc + '/**/*.less',
+    paths.appSrc + '/**/*.less'
   ])
     .pipe(g.plumber())
     .pipe(g.cached('less'))
@@ -58,9 +58,11 @@ gulp.task('build-app-js', function(cb) {
     paths.appSrc + '/**/*-factory.js',
     paths.appSrc + '/**/*-service.js',
     paths.appSrc + '/**/*-directive.js',
-    paths.appSrc + '/**/*-controller.js',
+    paths.appSrc + '/**/*-controller.js'
   ])
     .pipe(g.plumber())
+    .pipe(g.eslint())
+    .pipe(g.eslint.format())
     .pipe(g.ngAnnotate())
     .pipe(g.concat('app.js'))
     .pipe(gulp.dest(paths.appDist))
