@@ -294,6 +294,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  /**
+	   * Initialize the learning rate for a Neuron.
+	   * @returns {number}
+	   */
+	  learningRate: function learningRate() {
+	    return 0.01;
+	  },
+
+	  /**
 	   * Initilize the weight for a Neuron.connection.
 	   * @param numConnections
 	   * @returns {number}
@@ -367,12 +375,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	/**
-	 *
-	 * @param {number[]} errors - Map of errors values for each Neuron.
+	 * Correct the `errors` the Neurons.
+	 * @param {number[]} [errors] - Map of errors values for each Neuron.
 	 */
 	Layer.prototype.correct = function(errors) {
 	  _.each(this.neurons, function(neuron, i) {
-	    neuron.correct(errors[i]);
+	    neuron.correct(errors ? errors[i] : undefined);
 	  });
 	};
 
@@ -396,11 +404,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // signal values
 	  this.input = 0;
 	  this.output = 0;
-	  this.error = null;
-	  this.bias = INITIALIZE.bias();
 
 	  // activation
 	  this.activationFn = ACTIVATION.tanh;
+
+	  // learning
+	  this.bias = INITIALIZE.bias();
+	  this.error = null;
+	  this.learningRate = INITIALIZE.learningRate();
 	}
 
 	Neuron.count = 0;
@@ -413,8 +424,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	};
 
-	Neuron.prototype.correct = function() {
-	  console.log('do correction');
+	/**
+	 *
+	 * @param {number} [error] - Manually set the error if this Neuron is an
+	 *   output.  Otherwise, it will be calculated.
+	 */
+	Neuron.prototype.correct = function(error) {
+	  // set the error
+	  this.error = error || _.sum(this.outgoing, function(connection) {
+	      return connection.target.error * connection.weight;
+	    });
+	  console.log('n' + this.id + ' Neuron.correct error', this.error);
 	};
 
 	/**
@@ -452,6 +472,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var connection = Neuron.connection(this, target, weight);
 	  this.outgoing.push(connection);
 	  target.incoming.push(connection);
+	};
+
+	/**
+	 * Test whether this is an input Neuron.
+	 * @returns {boolean}
+	 */
+	Neuron.prototype.isInput = function() {
+	  return this.incoming.length === 0;
+	};
+
+	/**
+	 * Test whether this is an output Neuron.
+	 * @returns {boolean}
+	 */
+	Neuron.prototype.isOutput = function() {
+	  return this.outgoing.length === 0;
+	};
+
+	/**
+	 * Test whether this is a hidden Neuron..
+	 * @returns {boolean}
+	 */
+	Neuron.prototype.isHidden = function() {
+	  return !this.isOutput() && !this.isInput();
 	};
 
 	module.exports = Neuron;
@@ -530,15 +574,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	/**
-	 * Make a correction to the Network using the `error` from running activate.
+	 * Correction the `errors` in the Network.
 	 * @param {number[]} errors - The difference between the Network's actual
 	 *   output and the expected output.  Each value in the array corresponds to a
 	 *   Neuron in the output layer.
 	 */
 	Network.prototype.correct = function(errors) {
-	  _.each(this.allLayers, function(layer) {
-	    layer.correct(errors);
-	  });
+	  this.outputLayer.correct(errors);
+	  _.invoke(this.hiddenLayers, 'correct');
+	  this.inputLayer.correct();
 	};
 
 	/**
@@ -558,15 +602,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      ].join(' '));
 	    }
 
-	    // send data forward
+	    // make a prediction
 	    var actuals = this.activate(sample.input);
 
-	    // calculate the error
+	    // get the error
 	    var errors = _.map(actuals, function(output, i) {
 	      return (sample.output[i] || 0) - output;
 	    });
 
-	    // send errors backward
+	    // correct the error
 	    this.correct(errors);
 
 	    console.log(
@@ -575,12 +619,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      '\nactuals', actuals,
 	      '\nerrors ', errors
 	    );
-
-	    // TODO: now, backpropagate the error, updating the weights.
-	    // https://en.wikibooks.org
-	    //   /wiki/Artificial_Neural_Networks/Error-Correction_Learning
-	    //
-	    // this.correct(error);
 	  }, this);
 	};
 
