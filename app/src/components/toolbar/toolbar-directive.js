@@ -5,7 +5,7 @@ angular.module('App.toolbar')
       replace: true,
       scope: {},
       templateUrl: 'app/dist/components/toolbar/toolbar.html',
-      link: function(scope, elm, attrs) {
+      link: function(scope) {
         scope.randomNet = function() {
           AnnyFactory.newNetwork();
         };
@@ -13,12 +13,12 @@ angular.module('App.toolbar')
         scope.activateRandom = function() {
           var inputs = [];
 
-          for (var i = 0; i < AnnyFactory.network.input.neurons.length; i += 1) {
+          _.times(AnnyFactory.network.input.neurons.length, function() {
             inputs.push(_.random(true));
-          }
+          });
 
           AnnyFactory.activate(inputs);
         };
       }
-    }
+    };
   });

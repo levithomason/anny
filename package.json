@@ -39,6 +39,7 @@
     "gulp-cached": "^1.1.0",
     "gulp-concat": "^2.6.0",
     "gulp-debug": "^2.0.1",
+    "gulp-eslint": "^0.15.0",
     "gulp-help": "^1.6.0",
     "gulp-less": "^3.0.3",
     "gulp-load-plugins": "^0.10.0",

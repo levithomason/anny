@@ -24,9 +24,7 @@ function AnnyFactory($rootScope) {
   };
 
   factory.newNetwork = function(layers) {
-    layers = layers || factory.getRandomLayers();
-
-    factory.network = new anny.Network(layers);
+    factory.network = new anny.Network(layers || factory.getRandomLayers());
 
     factory.emitChange();
   };

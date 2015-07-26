@@ -27,12 +27,12 @@ function visNetworkOptions() {
         background: 'hsl(210, 80%, 80%)',
         hover: {
           border: 'hsl(210, 35%, 45%)',
-          background: 'hsl(210, 80%, 80%)',
+          background: 'hsl(210, 80%, 80%)'
         },
         highlight: {
           border: 'hsl(210, 60%, 70%)',
-          background: 'hsl(210, 80%, 80%)',
-        },
+          background: 'hsl(210, 80%, 80%)'
+        }
       }
     },
     gate: {
@@ -41,12 +41,12 @@ function visNetworkOptions() {
         background: 'hsl(30, 100%, 70%)',
         hover: {
           border: 'hsl(30, 40%, 40%)',
-          background: 'hsl(30, 100%, 70%)',
+          background: 'hsl(30, 100%, 70%)'
         },
         highlight: {
           border: 'hsl(30, 60%, 60%)',
-          background: 'hsl(30, 100%, 70%)',
-        },
+          background: 'hsl(30, 100%, 70%)'
+        }
       }
     }
   };
@@ -60,10 +60,10 @@ function visNetworkOptions() {
     },
     scaling: {
       min: 0.2,
-      max: 4,
+      max: 4
     },
     hoverWidth: 1,
-    selectionWidth: 1.5,
+    selectionWidth: 1.5
   };
 
   // Layout

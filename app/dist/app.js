@@ -2,7 +2,7 @@ angular.module('App', [
   'anny',
 
   'App.vis',
-  'App.toolbar',
+  'App.toolbar'
 ]);
 
 angular.module('anny', []);
@@ -37,9 +37,7 @@ function AnnyFactory($rootScope) {
   };
 
   factory.newNetwork = function(layers) {
-    layers = layers || factory.getRandomLayers();
-
-    factory.network = new anny.Network(layers);
+    factory.network = new anny.Network(layers || factory.getRandomLayers());
 
     factory.emitChange();
   };
@@ -86,12 +84,12 @@ function visNetworkOptions() {
         background: 'hsl(210, 80%, 80%)',
         hover: {
           border: 'hsl(210, 35%, 45%)',
-          background: 'hsl(210, 80%, 80%)',
+          background: 'hsl(210, 80%, 80%)'
         },
         highlight: {
           border: 'hsl(210, 60%, 70%)',
-          background: 'hsl(210, 80%, 80%)',
-        },
+          background: 'hsl(210, 80%, 80%)'
+        }
       }
     },
     gate: {
@@ -100,12 +98,12 @@ function visNetworkOptions() {
         background: 'hsl(30, 100%, 70%)',
         hover: {
           border: 'hsl(30, 40%, 40%)',
-          background: 'hsl(30, 100%, 70%)',
+          background: 'hsl(30, 100%, 70%)'
         },
         highlight: {
           border: 'hsl(30, 60%, 60%)',
-          background: 'hsl(30, 100%, 70%)',
-        },
+          background: 'hsl(30, 100%, 70%)'
+        }
       }
     }
   };
@@ -119,10 +117,10 @@ function visNetworkOptions() {
     },
     scaling: {
       min: 0.2,
-      max: 4,
+      max: 4
     },
     hoverWidth: 1,
-    selectionWidth: 1.5,
+    selectionWidth: 1.5
   };
 
   // Layout
@@ -173,7 +171,7 @@ angular.module('App.toolbar')
       replace: true,
       scope: {},
       templateUrl: 'app/dist/components/toolbar/toolbar.html',
-      link: function(scope, elm, attrs) {
+      link: function(scope) {
         scope.randomNet = function() {
           AnnyFactory.newNetwork();
         };
@@ -181,14 +179,14 @@ angular.module('App.toolbar')
         scope.activateRandom = function() {
           var inputs = [];
 
-          for (var i = 0; i < AnnyFactory.network.input.neurons.length; i += 1) {
+          _.times(AnnyFactory.network.input.neurons.length, function() {
             inputs.push(_.random(true));
-          }
+          });
 
           AnnyFactory.activate(inputs);
         };
       }
-    }
+    };
   }]);
 
 function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
@@ -196,14 +194,13 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
     replace: true,
     scope: {},
     template: '<div class="vis-network"></div>',
-    link: function(scope, elm, attrs) {
+    link: function(scope, elm) {
       scope.getData = function() {
         var nodes = [];
         var edges = [];
 
         // layers
         _.each(AnnyFactory.network.layers, function(layer, layerIndex) {
-
           // neurons
           _.each(layer.neurons, function(neuron) {
             var bias = neuron.bias.toFixed(3);
@@ -222,7 +219,7 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
               level: layerIndex,
               label: output,
               value: Math.abs(bias),
-              group: bias > 0 ? 'gate' : 'normal',
+              group: bias > 0 ? 'gate' : 'normal'
             });
 
             // connections
@@ -236,12 +233,15 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
                 title: 'weight: ' + weight,
                 // matches border colors in netowrk options factory
                 color: {
-                  color: weight >= 0 ? 'hsl(210, 20%, 25%)' : 'hsl(30, 15%, 25%)',
-                  hover: weight >= 0 ? 'hsl(210, 35%, 45%)' : 'hsl(30, 40%, 40%)',
-                  highlight: weight >= 0 ? 'hsl(210, 60%, 70%)' : 'hsl(30, 60%, 60%)',
+                  color: weight >= 0 ? 'hsl(210, 20%, 25%)' :
+                    'hsl(30, 15%, 25%)',
+                  hover: weight >= 0 ? 'hsl(210, 35%, 45%)' :
+                    'hsl(30, 40%, 40%)',
+                  highlight: weight >= 0 ? 'hsl(210, 60%, 70%)' :
+                    'hsl(30, 60%, 60%)'
                 }
-              })
-            })
+              });
+            });
           });
         });
 
@@ -261,9 +261,10 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
       });
 
       // create network
-      scope.network = new vis.Network(elm[0], scope.getData(), visNetworkOptions);
+      scope.network =
+        new vis.Network(elm[0], scope.getData(), visNetworkOptions);
     }
-  }
+  };
 }
 visNetwork.$inject = ["visNetworkOptions", "AnnyFactory", "$rootScope"];
 

@@ -3,14 +3,13 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
     replace: true,
     scope: {},
     template: '<div class="vis-network"></div>',
-    link: function(scope, elm, attrs) {
+    link: function(scope, elm) {
       scope.getData = function() {
         var nodes = [];
         var edges = [];
 
         // layers
         _.each(AnnyFactory.network.layers, function(layer, layerIndex) {
-
           // neurons
           _.each(layer.neurons, function(neuron) {
             var bias = neuron.bias.toFixed(3);
@@ -29,7 +28,7 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
               level: layerIndex,
               label: output,
               value: Math.abs(bias),
-              group: bias > 0 ? 'gate' : 'normal',
+              group: bias > 0 ? 'gate' : 'normal'
             });
 
             // connections
@@ -43,12 +42,15 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
                 title: 'weight: ' + weight,
                 // matches border colors in netowrk options factory
                 color: {
-                  color: weight >= 0 ? 'hsl(210, 20%, 25%)' : 'hsl(30, 15%, 25%)',
-                  hover: weight >= 0 ? 'hsl(210, 35%, 45%)' : 'hsl(30, 40%, 40%)',
-                  highlight: weight >= 0 ? 'hsl(210, 60%, 70%)' : 'hsl(30, 60%, 60%)',
+                  color: weight >= 0 ? 'hsl(210, 20%, 25%)' :
+                    'hsl(30, 15%, 25%)',
+                  hover: weight >= 0 ? 'hsl(210, 35%, 45%)' :
+                    'hsl(30, 40%, 40%)',
+                  highlight: weight >= 0 ? 'hsl(210, 60%, 70%)' :
+                    'hsl(30, 60%, 60%)'
                 }
-              })
-            })
+              });
+            });
           });
         });
 
@@ -68,9 +70,10 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
       });
 
       // create network
-      scope.network = new vis.Network(elm[0], scope.getData(), visNetworkOptions);
+      scope.network =
+        new vis.Network(elm[0], scope.getData(), visNetworkOptions);
     }
-  }
+  };
 }
 
 angular.module('App.vis')
