@@ -12,6 +12,10 @@
     "check-coverage": "istanbul check-coverage",
     "report-coverage": "codeclimate-test-reporter < coverage/lcov.info"
   },
+  "engines": {
+    "node": "0.12.4",
+    "npm": "2.13.2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/levithomason/anny.git"
