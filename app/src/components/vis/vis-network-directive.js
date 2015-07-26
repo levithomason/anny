@@ -9,7 +9,7 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
         var edges = [];
 
         // layers
-        _.each(AnnyFactory.network.layers, function(layer, layerIndex) {
+        _.each(AnnyFactory.network.allLayers, function(layer, layerIndex) {
           // neurons
           _.each(layer.neurons, function(neuron) {
             var bias = neuron.bias.toFixed(3);

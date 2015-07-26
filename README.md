@@ -46,6 +46,8 @@ npm run report-coverage   submit coverage info, requires CODECLIMATE_REPO_TOKEN
 
 [Good Weight Initializations](https://plus.google.com/+SoumithChintala/posts/RZfdrRQWL6u)
 
+[Backpropagation](http://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf)
+
 [Efficient Backpropagation](http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf) Equation references in the source code point to this doc.
 
 [Convolution Networks](http://andrew.gibiansky.com/blog/machine-learning/convolutional-neural-networks/)

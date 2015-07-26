@@ -13,7 +13,7 @@ angular.module('App.toolbar')
         scope.activateRandom = function() {
           var inputs = [];
 
-          _.times(AnnyFactory.network.input.neurons.length, function() {
+          _.times(AnnyFactory.network.inputLayer.neurons.length, function() {
             inputs.push(_.random(true));
           });
 
