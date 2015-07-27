@@ -21,15 +21,17 @@ angular.module('App.toolbar')
         };
 
         scope.train = function() {
-          var numSamples = 100;
+          var numSamples = 1000;
+          var logFrequency = _.floor(numSamples / 10);
+
           var trainingSet = _.times(numSamples, function() {
-            // train to predict sin fn output
-            var n = _.random(-500, 500, true);
-            return {input: [n], output: [Math.sin(n)]};
+            // learn to add 1
+            var n = _.random(-1, 1, true);
+            return {input: [n], output: [n + 1]};
           });
 
-          AnnyFactory.train(trainingSet);
-        }
+          AnnyFactory.train(trainingSet, logFrequency);
+        };
       }
     };
   });

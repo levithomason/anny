@@ -14,19 +14,26 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
           _.each(layer.neurons, function(neuron) {
             var bias = neuron.bias.toFixed(3);
             var id = neuron.id;
-            var input = neuron.input.toFixed(3);
+            var input = neuron.oldInput.toFixed(3);
             var output = neuron.output.toFixed(3);
+            var error = neuron.error.toFixed(3);
 
             nodes.push({
               id: id,
               title: [
                 '<b>id:</b> ', id, '<br/>',
+                '<b>bias:</b> ' + bias, '<br/>',
                 '<b>in:</b> ', input, '<br/>',
                 '<b>out:</b> ', output, '<br/>',
-                '<b>bias:</b> ' + bias
+                '<b>err:</b> ', error, '<br/>'
               ].join(''),
               level: layerIndex,
-              label: output,
+              label: [
+                '\n',
+                '\ni:', input,
+                '\no:', output,
+                '\ne:', error
+              ].join(' '),
               value: Math.abs(bias),
               group: bias > 0 ? 'gate' : 'normal'
             });

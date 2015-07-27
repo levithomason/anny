@@ -298,7 +298,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {number}
 	   */
 	  learningRate: function learningRate() {
-	    return 0.01;
+	    return 0.001;
 	  },
 
 	  /**
@@ -403,6 +403,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // signal values
 	  this.input = 0;
+	  this.oldInput = 0;
 	  this.output = 0;
 
 	  // activation
@@ -410,7 +411,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // learning
 	  this.bias = INITIALIZE.bias();
-	  this.error = null;
+	  this.error = 0;
 	  this.learningRate = INITIALIZE.learningRate();
 	}
 
@@ -432,25 +433,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	Neuron.prototype.correct = function(error) {
 	  // set the error
 	  this.error = error || _.sum(this.outgoing, function(connection) {
-	      return connection.target.error * connection.weight;
+	      return connection.target.error * connection.weight + 1;
 	    });
-	  console.log('n' + this.id + ' Neuron.correct error', this.error);
+
+	  // console.log('n' + this.id + ' Neuron.correct error', this.error);
+
+	  // learn (adjust weights)
+	  _.each(this.outgoing, function(connection) {
+	    return connection.weight -= this.error * this.learningRate;
+	  }, this);
 	};
 
 	/**
-	 * Activate this Neuron potentially causing it to fire its outputs.
-	 * @param {number} [inputValue] - If omitted the current value will be used.
+	 * Activate this Neuron, potentially causing it to fire its outputs.
+	 * @param {number} [input] - If omitted the current value will be used.
 	 * @returns {number|*}
 	 */
-	Neuron.prototype.activate = function(inputValue) {
-	  var averageInput = this.input / (this.incoming.length || 1);
-
-	  if (inputValue) {
-	    this.input = inputValue;
+	Neuron.prototype.activate = function(input) {
+	  if (!_.isUndefined(input)) {
+	    this.input = input;
 	  }
 
-	  // set output from inputs
-	  this.output = this.activationFn(inputValue || averageInput);
+	  // set output from input
+	  this.output = this.activationFn(this.input);
 
 	  if (this.output + this.bias >= 0) {
 	    // send output upstream
@@ -458,12 +463,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      connection.target.input += this.output * connection.weight;
 	    }, this);
 	  }
-	  // console.log(
-	  //   'n' + this.id,
-	  //   'in', this.input,
-	  //   'val', inputValue || averageInput,
-	  //   'out', this.output
-	  // );
+
+	  // keep a reference to the input
+	  // clear input, now that we've used it to activate this Neuron
+	  this.oldInput = this.input;
+	  this.input = 0;
 
 	  return this.output;
 	};
@@ -509,6 +513,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var numInputs = _.first(layerSizes);
 	  var numOutputs = _.last(layerSizes);
 	  var hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
+
+	  this.output = null;
+	  this.error = null;
 
 	  this.allLayers = [];
 	  this.hiddenLayers = [];
@@ -570,36 +577,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Train the Network to produce the output from the given input.
 	 * @param {object[]} [data] - Array of objects in the form
 	 *   `{input: [], output: []}`.
+	 * @param {number} [callbackFrequency=100] - How many iterations to let pass
+	 *  between calling the callback with the error.
+	 * @param {function} [callback] - Called with the iteration and current error
+	 *   every callbackFrequency iteration.
 	 */
-	Network.prototype.train = function(data) {
+	Network.prototype.train = function(data, callbackFrequency, callback) {
+	  // TODO: validation and help on the data.
+	  //  ensure it is normalized between -1 and 1
+	  //  ensure the input length matches the number of Network inputs
+	  //  ensure the output length matches the number of Network outputs
 	  _.each(data, function(sample, i) {
-	    // warn if training sample and Network have a different number of outputs
-	    if (sample.output.length !== this.outputLayer.neurons.length) {
-	      console.warn([
-	        'Training sample', i + 1, 'defines', sample.output.length, 'expected',
-	        'output(s) but the Network has', this.outputLayer.neurons.length, '.',
-	        '\n\nExcess expected outputs will be disregarded.',
-	        '\nNeurons without an expected output will have an error of 0.'
-	      ].join(' '));
-	    }
-
 	    // make a prediction
-	    var actuals = this.activate(sample.input);
+	    this.output = this.activate(sample.input);
 
 	    // get the error
-	    var errors = _.map(actuals, function(output, i) {
-	      return (sample.output[i] || 0) - output;
+	    this.error = _.map(this.output, function(output, j) {
+	      return (sample.output[j] || 0) - output;
 	    });
 
 	    // correct the error
-	    this.correct(errors);
+	    this.correct(this.error);
 
-	    console.log(
-	      'input ', sample.input,
-	      '\noutput', sample.output,
-	      '\nactuals', actuals,
-	      '\nerrors ', errors
-	    );
+	    // log results periodically
+	    if (i % (callbackFrequency || 100) === 0) {
+	      callback(i, _.sum(this.error) / this.error.length);
+	    }
+	    // console.log(
+	    // 'input ', sample.input,
+	    // '\noutput', sample.output,
+	    // '\nthis.output', this.output,
+	    // '\nerrors ', this.error
+	    // );
 	  }, this);
 	};
 
