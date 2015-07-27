@@ -19,6 +19,17 @@ angular.module('App.toolbar')
 
           AnnyFactory.activate(inputs);
         };
+
+        scope.train = function() {
+          var numSamples = 100;
+          var trainingSet = _.times(numSamples, function() {
+            // train to predict sin fn output
+            var n = _.random(-500, 500, true);
+            return {input: [n], output: [Math.sin(n)]};
+          });
+
+          AnnyFactory.train(trainingSet);
+        }
       }
     };
   });

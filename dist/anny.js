@@ -474,30 +474,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  target.incoming.push(connection);
 	};
 
-	/**
-	 * Test whether this is an input Neuron.
-	 * @returns {boolean}
-	 */
-	Neuron.prototype.isInput = function() {
-	  return this.incoming.length === 0;
-	};
-
-	/**
-	 * Test whether this is an output Neuron.
-	 * @returns {boolean}
-	 */
-	Neuron.prototype.isOutput = function() {
-	  return this.outgoing.length === 0;
-	};
-
-	/**
-	 * Test whether this is a hidden Neuron..
-	 * @returns {boolean}
-	 */
-	Neuron.prototype.isHidden = function() {
-	  return !this.isOutput() && !this.isInput();
-	};
-
 	module.exports = Neuron;
 
 
@@ -574,14 +550,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	/**
-	 * Correction the `errors` in the Network.
+	 * Correct the `errors` in the Network, from the output back to the input.
 	 * @param {number[]} errors - The difference between the Network's actual
 	 *   output and the expected output.  Each value in the array corresponds to a
 	 *   Neuron in the output layer.
 	 */
 	Network.prototype.correct = function(errors) {
 	  this.outputLayer.correct(errors);
-	  _.invoke(this.hiddenLayers, 'correct');
+
+	  // correct hidden layers in reverse (last to first)
+	  for (var i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
+	    this.hiddenLayers[i].correct();
+	  }
+
 	  this.inputLayer.correct();
 	};
 
@@ -623,18 +604,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	module.exports = Network;
-
-	console.log('See Network line 110 for this output:');
-
-	var network = new Network([1, 3, 1]);
-
-	var trainingSet = _.times(3, function() {
-	  // train to predict sin fn output
-	  var n = _.random(-1000, 1000, true);
-	  return {input: [n], output: [Math.sin(n)]};
-	});
-
-	network.train(trainingSet);
 
 
 /***/ },
