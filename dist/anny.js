@@ -474,35 +474,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return this.output;
 	};
 
+	/**
+	 * Connect this Neuron to another Neuron.
+	 * @param {Neuron} target - The Neuron to connect to.
+	 * @param {number} weight - The strength of the connection.
+	 */
 	Neuron.prototype.connect = function(target, weight) {
 	  var connection = Neuron.connection(this, target, weight);
 	  this.outgoing.push(connection);
 	  target.incoming.push(connection);
 	};
 
-	var targetOutput = 1;
-	var cycles = 100;
-	var a = new Neuron();
-	var b = new Neuron();
-	a.connect(b);
-	a.learningRate = b.learningRate = 0.1;
+	/**
+	 * Determine if this Neuron is an input Neuron.
+	 */
+	Neuron.prototype.isInput = function() {
+	  return this.incoming.length === 0;
+	};
 
-	console.debug('Neuron ln ~88: Learning to output', targetOutput);
-	_.times(cycles, function(n) {
-	  var aOut = a.activate(1).toFixed(6);
-	  var bOut = b.activate().toFixed(6);
-	  b.error = (targetOutput - b.output).toFixed(6);
-	  if (n % (cycles / 10 ) === 0) {
-	    console.log(
-	      '[' + n + '] ' +
-	      'a(' + aOut +
-	      ') <-(' + a.outgoing[0].weight.toFixed(6) +
-	      ')-> b(' + bOut +
-	      ') = e ' + b.error
-	    );
-	  }
-	  a.correct();
-	});
+	/**
+	 * Determine if this Neuron is an output Neuron.
+	 */
+	Neuron.prototype.isOutput = function() {
+	  return this.outgoing.length === 0;
+	};
 
 	module.exports = Neuron;
 
