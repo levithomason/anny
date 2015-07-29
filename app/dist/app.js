@@ -7,9 +7,9 @@ angular.module('App', [
 
 angular.module('anny', []);
 
-angular.module('App.vis', []);
-
 angular.module('App.toolbar', []);
+
+angular.module('App.vis', []);
 
 function AnnyFactory($rootScope) {
   var factory = {};
@@ -39,8 +39,9 @@ function AnnyFactory($rootScope) {
   factory.train = function(trainingSet, logFrequency) {
     factory.network.train(trainingSet, logFrequency, function(i, error) {
       console.log('Network training', i, 'error', error);
-      factory.emitChange();
     });
+
+    factory.emitChange();
   };
 
   factory.newNetwork = function(layers) {
@@ -170,6 +171,44 @@ function visNetworkOptions() {
 angular.module('App.vis')
   .factory('visNetworkOptions', visNetworkOptions);
 
+angular.module('App.toolbar')
+
+  .directive('toolbar', ["AnnyFactory", function(AnnyFactory) {
+    return {
+      replace: true,
+      scope: {},
+      templateUrl: 'app/dist/components/toolbar/toolbar.html',
+      link: function(scope) {
+        scope.randomNet = function() {
+          AnnyFactory.newNetwork();
+        };
+
+        scope.activateRandom = function() {
+          var inputs = [];
+
+          _.times(AnnyFactory.network.inputLayer.neurons.length, function() {
+            inputs.push(_.random(true));
+          });
+
+          AnnyFactory.activate(inputs);
+        };
+
+        scope.train = function() {
+          var numSamples = 1000;
+          var logFrequency = _.floor(numSamples / 10);
+
+          var trainingSet = _.times(numSamples, function() {
+            // learn to add 1
+            var n = _.random(-1, 1, true);
+            return {input: [n], output: [n + 1]};
+          });
+
+          AnnyFactory.train(trainingSet, logFrequency);
+        };
+      }
+    };
+  }]);
+
 function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
   return {
     replace: true,
@@ -184,7 +223,6 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
         _.each(AnnyFactory.network.allLayers, function(layer, layerIndex) {
           // neurons
           _.each(layer.neurons, function(neuron) {
-            var bias = neuron.bias.toFixed(3);
             var id = neuron.id;
             var input = neuron.oldInput.toFixed(3);
             var output = neuron.output.toFixed(3);
@@ -194,7 +232,6 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
               id: id,
               title: [
                 '<b>id:</b> ', id, '<br/>',
-                '<b>bias:</b> ' + bias, '<br/>',
                 '<b>in:</b> ', input, '<br/>',
                 '<b>out:</b> ', output, '<br/>',
                 '<b>err:</b> ', error, '<br/>'
@@ -206,8 +243,8 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
                 '\no:', output,
                 '\ne:', error
               ].join(' '),
-              value: Math.abs(bias),
-              group: bias > 0 ? 'gate' : 'normal'
+              value: Math.abs(output),
+              group: 'normal'
             });
 
             // connections
@@ -258,41 +295,3 @@ visNetwork.$inject = ["visNetworkOptions", "AnnyFactory", "$rootScope"];
 
 angular.module('App.vis')
   .directive('visNetwork', visNetwork);
-
-angular.module('App.toolbar')
-
-  .directive('toolbar', ["AnnyFactory", function(AnnyFactory) {
-    return {
-      replace: true,
-      scope: {},
-      templateUrl: 'app/dist/components/toolbar/toolbar.html',
-      link: function(scope) {
-        scope.randomNet = function() {
-          AnnyFactory.newNetwork();
-        };
-
-        scope.activateRandom = function() {
-          var inputs = [];
-
-          _.times(AnnyFactory.network.inputLayer.neurons.length, function() {
-            inputs.push(_.random(true));
-          });
-
-          AnnyFactory.activate(inputs);
-        };
-
-        scope.train = function() {
-          var numSamples = 1000;
-          var logFrequency = _.floor(numSamples / 10);
-
-          var trainingSet = _.times(numSamples, function() {
-            // learn to add 1
-            var n = _.random(-1, 1, true);
-            return {input: [n], output: [n + 1]};
-          });
-
-          AnnyFactory.train(trainingSet, logFrequency);
-        };
-      }
-    };
-  }]);

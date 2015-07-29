@@ -78,7 +78,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ACTIVATION = {
 	  softplus: function softplus(x) {
 	    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-	    return Math.log(1 + Math.exp(Math.E, x));
+	    return Math.log(1 + Math.pow(Math.E, x));
 	  },
 
 	  tanh: function tanh(x) {
@@ -100,7 +100,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  sigmoid: function sigmoid(x) {
 	    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
-	    return 1 / (1 + Math.exp(Math.E, -x));
+	    return 1 / (1 + Math.pow(Math.E, -x));
 	  },
 
 	  /**
@@ -113,7 +113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  sigmoidTemperature: function(x, c) {
 	    // http://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf
 	    // Fig. 7.1. Three sigmoids (for c = 1, c = 2 and c = 3)
-	    return 1 / (1 + Math.exp(Math.E, -(c || 1) * x));
+	    return 1 / (1 + Math.pow(Math.E, -(c || 1) * x));
 	  },
 
 	  // The following are from:
@@ -136,7 +136,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} x
 	   */
 	  logistic: function logistic(x) {
-	    return 1 / (1 + Math.exp(Math.E, -x));
+	    return 1 / (1 + Math.pow(Math.E, -x));
 	  },
 
 	  /**
@@ -407,10 +407,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.output = 0;
 
 	  // activation
-	  this.activationFn = ACTIVATION.tanh;
+	  this.activationFn = ACTIVATION.logistic;
 
 	  // learning
-	  this.bias = INITIALIZE.bias();
 	  this.error = 0;
 	  this.learningRate = INITIALIZE.learningRate();
 	}
@@ -431,16 +430,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   output.  Otherwise, it will be calculated.
 	 */
 	Neuron.prototype.correct = function(error) {
+	  var calculatedError = _.sum(this.outgoing, function(connection) {
+	    return connection.target.error * connection.weight;
+	  });
+
 	  // set the error
-	  this.error = error || _.sum(this.outgoing, function(connection) {
-	      return connection.target.error * connection.weight + 1;
-	    });
+	  this.error = !_.isUndefined(error) ? error : calculatedError;
 
 	  // console.log('n' + this.id + ' Neuron.correct error', this.error);
 
 	  // learn (adjust weights)
 	  _.each(this.outgoing, function(connection) {
-	    return connection.weight -= this.error * this.learningRate;
+	    connection.weight -= this.error * this.learningRate;
 	  }, this);
 	};
 
@@ -457,12 +458,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // set output from input
 	  this.output = this.activationFn(this.input);
 
-	  if (this.output + this.bias >= 0) {
-	    // send output upstream
-	    _.each(this.outgoing, function(connection) {
-	      connection.target.input += this.output * connection.weight;
-	    }, this);
-	  }
+	  // send output upstream
+	  _.each(this.outgoing, function(connection) {
+	    // TODO: once training reaches connection weight 0 it stops.
+	    // This is because output * weight 0 == 0.
+	    // Implement bias node to prevent this?
+	    connection.target.input += this.output * connection.weight;
+	  }, this);
 
 	  // keep a reference to the input
 	  // clear input, now that we've used it to activate this Neuron
@@ -477,6 +479,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.outgoing.push(connection);
 	  target.incoming.push(connection);
 	};
+
+	var targetOutput = 1;
+	var cycles = 100;
+	var a = new Neuron();
+	var b = new Neuron();
+	a.connect(b);
+	a.learningRate = b.learningRate = 0.1;
+
+	console.debug('Neuron ln ~88: Learning to output', targetOutput);
+	_.times(cycles, function(n) {
+	  var aOut = a.activate(1).toFixed(6);
+	  var bOut = b.activate().toFixed(6);
+	  b.error = (targetOutput - b.output).toFixed(6);
+	  if (n % (cycles / 10 ) === 0) {
+	    console.log(
+	      '[' + n + '] ' +
+	      'a(' + aOut +
+	      ') <-(' + a.outgoing[0].weight.toFixed(6) +
+	      ')-> b(' + bOut +
+	      ') = e ' + b.error
+	    );
+	  }
+	  a.correct();
+	});
 
 	module.exports = Neuron;
 
