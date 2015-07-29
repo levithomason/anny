@@ -12,7 +12,6 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
         _.each(AnnyFactory.network.allLayers, function(layer, layerIndex) {
           // neurons
           _.each(layer.neurons, function(neuron) {
-            var bias = neuron.bias.toFixed(3);
             var id = neuron.id;
             var input = neuron.oldInput.toFixed(3);
             var output = neuron.output.toFixed(3);
@@ -22,7 +21,6 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
               id: id,
               title: [
                 '<b>id:</b> ', id, '<br/>',
-                '<b>bias:</b> ' + bias, '<br/>',
                 '<b>in:</b> ', input, '<br/>',
                 '<b>out:</b> ', output, '<br/>',
                 '<b>err:</b> ', error, '<br/>'
@@ -34,8 +32,8 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
                 '\no:', output,
                 '\ne:', error
               ].join(' '),
-              value: Math.abs(bias),
-              group: bias > 0 ? 'gate' : 'normal'
+              value: Math.abs(output),
+              group: 'normal'
             });
 
             // connections
