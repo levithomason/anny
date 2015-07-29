@@ -78,7 +78,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ACTIVATION = {
 	  softplus: function softplus(x) {
 	    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-	    return Math.log(1 + Math.pow(Math.E, x));
+	    return Math.log(1 + Math.exp(x));
 	  },
 
 	  tanh: function tanh(x) {
@@ -100,7 +100,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  sigmoid: function sigmoid(x) {
 	    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
-	    return 1 / (1 + Math.pow(Math.E, -x));
+	    return 1 / (1 + Math.exp(-x));
 	  },
 
 	  /**
@@ -113,7 +113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  sigmoidTemperature: function(x, c) {
 	    // http://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf
 	    // Fig. 7.1. Three sigmoids (for c = 1, c = 2 and c = 3)
-	    return 1 / (1 + Math.pow(Math.E, -(c || 1) * x));
+	    return 1 / (1 + Math.exp(-(c || 1) * x));
 	  },
 
 	  // The following are from:
@@ -136,7 +136,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} x
 	   */
 	  logistic: function logistic(x) {
-	    return 1 / (1 + Math.pow(Math.E, -x));
+	    return 1 / (1 + Math.exp(-x));
 	  },
 
 	  /**
@@ -148,8 +148,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} x
 	   */
 	  hyperbolic: function hyperbolic(x) {
-	    return Math.pow(Math.E, x) - Math.pow(Math.E, -x) /
-	      Math.pow(Math.E, x) + Math.pow(Math.E, -x);
+	    return Math.exp(x) - Math.exp(-x) /
+	      Math.exp(x) + Math.exp(-x);
 	  },
 
 	  /**
@@ -163,7 +163,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} x
 	   */
 	  exponential: function exponential(x) {
-	    return Math.pow(Math.E, -x);
+	    return Math.exp(-x);
 	  },
 
 	  /**
@@ -177,8 +177,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number[]} vector - The array of values that `x` is a member of.
 	   */
 	  softmax: function softmax(x, vector) {
-	    return Math.pow(Math.E, x) / _.sum(_.map(vector, function(xi) {
-	        return Math.pow(Math.E, xi);
+	    return Math.exp(x) / _.sum(_.map(vector, function(xi) {
+	        return Math.exp(xi);
 	      }));
 	  },
 
