@@ -5,30 +5,6 @@ angular.module('App', [
   'App.toolbar'
 ]);
 
-var targetOutput = 1;
-var cycles = 100;
-var a = new anny.Neuron();
-var b = new anny.Neuron();
-a.connect(b);
-a.learningRate = b.learningRate = 0.1;
-
-console.log('app.js: Learning to output', targetOutput);
-_.times(cycles, function(n) {
-  var aOut = a.activate(1).toFixed(6);
-  var bOut = b.activate().toFixed(6);
-  b.error = (targetOutput - b.output).toFixed(6);
-  if (n % (cycles / 10 ) === 0) {
-    console.log(
-      '[' + n + '] ' +
-      'a(' + aOut +
-      ') <-(' + a.outgoing[0].weight.toFixed(6) +
-      ')-> b(' + bOut +
-      ') = e ' + b.error
-    );
-  }
-  a.correct();
-});
-
 angular.module('anny', []);
 
 angular.module('App.toolbar', []);
@@ -36,29 +12,31 @@ angular.module('App.toolbar', []);
 angular.module('App.vis', []);
 
 function AnnyFactory($rootScope) {
-
-
-  var the_network = new anny.Network([2, 2, 4, 1]);
-  var trainingSet = [];
-
-  _.times(100, function (n) {
-      console.log('asdf');
-      var result = the_network.train([
-          {input: [1, 2], output: [-3]}
-      ]);
-  });
-
-  var output = the_network.activate([1, 2]);
-
-  console.log(output);
-
-
-
   var factory = {};
 
   factory.init = function() {
-    //factory.network = new anny.Network(factory.getRandomLayers());
-    factory.network = window.network = the_network;
+    factory.network = new anny.Network([2, 1]);
+
+    // TODO: cleanup training example
+    // OR gate
+    var trainingSet = [
+      {input: [0, 0], output: [0]},
+      {input: [1, 0], output: [1]},
+      {input: [0, 1], output: [1]},
+      {input: [1, 1], output: [1]}
+    ];
+
+    factory.network.train(trainingSet, 1, function(err, epoch) {
+      console.log(epoch, err);
+    });
+
+    console.log(
+      '[0, 0] ' + factory.network.activate([0, 0]),
+      '\n[1, 0] ' + factory.network.activate([1, 0]),
+      '\n[0, 1] ' + factory.network.activate([0, 1]),
+      '\n[1, 1] ' + factory.network.activate([1, 1])
+    );
+    // End training example
   };
 
   factory.activate = function(inputs) {
@@ -80,8 +58,8 @@ function AnnyFactory($rootScope) {
   };
 
   factory.train = function(trainingSet, logFrequency) {
-    factory.network.train(trainingSet, logFrequency, function(i, error) {
-      console.log('Network training', i, 'error', error);
+    factory.network.train(trainingSet, logFrequency, function(error, epoch) {
+      console.log('Network training', epoch, 'error', error);
     });
 
     factory.emitChange();
@@ -94,6 +72,7 @@ function AnnyFactory($rootScope) {
 
   factory.emitChange = function() {
     $rootScope.$broadcast('anny:changed');
+    window.network = factory.network;
   };
 
   factory.init();
@@ -142,17 +121,19 @@ function visNetworkOptions() {
         }
       }
     },
-    gate: {
+    bias: {
+      borderWidth: 2,
+      borderWidthSelected: 2,
       color: {
-        border: 'hsl(30, 15%, 25%)',
-        background: 'hsl(30, 100%, 70%)',
+        border: 'hsl(0, 0%, 40%)',
+        background: 'transparent',
         hover: {
-          border: 'hsl(30, 40%, 40%)',
-          background: 'hsl(30, 100%, 70%)'
+          border: 'hsl(0, 0%, 60%)',
+          background: 'transparent'
         },
         highlight: {
-          border: 'hsl(30, 60%, 60%)',
-          background: 'hsl(30, 100%, 70%)'
+          border: 'hsl(0, 0%, 80%)',
+          background: 'transparent'
         }
       }
     }
@@ -167,7 +148,7 @@ function visNetworkOptions() {
     },
     scaling: {
       min: 0.2,
-      max: 4
+      max: 8
     },
     hoverWidth: 1,
     selectionWidth: 1.5
@@ -240,8 +221,8 @@ angular.module('App.toolbar')
           var numSamples = 1000;
           var logFrequency = _.floor(numSamples / 10);
 
+          // learn to add 1
           var trainingSet = _.times(numSamples, function() {
-            // learn to add 1
             var n = _.random(-1, 1, true);
             return {input: [n], output: [n + 1]};
           });
@@ -257,28 +238,24 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
     replace: true,
     scope: {},
     template: '<div class="vis-network"></div>',
-    link: function (scope, elm) {
-      scope.getData = function () {
+    link: function(scope, elm) {
+      scope.getData = function() {
         var nodes = [];
         var edges = [];
 
         // layers
-        _.each(AnnyFactory.network.allLayers, function (layer, layerIndex) {
+        _.each(AnnyFactory.network.allLayers, function(layer, layerIndex) {
           // neurons
-          _.each(layer.neurons, function (neuron) {
+          _.each(layer.neurons, function(neuron) {
             var id = neuron.id;
-            var input = neuron.oldInput.toFixed(3);
+            var input = neuron.input.toFixed(3);
             var output = neuron.output.toFixed(3);
             var error = neuron.error.toFixed(3);
 
             nodes.push({
               id: id,
               title: [
-                '<b>id:</b> ', id, '<br/>',
-                '<b>in:</b> ', input, '<br/>',
-                '<b>out:</b> ', output, '<br/>',
-                '<b>err:</b> ', error, '<br/>',
-                '<b>bias:</b> ', neuron.isBiasNeuron, '<br/>'
+                '<b>id:</b> ', id, '<br/>'
               ].join(''),
               level: layerIndex,
               label: [
@@ -288,11 +265,11 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
                 '\ne:', error
               ].join(' '),
               value: Math.abs(output),
-              group: 'normal'
+              group: neuron.isBiasNeuron ? 'bias' : 'normal'
             });
 
             // connections
-            _.each(neuron.outgoing, function (connection) {
+            _.each(neuron.outgoing, function(connection) {
               var weight = connection.weight.toFixed(3);
 
               edges.push({
@@ -300,7 +277,7 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
                 to: connection.target.id,
                 value: Math.abs(weight),
                 title: 'weight: ' + weight,
-                // matches border colors in netowrk options factory
+                // matches border colors in network options factory
                 color: {
                   color: weight >= 0 ? 'hsl(210, 20%, 25%)' :
                     'hsl(30, 15%, 25%)',
@@ -321,11 +298,11 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
       };
 
       // causes a refresh of the network graph
-      scope.setData = function () {
+      scope.setData = function() {
         scope.network.setData(scope.getData());
       };
 
-      $rootScope.$on('anny:changed', function () {
+      $rootScope.$on('anny:changed', function() {
         scope.setData();
       });
 

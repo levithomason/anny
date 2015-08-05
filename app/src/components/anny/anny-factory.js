@@ -1,27 +1,29 @@
 function AnnyFactory($rootScope) {
-
-
-  var the_network = new anny.Network([2, 2, 4, 1]);
-  var trainingSet = [];
-
-  _.times(100, function (n) {
-      console.log('asdf');
-      var result = the_network.train([
-          {input: [1, 2], output: [-3]}
-      ]);
-  });
-
-  var output = the_network.activate([1, 2]);
-
-  console.log(output);
-
-
-
   var factory = {};
 
   factory.init = function() {
-    //factory.network = new anny.Network(factory.getRandomLayers());
-    factory.network = window.network = the_network;
+    factory.network = new anny.Network([2, 1]);
+
+    // TODO: cleanup training example
+    // OR gate
+    var trainingSet = [
+      {input: [0, 0], output: [0]},
+      {input: [1, 0], output: [1]},
+      {input: [0, 1], output: [1]},
+      {input: [1, 1], output: [1]}
+    ];
+
+    factory.network.train(trainingSet, 1, function(err, epoch) {
+      console.log(epoch, err);
+    });
+
+    console.log(
+      '[0, 0] ' + factory.network.activate([0, 0]),
+      '\n[1, 0] ' + factory.network.activate([1, 0]),
+      '\n[0, 1] ' + factory.network.activate([0, 1]),
+      '\n[1, 1] ' + factory.network.activate([1, 1])
+    );
+    // End training example
   };
 
   factory.activate = function(inputs) {
@@ -43,8 +45,8 @@ function AnnyFactory($rootScope) {
   };
 
   factory.train = function(trainingSet, logFrequency) {
-    factory.network.train(trainingSet, logFrequency, function(i, error) {
-      console.log('Network training', i, 'error', error);
+    factory.network.train(trainingSet, logFrequency, function(error, epoch) {
+      console.log('Network training', epoch, 'error', error);
     });
 
     factory.emitChange();
@@ -57,6 +59,7 @@ function AnnyFactory($rootScope) {
 
   factory.emitChange = function() {
     $rootScope.$broadcast('anny:changed');
+    window.network = factory.network;
   };
 
   factory.init();

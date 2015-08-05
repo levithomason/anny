@@ -24,8 +24,8 @@ angular.module('App.toolbar')
           var numSamples = 1000;
           var logFrequency = _.floor(numSamples / 10);
 
+          // learn to add 1
           var trainingSet = _.times(numSamples, function() {
-            // learn to add 1
             var n = _.random(-1, 1, true);
             return {input: [n], output: [n + 1]};
           });

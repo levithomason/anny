@@ -327,13 +327,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Creates a single dimension Layer of Neurons.
-	 * @param {string} numNeurons -
+	 * @param {string} numNeurons - The number of Neurons this Layer should have.
+	 * @param {boolean} [addBias=false] - Add a bias Neuron to this Layer.
 	 * @constructor
-	 * @param {boolean} addBias - Whether or not to add a bias Neuron to this Layer.
 	 */
 	function Layer(numNeurons, addBias) {
-	  // TODO: support convolution networks which use grid layers
-
 	  var self = this;
 	  self.neurons = [];
 
@@ -411,7 +409,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // signal values
 	  this.input = 0;
-	  this.oldInput = 0;
 	  this.output = 0;
 
 	  // activation
@@ -448,9 +445,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // set the error
 	  this.error = !_.isUndefined(error) ? error : calculatedError;
 
-	  // console.log('n' + this.id + ' Neuron.correct error', this.error);
-
-	  // learn (adjust weights)
+	  // adjust weights
 	  _.each(this.outgoing, function(connection) {
 	    connection.weight -= this.error * this.learningRate;
 	  }, this);
@@ -462,25 +457,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {number|*}
 	 */
 	Neuron.prototype.activate = function(input) {
-	  if (!_.isUndefined(input)) {
-	    this.input = input;
+	  if (this.isBiasNeuron) {
+	    this.output = 1;
+	    return this.output;
 	  }
 
-	  // set output from input
-	  this.output = this.activationFn(this.input);
+	  // set the input
+	  if (!_.isUndefined(input)) {
+	    this.input = input;
+	  } else {
+	    this.input = _.sum(_.map(this.incoming, function(connection) {
+	      return connection.source.output * connection.weight;
+	    }));
+	  }
 
-	  // send output upstream
-	  _.each(this.outgoing, function(connection) {
-	    // TODO: once training reaches connection weight 0 it stops.
-	    // This is because output * weight 0 == 0.
-	    // Implement bias node to prevent this?
-	    connection.target.input += this.output * connection.weight;
-	  }, this);
-
-	  // keep a reference to the input
-	  // clear input, now that we've used it to activate this Neuron
-	  this.oldInput = this.input;
-	  this.input = 0;
+	  // set the output
+	  // do not squash input Neurons values, pass them straight through
+	  this.output = this.isInput() ? this.input : this.activationFn(this.input);
 
 	  return this.output;
 	};
@@ -500,6 +493,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	  target.incoming.push(connection);
 	};
 
+	/**
+	 * Determine if this Neuron is an input Neuron.
+	 * @returns {boolean}
+	 */
+	Neuron.prototype.isInput = function() {
+	  return this.incoming.length === 0;
+	};
+
+	/**
+	 * Determine if this Neuron is an output Neuron.
+	 * @returns {boolean}
+	 */
+	Neuron.prototype.isOutput = function() {
+	  return this.outgoing.length === 0;
+	};
+
 	module.exports = Neuron;
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
@@ -509,7 +518,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Layer = __webpack_require__(4);
-	var Neuron = __webpack_require__(5);
 
 	/**
 	 * Creates a Network of Layers consisting of Neurons. Each array element
@@ -568,24 +576,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Determine if this Neuron is an input Neuron.
-	 * @param {Neuron} neuron
-	 * @returns {boolean}
-	 */
-	Network.isNeruonInput = function(neuron) {
-	  return neuron.incoming.length === 0;
-	};
-
-	/**
-	 * Determine if this Neuron is an output Neuron.
-	 * @param {Neuron} neuron
-	 * @returns {boolean}
-	 */
-	Network.isNeuronOutput = function(neuron) {
-	  return neuron.outgoing.length === 0;
-	};
-
-	/**
 	 * Activate the network with a given set of `input` values.
 	 * @param {number[]} inputs - Values to activate the Network input Neurons.
 	 *   Values should be normalized between -1 and 1 using Util.normalize.
@@ -620,7 +610,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   `{input: [], output: []}`.
 	 * @param {number} [callbackFrequency=100] - How many iterations to let pass
 	 *  between calling the callback with the error.
-	 * @param {function} [callback] - Called with the iteration and current error
+	 * @param {function} [callback] - Called with the current error and epoch
 	 *   every callbackFrequency iteration.
 	 */
 	Network.prototype.train = function(data, callbackFrequency, callback) {
@@ -640,16 +630,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // correct the error
 	    this.correct(this.error);
 
-	    // log results periodically
+	    // callback with results periodically
 	    if (i % (callbackFrequency || 100) === 0 && _.isFunction(callback)) {
-	      callback(i, _.sum(this.error) / this.error.length);
+	      callback(_.sum(this.error) / this.error.length, i);
 	    }
-	    // console.log(
-	    // 'input ', sample.input,
-	    // '\noutput', sample.output,
-	    // '\nthis.output', this.output,
-	    // '\nerrors ', this.error
-	    // );
 	  }, this);
 	};
 
