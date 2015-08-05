@@ -1,7 +1,7 @@
 function AnnyFactory($rootScope) {
 
 
-  var the_network = new anny.Network([2, 2, 1]);
+  var the_network = new anny.Network([2, 2, 4, 1]);
   var trainingSet = [];
 
   _.times(100, function (n) {
