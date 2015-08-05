@@ -329,12 +329,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Creates a single dimension Layer of Neurons.
 	 * @param {string} numNeurons -
 	 * @constructor
+	 * @param {boolean} addBias - Whether or not to add a bias Neuron to this Layer.
 	 */
-	function Layer(numNeurons) {
+	function Layer(numNeurons, addBias) {
 	  // TODO: support convolution networks which use grid layers
 
 	  var self = this;
 	  self.neurons = [];
+
+	  if (addBias) {
+	    var biasNeuron = new Neuron();
+	    biasNeuron.isBiasNeuron = true;
+	    self.neurons.push(biasNeuron);
+	  }
 
 	  // add neurons
 	  _.times(numNeurons, function() {
@@ -391,10 +398,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var INITIALIZE = __webpack_require__(3);
+	/* WEBPACK VAR INJECTION */(function(global) {var INITIALIZE = __webpack_require__(3);
 	var ACTIVATION = __webpack_require__(1);
 
 	function Neuron() {
+	  this.isBiasNeuron = false;
 	  this.id = Neuron.count++;
 
 	  // connections
@@ -413,6 +421,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.error = 0;
 	  this.learningRate = INITIALIZE.learningRate();
 	}
+
+	// TODO: delete this crap
+	global.Neuron = Neuron;
 
 	Neuron.count = 0;
 
@@ -485,28 +496,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  target.incoming.push(connection);
 	};
 
-	/**
-	 * Determine if this Neuron is an input Neuron.
-	 */
-	Neuron.prototype.isInput = function() {
-	  return this.incoming.length === 0;
-	};
-
-	/**
-	 * Determine if this Neuron is an output Neuron.
-	 */
-	Neuron.prototype.isOutput = function() {
-	  return this.outgoing.length === 0;
-	};
-
 	module.exports = Neuron;
 
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Layer = __webpack_require__(4);
+	var Neuron = __webpack_require__(5);
 
 	/**
 	 * Creates a Network of Layers consisting of Neurons. Each array element
@@ -534,7 +533,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var numInputs = _.first(layerSizes);
 	  var numOutputs = _.last(layerSizes);
 	  var hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
-
 	  this.output = null;
 	  this.error = null;
 
@@ -542,12 +540,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.hiddenLayers = [];
 
 	  // input layer
-	  this.inputLayer = new Layer(numInputs);
+	  this.inputLayer = new Layer(numInputs, true);
 	  this.allLayers.push(this.inputLayer);
 
 	  // hidden layers
 	  _.each(hiddenLayers, function(numNeurons) {
-	    var layer = new Layer(numNeurons);
+	    var layer = new Layer(numNeurons, true);
 	    this.hiddenLayers.push(layer);
 	    this.allLayers.push(layer);
 	  }, this);
@@ -564,6 +562,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }, this);
 	}
+
+	/**
+	 * Determine if this Neuron is an input Neuron.
+	 * @param {Neuron} neuron
+	 * @returns {boolean}
+	 */
+	Network.isNeruonInput = function(neuron) {
+	  return neuron.incoming.length === 0;
+	};
+
+	/**
+	 * Determine if this Neuron is an output Neuron.
+	 * @param {Neuron} neuron
+	 * @returns {boolean}
+	 */
+	Network.isNeuronOutput = function(neuron) {
+	  return neuron.outgoing.length === 0;
+	};
 
 	/**
 	 * Activate the network with a given set of `input` values.
@@ -621,7 +637,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.correct(this.error);
 
 	    // log results periodically
-	    if (i % (callbackFrequency || 100) === 0) {
+	    if (i % (callbackFrequency || 100) === 0 && _.isFunction(callback)) {
 	      callback(i, _.sum(this.error) / this.error.length);
 	    }
 	    // console.log(

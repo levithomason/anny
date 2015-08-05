@@ -1,8 +1,27 @@
 function AnnyFactory($rootScope) {
+
+
+  var the_network = new anny.Network([2, 2, 1]);
+  var trainingSet = [];
+
+  _.times(100, function (n) {
+      console.log('asdf');
+      var result = the_network.train([
+          {input: [1, 2], output: [-3]}
+      ]);
+  });
+
+  var output = the_network.activate([1, 2]);
+
+  console.log(output);
+
+
+
   var factory = {};
 
   factory.init = function() {
-    factory.network = new anny.Network(factory.getRandomLayers());
+    //factory.network = new anny.Network(factory.getRandomLayers());
+    factory.network = window.network = the_network;
   };
 
   factory.activate = function(inputs) {

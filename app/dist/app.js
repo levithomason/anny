@@ -36,10 +36,29 @@ angular.module('App.toolbar', []);
 angular.module('App.vis', []);
 
 function AnnyFactory($rootScope) {
+
+
+  var the_network = new anny.Network([2, 2, 1]);
+  var trainingSet = [];
+
+  _.times(100, function (n) {
+      console.log('asdf');
+      var result = the_network.train([
+          {input: [1, 2], output: [-3]}
+      ]);
+  });
+
+  var output = the_network.activate([1, 2]);
+
+  console.log(output);
+
+
+
   var factory = {};
 
   factory.init = function() {
-    factory.network = new anny.Network(factory.getRandomLayers());
+    //factory.network = new anny.Network(factory.getRandomLayers());
+    factory.network = window.network = the_network;
   };
 
   factory.activate = function(inputs) {
@@ -238,15 +257,15 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
     replace: true,
     scope: {},
     template: '<div class="vis-network"></div>',
-    link: function(scope, elm) {
-      scope.getData = function() {
+    link: function (scope, elm) {
+      scope.getData = function () {
         var nodes = [];
         var edges = [];
 
         // layers
-        _.each(AnnyFactory.network.allLayers, function(layer, layerIndex) {
+        _.each(AnnyFactory.network.allLayers, function (layer, layerIndex) {
           // neurons
-          _.each(layer.neurons, function(neuron) {
+          _.each(layer.neurons, function (neuron) {
             var id = neuron.id;
             var input = neuron.oldInput.toFixed(3);
             var output = neuron.output.toFixed(3);
@@ -258,7 +277,8 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
                 '<b>id:</b> ', id, '<br/>',
                 '<b>in:</b> ', input, '<br/>',
                 '<b>out:</b> ', output, '<br/>',
-                '<b>err:</b> ', error, '<br/>'
+                '<b>err:</b> ', error, '<br/>',
+                '<b>bias:</b> ', neuron.isBiasNeuron, '<br/>'
               ].join(''),
               level: layerIndex,
               label: [
@@ -272,7 +292,7 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
             });
 
             // connections
-            _.each(neuron.outgoing, function(connection) {
+            _.each(neuron.outgoing, function (connection) {
               var weight = connection.weight.toFixed(3);
 
               edges.push({
@@ -301,11 +321,11 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
       };
 
       // causes a refresh of the network graph
-      scope.setData = function() {
+      scope.setData = function () {
         scope.network.setData(scope.getData());
       };
 
-      $rootScope.$on('anny:changed', function() {
+      $rootScope.$on('anny:changed', function () {
         scope.setData();
       });
 
