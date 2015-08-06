@@ -261,16 +261,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ERROR = {
 	  // These taken from: https://www.youtube.com/watch?v=U4BTzF3Wzt0
 
-	  meanSquared: function meanSquared() {
-	    // TODO: fill it in
+	  meanSquared: function meanSquared(expected, actual) {
+	    return _.sum(actual, function(val, i) {
+	        return Math.pow(expected[i] - actual[i], 2);
+	      }) / actual.length;
 	  },
 
-	  rootMeanSquared: function rootMeanSquared() {
-	    // TODO: fill it in
+	  rootMeanSquared: function rootMeanSquared(expected, actual) {
+	    return Math.sqrt(ERROR.meanSquared(expected, actual));
 	  },
 
-	  arcTan: function arcTan() {
-	    // TODO: fill it in
+	  arcTan: function arcTan(expected, actual) {
+	    return _.sum(actual, function(val, i) {
+	        return Math.atan(expected[i] - actual[i]);
+	      }) / actual.length;
 	  }
 	};
 
@@ -298,7 +302,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {number}
 	   */
 	  learningRate: function learningRate() {
-	    return 0.001;
+	    return 0.3;
 	  },
 
 	  /**
@@ -335,16 +339,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var self = this;
 	  self.neurons = [];
 
+	  // add neurons
+	  _.times(numNeurons, function() {
+	    self.neurons.push(new Neuron());
+	  });
+
+	  // add bias neuron
 	  if (addBias) {
 	    var biasNeuron = new Neuron();
 	    biasNeuron.isBiasNeuron = true;
 	    self.neurons.push(biasNeuron);
 	  }
-
-	  // add neurons
-	  _.times(numNeurons, function() {
-	    self.neurons.push(new Neuron());
-	  });
 	}
 
 	/**
@@ -358,12 +363,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // every neuron in this layer is connected to each neuron in the next.
 	    // we can assume the numConnections to be the num of neurons in this layer.
 
-	    var numConnections = self.neurons.length;
-
 	    // connect to each neuron in this layer
 	    _.each(targetLayer.neurons, function(target) {
-	      var weight = INITIALIZE.weight(numConnections);
-	      source.connect(target, weight);
+	      source.connect(target, INITIALIZE.weight(self.neurons.length));
 	    });
 	  });
 	};
@@ -396,7 +398,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {var INITIALIZE = __webpack_require__(3);
+	var INITIALIZE = __webpack_require__(3);
 	var ACTIVATION = __webpack_require__(1);
 
 	function Neuron() {
@@ -419,9 +421,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.learningRate = INITIALIZE.learningRate();
 	}
 
-	// TODO: delete this crap
-	global.Neuron = Neuron;
-
 	Neuron.count = 0;
 
 	Neuron.connection = function(source, target, weight) {
@@ -438,12 +437,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   output.  Otherwise, it will be calculated.
 	 */
 	Neuron.prototype.correct = function(error) {
-	  var calculatedError = _.sum(this.outgoing, function(connection) {
-	    return connection.target.error * connection.weight;
-	  });
+	  // TODO: this method is wrong
+	  // It is adjusting weights based on individual neuron error * learningRate
+	  // It should be adjusting weights based on this neurons affect on the total
+	  //   network error.
+	  // Total network error has been added to the network.  Use the details from
+	  //  this link to update the this Neuron.correct method. Refer to the bottom
+	  //   of the page "Backpropogation ... of what?!"
+	  //
+	  // http://whiteboard.ping.se/MachineLearning/BackProp
+
+
+	  // output Neurons have no outgoing connection weights to correct
+	  if (this.isOutput()) {
+	    return;
+	  }
 
 	  // set the error
-	  this.error = !_.isUndefined(error) ? error : calculatedError;
+	  if (!_.isUndefined(error)) {
+	    this.error = error;
+	  } else {
+	    this.error = _.sum(this.outgoing, function(connection) {
+	      return connection.target.error * connection.weight;
+	    });
+	  }
 
 	  // adjust weights
 	  _.each(this.outgoing, function(connection) {
@@ -452,9 +469,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	/**
-	 * Activate this Neuron, potentially causing it to fire its outputs.
-	 * @param {number} [input] - If omitted the current value will be used.
-	 * @returns {number|*}
+	 * Activate this Neuron, setting the input value and computing the output.
+	 *   Input Neuron output values will always be equal to their input value.
+	 *   Bias Neurons always output 1.
+	 *   All other Neurons will squash their input value to derive their output.
+	 * @param {number} [input] - If omitted the input value will be calculated
+	 *   from the outputs and weights of the Neurons connected to this Neuron.
+	 * @returns {number}
 	 */
 	Neuron.prototype.activate = function(input) {
 	  if (this.isBiasNeuron) {
@@ -466,9 +487,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!_.isUndefined(input)) {
 	    this.input = input;
 	  } else {
-	    this.input = _.sum(_.map(this.incoming, function(connection) {
+	    this.input = _.sum(this.incoming, function(connection) {
+	      // we don't need to add the bias neuron manually here.
+	      // since the bias Neuron is connected like all other Neurons and it's
+	      // output is always 1, the weight will be added by bias.output * weight.
 	      return connection.source.output * connection.weight;
-	    }));
+	    });
 	  }
 
 	  // set the output
@@ -484,6 +508,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {number} weight - The strength of the connection.
 	 */
 	Neuron.prototype.connect = function(target, weight) {
+	  // bias Neurons are not allowed to have inputs
 	  if (target.isBiasNeuron) {
 	    return;
 	  }
@@ -511,13 +536,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = Neuron;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Layer = __webpack_require__(4);
+	var ERROR = __webpack_require__(2);
 
 	/**
 	 * Creates a Network of Layers consisting of Neurons. Each array element
@@ -547,6 +572,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
 	  this.output = null;
 	  this.error = null;
+	  this.errorFn = ERROR.meanSquared;
 
 	  this.allLayers = [];
 	  this.hiddenLayers = [];
@@ -584,7 +610,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	Network.prototype.activate = function(inputs) {
 	  this.inputLayer.activate(inputs);
 	  _.invoke(this.hiddenLayers, 'activate');
-	  return this.outputLayer.activate();
+	  this.output = this.outputLayer.activate();
+	  return this.output;
 	};
 
 	/**
@@ -608,33 +635,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Train the Network to produce the output from the given input.
 	 * @param {object[]} [data] - Array of objects in the form
 	 *   `{input: [], output: []}`.
-	 * @param {number} [callbackFrequency=100] - How many iterations to let pass
-	 *  between calling the callback with the error.
-	 * @param {function} [callback] - Called with the current error and epoch
-	 *   every callbackFrequency iteration.
+	 * @param {number} [logFrequency=10] - How many iterations to let pass between
+	 *   logging the current error.
 	 */
-	Network.prototype.train = function(data, callbackFrequency, callback) {
+	Network.prototype.train = function(data, logFrequency) {
 	  // TODO: validation and help on the data.
 	  //  ensure it is normalized between -1 and 1
 	  //  ensure the input length matches the number of Network inputs
 	  //  ensure the output length matches the number of Network outputs
-	  _.each(data, function(sample, i) {
-	    // make a prediction
-	    this.output = this.activate(sample.input);
+	  var self = this;
+	  var maxAttempts = 50;
+	  var counter = 0;
+	  var errorThreshold = 0.01;
 
-	    // get the error
-	    this.error = _.map(this.output, function(output, j) {
-	      return (sample.output[j] || 0) - output;
+	  function fail() {
+	    console.warn(
+	      'Failed to train.',
+	      'Error is', self.error, 'after', maxAttempts, 'attempts.'
+	    );
+	  }
+
+	  function success() {
+	    console.debug(
+	      'Successfully trained to an error of',
+	      self.error, 'after', counter, 'attempts.'
+	    );
+	  }
+
+	  function train() {
+	    counter += 1;
+
+	    _.each(data, function(sample, i) {
+	      // make a prediction
+	      self.activate(sample.input);
+
+	      // set the total network error
+	      self.error = self.errorFn(sample.output, self.output);
+
+	      // set the individual error for each output
+	      _.each(self.outputLayer.neurons, function(neuron, j) {
+	        neuron.error = sample.output[j] - self.output[j];
+	      });
+
+	      // correct the error
+	      self.correct(self.error);
+
+	      // callback with results periodically
+	      if (i % (logFrequency || 10) === 0) {
+	        console.log(self.error);
+	      }
 	    });
 
-	    // correct the error
-	    this.correct(this.error);
-
-	    // callback with results periodically
-	    if (i % (callbackFrequency || 100) === 0 && _.isFunction(callback)) {
-	      callback(_.sum(this.error) / this.error.length, i);
+	    // recurse
+	    if (self.error <= errorThreshold) {
+	      success();
+	      return;
 	    }
-	  }, this);
+
+	    if (counter >= maxAttempts) {
+	      fail();
+	      return;
+	    }
+
+	    train();
+	  }
+
+	  train();
 	};
 
 	module.exports = Network;
