@@ -414,7 +414,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.output = 0;
 
 	  // activation
-	  this.activationFn = ACTIVATION.logistic;
+	  this.activationFn = ACTIVATION.tanh;
 
 	  // learning
 	  this.error = 0;
@@ -437,19 +437,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   output.  Otherwise, it will be calculated.
 	 */
 	Neuron.prototype.correct = function(error) {
-	  // TODO: this method is wrong
-	  // It is adjusting weights based on individual neuron error * learningRate
-	  // It should be adjusting weights based on this neurons affect on the total
-	  //   network error.
-	  // Total network error has been added to the network.  Use the details from
-	  //  this link to update the this Neuron.correct method. Refer to the bottom
-	  //   of the page "Backpropogation ... of what?!"
-	  //
-	  // http://whiteboard.ping.se/MachineLearning/BackProp
-
-
-	  // output Neurons have no outgoing connection weights to correct
-	  if (this.isOutput()) {
+	  // input Neurons have no incoming connection weights to correct
+	  if (this.isInput()) {
 	    return;
 	  }
 
@@ -462,9 +451,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	  }
 
+	  // We don't adjust weights by a ratio of our error, but a gradient of
+	  // our error.  See gradient calc here:
+	  //   https://en.wikipedia.org/wiki/Backpropagation#Phase_2:_Weight_update
+	  var gradient = this.error * this.input;
+
 	  // adjust weights
-	  _.each(this.outgoing, function(connection) {
-	    connection.weight -= this.error * this.learningRate;
+	  _.each(this.incoming, function(connection) {
+	    connection.weight -= gradient * this.learningRate;
 	  }, this);
 	};
 
@@ -644,61 +638,61 @@ return /******/ (function(modules) { // webpackBootstrap
 	  //  ensure the input length matches the number of Network inputs
 	  //  ensure the output length matches the number of Network outputs
 	  var self = this;
-	  var maxAttempts = 50;
+	  var maxEpochs = 100;
 	  var counter = 0;
 	  var errorThreshold = 0.01;
 
 	  function fail() {
 	    console.warn(
 	      'Failed to train.',
-	      'Error is', self.error, 'after', maxAttempts, 'attempts.'
+	      'Error is', self.error, 'after', maxEpochs, 'epochs.'
 	    );
 	  }
 
 	  function success() {
 	    console.debug(
 	      'Successfully trained to an error of',
-	      self.error, 'after', counter, 'attempts.'
+	      self.error, 'after', counter, 'epochs.'
 	    );
 	  }
 
-	  function train() {
+	  var train = _.bind(function() {
 	    counter += 1;
 
 	    _.each(data, function(sample, i) {
 	      // make a prediction
-	      self.activate(sample.input);
+	      this.activate(sample.input);
 
 	      // set the total network error
-	      self.error = self.errorFn(sample.output, self.output);
+	      this.error = this.errorFn(sample.output, this.output);
 
 	      // set the individual error for each output
-	      _.each(self.outputLayer.neurons, function(neuron, j) {
-	        neuron.error = sample.output[j] - self.output[j];
-	      });
+	      var outputErrors = _.map(this.outputLayer.neurons, function(neuron, j) {
+	        return sample.output[j] - this.output[j];
+	      }, this);
 
 	      // correct the error
-	      self.correct(self.error);
+	      this.correct(outputErrors);
 
 	      // callback with results periodically
 	      if (i % (logFrequency || 10) === 0) {
-	        console.log(self.error);
+	        console.log(this.error);
 	      }
-	    });
+	    }, this);
 
 	    // recurse
-	    if (self.error <= errorThreshold) {
+	    if (this.error <= errorThreshold) {
 	      success();
 	      return;
 	    }
 
-	    if (counter >= maxAttempts) {
+	    if (counter >= maxEpochs) {
 	      fail();
 	      return;
 	    }
 
 	    train();
-	  }
+	  }, this);
 
 	  train();
 	};

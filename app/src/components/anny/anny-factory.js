@@ -2,11 +2,14 @@ function AnnyFactory($rootScope) {
   var factory = {};
 
   factory.init = function() {
-    factory.network = new anny.Network([1, 1]);
+    factory.network = new anny.Network([1, 2, 1]);
 
     // TODO: cleanup training example
     var trainingSet = [
-      {input: [1], output: [-1]}
+      {input: [0, 0], output: [0]},
+      {input: [0, 1], output: [1]},
+      {input: [1, 0], output: [1]},
+      {input: [1, 1], output: [1]}
     ];
 
     console.log('Training (epoch: error):');
@@ -16,8 +19,10 @@ function AnnyFactory($rootScope) {
 
     console.log(
       'Predictions after training:',
-      '\n[1] ' + factory.network.activate([1]),
-      '\n[-1] ' + factory.network.activate([-1])
+      '\n[0, 0] ' + factory.network.activate([0]),
+      '\n[0, 1] ' + factory.network.activate([1]),
+      '\n[1, 0] ' + factory.network.activate([1]),
+      '\n[1, 1] ' + factory.network.activate([1])
     );
     // End training example
     factory.emitChange();
