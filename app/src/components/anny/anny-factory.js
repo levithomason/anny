@@ -2,7 +2,7 @@ function AnnyFactory($rootScope) {
   var factory = {};
 
   factory.init = function() {
-    factory.network = new anny.Network([1, 2, 1]);
+    factory.network = new anny.Network([2, 2, 1]);
 
     // TODO: cleanup training example
     var trainingSet = [

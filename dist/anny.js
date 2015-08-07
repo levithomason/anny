@@ -565,7 +565,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var numOutputs = _.last(layerSizes);
 	  var hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
 	  this.output = null;
-	  this.error = null;
+	  this.error = 0;
 	  this.errorFn = ERROR.meanSquared;
 
 	  this.allLayers = [];
@@ -658,13 +658,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  var train = _.bind(function() {
 	    counter += 1;
+	    this.error = 0;
 
-	    _.each(data, function(sample, i) {
+	    _.each(data, function(sample) {
 	      // make a prediction
 	      this.activate(sample.input);
 
-	      // set the total network error
-	      this.error = this.errorFn(sample.output, this.output);
+	      // increase the total network error
+	      this.error += this.errorFn(sample.output, this.output) / data.length;
 
 	      // set the individual error for each output
 	      var outputErrors = _.map(this.outputLayer.neurons, function(neuron, j) {
@@ -673,12 +674,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      // correct the error
 	      this.correct(outputErrors);
-
-	      // callback with results periodically
-	      if (i % (logFrequency || 10) === 0) {
-	        console.log(this.error);
-	      }
 	    }, this);
+
+	    // callback with results periodically
+	    if (counter % (logFrequency || 10) === 0) {
+	      console.log(this.error);
+	    }
 
 	    // recurse
 	    if (this.error <= errorThreshold) {
