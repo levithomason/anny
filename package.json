@@ -7,6 +7,7 @@
     "test": "istanbul cover _mocha",
     "test-watch": "istanbul cover _mocha -- -w",
     "postinstall": "bower install",
+    "preinstall": "npm i -g gulp bower",
     "prestart": "npm i",
     "start": "gulp",
     "check-coverage": "istanbul check-coverage",
