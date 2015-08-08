@@ -15,22 +15,31 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
             var id = neuron.id;
             var input = neuron.input.toFixed(3);
             var output = neuron.output.toFixed(3);
+            var delta = neuron.delta.toFixed(6);
             var error = neuron.error.toFixed(3);
 
             nodes.push({
               id: id,
               title: [
-                '<b>id:</b> ', id, '<br/>'
+                '<b>id:</b> ', id, '<br/>',
+                '<b>delta:</b> ', delta, '<br/>'
               ].join(''),
               level: layerIndex,
-              label: [
-                '\n',
-                '\ni:', input,
-                '\no:', output,
-                '\ne:', error
-              ].join(' '),
+              label: (neuron.isInput() ? [
+                  '\no:', output
+                ] : neuron.isOutput() ? [
+                  '\ni:', input,
+                  '\no:', output,
+                  '\ne:', error
+                ] : neuron.isBias ? [
+                  '\no:', output
+                ] : /* hidden layer */ [
+                  '\ni:', input,
+                  '\no:', output
+                ]
+              ).join(' '),
               value: Math.abs(output),
-              group: neuron.isBiasNeuron ? 'bias' : 'normal'
+              group: neuron.isBias ? 'bias' : 'normal'
             });
 
             // connections

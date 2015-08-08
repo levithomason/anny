@@ -25,17 +25,17 @@ function AnnyFactory($rootScope) {
       {input: [1, 1], output: [1]}
     ];
 
-    console.log('Training (epoch: error):');
-    factory.network.train(trainingSet, 100, function(err) {
-      console.log('error: ' + err);
+    factory.network.train(trainingSet, function(err) {
+      console.log(err);
+      factory.emitChange();
     });
 
     console.log(
       'Predictions after training:',
-      '\n[0, 0] ' + factory.network.activate([0]),
-      '\n[0, 1] ' + factory.network.activate([1]),
-      '\n[1, 0] ' + factory.network.activate([1]),
-      '\n[1, 1] ' + factory.network.activate([1])
+      '\n[0, 0] == ' + factory.network.activate([0, 0]),
+      '\n[0, 1] == ' + factory.network.activate([0, 1]),
+      '\n[1, 0] == ' + factory.network.activate([1, 0]),
+      '\n[1, 1] == ' + factory.network.activate([1, 1])
     );
     // End training example
     factory.emitChange();
@@ -212,22 +212,31 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
             var id = neuron.id;
             var input = neuron.input.toFixed(3);
             var output = neuron.output.toFixed(3);
+            var delta = neuron.delta.toFixed(6);
             var error = neuron.error.toFixed(3);
 
             nodes.push({
               id: id,
               title: [
-                '<b>id:</b> ', id, '<br/>'
+                '<b>id:</b> ', id, '<br/>',
+                '<b>delta:</b> ', delta, '<br/>'
               ].join(''),
               level: layerIndex,
-              label: [
-                '\n',
-                '\ni:', input,
-                '\no:', output,
-                '\ne:', error
-              ].join(' '),
+              label: (neuron.isInput() ? [
+                  '\no:', output
+                ] : neuron.isOutput() ? [
+                  '\ni:', input,
+                  '\no:', output,
+                  '\ne:', error
+                ] : neuron.isBias ? [
+                  '\no:', output
+                ] : /* hidden layer */ [
+                  '\ni:', input,
+                  '\no:', output
+                ]
+              ).join(' '),
               value: Math.abs(output),
-              group: neuron.isBiasNeuron ? 'bias' : 'normal'
+              group: neuron.isBias ? 'bias' : 'normal'
             });
 
             // connections

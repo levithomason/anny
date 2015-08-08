@@ -12,17 +12,17 @@ function AnnyFactory($rootScope) {
       {input: [1, 1], output: [1]}
     ];
 
-    console.log('Training (epoch: error):');
-    factory.network.train(trainingSet, 100, function(err) {
-      console.log('error: ' + err);
+    factory.network.train(trainingSet, function(err) {
+      console.log(err);
+      factory.emitChange();
     });
 
     console.log(
       'Predictions after training:',
-      '\n[0, 0] ' + factory.network.activate([0]),
-      '\n[0, 1] ' + factory.network.activate([1]),
-      '\n[1, 0] ' + factory.network.activate([1]),
-      '\n[1, 1] ' + factory.network.activate([1])
+      '\n[0, 0] == ' + factory.network.activate([0, 0]),
+      '\n[0, 1] == ' + factory.network.activate([0, 1]),
+      '\n[1, 0] == ' + factory.network.activate([1, 0]),
+      '\n[1, 1] == ' + factory.network.activate([1, 1])
     );
     // End training example
     factory.emitChange();
