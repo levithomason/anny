@@ -76,53 +76,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @type {object}
 	 */
 	var ACTIVATION = {
+	  /**
+	   * Simply max(0, x).
+	   * Range: (0,+inf)
+	   * @param x
+	   * @returns {number}
+	   */
+	  rectifier: function rectifier(x) {
+	    // https://en.wikipedia.org/wiki/Rectifier
+	    return Math.max(0, x);
+	  },
+
+	  /**
+	   * The derivative of the rectifier which is interestingly turns out to be the
+	   * logistic function.
+	   * Range: (0,+inf)
+	   * @param x
+	   * @returns {number}
+	   */
+	  rectifierDerivative: function rectifierDerivative(x) {
+	    // https://en.wikipedia.org/wiki/Rectifier
+	    return this.logistic(x);
+	  },
+
+	  /**
+	   * A smooth approximation of the rectifier.
+	   * Rage: (0,+inf)
+	   * @param x
+	   * @returns {number}
+	   */
 	  softplus: function softplus(x) {
 	    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
 	    return Math.log(1 + Math.exp(x));
 	  },
 
-	  tanh: function tanh(x) {
-	    // 4.4 The Sigmoid Fig. 4.b, Recommended.
-	    return 1.7159 * Math.tanh(2 / 3 * x);
+	  /**
+	   * The derivative of the softplus.
+	   * @param x
+	   * @returns {number}
+	   */
+	  softplusDerivative: function softplusDerivative(x) {
+	    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
+	    return Math.log(1 + Math.exp(x));
 	  },
 
-	  rationalTanh: function rationalTanh(x) {
-	    // http://stackoverflow.com/questions/6118028/
-	    //   fast-hyperbolic-tangent-approximation-in-javascript
-	    if (x < -3) {
-	      return -1;
-	    }
-	    if (x > 3) {
-	      return 1;
-	    }
-	    return x * ( 27 + x * x ) / ( 27 + 9 * x * x );
-	  },
-
-	  sigmoid: function sigmoid(x) {
+	  /**
+	   * A smoothed step function or an 'S' shape. Also called the sigmoid
+	   * function, though there are many sigmoid functions.
+	   * Range: (0,+1)
+	   * @param {number} x
+	   */
+	  logistic: function sigmoid(x) {
 	    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
 	    return 1 / (1 + Math.exp(-x));
 	  },
 
 	  /**
-	   * Higher `c` values bring the shape of the sigmoid closer to that of the
-	   * step function.  A `c` value of 1 produces a normal sigmoid curve.
+	   * The derivative of the logistic function.
 	   * @param {number} x
-	   * @param {number} [c=1] - The constant to change the slope of the sigmoid.
-	   * @returns {number}
 	   */
-	  sigmoidTemperature: function(x, c) {
-	    // http://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf
-	    // Fig. 7.1. Three sigmoids (for c = 1, c = 2 and c = 3)
-	    return 1 / (1 + Math.exp(-(c || 1) * x));
+	  logisticDerivative: function sigmoid(x) {
+	    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
+	    return this.logistic(x) * (1 - this.logistic);
 	  },
 
-	  // The following are from:
-	  // http://www.fmi.uni-sofia.bg/fmi/statist/education/textbook/eng/glosa.html
-
 	  /**
-	   * The activation level is passed on directly as the output. Used in a
-	   * variety of network types, including linear networks, and the output layer
-	   * of radial basis function networks.
+	   * Simply passes the input to the output with no transformation.
 	   * Range: (-inf,+inf)
 	   * @param {number} x
 	   */
@@ -131,118 +150,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  /**
-	   * This is an S-shaped (sigmoid) curve, with output in the range (0,1).
-	   * Range: (0,+1)
-	   * @param {number} x
+	   * Derivative of the identity function.  The output is exactly the same as
+	   * the identify function. Included for consistency only.
+	   * @param x
+	   * @returns {*}
 	   */
-	  logistic: function logistic(x) {
-	    return 1 / (1 + Math.exp(-x));
-	  },
-
-	  /**
-	   * The hyperbolic tangent function (tanh): a sigmoid curve, like the logistic
-	   * function, except that output lies in the range (-1,+1). Often performs
-	   * better than the logistic function because of its symmetry. Ideal for
-	   * customization of multilayer perceptrons, particularly the hidden layers.
-	   * Range: (-1,+1)
-	   * @param {number} x
-	   */
-	  hyperbolic: function hyperbolic(x) {
-	    return Math.exp(x) - Math.exp(-x) /
-	      Math.exp(x) + Math.exp(-x);
-	  },
-
-	  /**
-	   * The negative exponential function. Ideal for use with radial units. The
-	   * combination of radial synaptic function and negative exponential
-	   * activation function produces units that model a Gaussian (bell-shaped)
-	   * function centered at the weight vector. The standard deviation of the
-	   * Gaussian is given by "sigma = Math.sqrt(1/d)", where d is the "deviation"
-	   * of the unit stored in the unit's threshold.
-	   * Range: (0, +inf)
-	   * @param {number} x
-	   */
-	  exponential: function exponential(x) {
-	    return Math.exp(-x);
-	  },
-
-	  /**
-	   * Exponential function, with results normalized so that the sum of
-	   * activations across the layer is 1.0. Can be used in the output layer of
-	   * multilayer perceptrons for classification problems, so that the outputs
-	   * can be interpreted as probabilities of class membership (Bishop, 1995;
-	   * Bridle, 1990).
-	   * Range: (0,+1)
-	   * @param {number} x - The value.
-	   * @param {number[]} vector - The array of values that `x` is a member of.
-	   */
-	  softmax: function softmax(x, vector) {
-	    return Math.exp(x) / _.sum(_.map(vector, function(xi) {
-	        return Math.exp(xi);
-	      }));
-	  },
-
-	  /**
-	   * Normalizes the outputs to sum to 1.0. Used in probablist neural networks
-	   * (PNNs) to allow the outputs to be interpreted as probabilities.
-	   * Range: (0,+1)
-	   * @param {number} x - The value.
-	   * @param {number[]} vector - The array of values that `x` is a member of.
-	   */
-	  unitSum: function unitSum(x, vector) {
-	    return x / _.sum(_.map(vector, function(xi) {
-	        return xi;
-	      }));
-	  },
-
-	  /**
-	   * Used to transform the squared distance activation in a self oranizing
-	   * feature map (SOFM) network or Cluster network to the actual distance as
-	   * an output.
-	   * Range: (0, +inf)
-	   * @param {number} x
-	   */
-	  squareRoot: function squareRoot(x) {
-	    return Math.sqrt(x);
-	  },
-
-	  /**
-	   * Possibly useful if recognizing radially-distributed data; not used by
-	   * default.
-	   * Range: [0,+1]
-	   * @param {number} x
-	   */
-	  sine: function sine(x) {
-	    return Math.sin(x);
-	  },
-
-	  /**
-	   * A piece-wise linear version of the sigmoid function. Relatively poor
-	   * training performance, but fast execution.
-	   * Range: [-1,+1]
-	   * @param {number} x
-	   */
-	  ramp: function ramp(x) {
-	    if (x >= 1) {
-	      return 1;
-	    }
-
-	    if (x <= -1) {
-	      return -1;
-	    }
-
+	  identityDerivative: function identityDerivative(x) {
 	    return x;
 	  },
 
 	  /**
-	   * Outputs either 1.0 or 0.0, depending on whether the Synaptic value is
-	   * positive or negative. Can be used to model simple networks such as
-	   * perceptrons.
-	   * Range: [0,+1]
+	   * The hyperbolic tangent function. A sigmoid curve, like the logistic
+	   * function, except it has a range of (-1,+1). Often performs better than
+	   * the logistic function because of its symmetry. Ideal for customization of
+	   * multilayer perceptrons, particularly the hidden layers.
+	   * Range: (-1, +1)
 	   * @param {number} x
 	   */
-	  step: function step(x) {
-	    return x < 0 ? 0 : 1;
+	  tanh: function tanh(x) {
+	    var negExp = Math.exp(-x);
+	    var posExp = Math.exp(x);
+	    return (posExp - negExp) / (posExp + negExp);
+	  },
+
+	  /**
+	   * The derivative of the hyperbolic tangent (tanh) function.
+	   * @param x
+	   * @returns {number}
+	   */
+	  tanhDerivative: function tanhDerivative(x) {
+	    return 1 - Math.pow(Math.tanh(x), 2);
 	  }
 	};
 
@@ -415,6 +352,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // activation
 	  this.activationFn = ACTIVATION.tanh;
+	  this.activationDerivative = ACTIVATION.tanhDerivative;
 
 	  // learning
 	  this.error = 0;
@@ -438,26 +376,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	Neuron.prototype.correct = function(error) {
 	  // input Neurons have no incoming connection weights to correct
-	  if (this.isInput()) {
+	  if (this.isInput() || this.isBiasNeuron) {
 	    return;
 	  }
+	  var inputDerivative = this.activationDerivative(this.input);
 
 	  // set the error
+	  // https://www.youtube.com/watch?v=p1-FiWjThs8
 	  if (!_.isUndefined(error)) {
-	    this.error = error;
+	    this.error = -error * inputDerivative;
 	  } else {
 	    this.error = _.sum(this.outgoing, function(connection) {
-	      return connection.target.error * connection.weight;
+	      return inputDerivative * connection.weight * connection.target.error;
 	    });
 	  }
 
-	  // We don't adjust weights by a ratio of our error, but a gradient of
-	  // our error.  See gradient calc here:
-	  //   https://en.wikipedia.org/wiki/Backpropagation#Phase_2:_Weight_update
-	  var gradient = this.error * this.input;
-
 	  // adjust weights
-	  _.each(this.incoming, function(connection) {
+	  _.each(this.outgoing, function(connection) {
+	    // get gradient
+	    // https://youtu.be/p1-FiWjThs8?t=12m21s
+	    var gradient = this.output * connection.target.error;
+
 	    connection.weight -= gradient * this.learningRate;
 	  }, this);
 	};
@@ -638,7 +577,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  //  ensure the input length matches the number of Network inputs
 	  //  ensure the output length matches the number of Network outputs
 	  var self = this;
-	  var maxEpochs = 100;
+	  var maxEpochs = 500;
 	  var counter = 0;
 	  var errorThreshold = 0.01;
 
@@ -664,7 +603,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // make a prediction
 	      this.activate(sample.input);
 
-	      // increase the total network error
+	      // increase the total network error for this training sample
 	      this.error += this.errorFn(sample.output, this.output) / data.length;
 
 	      // set the individual error for each output
@@ -711,7 +650,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * A hack that times all activation functions, logging the results.
 	   */
-	  findFastestActivation: function() {
+	  findFastestActivation: function findFastestActivation() {
 	    var epochs = 5000000;
 	    var results = [];
 	    var start;
@@ -743,6 +682,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      console.log(result.bar);
 	    });
 	  },
+
 	  /**
 	   * Normalizes an `array` of numbers to a range from -1 to 1.
 	   * @param {number[]} array
@@ -755,6 +695,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return _.map(array, function(n) {
 	      return (n + offset) / (range / 2) - 1;
 	    });
+	  },
+
+	  /**
+	   * Returns a new function that is an approximate derivative of the `func`.
+	   * @param func - The function to create an approximate derivative of.
+	   * @returns {function}
+	   */
+	  getApproximateDerivative: function getApproximateDerivative(func) {
+	    // https://github.com/pr1001/MathPlus/blob/master/mathplus.js#L316
+	    return function(x) {
+	      return (func(x + 1e-10) - func(x)) / 1e-10;
+	    };
 	  }
 	};
 
