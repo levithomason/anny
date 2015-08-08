@@ -517,7 +517,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var numOutputs = _.last(layerSizes);
 	  var hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
 	  this.output = [];
-	  this.errorFn = ERROR.maxAbsolute;
+	  this.errorFn = ERROR.arcTan;
 
 	  this.allLayers = [];
 	  this.hiddenLayers = [];
