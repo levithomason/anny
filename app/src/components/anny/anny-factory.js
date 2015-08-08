@@ -13,7 +13,7 @@ function AnnyFactory($rootScope) {
     ];
 
     console.log('Training (epoch: error):');
-    factory.network.train(trainingSet, 1, function(err) {
+    factory.network.train(trainingSet, 100, function(err) {
       console.log('error: ' + err);
     });
 

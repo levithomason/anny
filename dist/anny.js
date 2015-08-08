@@ -577,7 +577,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  //  ensure the input length matches the number of Network inputs
 	  //  ensure the output length matches the number of Network outputs
 	  var self = this;
-	  var maxEpochs = 500;
+	  var maxEpochs = 5000;
 	  var counter = 0;
 	  var errorThreshold = 0.01;
 
