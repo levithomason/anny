@@ -1,19 +1,19 @@
 <p align="center">
-  <a href="http://levithomason.github.io/anny/">
-    <img height="150" width="150" src="https://raw.githubusercontent.com/levithomason/anny/master/logo.png">
+  <a href="http://dev-coop.github.io/anny/">
+    <img height="150" width="150" src="https://raw.githubusercontent.com/dev-coop/anny/master/logo.png">
   </a>
 </p>
 
 Anny
 ====
 ![Codeship](https://img.shields.io/codeship/e6501e60-0902-0133-c93c-7e3d949a1704/master.svg?style=flat-square)
-[![Test Coverage](https://img.shields.io/codeclimate/coverage/github/levithomason/anny.svg?style=flat-square)](https://codeclimate.com/github/levithomason/anny/coverage)
-[![Code Climate](https://img.shields.io/codeclimate/github/levithomason/anny.svg?style=flat-square)](https://codeclimate.com/github/levithomason/anny)
+[![Test Coverage](https://img.shields.io/codeclimate/coverage/github/dev-coop/anny.svg?style=flat-square)](https://codeclimate.com/github/dev-coop/anny/coverage)
+[![Code Climate](https://img.shields.io/codeclimate/github/dev-coop/anny.svg?style=flat-square)](https://codeclimate.com/github/dev-coop/anny)
 
 Anny is an artificial neural network, yo!
 >She is a work in progress.  Not ready for the limelight.
 
-[**Demo**](http://levithomason.github.io/anny/)
+[**Demo**](http://dev-coop.github.io/anny/)
 
 ## Hacking
 
