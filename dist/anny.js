@@ -563,7 +563,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Correct the Network to produce the specified `output`.
 	 * @param {number[]} output - The target output for the Network.
-	 * Values in the array specify the target output of the Neuron in the output layer.
+	 * Values in the array specify the target output of the Neuron in the output
+	 *   layer.
 	 */
 	Network.prototype.correct = function(output) {
 	  this.outputLayer.train(output);
@@ -578,9 +579,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Train the Network to produce the output from the given input.
-	 * @param {object[]} data - Array of objects in the form `{input: [], output: []}`.
-	 * @param {function} [callback] - Called with the current error every callbackFrequency.
-	 * @param {number} [frequency] - How many iterations to let pass between logging the current error.
+	 * @param {object[]} data - Array of objects in the form
+	 * `{input: [], output: []}`.
+	 * @param {function} [callback] - Called with the current error every
+	 *   `callbackFrequency`.
+	 * @param {number} [frequency] - How many iterations to let pass between
+	 *   logging the current error.
 	 */
 	Network.prototype.train = function(data, callback, frequency) {
 	  // TODO: validation and help on the data.
@@ -614,10 +618,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    // success / fail
 	    if (maxError <= errorThreshold) {
-	      console.debug('Successfully trained to a max error of', maxError, 'after', n, 'epochs.');
+	      console.debug(
+	        'Successfully trained to a max error of', maxError,
+	        'after', n, 'epochs.'
+	      );
 	      return false;
 	    } else if (n === maxEpochs) {
-	      console.warn('Failed to train. Max error is', maxError, 'after', n, 'epochs.');
+	      console.warn(
+	        'Failed to train. Max error is', maxError,
+	        'after', n, 'epochs.'
+	      );
 	    }
 	  }, this);
 	};
