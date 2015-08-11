@@ -8,11 +8,17 @@ describe('Network', function() {
   });
 
   it('has an input layer', function() {
-    network.input.should.be.an.instanceOf(Layer);
+    network.inputLayer.should.be.an.instanceOf(Layer);
   });
 
   it('has an output layer', function() {
-    network.output.should.be.an.instanceOf(Layer);
+    network.outputLayer.should.be.an.instanceOf(Layer);
+  });
+
+  it('has hidden layers', function() {
+    _.each(network.hiddenLayers, function(layer) {
+      layer.should.be.an.instanceOf(Layer);
+    });
   });
 
   describe('train', function() {

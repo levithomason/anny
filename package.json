@@ -7,10 +7,15 @@
     "test": "istanbul cover _mocha",
     "test-watch": "istanbul cover _mocha -- -w",
     "postinstall": "bower install",
+    "preinstall": "npm i -g gulp bower",
     "prestart": "npm i",
     "start": "gulp",
     "check-coverage": "istanbul check-coverage",
     "report-coverage": "codeclimate-test-reporter < coverage/lcov.info"
+  },
+  "engines": {
+    "node": "0.12.4",
+    "npm": "2.13.2"
   },
   "engines": {
     "node": "0.12.4",

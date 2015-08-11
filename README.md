@@ -42,9 +42,11 @@ npm run report-coverage   submit coverage info, requires CODECLIMATE_REPO_TOKEN
 
 ## Notes
 
-[**Google Doc notes**](https://docs.google.com/document/d/1h-G9qqp-xC_ykq-weEIjtk0IvXdmij3tCDRfP75BJUg/edit?usp=sharing) from [neuralnetworksanddeeplearning.com](http://neuralnetworksanddeeplearning.com/)
+[**Google Doc notes**](https://docs.google.com/document/d/1h-G9qqp-xC_ykq-weEIjtk0IvXdmij3tCDRfP75BJUg) from [neuralnetworksanddeeplearning.com](http://neuralnetworksanddeeplearning.com/)
 
 [Good Weight Initializations](https://plus.google.com/+SoumithChintala/posts/RZfdrRQWL6u)
+
+[Backpropagation](http://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf)
 
 [Efficient Backpropagation](http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf) Equation references in the source code point to this doc.
 

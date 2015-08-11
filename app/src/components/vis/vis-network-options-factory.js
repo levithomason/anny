@@ -35,17 +35,19 @@ function visNetworkOptions() {
         }
       }
     },
-    gate: {
+    bias: {
+      borderWidth: 2,
+      borderWidthSelected: 2,
       color: {
-        border: 'hsl(30, 15%, 25%)',
-        background: 'hsl(30, 100%, 70%)',
+        border: 'hsl(0, 0%, 40%)',
+        background: 'transparent',
         hover: {
-          border: 'hsl(30, 40%, 40%)',
-          background: 'hsl(30, 100%, 70%)'
+          border: 'hsl(0, 0%, 60%)',
+          background: 'transparent'
         },
         highlight: {
-          border: 'hsl(30, 60%, 60%)',
-          background: 'hsl(30, 100%, 70%)'
+          border: 'hsl(0, 0%, 80%)',
+          background: 'transparent'
         }
       }
     }
@@ -59,8 +61,8 @@ function visNetworkOptions() {
       roundness: 0.5
     },
     scaling: {
-      min: 0.2,
-      max: 4
+      min: 0.5,
+      max: 8
     },
     hoverWidth: 1,
     selectionWidth: 1.5

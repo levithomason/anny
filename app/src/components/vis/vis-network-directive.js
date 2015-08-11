@@ -9,26 +9,37 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
         var edges = [];
 
         // layers
-        _.each(AnnyFactory.network.layers, function(layer, layerIndex) {
+        _.each(AnnyFactory.network.allLayers, function(layer, layerIndex) {
           // neurons
           _.each(layer.neurons, function(neuron) {
-            var bias = neuron.bias.toFixed(3);
             var id = neuron.id;
             var input = neuron.input.toFixed(3);
             var output = neuron.output.toFixed(3);
+            var delta = neuron.delta.toFixed(6);
+            var error = neuron.error.toFixed(3);
 
             nodes.push({
               id: id,
               title: [
                 '<b>id:</b> ', id, '<br/>',
-                '<b>in:</b> ', input, '<br/>',
-                '<b>out:</b> ', output, '<br/>',
-                '<b>bias:</b> ' + bias
+                '<b>delta:</b> ', delta, '<br/>'
               ].join(''),
               level: layerIndex,
-              label: output,
-              value: Math.abs(bias),
-              group: bias > 0 ? 'gate' : 'normal'
+              label: (neuron.isInput() ? [
+                  '\no:', output
+                ] : neuron.isOutput() ? [
+                  '\ni:', input,
+                  '\no:', output,
+                  '\ne:', error
+                ] : neuron.isBias ? [
+                  '\no:', output
+                ] : /* hidden layer */ [
+                  '\ni:', input,
+                  '\no:', output
+                ]
+              ).join(' '),
+              value: Math.abs(output),
+              group: neuron.isBias ? 'bias' : 'normal'
             });
 
             // connections
@@ -40,7 +51,7 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
                 to: connection.target.id,
                 value: Math.abs(weight),
                 title: 'weight: ' + weight,
-                // matches border colors in netowrk options factory
+                // matches border colors in network options factory
                 color: {
                   color: weight >= 0 ? 'hsl(210, 20%, 25%)' :
                     'hsl(30, 15%, 25%)',
