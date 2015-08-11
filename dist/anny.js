@@ -96,7 +96,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  rectifierDerivative: function rectifierDerivative(x) {
 	    // https://en.wikipedia.org/wiki/Rectifier
-	    return this.logistic(x);
+	    return 1 / (1 + Math.exp(-x));
 	  },
 
 	  /**
@@ -126,7 +126,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Range: (0,+1)
 	   * @param {number} x
 	   */
-	  logistic: function sigmoid(x) {
+	  logistic: function logistic(x) {
 	    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
 	    return 1 / (1 + Math.exp(-x));
 	  },
@@ -135,9 +135,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * The derivative of the logistic function.
 	   * @param {number} x
 	   */
-	  logisticDerivative: function sigmoid(x) {
+	  logisticDerivative: function logisticDerivative(x) {
 	    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
-	    return this.logistic(x) * (1 - this.logistic);
+	    var val = 1 / (1 + Math.exp(-x));
+	    return val * (1 - val);
 	  },
 
 	  /**
@@ -249,7 +250,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  /**
-	   * Initilize the weight for a Neuron.connection.
+	   * Initialize the weight for a Neuron.connection.
 	   * @param numConnections
 	   * @returns {number}
 	   */
@@ -359,8 +360,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.output = 0;
 
 	  // activation
-	  this.activationFn = ACTIVATION.tanh;
-	  this.activationDerivative = ACTIVATION.tanhDerivative;
+	  this.activationFn = ACTIVATION.rectifier;
+	  this.activationDerivative = ACTIVATION.rectifierDerivative;
 
 	  // learning
 	  this.error = 0;
@@ -586,7 +587,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  //  ensure it is normalized between -1 and 1
 	  //  ensure the input length matches the number of Network inputs
 	  //  ensure the output length matches the number of Network outputs
-	  var maxEpochs = 20000;
+	  var maxEpochs = 50000;
 	  var errorThreshold = 0.1;
 	  var callbackFrequency = frequency || _.max([1, _.floor(maxEpochs / 20)]);
 
@@ -648,13 +649,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _.each(ACTIVATION, function(fn) {
 	      start = new Date();
 	      _.times(epochs, function() {
-	        ACTIVATION[fn](x);
+	        fn(x);
 	      });
 	      ms = new Date() - start;
 	      var bar = _.repeat('=', Math.round(ms / (epochs / 250000)));
 
 	      results.push({
-	        bar: ['|' + bar + '>', ms, fn].join(' '),
+	        bar: ['|' + bar + '>', ms, fn.name].join(' '),
 	        ms: ms
 	      });
 	    });

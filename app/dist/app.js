@@ -7,38 +7,15 @@ angular.module('App', [
 
 angular.module('anny', []);
 
-angular.module('App.vis', []);
-
 angular.module('App.toolbar', []);
+
+angular.module('App.vis', []);
 
 function AnnyFactory($rootScope) {
   var factory = {};
 
   factory.init = function() {
-    factory.network = new anny.Network([2, 2, 1]);
-
-    // TODO: cleanup training example
-    var trainingSet = [
-      {input: [0, 0], output: [0]},
-      {input: [0, 1], output: [1]},
-      {input: [1, 0], output: [1]},
-      {input: [1, 1], output: [1]}
-    ];
-
-    factory.network.train(trainingSet, function(err) {
-      console.log(err);
-      factory.emitChange();
-    });
-
-    console.log(
-      'Predictions after training:',
-      '\n[0, 0] == ' + factory.network.activate([0, 0]),
-      '\n[0, 1] == ' + factory.network.activate([0, 1]),
-      '\n[1, 0] == ' + factory.network.activate([1, 0]),
-      '\n[1, 1] == ' + factory.network.activate([1, 1])
-    );
-    // End training example
-    factory.emitChange();
+    factory.newNetwork([2, 2, 1]);
   };
 
   factory.activate = function(inputs) {
@@ -47,9 +24,9 @@ function AnnyFactory($rootScope) {
   };
 
   factory.getRandomLayers = function() {
-    var inputs = 1;
+    var inputs = 2;
     var outputs = 1;
-    var numHiddenLayers = _.random(0, 2);
+    var numHiddenLayers = _.random(1, 2);
     var hiddenLayers = [];
 
     _.times(numHiddenLayers, function() {
@@ -59,8 +36,18 @@ function AnnyFactory($rootScope) {
     return [].concat(inputs, hiddenLayers, outputs);
   };
 
-  factory.train = function(trainingSet, logFrequency) {
-    factory.network.train(trainingSet, logFrequency);
+  factory.train = function(trainingSet, callback, frequency) {
+    factory.network.train(trainingSet, callback, frequency);
+
+    var results = ['Predictions after training:'];
+
+    _.each(trainingSet, function(sample) {
+      var input = sample.input;
+      var output = factory.network.activate(input);
+      results.push('[' + input.toString() + '] == ' + output);
+    });
+
+    console.log(results.join('\n'));
 
     factory.emitChange();
   };
@@ -147,7 +134,7 @@ function visNetworkOptions() {
       roundness: 0.5
     },
     scaling: {
-      min: 0.2,
+      min: 0.5,
       max: 8
     },
     hoverWidth: 1,
@@ -194,6 +181,71 @@ function visNetworkOptions() {
 
 angular.module('App.vis')
   .factory('visNetworkOptions', visNetworkOptions);
+
+angular.module('App.toolbar')
+
+  .directive('toolbar', ["AnnyFactory", function(AnnyFactory) {
+    return {
+      replace: true,
+      scope: {},
+      templateUrl: 'app/dist/components/toolbar/toolbar.html',
+      link: function(scope) {
+        scope.resetNet = function() {
+          AnnyFactory.init();
+        };
+
+        scope.randomNet = function() {
+          AnnyFactory.newNetwork();
+        };
+
+        scope.activateRandom = function() {
+          var inputs = [];
+
+          _.times(AnnyFactory.network.inputLayer.neurons.length, function() {
+            inputs.push(_.random(-1, 1, true));
+          });
+
+          AnnyFactory.activate(inputs);
+        };
+
+        scope.trainORGate = function() {
+          AnnyFactory.train([
+            {input: [0, 0], output: [0]},
+            {input: [0, 1], output: [1]},
+            {input: [1, 0], output: [1]},
+            {input: [1, 1], output: [1]}
+          ]);
+        };
+
+        scope.trainXORGate = function() {
+          AnnyFactory.train([
+            {input: [0, 0], output: [0]},
+            {input: [0, 1], output: [1]},
+            {input: [1, 0], output: [1]},
+            {input: [1, 1], output: [0]}
+          ]);
+        };
+
+        scope.trainANDGate = function() {
+          AnnyFactory.train([
+            {input: [0, 0], output: [0]},
+            {input: [0, 1], output: [0]},
+            {input: [1, 0], output: [0]},
+            {input: [1, 1], output: [1]}
+          ]);
+        };
+
+        scope.trainNANDGate = function() {
+          AnnyFactory.train([
+            {input: [0, 0], output: [0]},
+            {input: [0, 1], output: [1]},
+            {input: [1, 0], output: [1]},
+            {input: [1, 1], output: [0]}
+          ]);
+        };
+      }
+    };
+  }]);
 
 function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
   return {
@@ -287,41 +339,3 @@ visNetwork.$inject = ["visNetworkOptions", "AnnyFactory", "$rootScope"];
 
 angular.module('App.vis')
   .directive('visNetwork', visNetwork);
-
-angular.module('App.toolbar')
-
-  .directive('toolbar', ["AnnyFactory", function(AnnyFactory) {
-    return {
-      replace: true,
-      scope: {},
-      templateUrl: 'app/dist/components/toolbar/toolbar.html',
-      link: function(scope) {
-        scope.randomNet = function() {
-          AnnyFactory.newNetwork();
-        };
-
-        scope.activateRandom = function() {
-          var inputs = [];
-
-          _.times(AnnyFactory.network.inputLayer.neurons.length, function() {
-            inputs.push(_.random(true));
-          });
-
-          AnnyFactory.activate(inputs);
-        };
-
-        scope.train = function() {
-          var numSamples = 1000;
-          var logFrequency = _.floor(numSamples / 10);
-
-          // learn to add 1
-          var trainingSet = _.times(numSamples, function() {
-            var n = _.random(-1, 1, true);
-            return {input: [n], output: [n + 1]};
-          });
-
-          AnnyFactory.train(trainingSet, logFrequency);
-        };
-      }
-    };
-  }]);

@@ -2,30 +2,7 @@ function AnnyFactory($rootScope) {
   var factory = {};
 
   factory.init = function() {
-    factory.network = new anny.Network([2, 2, 1]);
-
-    // TODO: cleanup training example
-    var trainingSet = [
-      {input: [0, 0], output: [0]},
-      {input: [0, 1], output: [1]},
-      {input: [1, 0], output: [1]},
-      {input: [1, 1], output: [1]}
-    ];
-
-    factory.network.train(trainingSet, function(err) {
-      console.log(err);
-      factory.emitChange();
-    });
-
-    console.log(
-      'Predictions after training:',
-      '\n[0, 0] == ' + factory.network.activate([0, 0]),
-      '\n[0, 1] == ' + factory.network.activate([0, 1]),
-      '\n[1, 0] == ' + factory.network.activate([1, 0]),
-      '\n[1, 1] == ' + factory.network.activate([1, 1])
-    );
-    // End training example
-    factory.emitChange();
+    factory.newNetwork([2, 2, 1]);
   };
 
   factory.activate = function(inputs) {
@@ -34,9 +11,9 @@ function AnnyFactory($rootScope) {
   };
 
   factory.getRandomLayers = function() {
-    var inputs = 1;
+    var inputs = 2;
     var outputs = 1;
-    var numHiddenLayers = _.random(0, 2);
+    var numHiddenLayers = _.random(1, 2);
     var hiddenLayers = [];
 
     _.times(numHiddenLayers, function() {
@@ -46,8 +23,18 @@ function AnnyFactory($rootScope) {
     return [].concat(inputs, hiddenLayers, outputs);
   };
 
-  factory.train = function(trainingSet, logFrequency) {
-    factory.network.train(trainingSet, logFrequency);
+  factory.train = function(trainingSet, callback, frequency) {
+    factory.network.train(trainingSet, callback, frequency);
+
+    var results = ['Predictions after training:'];
+
+    _.each(trainingSet, function(sample) {
+      var input = sample.input;
+      var output = factory.network.activate(input);
+      results.push('[' + input.toString() + '] == ' + output);
+    });
+
+    console.log(results.join('\n'));
 
     factory.emitChange();
   };

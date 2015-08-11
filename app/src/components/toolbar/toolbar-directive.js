@@ -6,6 +6,10 @@ angular.module('App.toolbar')
       scope: {},
       templateUrl: 'app/dist/components/toolbar/toolbar.html',
       link: function(scope) {
+        scope.resetNet = function() {
+          AnnyFactory.init();
+        };
+
         scope.randomNet = function() {
           AnnyFactory.newNetwork();
         };
@@ -14,23 +18,46 @@ angular.module('App.toolbar')
           var inputs = [];
 
           _.times(AnnyFactory.network.inputLayer.neurons.length, function() {
-            inputs.push(_.random(true));
+            inputs.push(_.random(-1, 1, true));
           });
 
           AnnyFactory.activate(inputs);
         };
 
-        scope.train = function() {
-          var numSamples = 1000;
-          var logFrequency = _.floor(numSamples / 10);
+        scope.trainORGate = function() {
+          AnnyFactory.train([
+            {input: [0, 0], output: [0]},
+            {input: [0, 1], output: [1]},
+            {input: [1, 0], output: [1]},
+            {input: [1, 1], output: [1]}
+          ]);
+        };
 
-          // learn to add 1
-          var trainingSet = _.times(numSamples, function() {
-            var n = _.random(-1, 1, true);
-            return {input: [n], output: [n + 1]};
-          });
+        scope.trainXORGate = function() {
+          AnnyFactory.train([
+            {input: [0, 0], output: [0]},
+            {input: [0, 1], output: [1]},
+            {input: [1, 0], output: [1]},
+            {input: [1, 1], output: [0]}
+          ]);
+        };
 
-          AnnyFactory.train(trainingSet, logFrequency);
+        scope.trainANDGate = function() {
+          AnnyFactory.train([
+            {input: [0, 0], output: [0]},
+            {input: [0, 1], output: [0]},
+            {input: [1, 0], output: [0]},
+            {input: [1, 1], output: [1]}
+          ]);
+        };
+
+        scope.trainNANDGate = function() {
+          AnnyFactory.train([
+            {input: [0, 0], output: [0]},
+            {input: [0, 1], output: [1]},
+            {input: [1, 0], output: [1]},
+            {input: [1, 1], output: [0]}
+          ]);
         };
       }
     };

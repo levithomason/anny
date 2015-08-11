@@ -61,7 +61,7 @@ function visNetworkOptions() {
       roundness: 0.5
     },
     scaling: {
-      min: 0.2,
+      min: 0.5,
       max: 8
     },
     hoverWidth: 1,
