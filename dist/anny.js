@@ -526,7 +526,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var numOutputs = _.last(layerSizes);
 	  var hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
 	  this.output = [];
-	  this.errorFn = ERROR.arcTan;
+	  this.errorFn = ERROR.meanSquared;
 
 	  this.allLayers = [];
 	  this.hiddenLayers = [];
@@ -600,15 +600,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  //  ensure the input length matches the number of Network inputs
 	  //  ensure the output length matches the number of Network outputs
 	  var maxEpochs = 50000;
-	  var errorThreshold = 0.01;
+	  var errorThreshold = 0.0001;
 	  var callbackFrequency = frequency || _.max([1, _.floor(maxEpochs / 20)]);
 
 	  _.each(_.range(maxEpochs), function(index) {
 	    var n = index + 1;
 
-	    // loop over the training data
-	    // find largest error of all samples
-	    var maxError = _.max(_.map(data, function(sample) {
+	    // loop over the training data summing the error of all samples
+	    // http://www.researchgate.net/post
+	    //   /Neural_networks_and_mean-square_errors#rgw51_55cb2f1399589
+	    var maxError = _.sum(_.map(data, function(sample) {
 	      // make a prediction
 	      this.activate(sample.input);
 

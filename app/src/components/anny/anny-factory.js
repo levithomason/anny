@@ -13,11 +13,11 @@ function AnnyFactory($rootScope) {
   factory.getRandomLayers = function() {
     var inputs = 2;
     var outputs = 1;
-    var numHiddenLayers = _.random(1, 2);
+    var numHiddenLayers = _.random(1, 4);
     var hiddenLayers = [];
 
     _.times(numHiddenLayers, function() {
-      hiddenLayers.push(_.random(2, 4));
+      hiddenLayers.push(_.random(3, 8));
     });
 
     return [].concat(inputs, hiddenLayers, outputs);
@@ -31,7 +31,9 @@ function AnnyFactory($rootScope) {
     _.each(trainingSet, function(sample) {
       var input = sample.input;
       var output = factory.network.activate(input);
-      results.push('[' + input.toString() + '] == ' + output);
+      results.push(
+        '[' + input.toString() + '] == ' + (output >= 0.5) + ' ' + output
+      );
     });
 
     console.log(results.join('\n'));
