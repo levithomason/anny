@@ -246,7 +246,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {number}
 	   */
 	  learningRate: function learningRate() {
-	    return 0.3;
+	    return 0.5;
 	  },
 
 	  /**
@@ -360,8 +360,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.output = 0;
 
 	  // activation
-	  this.activationFn = ACTIVATION.rectifier;
-	  this.activationDerivative = ACTIVATION.rectifierDerivative;
+	  this.activationFn = ACTIVATION.tanh;
+	  this.activationDerivative = ACTIVATION.tanhDerivative;
 
 	  // learning
 	  this.error = 0;
@@ -600,7 +600,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  //  ensure the input length matches the number of Network inputs
 	  //  ensure the output length matches the number of Network outputs
 	  var maxEpochs = 50000;
-	  var errorThreshold = 0.1;
+	  var errorThreshold = 0.01;
 	  var callbackFrequency = frequency || _.max([1, _.floor(maxEpochs / 20)]);
 
 	  _.each(_.range(maxEpochs), function(index) {

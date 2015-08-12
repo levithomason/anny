@@ -14,6 +14,10 @@ body {
 .icon {
   vertical-align: middle;
 }
+.vis-network {
+  width: 100%;
+  height: 100%;
+}
 .ay-toolbar {
   position: fixed;
   top: 20px;
@@ -50,8 +54,4 @@ body {
   float: left;
   width: 1em;
   height: 2rem;
-}
-.vis-network {
-  width: 100%;
-  height: 100%;
 }
