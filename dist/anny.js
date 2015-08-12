@@ -371,6 +371,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Neuron.count = 0;
 
+	/**
+	 * The connection between two Neurons.  Connections are unidirectional.
+	 * @param source - Neuron that will send its output to the `target` Neuron.
+	 * @param target - Neuron that will get its input from the `source` Neuron.
+	 * @param weight - The strength of the connection.  Meaning, how much of the
+	 *   `source` output is passed to the `target` Neuron input.
+	 * @returns {{source: *, target: *, weight: (*|number)}}
+	 */
 	Neuron.connection = function(source, target, weight) {
 	  return {
 	    source: source,
