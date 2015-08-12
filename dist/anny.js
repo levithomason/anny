@@ -600,7 +600,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  //  ensure the input length matches the number of Network inputs
 	  //  ensure the output length matches the number of Network outputs
 	  var maxEpochs = 50000;
-	  var errorThreshold = 0.0001;
+	  var errorThreshold = 0.001;
 	  var callbackFrequency = frequency || _.max([1, _.floor(maxEpochs / 20)]);
 
 	  _.each(_.range(maxEpochs), function(index) {
