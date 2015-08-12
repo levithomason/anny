@@ -17,7 +17,7 @@ gulp.task('serve', 'start the livereload dev server', function(cb) {
         enable: true,
         filter: function(filePath) {
           var isAppDist = filePath.match(paths.appDist);
-          var isAnnyDist = filePath.match(paths.appDist);
+          var isAnnyDist = filePath.match(paths.annyDist);
           var shouldReload = isAppDist || isAnnyDist;
           // console.log(shouldReload, isAppDist, isAnnyDist);
 
