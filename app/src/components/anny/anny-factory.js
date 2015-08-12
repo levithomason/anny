@@ -13,11 +13,11 @@ function AnnyFactory($rootScope) {
   factory.getRandomLayers = function() {
     var inputs = 2;
     var outputs = 1;
-    var numHiddenLayers = _.random(1, 4);
+    var numHiddenLayers = _.random(1, 3);
     var hiddenLayers = [];
 
     _.times(numHiddenLayers, function() {
-      hiddenLayers.push(_.random(3, 8));
+      hiddenLayers.push(_.random(3, 5));
     });
 
     return [].concat(inputs, hiddenLayers, outputs);
