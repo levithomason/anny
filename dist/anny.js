@@ -258,7 +258,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // 4.6 Initializing the weights (16)
 	    // give weight as if this connection were also added
 	    // TODO: weight per connection is constant.  These values can be cached.
-	    var maxWeight = Math.pow(numConnections + 1 || 1, -1 / 2);
+	    var maxWeight = Math.pow(numConnections + 1 || 1, -1 / 4);
 	    return _.random(-maxWeight, maxWeight, true);
 	  }
 	};
