@@ -1,6 +1,6 @@
 var ACTIVATION = require('../lib/Activation');
 
-describe.only('ACTIVATION', function() {
+describe('ACTIVATION', function() {
   it('contains only function properties', function() {
     _.each(ACTIVATION, function(fn) {
       fn.should.be.a('function');
