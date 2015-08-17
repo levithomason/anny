@@ -7,8 +7,8 @@
 Anny
 ====
 ![Codeship](https://img.shields.io/codeship/e6501e60-0902-0133-c93c-7e3d949a1704/master.svg?style=flat-square)
-[![Test Coverage](https://img.shields.io/codeclimate/coverage/github/levithomason/anny.svg?style=flat-square)](https://codeclimate.com/github/dev-coop/anny/coverage)
-[![Code Climate](https://img.shields.io/codeclimate/github/levithomason/anny.svg?style=flat-square)](https://codeclimate.com/github/dev-coop/anny)
+[![Test Coverage](https://img.shields.io/codeclimate/coverage/github/dev-coop/anny.svg?style=flat-square)](https://codeclimate.com/github/dev-coop/anny/coverage)
+[![Code Climate](https://img.shields.io/codeclimate/github/dev-coop/anny.svg?style=flat-square)](https://codeclimate.com/github/dev-coop/anny)
 
 Anny is an artificial neural network, yo!
 >She is a work in progress.  Not ready for the limelight.
