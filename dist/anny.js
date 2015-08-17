@@ -360,8 +360,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.output = 0;
 
 	  // activation
-	  this.activationFn = ACTIVATION.tanh;
-	  this.activationDerivative = ACTIVATION.tanhDerivative;
+	  this.activationFn = ACTIVATION.rectifier;
+	  this.activationDerivative = ACTIVATION.rectifierDerivative;
 
 	  // learning
 	  this.error = 0;
@@ -609,7 +609,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // loop over the training data summing the error of all samples
 	    // http://www.researchgate.net/post
 	    //   /Neural_networks_and_mean-square_errors#rgw51_55cb2f1399589
-	    var maxError = _.sum(_.map(data, function(sample) {
+	    var avgError = _.sum(_.map(data, function(sample) {
 	      // make a prediction
 	      this.activate(sample.input);
 
@@ -622,19 +622,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    // callback with results periodically
 	    if (_.isFunction(callback) && (n === 1 || n % callbackFrequency === 0)) {
-	      callback(maxError, n);
+	      callback(avgError, n);
 	    }
 
 	    // success / fail
-	    if (maxError <= errorThreshold) {
+	    if (avgError <= errorThreshold) {
 	      console.debug(
-	        'Successfully trained to a max error of', maxError,
+	        'Successfully trained to a max error of', avgError,
 	        'after', n, 'epochs.'
 	      );
 	      return false;
 	    } else if (n === maxEpochs) {
 	      console.warn(
-	        'Failed to train. Max error is', maxError,
+	        'Failed to train. Max error is', avgError,
 	        'after', n, 'epochs.'
 	      );
 	    }
