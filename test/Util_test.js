@@ -20,4 +20,14 @@ describe('Util', function() {
       _.min(normalized).should.equal(-1);
     });
   });
+
+  describe('getApproximateDerivative', function() {
+    it('returns a function', function() {
+      Util.getApproximateDerivative(_.noop).should.be.a('function');
+    });
+    it('returns a function that returns a number', function() {
+      var derivative = Util.getApproximateDerivative(Math.sin);
+      derivative(_.random()).should.be.a('number');
+    });
+  });
 });
