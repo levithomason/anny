@@ -2,7 +2,7 @@ function AnnyFactory($rootScope) {
   var factory = {};
 
   factory.init = function() {
-    factory.newNetwork([2, 2, 1]);
+    factory.newNetwork([2, 1]);
   };
 
   factory.activate = function(inputs) {
