@@ -197,18 +197,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @type {object}
 	 */
 	var ERROR = {
+	  crossEntropy: function crossEntropy(expected, actual) {
+	    return -(_.sum(actual, function(actVal, i) {
+	        return Math.log(actVal) * expected[i];
+	      })) / actual.length;
+	  },
+
 	  // These taken from: https://www.youtube.com/watch?v=U4BTzF3Wzt0
 
 	  meanSquared: function meanSquared(expected, actual) {
-	    return _.sum(actual, function(val, i) {
-	        return Math.pow(expected[i] - actual[i], 2);
+	    return _.sum(actual, function(actVal, i) {
+	        return Math.pow(expected[i] - actVal, 2);
 	      }) / actual.length;
-	  },
-
-	  maxAbsolute: function meanSquared(expected, actual) {
-	    return _.max(_.map(actual, function(val, i) {
-	      return Math.abs(expected[i] - actual[i]);
-	    }));
 	  },
 
 	  rootMeanSquared: function rootMeanSquared(expected, actual) {
@@ -216,8 +216,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  arcTan: function arcTan(expected, actual) {
-	    return _.sum(actual, function(val, i) {
-	        return Math.atan(expected[i] - actual[i]);
+	    return _.sum(actual, function(actVal, i) {
+	        return Math.atan(expected[i] - actVal);
 	      }) / actual.length;
 	  }
 	};
@@ -246,19 +246,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {number}
 	   */
 	  learningRate: function learningRate() {
-	    return 0.5;
+	    // TODO: Implement 4.7 Choosing learning rates (pg 13)
+	    return 0.3;
 	  },
 
 	  /**
 	   * Initialize the weight for a Neuron.connection.
-	   * @param numConnections
+	   * @param numInputs
 	   * @returns {number}
 	   */
-	  weight: function weight(numConnections) {
+	  weight: function weight(numInputs) {
 	    // 4.6 Initializing the weights (16)
-	    // give weight as if this connection were also added
-	    // TODO: weight per connection is constant.  These values can be cached.
-	    var maxWeight = Math.pow(numConnections + 1 || 1, -1 / 4);
+	    // TODO: weight per input is constant.  These values can be cached.
+	    var maxWeight = Math.pow(numInputs || 1, -1 / 2);
 	    return _.random(-maxWeight, maxWeight, true);
 	  }
 	};
@@ -305,9 +305,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  _.each(self.neurons, function(source) {
 	    // every neuron in this layer is connected to each neuron in the next.
-	    // we can assume the numConnections to be the num of neurons in this layer.
+	    // we can assume the numInputs to be the num of neurons in this layer.
 
-	    // connect to each neuron in this layer
+	    // connect to each neuron in this Layer to the targetLayer
 	    _.each(targetLayer.neurons, function(target) {
 	      source.connect(target, INITIALIZE.weight(self.neurons.length));
 	    });
@@ -383,7 +383,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return {
 	    source: source,
 	    target: target,
-	    weight: weight || INITIALIZE.weight(target.incoming.length)
+	    // initialize weights as if this connection were already connected
+	    weight: weight || INITIALIZE.weight(target.incoming.length + 1)
 	  };
 	};
 
@@ -394,23 +395,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   to minimize the error of the Neurons it is connected to downstream.
 	 */
 	Neuron.prototype.train = function(targetOutput) {
-	  // input Neurons have no incoming connection weights to train
-	  if (this.isInput() || this.isBias) {
-	    return;
-	  }
 	  var inputDerivative = this.activationDerivative(this.input);
+
 	  if (!_.isUndefined(targetOutput)) {
 	    this.error = targetOutput - this.output;
 	  }
 
 	  // set the delta
 	  // https://www.youtube.com/watch?v=p1-FiWjThs8
-	  if (this.isOutput()) {
-	    this.delta = -this.error * inputDerivative;
-	  } else {
-	    this.delta = _.sum(this.outgoing, function(connection) {
-	      return inputDerivative * connection.weight * connection.target.delta;
-	    });
+	  //
+	  // input Neurons and Bias Neurons do not need to calculate their delta
+	  // this is because the delta is only used to update the weight
+	  // but only the target Neuron's delta is used: targetDelta * weight * gradient
+	  // since input Neurons and Bias Neurons are strictly source Neurons
+	  //   they will never be a target Neuron and their delta's never used
+	  if (!this.isInput() && !this.isBias) {
+	    if (this.isOutput()) {
+	      this.delta = -this.error * inputDerivative;
+	    } else {
+	      this.delta = _.sum(this.outgoing, function(connection) {
+	        return inputDerivative * connection.weight * connection.target.delta;
+	      });
+	    }
 	  }
 
 	  // adjust weights
@@ -599,11 +605,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  //  ensure it is normalized between -1 and 1
 	  //  ensure the input length matches the number of Network inputs
 	  //  ensure the output length matches the number of Network outputs
-	  var maxEpochs = 50000;
+	  var epochs = 50000;
 	  var errorThreshold = 0.001;
-	  var callbackFrequency = frequency || _.max([1, _.floor(maxEpochs / 20)]);
+	  var callbackFrequency = frequency || _.max([1, _.floor(epochs / 20)]);
 
-	  _.each(_.range(maxEpochs), function(index) {
+	  _.each(_.range(epochs), function(index) {
 	    var n = index + 1;
 
 	    // loop over the training data summing the error of all samples
@@ -617,7 +623,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.correct(sample.output);
 
 	      // get the error
-	      return this.errorFn(sample.output, this.output);
+	      return this.errorFn(sample.output, this.output) / data.length;
 	    }, this));
 
 	    // callback with results periodically
@@ -628,14 +634,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // success / fail
 	    if (avgError <= errorThreshold) {
 	      console.debug(
-	        'Successfully trained to a max error of', avgError,
-	        'after', n, 'epochs.'
+	        'Successfully trained to an error of', avgError, 'after', n, 'epochs.'
 	      );
 	      return false;
-	    } else if (n === maxEpochs) {
+	    } else if (n === epochs) {
 	      console.warn(
-	        'Failed to train. Max error is', avgError,
-	        'after', n, 'epochs.'
+	        'Failed to train. Error is', avgError, 'after', n, 'epochs.'
 	      );
 	    }
 	  }, this);
