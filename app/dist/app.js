@@ -202,7 +202,21 @@ angular.module('App.toolbar')
         };
 
         scope.net2048 = function() {
-          AnnyFactory.newNetwork([16, 16, 4]);
+          // http://www.solver.com/xlminer/help
+          //   /neural-networks-classification-intro
+          var samples = window.data2048ScaledTraining.length;
+          var inputs = 16;
+          var outputs = 4;
+          // 5 - 10, larger values for less noisy data
+          var scale = 5;
+          var hiddenNeurons = Math.ceil(samples / (inputs + outputs)) / scale;
+
+          AnnyFactory.newNetwork([
+            16,
+            hiddenNeurons,
+            hiddenNeurons,
+            4
+          ]);
         };
 
         scope.activateRandom = function() {
@@ -260,14 +274,23 @@ angular.module('App.toolbar')
           var totalErrors = _.map(window.data2048ScaledTest, function(sample) {
             var actual = AnnyFactory.activate(sample.input);
             var error = AnnyFactory.network.errorFn(sample.output, actual);
+            // use the largest output value as the classification
+            var classification = _.map(actual, function(val) {
+              return val === _.max(actual) ? 1 : 0;
+            });
 
             console.log(
               '---------------------------------',
-              '\nans: ' + sample.output,
-              '\nact: ' + actual,
-              '\nerr: ' + error
+              '\nhuman: ' + sample.output,
+              '\nclass: ' + classification,
+              '\nactual: ' + _.map(actual, function(val) {
+                return val.toFixed(3);
+              }),
+              '\nerror: ' + error
             );
-
+            if (_.isEqual(sample.output, classification)) {
+              console.debug('^^^^^^^^^ PASSED ^^^^^^^^^');
+            }
             return error;
           });
 

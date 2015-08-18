@@ -199,8 +199,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ERROR = {
 	  crossEntropy: function crossEntropy(expected, actual) {
 	    return -(_.sum(actual, function(actVal, i) {
-	        return Math.log(actVal) * expected[i];
-	      })) / actual.length;
+	        // 1e-15 to avoid log(0) which is Infinity
+	        // if expected output (classification) is 0, ignore this node entirely
+	        // https://jamesmccaffrey.wordpress.com/2013/11/05/
+	        //   why-you-should-use-cross-entropy-error-instead-of-classification
+	        //   -error-or-mean-squared-error-for-neural-network-classifier-training
+	        return expected[i] === 0 ? 0 : Math.log(actVal || 1e-15) * expected[i];
+	      }));
 	  },
 
 	  // These taken from: https://www.youtube.com/watch?v=U4BTzF3Wzt0
@@ -247,7 +252,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  learningRate: function learningRate() {
 	    // TODO: Implement 4.7 Choosing learning rates (pg 13)
-	    return 0.3;
+	    return 0.5;
 	  },
 
 	  /**
@@ -360,8 +365,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.output = 0;
 
 	  // activation
-	  this.activationFn = ACTIVATION.rectifier;
-	  this.activationDerivative = ACTIVATION.rectifierDerivative;
+	  this.activationFn = ACTIVATION.softplus;
+	  this.activationDerivative = ACTIVATION.softplusDerivative;
 
 	  // learning
 	  this.error = 0;
@@ -532,7 +537,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var numOutputs = _.last(layerSizes);
 	  var hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
 	  this.output = [];
-	  this.errorFn = ERROR.meanSquared;
+	  this.errorFn = ERROR.crossEntropy;
 
 	  this.allLayers = [];
 	  this.hiddenLayers = [];
@@ -605,8 +610,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  //  ensure it is normalized between -1 and 1
 	  //  ensure the input length matches the number of Network inputs
 	  //  ensure the output length matches the number of Network outputs
-	  var epochs = 50000;
-	  var errorThreshold = 0.001;
+	  var epochs = 5000;
+	  var errorThreshold = 0.1;
 	  var callbackFrequency = frequency || _.max([1, _.floor(epochs / 20)]);
 
 	  _.each(_.range(epochs), function(index) {
