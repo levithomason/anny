@@ -2,14 +2,17 @@ angular.module('App', [
   'anny',
 
   'App.vis',
-  'App.toolbar'
+  'App.toolbar',
+  'App.graph'
 ]);
 
 angular.module('anny', []);
 
-angular.module('App.toolbar', []);
+angular.module('App.graph', []);
 
 angular.module('App.vis', []);
+
+angular.module('App.toolbar', []);
 
 function AnnyFactory($rootScope) {
   var factory = {};
@@ -74,7 +77,9 @@ angular.module('anny')
   .factory('AnnyFactory', AnnyFactory);
 
 function visNetworkOptions() {
-  var options = {};
+  var options = {
+    height: '500px'
+  };
 
   // Nodes
   options.nodes = {
@@ -184,76 +189,60 @@ function visNetworkOptions() {
 angular.module('App.vis')
   .factory('visNetworkOptions', visNetworkOptions);
 
-angular.module('App.toolbar')
+angular.module('App.graph')
 
-  .directive('toolbar', ["AnnyFactory", function(AnnyFactory) {
+  .directive('graph', function() {
     return {
       replace: true,
       scope: {},
-      templateUrl: 'app/dist/components/toolbar/toolbar.html',
-      link: function(scope) {
-        scope.resetNet = function() {
-          AnnyFactory.init();
+      template: '<div class="vis-graph-container"></div>',
+      link: function(scope, elm) {
+        var DELAY = 2000; // delay in ms to add new data points
+        var container = elm[0];
+        var items = [
+        ];
+        var dataset = new vis.DataSet(items);
+        var options = {
+          start: vis.moment().add(-60, 'seconds'), // changed so its faster
+          end: vis.moment(),
+          dataAxis: {
+            left: {
+              range: {
+                min: -10, max: 10
+              }
+            }
+          },
+          drawPoints: {
+            style: 'circle' // square, circle
+          },
+          shaded: {
+            orientation: 'bottom' // top, bottom
+          }
         };
+        var graph2d = new vis.Graph2d(container, dataset, options);
+        graph2d.getWindow();
 
-        scope.randomNet = function() {
-          AnnyFactory.newNetwork();
-        };
-
-        scope.activateRandom = function() {
-          var inputs = [];
-
-          _.times(AnnyFactory.network.inputLayer.neurons.length, function() {
-            inputs.push(_.random(-1, 1, true));
+        var i = 0;
+        function addDataPoint() {
+          // add a new data point to the dataset
+          var now = Date.now()+10000;
+          console.log(i);
+          dataset.add({
+            x: now,
+            y: i++ / 1000
           });
-
-          AnnyFactory.activate(inputs);
-        };
-
-        scope.trainORGate = function() {
-          AnnyFactory.train([
-            {input: [0, 0], output: [0]},
-            {input: [0, 1], output: [1]},
-            {input: [1, 0], output: [1]},
-            {input: [1, 1], output: [1]}
-          ]);
-        };
-
-        scope.trainXORGate = function() {
-          AnnyFactory.train([
-            {input: [0, 0], output: [0]},
-            {input: [0, 1], output: [1]},
-            {input: [1, 0], output: [1]},
-            {input: [1, 1], output: [0]}
-          ]);
-        };
-
-        scope.trainANDGate = function() {
-          AnnyFactory.train([
-            {input: [0, 0], output: [0]},
-            {input: [0, 1], output: [0]},
-            {input: [1, 0], output: [0]},
-            {input: [1, 1], output: [1]}
-          ]);
-        };
-
-        scope.trainNANDGate = function() {
-          AnnyFactory.train([
-            {input: [0, 0], output: [1]},
-            {input: [0, 1], output: [1]},
-            {input: [1, 0], output: [1]},
-            {input: [1, 1], output: [0]}
-          ]);
-        };
+          setTimeout(addDataPoint, DELAY);
+        }
+        addDataPoint();
       }
     };
-  }]);
+  });
 
 function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
   return {
     replace: true,
     scope: {},
-    template: '<div class="vis-network"></div>',
+    template: '<div class="vis-network-container"></div>',
     link: function(scope, elm) {
       scope.getData = function() {
         var nodes = [];
@@ -341,3 +330,68 @@ visNetwork.$inject = ["visNetworkOptions", "AnnyFactory", "$rootScope"];
 
 angular.module('App.vis')
   .directive('visNetwork', visNetwork);
+
+angular.module('App.toolbar')
+
+  .directive('toolbar', ["AnnyFactory", function(AnnyFactory) {
+    return {
+      replace: true,
+      scope: {},
+      templateUrl: 'app/dist/components/toolbar/toolbar.html',
+      link: function(scope) {
+        scope.resetNet = function() {
+          AnnyFactory.init();
+        };
+
+        scope.randomNet = function() {
+          AnnyFactory.newNetwork();
+        };
+
+        scope.activateRandom = function() {
+          var inputs = [];
+
+          _.times(AnnyFactory.network.inputLayer.neurons.length, function() {
+            inputs.push(_.random(-1, 1, true));
+          });
+
+          AnnyFactory.activate(inputs);
+        };
+
+        scope.trainORGate = function() {
+          AnnyFactory.train([
+            {input: [0, 0], output: [0]},
+            {input: [0, 1], output: [1]},
+            {input: [1, 0], output: [1]},
+            {input: [1, 1], output: [1]}
+          ]);
+        };
+
+        scope.trainXORGate = function() {
+          AnnyFactory.train([
+            {input: [0, 0], output: [0]},
+            {input: [0, 1], output: [1]},
+            {input: [1, 0], output: [1]},
+            {input: [1, 1], output: [0]}
+          ]);
+        };
+
+        scope.trainANDGate = function() {
+          AnnyFactory.train([
+            {input: [0, 0], output: [0]},
+            {input: [0, 1], output: [0]},
+            {input: [1, 0], output: [0]},
+            {input: [1, 1], output: [1]}
+          ]);
+        };
+
+        scope.trainNANDGate = function() {
+          AnnyFactory.train([
+            {input: [0, 0], output: [1]},
+            {input: [0, 1], output: [1]},
+            {input: [1, 0], output: [1]},
+            {input: [1, 1], output: [0]}
+          ]);
+        };
+      }
+    };
+  }]);
