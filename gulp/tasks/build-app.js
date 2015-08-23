@@ -10,6 +10,7 @@ gulp.task('build-app', function(cb) {
     [
       'build-app-html',
       'build-app-less',
+      'build-app-fonts',
       'build-app-js',
     ],
     cb
@@ -27,6 +28,13 @@ gulp.task('build-app-html', function(cb) {
     .pipe(gulp.dest(paths.appDist));
 });
 
+gulp.task('build-app-fonts', function(cb) {
+  return gulp.src([
+    paths.appSrc + '/fonts/**/*'
+  ])
+    .pipe(gulp.dest(paths.appDist + '/fonts/'));
+});
+
 gulp.task('build-app-less', function() {
   var minifyOpts = {keepSpecialComments: 0};
 
@@ -42,10 +50,10 @@ gulp.task('build-app-less', function() {
     .pipe(g.remember('less'))
     .pipe(g.concat('app.css'))
     .pipe(g.less())
-    .pipe(gulp.dest(paths.appDist))
+    .pipe(gulp.dest(paths.appDist + '/css'))
     .pipe(g.minifyCss(minifyOpts))
     .pipe(g.rename('app.min.css'))
-    .pipe(gulp.dest(paths.appDist));
+    .pipe(gulp.dest(paths.appDist + '/css'));
 });
 
 gulp.task('build-app-js', function(cb) {
