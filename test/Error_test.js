@@ -7,6 +7,12 @@ describe('ERROR', function() {
     });
   });
 
+  it('has no anonymous functions', function() {
+    _.each(ERROR, function(fn, name) {
+      fn.name.should.equal(name);
+    });
+  });
+
   it('has methods that return numbers', function() {
     _.each(ERROR, function(fn) {
       fn([1, 2, 3], [2, 3, 4]).should.be.a('number');
