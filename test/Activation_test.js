@@ -7,6 +7,12 @@ describe('ACTIVATION', function() {
     });
   });
 
+  it('has no anonymous functions', function() {
+    _.each(ACTIVATION, function(fn, name) {
+      fn.name.should.equal(name);
+    });
+  });
+
   it('has methods that return numbers', function() {
     _.each(ACTIVATION, function(fn) {
       fn(_.random(-1, 1, true)).should.be.a('number');

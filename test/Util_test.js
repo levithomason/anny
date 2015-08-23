@@ -1,6 +1,12 @@
 var Util = require('../lib/Util');
 
 describe('Util', function() {
+  it('has no anonymous functions', function() {
+    _.each(Util, function(fn, name) {
+      fn.name.should.equal(name);
+    });
+  });
+
   describe('normalize', function() {
     it('scales an array of numbers to -1 and 1', function() {
       var normalized = Util.normalize(_.range(-1000, 1000));

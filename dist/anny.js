@@ -187,7 +187,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Modified hyperbolic tangent function.  Optimized for faster convergence.
 	   * @returns {number}
 	   */
-	  optimalTanh: function(x) {
+	  optimalTanh: function optimalTanh(x) {
 	    return 1.7159 * math.tanh(x * 2 / 3);
 	  },
 
@@ -195,7 +195,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * The derivative of the modified hyperbolic tangent function.
 	   * @returns {number}
 	   */
-	  optimalTanhDerivative: function(x) {
+	  optimalTanhDerivative: function optimalTanhDerivative(x) {
 	    return 1.14393 * math.sech(x * 2 / 3);
 	  }
 	};
