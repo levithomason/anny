@@ -17,10 +17,6 @@
     "node": "0.12.4",
     "npm": "2.13.2"
   },
-  "engines": {
-    "node": "0.12.4",
-    "npm": "2.13.2"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/levithomason/anny.git"
@@ -58,6 +54,7 @@
     "gulp-webserver": "^0.9.1",
     "istanbul": "^0.3.17",
     "lodash": "^3.10.0",
+    "mathjs": "^2.1.1",
     "mocha": "^2.2.5",
     "node-libs-browser": "^0.5.2",
     "require-dir": "^0.3.0",
