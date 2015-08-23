@@ -596,7 +596,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {object[]} data - Array of objects in the form
 	 * `{input: [], output: []}`.
 	 * @param {function} [callback] - Called with the current error every
-	 *   `callbackFrequency`.
+	 *   `frequency`.
 	 * @param {number} [frequency] - How many iterations to let pass between
 	 *   logging the current error.
 	 */
@@ -608,6 +608,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var epochs = 50000;
 	  var errorThreshold = 0.001;
 	  var callbackFrequency = frequency || _.max([1, _.floor(epochs / 20)]);
+
+	  var defaultCallback = function(err, epoch) {
+	    console.log('epcoh', epoch, 'error:', err);
+	  };
 
 	  _.each(_.range(epochs), function(index) {
 	    var n = index + 1;
@@ -627,8 +631,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, this));
 
 	    // callback with results periodically
-	    if (_.isFunction(callback) && (n === 1 || n % callbackFrequency === 0)) {
-	      callback(avgError, n);
+	    if (n === 1 || n % callbackFrequency === 0) {
+	      (callback || defaultCallback)(avgError, n);
 	    }
 
 	    // success / fail
