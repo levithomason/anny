@@ -84,7 +84,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  rectifier: function rectifier(x) {
 	    // https://en.wikipedia.org/wiki/Rectifier
-	    return Math.max(0, x);
+	    return math.max(0, x);
 	  },
 
 	  /**
@@ -96,7 +96,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  rectifierDerivative: function rectifierDerivative(x) {
 	    // https://en.wikipedia.org/wiki/Rectifier
-	    return 1 / (1 + Math.exp(-x));
+	    return 1 / (1 + math.exp(-x));
 	  },
 
 	  /**
@@ -107,7 +107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  softplus: function softplus(x) {
 	    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-	    return Math.log(1 + Math.exp(x));
+	    return math.log(1 + math.exp(x));
 	  },
 
 	  /**
@@ -117,7 +117,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  softplusDerivative: function softplusDerivative(x) {
 	    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-	    return Math.log(1 + Math.exp(x));
+	    return math.log(1 + math.exp(x));
 	  },
 
 	  /**
@@ -128,7 +128,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  logistic: function logistic(x) {
 	    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
-	    return 1 / (1 + Math.exp(-x));
+	    return 1 / (1 + math.exp(-x));
 	  },
 
 	  /**
@@ -137,7 +137,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  logisticDerivative: function logisticDerivative(x) {
 	    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
-	    var val = 1 / (1 + Math.exp(-x));
+	    var val = 1 / (1 + math.exp(-x));
 	    return val * (1 - val);
 	  },
 
@@ -169,8 +169,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} x
 	   */
 	  tanh: function tanh(x) {
-	    var negExp = Math.exp(-x);
-	    var posExp = Math.exp(x);
+	    var negExp = math.exp(-x);
+	    var posExp = math.exp(x);
 	    return (posExp - negExp) / (posExp + negExp);
 	  },
 
@@ -180,7 +180,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {number}
 	   */
 	  tanhDerivative: function tanhDerivative(x) {
-	    return 1 - Math.pow(Math.tanh(x), 2);
+	    return 1 - math.pow(math.tanh(x), 2);
+	  },
+
+	  /**
+	   * Modified hyperbolic tangent function.  Optimized for faster convergence.
+	   * @returns {number}
+	   */
+	  optimalTanh: function(x) {
+	    return 1.7159 * math.tanh(x * 2 / 3);
+	  },
+
+	  /**
+	   * The derivative of the modified hyperbolic tangent function.
+	   * @returns {number}
+	   */
+	  optimalTanhDerivative: function(x) {
+	    return 1.14393 * math.sech(x * 2 / 3);
 	  }
 	};
 
