@@ -712,29 +712,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  /**
-	   * Normalizes an `array` of numbers to a range from -1 to 1.
+	   * Normalizes an `array` of numbers to a range from -1 to 1. Optionally
+	   * specifying the `dataMin` and/or `dataMax` is useful when normalizing
+	   * multiple arrays that do not each contain the global min value or global
+	   * max value.
 	   * @param {number[]} array - The array to normalize.
-	   * @param {number} [min] - The min scale factor.  Defaults to the min value
-	   *   in the `array`.
-	   * @param {number} [max] - The max scale factor.  Defaults to the max value
-	   *   in the `array`.
+	   * @param {number} [dataMin] - The number to use at the min value in the
+	   *   `array`. Defaults to the actual min `array` value.
+	   * @param {number} [dataMax] - The number to use at the max value in the
+	   *   `array`. Defaults to the actual max `array` value.
 	   */
-	  normalize: function normalize(array, min, max) {
-	    var maxVal = _.max(array);
-	    var minVal = _.min(array);
-	    var scaleMin = min || -1;
-	    var scaleMax = max || 1;
-	    var offset = 0 - minVal;
-	    var range = maxVal - minVal;
-	    console.log(
-	      'maxVal:', maxVal,
-	      'minVal:', minVal,
-	      'offset:', offset,
-	      'range:', range
-	    );
+	  normalize: function normalize(array, dataMin, dataMax) {
+	    var scaleMax = dataMax || _.max(array);
+	    var scaleMin = dataMin || _.min(array);
+	    var scaleOffset = 0 - scaleMin;
+	    var scaleRange = scaleMax - scaleMin;
 
 	    return _.map(array, function(n) {
-	      return (n + offset) / (range / 2) - 1;
+	      if (n > scaleMax || n < scaleMin) {
+	        throw new Error(
+	          n + ' is beyond the scale range: ' + scaleMin + ' to ' + scaleMax
+	        );
+	      }
+	      return (n + scaleOffset) / (scaleRange / 2) - 1;
 	    });
 	  },
 

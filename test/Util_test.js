@@ -26,10 +26,21 @@ describe('Util', function() {
       _.min(normalized).should.equal(-1);
     });
 
-    it('allows arbitrary min and max scale factors', function() {
-      var normalized = Util.normalize(_.range(-10, 10), -5, 5);
-      _.max(normalized).should.equal(2);
-      _.min(normalized).should.equal(-2);
+    it('allows arbitrary data min and max scale factors', function() {
+      var dataMin = -8;
+      var dataMax = 8;
+      var normalized = Util.normalize([0, 2, 4, 6, 8], dataMin, dataMax);
+      _.max(normalized).should.equal(1);
+      _.min(normalized).should.equal(0);
+    });
+
+    it('throws if a value falls beyond the scale range', function() {
+      function misuse() {
+        var dataMin = 0;
+        var dataMax = 10;
+        Util.normalize([0, 11], dataMin, dataMax);
+      }
+      misuse.should.throw('11 is beyond the scale range: 0 to 10');
     });
   });
 
