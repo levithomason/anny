@@ -19,8 +19,9 @@ function AnnyFactory($rootScope) {
   };
 
   factory.activate = function(inputs) {
-    factory.network.activate(inputs);
+    var output = factory.network.activate(inputs);
     factory.emitChange();
+    return output;
   };
 
   factory.getRandomLayers = function() {
@@ -39,17 +40,17 @@ function AnnyFactory($rootScope) {
   factory.train = function(trainingSet, callback, frequency) {
     factory.network.train(trainingSet, callback, frequency);
 
-    var results = ['Predictions after training:'];
-
-    _.each(trainingSet, function(sample) {
-      var input = sample.input;
-      var output = factory.network.activate(input);
-      results.push(
-        '[' + input.toString() + '] == ' + (output >= 0.5) + ' ' + output
-      );
-    });
-
-    console.log(results.join('\n'));
+    // var results = ['Predictions after training:'];
+    //
+    // _.each(trainingSet, function(sample) {
+    //   var input = sample.input;
+    //   var output = factory.network.activate(input);
+    //   results.push(
+    //     '[' + input.toString() + '] == ' + (output >= 0.5) + ' ' + output
+    //   );
+    // });
+    //
+    // console.log(results.join('\n'));
 
     factory.emitChange();
   };
@@ -200,6 +201,27 @@ angular.module('App.toolbar')
           AnnyFactory.newNetwork();
         };
 
+        scope.net2048 = function() {
+          // http://www.solver.com/xlminer/help
+          //   /neural-networks-classification-intro
+          /*
+          var samples = window.data2048ScaledTraining.length;
+          var inputs = 16;
+          var outputs = 4;
+          // 5 - 10, larger values for less noisy data
+          var scale = 5;
+          var hiddenNeurons = Math.ceil(samples / (inputs + outputs)) / scale;
+          */
+
+          AnnyFactory.newNetwork([
+            16,
+            12,
+            9,
+            6,
+            4
+          ]);
+        };
+
         scope.activateRandom = function() {
           var inputs = [];
 
@@ -244,6 +266,36 @@ angular.module('App.toolbar')
             {input: [1, 0], output: [1]},
             {input: [1, 1], output: [0]}
           ]);
+        };
+
+        scope.train2048 = function() {
+          AnnyFactory.train(window.data2048ScaledTraining);
+
+          console.log('Training done, test output:');
+          var totalErrors = _.map(window.data2048ScaledTest, function(sample) {
+            var actual = AnnyFactory.activate(sample.input);
+            var error = AnnyFactory.network.errorFn(sample.output, actual);
+            // use the largest output value as the classification
+            var classification = _.map(actual, function(val) {
+              return val === _.max(actual) ? 1 : 0;
+            });
+
+            console.log(
+              '---------------------------------',
+              '\nhuman: ' + sample.output,
+              '\nclass: ' + classification,
+              '\nactual: ' + _.map(actual, function(val) {
+                return val.toFixed(3);
+              }),
+              '\nerror: ' + error
+            );
+            if (_.isEqual(sample.output, classification)) {
+              console.debug('^^^^^^^^^ PASSED ^^^^^^^^^');
+            }
+            return error;
+          });
+
+          console.debug('Avg Err:', _.sum(totalErrors) / totalErrors.length);
         };
       }
     };

@@ -215,8 +215,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ERROR = {
 	  crossEntropy: function crossEntropy(expected, actual) {
 	    return -(_.sum(actual, function(actVal, i) {
-	        return Math.log(actVal) * expected[i];
-	      })) / actual.length;
+	        // 1e-15 to avoid log(0) which is Infinity
+	        // if expected output (classification) is 0, ignore this node entirely
+	        // https://jamesmccaffrey.wordpress.com/2013/11/05/
+	        //   why-you-should-use-cross-entropy-error-instead-of-classification
+	        //   -error-or-mean-squared-error-for-neural-network-classifier-training
+	        return expected[i] === 0 ? 0 : Math.log(actVal || 1e-15) * expected[i];
+	      }));
 	  },
 
 	  // These taken from: https://www.youtube.com/watch?v=U4BTzF3Wzt0
@@ -376,8 +381,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.output = 0;
 
 	  // activation
-	  this.activationFn = ACTIVATION.tanh;
-	  this.activationDerivative = ACTIVATION.tanhDerivative;
+	  this.activationFn = ACTIVATION.optimalTanh;
+	  this.activationDerivative = ACTIVATION.optimalTanhDerivative;
 
 	  // learning
 	  this.error = 0;
@@ -621,12 +626,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  //  ensure it is normalized between -1 and 1
 	  //  ensure the input length matches the number of Network inputs
 	  //  ensure the output length matches the number of Network outputs
-	  var epochs = 50000;
-	  var errorThreshold = 0.001;
+	  var epochs = 1000;
+	  var errorThreshold = 0.01;
 	  var callbackFrequency = frequency || _.max([1, _.floor(epochs / 20)]);
 
 	  var defaultCallback = function(err, epoch) {
-	    console.log('epcoh', epoch, 'error:', err);
+	    console.log('epoch', epoch, 'error:', err);
 	  };
 
 	  _.each(_.range(epochs), function(index) {

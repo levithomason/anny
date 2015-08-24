@@ -6,8 +6,9 @@ function AnnyFactory($rootScope) {
   };
 
   factory.activate = function(inputs) {
-    factory.network.activate(inputs);
+    var output = factory.network.activate(inputs);
     factory.emitChange();
+    return output;
   };
 
   factory.getRandomLayers = function() {
@@ -26,17 +27,17 @@ function AnnyFactory($rootScope) {
   factory.train = function(trainingSet, callback, frequency) {
     factory.network.train(trainingSet, callback, frequency);
 
-    var results = ['Predictions after training:'];
-
-    _.each(trainingSet, function(sample) {
-      var input = sample.input;
-      var output = factory.network.activate(input);
-      results.push(
-        '[' + input.toString() + '] == ' + (output >= 0.5) + ' ' + output
-      );
-    });
-
-    console.log(results.join('\n'));
+    // var results = ['Predictions after training:'];
+    //
+    // _.each(trainingSet, function(sample) {
+    //   var input = sample.input;
+    //   var output = factory.network.activate(input);
+    //   results.push(
+    //     '[' + input.toString() + '] == ' + (output >= 0.5) + ' ' + output
+    //   );
+    // });
+    //
+    // console.log(results.join('\n'));
 
     factory.emitChange();
   };
