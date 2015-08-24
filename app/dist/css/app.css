@@ -81,7 +81,72 @@ body {
   width: 1em;
   height: 2rem;
 }
-.vis-network {
-  width: 100%;
+.vis-network-container {
   height: 100%;
+  width: 100%;
+}
+.vis-graph-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 33vh;
+  min-height: 180px;
+  background: none;
+}
+.vis-graph-container .vis-timeline {
+  border: none !important;
+}
+.vis-graph-container .vis-timeline .vis-panel {
+  border: none;
+}
+.vis-graph-container .vis-timeline .vis-panel.vis-background.vis-vertical .vis-grid.vis-major,
+.vis-graph-container .vis-timeline .vis-panel.vis-background.vis-vertical .vis-grid.vis-minor {
+  border: none;
+}
+.vis-graph-container .vis-timeline .vis-panel.vis-background.vis-horizontal .vis-grid.vis-major {
+  border: 1px solid #3d4243;
+}
+.vis-graph-container .vis-timeline .vis-panel.vis-background.vis-horizontal .vis-grid.vis-minor {
+  border: 1px solid #353a3b;
+}
+.vis-graph-container .vis-timeline .vis-legend {
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+.vis-graph-container .vis-timeline .vis-legend .vis-legend-text {
+  color: #7d5353;
+}
+.vis-graph-container .vis-timeline .vis-legend .vis-outline {
+  display: none;
+}
+.vis-graph-container .vis-timeline .vis-data-axis .vis-major {
+  color: #949c9e;
+}
+.vis-graph-container .vis-timeline .vis-data-axis .vis-minor {
+  color: #61696b;
+}
+.vis-graph-container .vis-timeline .vis-time-axis .vis-major {
+  color: #494f50;
+}
+.vis-graph-container .vis-timeline .vis-time-axis .vis-minor {
+  color: #494f50;
+}
+.vis-graph-container .vis-timeline .vis-current-time {
+  width: 1px;
+  background: #574444;
+}
+.vis-graph-container .vis-error-graph-style {
+  fill: none;
+  stroke: #7d5353;
+}
+.vis-graph-container .vis-error-graph-style.vis-point {
+  fill: #7d5353;
+  stroke: #7d5353;
+}
+.vis-graph-container .vis-error-graph-style.vis-fill,
+.vis-graph-container .vis-error-graph-style.vis-icon-fill {
+  fill: #5e4747;
+  stroke: none;
 }

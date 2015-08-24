@@ -1,5 +1,8 @@
 function visNetworkOptions() {
-  var options = {};
+  var options = {
+    height: '100%',
+    width: '100%'
+  };
 
   // Nodes
   options.nodes = {

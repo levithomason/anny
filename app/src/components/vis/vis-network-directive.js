@@ -2,7 +2,7 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
   return {
     replace: true,
     scope: {},
-    template: '<div class="vis-network"></div>',
+    template: '<div class="vis-network-container"></div>',
     link: function(scope, elm) {
       scope.getData = function() {
         var nodes = [];
