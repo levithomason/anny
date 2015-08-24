@@ -1,6 +1,7 @@
 function visNetworkOptions() {
   var options = {
-    height: '500px'
+    height: '100%',
+    width: '100%'
   };
 
   // Nodes
