@@ -15,7 +15,7 @@ angular.module('App.graph')
           className: 'vis-error-graph-style',
           options: {
             drawPoints: {
-              size: 5,
+              size: 0,
               style: 'circle' // square, circle
             },
             shaded: {

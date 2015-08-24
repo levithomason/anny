@@ -1,4 +1,4 @@
-@vis-graph-error-color: mix(lightcoral, @ay-body-bg, 50);
+@vis-graph-error-color: mix(lightcoral, @ay-body-bg, 40);
 
 .vis-graph-container {
   position: fixed;
@@ -6,58 +6,81 @@
   left: 0;
   right: 0;
   height: 33vh;
-
-  .vis-legend {
-    background: none;
-    border: none;
-    box-shadow: none;
-
-    .vis-legend-text {
-      color: @vis-graph-error-color;
-    }
-
-    .vis-outline {
-      display: none;
-    }
-  }
+  min-height: 180px;
 
   .vis-timeline {
-    border: none !important;;
+    border: none !important;
 
     .vis-panel {
-      border: none !important;;
+      border: none;
+      &.vis-background {
+        &.vis-vertical .vis-grid {
+          &.vis-major,
+          &.vis-minor {
+            border: none;
+          }
+        }
+        &.vis-horizontal .vis-grid {
+          &.vis-major {
+            border: 1px solid lighten(@ay-body-bg, 5);
+          }
+          &.vis-minor {
+            border: 1px solid lighten(@ay-body-bg, 2);
+          }
+        }
+      }
     }
 
-    .vis-grid {
-      &.vis-major {
-        border: 1px solid lighten(@ay-body-bg, 5) !important;
+    .vis-legend {
+      background: none;
+      border: none;
+      box-shadow: none;
+
+      .vis-legend-text {
+        color: @vis-graph-error-color;
       }
-      &.vis-minor {
-        border: 1px solid lighten(@ay-body-bg, 2) !important;
-      }
-      &.vis-vertical {
-        border: none !important;
+
+      .vis-outline {
+        display: none;
       }
     }
-  }
 
-  .vis-current-time {
-    width: 1px;
-    background: mix(@vis-graph-error-color, @ay-body-bg);
+    .vis-data-axis {
+      .vis-major {
+        color: lighten(@ay-body-bg, 40);
+      }
+      .vis-minor {
+        color: lighten(@ay-body-bg, 20);
+      }
+    }
+
+    .vis-time-axis {
+      .vis-major {
+        color: lighten(@ay-body-bg, 10);
+      }
+      .vis-minor {
+        color: lighten(@ay-body-bg, 10);
+      }
+    }
+
+    .vis-current-time {
+      width: 1px;
+      background: mix(@vis-graph-error-color, @ay-body-bg);
+    }
   }
 
   .vis-error-graph-style {
-    fill: @vis-graph-error-color;
-    fill-opacity: 0;
-    stroke-width: 1px;
+    fill: none;
     stroke: @vis-graph-error-color;
     &.vis-point {
-      fill-opacity: 1;
+      fill: @vis-graph-error-color;
+      stroke: @vis-graph-error-color;
     }
     &.vis-fill,
     &.vis-icon-fill {
-      fill-opacity: 0.1;
-      stroke-width: 0;
+      fill: mix(@vis-graph-error-color, @ay-body-bg, 60);
+      stroke: none;
     }
   }
+
 }

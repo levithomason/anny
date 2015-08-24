@@ -50,50 +50,63 @@ body {
   left: 0;
   right: 0;
   height: 33vh;
-}
-.vis-graph-container .vis-legend {
-  background: none;
-  border: none;
-  box-shadow: none;
-}
-.vis-graph-container .vis-legend .vis-legend-text {
-  color: #905a5b;
-}
-.vis-graph-container .vis-legend .vis-outline {
-  display: none;
+  min-height: 180px;
 }
 .vis-graph-container .vis-timeline {
   border: none !important;
 }
 .vis-graph-container .vis-timeline .vis-panel {
-  border: none !important;
+  border: none;
 }
-.vis-graph-container .vis-timeline .vis-grid.vis-major {
-  border: 1px solid #3d4243 !important;
+.vis-graph-container .vis-timeline .vis-panel.vis-background.vis-vertical .vis-grid.vis-major,
+.vis-graph-container .vis-timeline .vis-panel.vis-background.vis-vertical .vis-grid.vis-minor {
+  border: none;
 }
-.vis-graph-container .vis-timeline .vis-grid.vis-minor {
-  border: 1px solid #353a3b !important;
+.vis-graph-container .vis-timeline .vis-panel.vis-background.vis-horizontal .vis-grid.vis-major {
+  border: 1px solid #3d4243;
 }
-.vis-graph-container .vis-timeline .vis-grid.vis-vertical {
-  border: none !important;
+.vis-graph-container .vis-timeline .vis-panel.vis-background.vis-horizontal .vis-grid.vis-minor {
+  border: 1px solid #353a3b;
 }
-.vis-graph-container .vis-current-time {
+.vis-graph-container .vis-timeline .vis-legend {
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+.vis-graph-container .vis-timeline .vis-legend .vis-legend-text {
+  color: #7d5353;
+}
+.vis-graph-container .vis-timeline .vis-legend .vis-outline {
+  display: none;
+}
+.vis-graph-container .vis-timeline .vis-data-axis .vis-major {
+  color: #949c9e;
+}
+.vis-graph-container .vis-timeline .vis-data-axis .vis-minor {
+  color: #61696b;
+}
+.vis-graph-container .vis-timeline .vis-time-axis .vis-major {
+  color: #494f50;
+}
+.vis-graph-container .vis-timeline .vis-time-axis .vis-minor {
+  color: #494f50;
+}
+.vis-graph-container .vis-timeline .vis-current-time {
   width: 1px;
-  background: #604848;
+  background: #574444;
 }
 .vis-graph-container .vis-error-graph-style {
-  fill: #905a5b;
-  fill-opacity: 0;
-  stroke-width: 1px;
-  stroke: #905a5b;
+  fill: none;
+  stroke: #7d5353;
 }
 .vis-graph-container .vis-error-graph-style.vis-point {
-  fill-opacity: 1;
+  fill: #7d5353;
+  stroke: #7d5353;
 }
 .vis-graph-container .vis-error-graph-style.vis-fill,
 .vis-graph-container .vis-error-graph-style.vis-icon-fill {
-  fill-opacity: 0.1;
-  stroke-width: 0;
+  fill: #5e4747;
+  stroke: none;
 }
 .ay-toolbar {
   position: fixed;
