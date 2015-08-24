@@ -204,17 +204,20 @@ angular.module('App.toolbar')
         scope.net2048 = function() {
           // http://www.solver.com/xlminer/help
           //   /neural-networks-classification-intro
+          /*
           var samples = window.data2048ScaledTraining.length;
           var inputs = 16;
           var outputs = 4;
           // 5 - 10, larger values for less noisy data
           var scale = 5;
           var hiddenNeurons = Math.ceil(samples / (inputs + outputs)) / scale;
+          */
 
           AnnyFactory.newNetwork([
             16,
-            hiddenNeurons,
-            hiddenNeurons,
+            12,
+            9,
+            6,
             4
           ]);
         };
@@ -266,9 +269,7 @@ angular.module('App.toolbar')
         };
 
         scope.train2048 = function() {
-          AnnyFactory.train(window.data2048ScaledTraining, function(err) {
-            console.debug(err);
-          }, 100);
+          AnnyFactory.train(window.data2048ScaledTraining);
 
           console.log('Training done, test output:');
           var totalErrors = _.map(window.data2048ScaledTest, function(sample) {

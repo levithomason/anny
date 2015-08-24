@@ -14,7 +14,7 @@ var data2048Scaled = _(data2048)
   .shuffle()
   .value();
 
-console.log(data2048Scaled);
+// console.log(data2048Scaled);
 
 var dataBreakPoint = Math.floor(data2048Scaled.length * 0.9);
 var data2048ScaledTraining = _.slice(data2048Scaled, 0, dataBreakPoint);
