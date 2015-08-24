@@ -197,43 +197,80 @@ angular.module('App.graph')
       scope: {},
       template: '<div class="vis-graph-container"></div>',
       link: function(scope, elm) {
-        var DELAY = 2000; // delay in ms to add new data points
         var container = elm[0];
-        var items = [
-        ];
-        var dataset = new vis.DataSet(items);
+        var dataset = new vis.DataSet();
+        var groups = new vis.DataSet();
+        groups.add({
+          id: 0,
+          content: 'error',
+          className: 'vis-error-graph-style',
+          options: {
+            drawPoints: {
+              size: 5,
+              style: 'circle' // square, circle
+            },
+            shaded: {
+              orientation: 'bottom' // top, bottom
+            }
+          }
+        });
+
         var options = {
-          start: vis.moment().add(-60, 'seconds'), // changed so its faster
-          end: vis.moment(),
-          dataAxis: {
+          moveable: false,
+          width: '100%',
+          height: '100%',
+          start: vis.moment(),
+          legend: {
             left: {
-              range: {
-                min: -10, max: 10
-              }
+              visible: true,
+              position: 'top-left'
             }
           },
-          drawPoints: {
-            style: 'circle' // square, circle
-          },
-          shaded: {
-            orientation: 'bottom' // top, bottom
+          dataAxis: {
+            visible: true,
+            showMajorLabels: true,
+            showMinorLabels: true,
+            width: '0px',
+            left: {
+              range: {
+                min: 0
+              }
+            },
+            right: {
+              range: {
+                min: 0
+              }
+            }
           }
         };
-        var graph2d = new vis.Graph2d(container, dataset, options);
-        graph2d.getWindow();
 
-        var i = 0;
+        var graph2d = new vis.Graph2d(container, dataset, groups, options);
+        var i = 1;
+        var startTime = Date.now();
+
         function addDataPoint() {
-          // add a new data point to the dataset
-          var now = Date.now()+10000;
-          console.log(i);
           dataset.add({
-            x: now,
-            y: i++ / 1000
+            x: Date.now(),
+            y: i,
+            group: 0
           });
-          setTimeout(addDataPoint, DELAY);
+          i -= i / 5;
+          graph2d.redraw();
+          setTimeout(addDataPoint, 1000);
         }
-        addDataPoint();
+
+        function zoomWindow() {
+          var frequency = 10000;
+          graph2d.setWindow(startTime, Date.now() + frequency);
+          setTimeout(function() {
+            zoomWindow();
+          }, frequency);
+        }
+
+        (function init() {
+          addDataPoint();
+          zoomWindow();
+        }());
       }
     };
   });

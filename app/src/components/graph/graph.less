@@ -1,7 +1,63 @@
+@vis-graph-error-color: mix(lightcoral, @ay-body-bg, 50);
+
 .vis-graph-container {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 200px;
+  height: 33vh;
+
+  .vis-legend {
+    background: none;
+    border: none;
+    box-shadow: none;
+
+    .vis-legend-text {
+      color: @vis-graph-error-color;
+    }
+
+    .vis-outline {
+      display: none;
+    }
+  }
+
+  .vis-timeline {
+    border: none !important;;
+
+    .vis-panel {
+      border: none !important;;
+    }
+
+    .vis-grid {
+      &.vis-major {
+        border: 1px solid lighten(@ay-body-bg, 5) !important;
+      }
+      &.vis-minor {
+        border: 1px solid lighten(@ay-body-bg, 2) !important;
+      }
+      &.vis-vertical {
+        border: none !important;
+      }
+    }
+  }
+
+  .vis-current-time {
+    width: 1px;
+    background: mix(@vis-graph-error-color, @ay-body-bg);
+  }
+
+  .vis-error-graph-style {
+    fill: @vis-graph-error-color;
+    fill-opacity: 0;
+    stroke-width: 1px;
+    stroke: @vis-graph-error-color;
+    &.vis-point {
+      fill-opacity: 1;
+    }
+    &.vis-fill,
+    &.vis-icon-fill {
+      fill-opacity: 0.1;
+      stroke-width: 0;
+    }
+  }
 }

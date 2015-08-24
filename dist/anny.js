@@ -84,7 +84,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  rectifier: function rectifier(x) {
 	    // https://en.wikipedia.org/wiki/Rectifier
-	    return Math.max(0, x);
+	    return math.max(0, x);
 	  },
 
 	  /**
@@ -96,7 +96,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  rectifierDerivative: function rectifierDerivative(x) {
 	    // https://en.wikipedia.org/wiki/Rectifier
-	    return 1 / (1 + Math.exp(-x));
+	    return 1 / (1 + math.exp(-x));
 	  },
 
 	  /**
@@ -107,7 +107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  softplus: function softplus(x) {
 	    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-	    return Math.log(1 + Math.exp(x));
+	    return math.log(1 + math.exp(x));
 	  },
 
 	  /**
@@ -117,7 +117,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  softplusDerivative: function softplusDerivative(x) {
 	    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-	    return Math.log(1 + Math.exp(x));
+	    return math.log(1 + math.exp(x));
 	  },
 
 	  /**
@@ -128,7 +128,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  logistic: function logistic(x) {
 	    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
-	    return 1 / (1 + Math.exp(-x));
+	    return 1 / (1 + math.exp(-x));
 	  },
 
 	  /**
@@ -137,7 +137,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  logisticDerivative: function logisticDerivative(x) {
 	    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
-	    var val = 1 / (1 + Math.exp(-x));
+	    var val = 1 / (1 + math.exp(-x));
 	    return val * (1 - val);
 	  },
 
@@ -169,8 +169,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} x
 	   */
 	  tanh: function tanh(x) {
-	    var negExp = Math.exp(-x);
-	    var posExp = Math.exp(x);
+	    var negExp = math.exp(-x);
+	    var posExp = math.exp(x);
 	    return (posExp - negExp) / (posExp + negExp);
 	  },
 
@@ -180,7 +180,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {number}
 	   */
 	  tanhDerivative: function tanhDerivative(x) {
-	    return 1 - Math.pow(Math.tanh(x), 2);
+	    return 1 - math.pow(math.tanh(x), 2);
+	  },
+
+	  /**
+	   * Modified hyperbolic tangent function.  Optimized for faster convergence.
+	   * @returns {number}
+	   */
+	  optimalTanh: function optimalTanh(x) {
+	    return 1.7159 * math.tanh(x * 2 / 3);
+	  },
+
+	  /**
+	   * The derivative of the modified hyperbolic tangent function.
+	   * @returns {number}
+	   */
+	  optimalTanhDerivative: function optimalTanhDerivative(x) {
+	    return 1.14393 * math.sech(x * 2 / 3);
 	  }
 	};
 
@@ -596,7 +612,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {object[]} data - Array of objects in the form
 	 * `{input: [], output: []}`.
 	 * @param {function} [callback] - Called with the current error every
-	 *   `callbackFrequency`.
+	 *   `frequency`.
 	 * @param {number} [frequency] - How many iterations to let pass between
 	 *   logging the current error.
 	 */
@@ -608,6 +624,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var epochs = 50000;
 	  var errorThreshold = 0.001;
 	  var callbackFrequency = frequency || _.max([1, _.floor(epochs / 20)]);
+
+	  var defaultCallback = function(err, epoch) {
+	    console.log('epcoh', epoch, 'error:', err);
+	  };
 
 	  _.each(_.range(epochs), function(index) {
 	    var n = index + 1;
@@ -627,8 +647,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, this));
 
 	    // callback with results periodically
-	    if (_.isFunction(callback) && (n === 1 || n % callbackFrequency === 0)) {
-	      callback(avgError, n);
+	    if (n === 1 || n % callbackFrequency === 0) {
+	      (callback || defaultCallback)(avgError, n);
 	    }
 
 	    // success / fail
@@ -692,16 +712,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  /**
-	   * Normalizes an `array` of numbers to a range from -1 to 1.
-	   * @param {number[]} array
+	   * Normalizes an `array` of numbers to a range from -1 to 1. Optionally
+	   * specifying the `dataMin` and/or `dataMax` is useful when normalizing
+	   * multiple arrays that do not each contain the global min value or global
+	   * max value.
+	   * @param {number[]} array - The array to normalize.
+	   * @param {number} [dataMin] - The number to use at the min value in the
+	   *   `array`. Defaults to the actual min `array` value.
+	   * @param {number} [dataMax] - The number to use at the max value in the
+	   *   `array`. Defaults to the actual max `array` value.
 	   */
-	  normalize: function normalize(array) {
-	    var min = _.min(array);
-	    var max = _.max(array);
-	    var range = max - min;
-	    var offset = 0 - min;
+	  normalize: function normalize(array, dataMin, dataMax) {
+	    var scaleMax = dataMax || _.max(array);
+	    var scaleMin = dataMin || _.min(array);
+	    var scaleOffset = 0 - scaleMin;
+	    var scaleRange = scaleMax - scaleMin;
+
 	    return _.map(array, function(n) {
-	      return (n + offset) / (range / 2) - 1;
+	      if (n > scaleMax || n < scaleMin) {
+	        throw new Error(
+	          n + ' is beyond the scale range: ' + scaleMin + ' to ' + scaleMax
+	        );
+	      }
+	      return (n + scaleOffset) / (scaleRange / 2) - 1;
 	    });
 	  },
 
