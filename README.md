@@ -51,10 +51,13 @@ npm run report-coverage   submit coverage info, requires CODECLIMATE_REPO_TOKEN
 ```
 
 ## Project Structure
-This repo contains two projects.  Anny, the neural net library and AngularJS
-web app for demoing and testing purposes.
+This repo contains two projects.
 
-Anny lives `/lib`.  The AngularJS demo web app lives in `/app`.`
+**`/lib`**
+Anny, the neural net library.  
+
+**`/app`**
+An AngularJS web app for demoing and testing purposes
 
 ## Why Anny?
 I wanted to understand machine learning.

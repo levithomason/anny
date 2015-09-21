@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Util.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a><ul class='methods'><li data-type='method'><a href="Layer.html#activate">activate</a></li><li data-type='method'><a href="Layer.html#connect">connect</a></li><li data-type='method'><a href="Layer.html#train">train</a></li></ul></li><li><a href="Network.html">Network</a><ul class='methods'><li data-type='method'><a href="Network.html#activate">activate</a></li><li data-type='method'><a href="Network.html#correct">correct</a></li><li data-type='method'><a href="Network.html#train">train</a></li></ul></li><li><a href="Neuron.html">Neuron</a><ul class='methods'><li data-type='method'><a href="Neuron.html#activate">activate</a></li><li data-type='method'><a href="Neuron.html#connect">connect</a></li><li data-type='method'><a href="Neuron.html#isInput">isInput</a></li><li data-type='method'><a href="Neuron.html#isOutput">isOutput</a></li><li data-type='method'><a href="Neuron.html#train">train</a></li></ul></li><li><a href="Neuron.Connection.html">Connection</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a><ul class='methods'><li data-type='method'><a href="ACTIVATION.html#.identity">identity</a></li><li data-type='method'><a href="ACTIVATION.html#.identityDerivative">identityDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.logistic">logistic</a></li><li data-type='method'><a href="ACTIVATION.html#.logisticDerivative">logisticDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.optimalTanh">optimalTanh</a></li><li data-type='method'><a href="ACTIVATION.html#.optimalTanhDerivative">optimalTanhDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.rectifier">rectifier</a></li><li data-type='method'><a href="ACTIVATION.html#.rectifierDerivative">rectifierDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.softplus">softplus</a></li><li data-type='method'><a href="ACTIVATION.html#.softplusDerivative">softplusDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.tanh">tanh</a></li><li data-type='method'><a href="ACTIVATION.html#.tanhDerivative">tanhDerivative</a></li></ul></li><li><a href="ERROR.html">ERROR</a><ul class='methods'><li data-type='method'><a href="ERROR.html#.arcTan">arcTan</a></li><li data-type='method'><a href="ERROR.html#.crossEntropy">crossEntropy</a></li><li data-type='method'><a href="ERROR.html#.meanSquared">meanSquared</a></li><li data-type='method'><a href="ERROR.html#.rootMeanSquared">rootMeanSquared</a></li></ul></li><li><a href="INITIALIZE.html">INITIALIZE</a><ul class='methods'><li data-type='method'><a href="INITIALIZE.html#.bias">bias</a></li><li data-type='method'><a href="INITIALIZE.html#.learningRate">learningRate</a></li><li data-type='method'><a href="INITIALIZE.html#.weight">weight</a></li></ul></li><li><a href="util.html">util</a><ul class='methods'><li data-type='method'><a href="util.html#.findFastestActivation">findFastestActivation</a></li><li data-type='method'><a href="util.html#.getApproximateDerivative">getApproximateDerivative</a></li><li data-type='method'><a href="util.html#.normalize">normalize</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Util.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var ACTIVATION = require('./Activation');
+
+/**
+ * @namespace
+ * @type {}
+ */
+var util = {
+  /**
+   * A hack that times all activation functions, logging the results.
+   */
+  findFastestActivation: function findFastestActivation() {
+    var epochs = 5000000;
+    var results = [];
+    var start;
+    var ms;
+    var x = Math.random() - 0.5;
+
+    console.log('epochs:', epochs);
+    console.log('value:', x);
+    console.log('...this will take a while');
+
+    _.each(ACTIVATION, function(fn) {
+      start = new Date();
+      _.times(epochs, function() {
+        fn(x);
+      });
+      ms = new Date() - start;
+      var bar = _.repeat('=', Math.round(ms / (epochs / 250000)));
+
+      results.push({
+        bar: ['|' + bar + '>', ms, fn.name].join(' '),
+        ms: ms
+      });
+    });
+
+    // log results
+    console.log('_______________ results in ms _______________');
+
+    _.each(_.sortBy(results, 'ms'), function(result) {
+      console.log(result.bar);
+    });
+  },
+
+  /**
+   * Normalizes an `array` of numbers to a range from -1 to 1. Optionally
+   * specifying the `dataMin` and/or `dataMax` is useful when normalizing
+   * multiple arrays that do not each contain the global min value or global
+   * max value.
+   * @param {number[]} array - The array to normalize.
+   * @param {number} [dataMin] - The number to use at the min value in the
+   *   `array`. Defaults to the actual min `array` value.
+   * @param {number} [dataMax] - The number to use at the max value in the
+   *   `array`. Defaults to the actual max `array` value.
+   */
+  normalize: function normalize(array, dataMin, dataMax) {
+    var scaleMax = dataMax || _.max(array);
+    var scaleMin = dataMin || _.min(array);
+    var scaleOffset = 0 - scaleMin;
+    var scaleRange = scaleMax - scaleMin;
+
+    return _.map(array, function(n) {
+      if (n > scaleMax || n &lt; scaleMin) {
+        throw new Error(
+          n + ' is beyond the scale range: ' + scaleMin + ' to ' + scaleMax
+        );
+      }
+      return (n + scaleOffset) / (scaleRange / 2) - 1;
+    });
+  },
+
+  /**
+   * Returns a new function that is an approximate derivative of the `func`.
+   * @param func - The function to create an approximate derivative of.
+   * @returns {function}
+   */
+  getApproximateDerivative: function getApproximateDerivative(func) {
+    // https://github.com/pr1001/MathPlus/blob/master/mathplus.js#L316
+    return function(x) {
+      return (func(x + 1e-10) - func(x)) / 1e-10;
+    };
+  }
+};
+
+module.exports = util;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

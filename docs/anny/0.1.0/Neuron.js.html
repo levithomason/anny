@@ -1,5 +1,44 @@
-var _ = require('lodash');
-var INITIALIZE = require('./Initialize');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Neuron.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a><ul class='methods'><li data-type='method'><a href="Layer.html#activate">activate</a></li><li data-type='method'><a href="Layer.html#connect">connect</a></li><li data-type='method'><a href="Layer.html#train">train</a></li></ul></li><li><a href="Network.html">Network</a><ul class='methods'><li data-type='method'><a href="Network.html#activate">activate</a></li><li data-type='method'><a href="Network.html#correct">correct</a></li><li data-type='method'><a href="Network.html#train">train</a></li></ul></li><li><a href="Neuron.html">Neuron</a><ul class='methods'><li data-type='method'><a href="Neuron.html#activate">activate</a></li><li data-type='method'><a href="Neuron.html#connect">connect</a></li><li data-type='method'><a href="Neuron.html#isInput">isInput</a></li><li data-type='method'><a href="Neuron.html#isOutput">isOutput</a></li><li data-type='method'><a href="Neuron.html#train">train</a></li></ul></li><li><a href="Neuron.Connection.html">Connection</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a><ul class='methods'><li data-type='method'><a href="ACTIVATION.html#.identity">identity</a></li><li data-type='method'><a href="ACTIVATION.html#.identityDerivative">identityDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.logistic">logistic</a></li><li data-type='method'><a href="ACTIVATION.html#.logisticDerivative">logisticDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.optimalTanh">optimalTanh</a></li><li data-type='method'><a href="ACTIVATION.html#.optimalTanhDerivative">optimalTanhDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.rectifier">rectifier</a></li><li data-type='method'><a href="ACTIVATION.html#.rectifierDerivative">rectifierDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.softplus">softplus</a></li><li data-type='method'><a href="ACTIVATION.html#.softplusDerivative">softplusDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.tanh">tanh</a></li><li data-type='method'><a href="ACTIVATION.html#.tanhDerivative">tanhDerivative</a></li></ul></li><li><a href="ERROR.html">ERROR</a><ul class='methods'><li data-type='method'><a href="ERROR.html#.arcTan">arcTan</a></li><li data-type='method'><a href="ERROR.html#.crossEntropy">crossEntropy</a></li><li data-type='method'><a href="ERROR.html#.meanSquared">meanSquared</a></li><li data-type='method'><a href="ERROR.html#.rootMeanSquared">rootMeanSquared</a></li></ul></li><li><a href="INITIALIZE.html">INITIALIZE</a><ul class='methods'><li data-type='method'><a href="INITIALIZE.html#.bias">bias</a></li><li data-type='method'><a href="INITIALIZE.html#.learningRate">learningRate</a></li><li data-type='method'><a href="INITIALIZE.html#.weight">weight</a></li></ul></li><li><a href="util.html">util</a><ul class='methods'><li data-type='method'><a href="util.html#.findFastestActivation">findFastestActivation</a></li><li data-type='method'><a href="util.html#.getApproximateDerivative">getApproximateDerivative</a></li><li data-type='method'><a href="util.html#.normalize">normalize</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Neuron.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var INITIALIZE = require('./Initialize');
 var ACTIVATION = require('./Activation');
 
 /**
@@ -33,7 +72,8 @@ function Neuron() {
   this.output = 0;
 
   // activation
-  this.activation = ACTIVATION.tanh;
+  this.activationFn = ACTIVATION.tanh;
+  this.activationDerivative = ACTIVATION.tanhDerivative;
 
   // learning
   this.error = 0;
@@ -92,7 +132,7 @@ Neuron.Connection = function(source, target, weight) {
  * @param {number} [targetOutput] - Manually set the target output.error.
  */
 Neuron.prototype.train = function(targetOutput) {
-  var inputDerivative = this.activation.prime(this.input);
+  var inputDerivative = this.activationDerivative(this.input);
 
   if (!_.isUndefined(targetOutput)) {
     this.error = targetOutput - this.output;
@@ -106,7 +146,7 @@ Neuron.prototype.train = function(targetOutput) {
   //   target Neuron's delta is used: targetDelta * weight * gradient.
   // Since input Neurons and Bias Neurons are strictly source Neurons
   //   they will never be a target Neuron and their delta's never used
-  if (!this.isInput() && !this.isBias) {
+  if (!this.isInput() &amp;&amp; !this.isBias) {
     if (this.isOutput()) {
       this.delta = -this.error * inputDerivative;
     } else {
@@ -155,7 +195,7 @@ Neuron.prototype.activate = function(input) {
 
   // set the output
   // do not squash input Neurons values, pass them straight through
-  this.output = this.isInput() ? this.input : this.activation.func(this.input);
+  this.output = this.isInput() ? this.input : this.activationFn(this.input);
 
   return this.output;
 };
@@ -181,7 +221,7 @@ Neuron.prototype.connect = function(target, weight) {
  * @returns {boolean}
  */
 Neuron.prototype.isInput = function() {
-  return !this.isBias && this.incoming.length === 0;
+  return !this.isBias &amp;&amp; this.incoming.length === 0;
 };
 
 /**
@@ -193,3 +233,22 @@ Neuron.prototype.isOutput = function() {
 };
 
 module.exports = Neuron;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

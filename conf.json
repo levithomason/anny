@@ -1,0 +1,47 @@
+{
+  "source": {
+    "include": [
+      "./package.json",
+      "./README.md",
+      "./lib"
+    ],
+    "exclude": [
+      "./app",
+      "./coverage",
+      "./dist",
+      "./docs",
+      "./gulp",
+      "./test"
+    ],
+    "includePattern": ".+\\.(js|md)$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "opts": {
+    "template": "node_modules/minami",
+    "encoding": "utf8",
+    "destination": "./docs/",
+    "recurse": true,
+    "tutorials": ""
+  },
+  "templates": {
+    "default": {
+      "includeDate": false
+    },
+    "applicationName": "Anny",
+    "disqus": "annyjs",
+    "googleAnalytics": "",
+    "openGraph": {
+      "title": "",
+      "type": "website",
+      "image": "",
+      "site_name": "",
+      "url": ""
+    },
+    "meta": {
+      "title": "",
+      "description": "",
+      "keyword": ""
+    },
+    "linenums": true
+  }
+}

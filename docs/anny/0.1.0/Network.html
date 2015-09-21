@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Network - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a><ul class='methods'><li data-type='method'><a href="Layer.html#activate">activate</a></li><li data-type='method'><a href="Layer.html#connect">connect</a></li><li data-type='method'><a href="Layer.html#train">train</a></li></ul></li><li><a href="Network.html">Network</a><ul class='methods'><li data-type='method'><a href="Network.html#activate">activate</a></li><li data-type='method'><a href="Network.html#correct">correct</a></li><li data-type='method'><a href="Network.html#train">train</a></li></ul></li><li><a href="Neuron.html">Neuron</a><ul class='methods'><li data-type='method'><a href="Neuron.html#activate">activate</a></li><li data-type='method'><a href="Neuron.html#connect">connect</a></li><li data-type='method'><a href="Neuron.html#isInput">isInput</a></li><li data-type='method'><a href="Neuron.html#isOutput">isOutput</a></li><li data-type='method'><a href="Neuron.html#train">train</a></li></ul></li><li><a href="Neuron.Connection.html">Connection</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a><ul class='methods'><li data-type='method'><a href="ACTIVATION.html#.identity">identity</a></li><li data-type='method'><a href="ACTIVATION.html#.identityDerivative">identityDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.logistic">logistic</a></li><li data-type='method'><a href="ACTIVATION.html#.logisticDerivative">logisticDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.optimalTanh">optimalTanh</a></li><li data-type='method'><a href="ACTIVATION.html#.optimalTanhDerivative">optimalTanhDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.rectifier">rectifier</a></li><li data-type='method'><a href="ACTIVATION.html#.rectifierDerivative">rectifierDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.softplus">softplus</a></li><li data-type='method'><a href="ACTIVATION.html#.softplusDerivative">softplusDerivative</a></li><li data-type='method'><a href="ACTIVATION.html#.tanh">tanh</a></li><li data-type='method'><a href="ACTIVATION.html#.tanhDerivative">tanhDerivative</a></li></ul></li><li><a href="ERROR.html">ERROR</a><ul class='methods'><li data-type='method'><a href="ERROR.html#.arcTan">arcTan</a></li><li data-type='method'><a href="ERROR.html#.crossEntropy">crossEntropy</a></li><li data-type='method'><a href="ERROR.html#.meanSquared">meanSquared</a></li><li data-type='method'><a href="ERROR.html#.rootMeanSquared">rootMeanSquared</a></li></ul></li><li><a href="INITIALIZE.html">INITIALIZE</a><ul class='methods'><li data-type='method'><a href="INITIALIZE.html#.bias">bias</a></li><li data-type='method'><a href="INITIALIZE.html#.learningRate">learningRate</a></li><li data-type='method'><a href="INITIALIZE.html#.weight">weight</a></li></ul></li><li><a href="util.html">util</a><ul class='methods'><li data-type='method'><a href="util.html#.findFastestActivation">findFastestActivation</a></li><li data-type='method'><a href="util.html#.getApproximateDerivative">getApproximateDerivative</a></li><li data-type='method'><a href="util.html#.normalize">normalize</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Network</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        Network
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    <h4 class="name" id="Network"><span class="type-signature"></span>new Network<span class="signature">(layerSizes)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Creates a Network of Layers consisting of Neurons. Each array element
+indicates a layer.  The value indicates the number of Neurons in that Layer.
+
+The first element represents the number of Neurons in the input Layer.
+The last element represents the number of Neurons in the output Layer.
+Each element in between represents a hidden Layer with n Neurons.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>layerSizes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;number></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Number of neurons in each layer.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line26">line 26</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>// 2 inputs
+// 1 output
+var net = new Network([2, 1]);</code></pre>
+
+    <pre class="prettyprint"><code>// 16 inputs
+// 10 neuron hidden layer
+// 4 neuron hidden layer
+// 1 output
+var net = new Network([16, 10, 4, 1]);</code></pre>
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="activate"><span class="type-signature"></span>activate<span class="signature">(inputs)</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Activate the network with a given set of `input` values.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>inputs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;number></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Values to activate the Network input Neurons.
+  Values should be normalized between -1 and 1 using Util.normalize.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line66">line 66</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    output values
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="correct"><span class="type-signature"></span>correct<span class="signature">(output)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Correct the Network to produce the specified `output`.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>output</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;number></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The target output for the Network.
+Values in the array specify the target output of the Neuron in the output
+  layer.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line79">line 79</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="train"><span class="type-signature"></span>train<span class="signature">(data, callback<span class="signature-attributes">opt</span>, frequency<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Train the Network to produce the output from the given input.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;object></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Array of objects in the form
+`{input: [], output: []}`.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Called with the current error every
+  `frequency`.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>frequency</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">How many iterations to let pass between
+  logging the current error.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line99">line 99</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

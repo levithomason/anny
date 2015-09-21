@@ -1,5 +1,5 @@
 instrumentation:
-    excludes: [app, dist, gulp, test]
+    excludes: [app, dist, docs, gulp, test]
 check:
     global:
         statements: 0
