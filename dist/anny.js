@@ -623,10 +623,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	  //  ensure the output length matches the number of Network outputs
 	  var epochs = 50000;
 	  var errorThreshold = 0.001;
-	  var callbackFrequency = frequency || _.max([1, _.floor(epochs / 20)]);
+	  var callbackFrequency = frequency || 100;
+	  var lastEpochError = 0;
+	  var lastEpochTime = Date.now();
+	  var lowestEpochError = Infinity;
 
 	  var defaultCallback = function(err, epoch) {
-	    console.log('epcoh', epoch, 'error:', err);
+	    var isNewLow = err < lowestEpochError;
+	    var difference = err - lastEpochError;
+	    var time = Date.now() - lastEpochTime;
+	    var indicator = difference >= 0 ? '↑' : '↓';
+	    console.log(
+	      'epoch', _.padRight(epoch, 5),
+	      'err', err.toFixed(16),
+	      (isNewLow ? '★' : ' '),
+	      indicator, Math.abs(difference).toFixed(16),
+	      ('◷ ' + (time / 1000).toFixed(2) + 's')
+	    );
+	    lastEpochError = err;
+	    lastEpochTime = Date.now();
+	    lowestEpochError = Math.min(err, lowestEpochError);
 	  };
 
 	  _.each(_.range(epochs), function(index) {
