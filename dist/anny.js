@@ -75,6 +75,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Activation functions and their derivatives for Neurons.
+	 * @namespace
 	 * @type {object}
 	 */
 	var ACTIVATION = {
@@ -195,9 +196,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Functions for calculating Network error.  The error is simply the difference
 	 * between the correct output and the actual output.
+	 * @namespace
 	 * @type {object}
 	 */
 	var ERROR = {
+	  /**
+	   * @param {number[]} expected - Array of output values the Network should have
+	   *   produced.
+	   * @param {number[]} actual - Array of output values the Network actually
+	   *   produced.
+	   * @returns {number}
+	   */
 	  crossEntropy: function crossEntropy(expected, actual) {
 	    return -(_.sum(actual, function(actVal, i) {
 	        return Math.log(actVal) * expected[i];
@@ -206,16 +215,37 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // These taken from: https://www.youtube.com/watch?v=U4BTzF3Wzt0
 
+	  /**
+	   * @param {number[]} expected - Array of output values the Network should have
+	   *   produced.
+	   * @param {number[]} actual - Array of output values the Network actually
+	   *   produced.
+	   * @returns {number}
+	   */
 	  meanSquared: function meanSquared(expected, actual) {
 	    return _.sum(actual, function(actVal, i) {
 	        return Math.pow(expected[i] - actVal, 2);
 	      }) / actual.length;
 	  },
 
+	  /**
+	   * @param {number[]} expected - Array of output values the Network should have
+	   *   produced.
+	   * @param {number[]} actual - Array of output values the Network actually
+	   *   produced.
+	   * @returns {number}
+	   */
 	  rootMeanSquared: function rootMeanSquared(expected, actual) {
 	    return Math.sqrt(ERROR.meanSquared(expected, actual));
 	  },
 
+	  /**
+	   * @param {number[]} expected - Array of output values the Network should have
+	   *   produced.
+	   * @param {number[]} actual - Array of output values the Network actually
+	   *   produced.
+	   * @returns {number}
+	   */
 	  arcTan: function arcTan(expected, actual) {
 	    return _.sum(actual, function(actVal, i) {
 	        return Math.atan(expected[i] - actVal);
@@ -239,6 +269,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _ = __webpack_require__(4);
 
 	// Initialze Neuron and Connection values.
+	/**
+	 * Initialize Neuron and Connection values.
+	 * @namespace
+	 * @type {object}
+	 */
 	var INITIALIZE = {
 	  /**
 	   * Initialize the bias for a Neuron.
@@ -358,11 +393,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	var INITIALIZE = __webpack_require__(5);
 	var ACTIVATION = __webpack_require__(1);
 
+	/**
+	 * A Neuron is the smallest unit of an artificial neural network.  They are not
+	 * useful until connected.
+	 * @constructor
+	 */
 	function Neuron() {
+	  /**
+	   * Flag identifying this Neuron as a Bias Neuron.  Bias Neurons are like all
+	   * all ot
+	   * @type {boolean}
+	   */
 	  this.isBias = false;
+
+	  /**
+	   * A unique id beginning at 0 and are incremented for every Neuron created.
+	   * @type {number}
+	   */
 	  this.id = Neuron.count++;
 
-	  // connections
+	  /**
+	   * An array of Neuron.Connection
+	   * @type {Array}
+	   */
 	  this.incoming = [];
 	  this.outgoing = [];
 
@@ -379,30 +432,55 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.learningRate = INITIALIZE.learningRate();
 	}
 
+	/**
+	 * A running total number of Neurons created.  It is only used to generate
+	 * unique ids for each Neuron. Creating a new Neuron increments the count but
+	 * it is never decremented.
+	 * @type {number}
+	 */
 	Neuron.count = 0;
 
 	/**
 	 * The connection between two Neurons.  Connections are unidirectional.
-	 * @param source - Neuron that will send its output to the `target` Neuron.
-	 * @param target - Neuron that will get its input from the `source` Neuron.
-	 * @param weight - The strength of the connection.  Meaning, how much of the
-	 *   `source` output is passed to the `target` Neuron input.
-	 * @returns {{source: *, target: *, weight: (*|number)}}
+	 * @param {object} source - Neuron that will send its output to the `target`
+	 *   Neuron.
+	 * @param {object} target - Neuron that will get its input from the `source`
+	 *   Neuron.
+	 * @param {number} weight - The strength of the connection.  Meaning, how much
+	 *   of the `source` output is passed to the `target` Neuron input.
+	 * @constructor
 	 */
-	Neuron.connection = function(source, target, weight) {
-	  return {
-	    source: source,
-	    target: target,
-	    // initialize weights as if this connection were already connected
-	    weight: weight || INITIALIZE.weight(target.incoming.length + 1)
-	  };
+	Neuron.Connection = function(source, target, weight) {
+	  /**
+	   * A reference to the actual Neuron that is at the beginning of this
+	   * Connection.
+	   * @type {Neuron}
+	   */
+	  this.source = source;
+
+	  /**
+	   * A reference to the actual Neuron that is at the end of this Connection.
+	   * @type {Neuron}
+	   */
+	  this.target = target;
+
+	  // We add one to initialize the weight value as if this connection were
+	  // already part of the fan.
+	  /**
+	   * The weight is used as a multiplier for two purposes.  First, for
+	   * activation, when transferring the output of the `source` Neuron to the
+	   * input of the `target` Neuron. Second, during training, calculating the
+	   * total error delta.
+	   * @type {number}
+	   */
+	  this.weight = weight || INITIALIZE.weight(target.incoming.length + 1);
 	};
 
 	/**
-	 * Train the Neuron to output the `targetOutput`.
+	 * Train the Neuron to output the `targetOutput`.  If a `targetOutput` is not
+	 * provided, the Neuron will train itself to minimize the error of the Neurons
+	 * from its outgoing connections.
 	 * @param {number} [targetOutput] - Manually set the target output.error.
-	 *   If no `targetOutput` is provided, the Neuron will infer train itself
-	 *   to minimize the error of the Neurons it is connected to downstream.
 	 */
 	Neuron.prototype.train = function(targetOutput) {
 	  var inputDerivative = this.activation.prime(this.input);
@@ -414,10 +492,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // set the delta
 	  // https://www.youtube.com/watch?v=p1-FiWjThs8
 	  //
-	  // input Neurons and Bias Neurons do not need to calculate their delta
-	  // this is because the delta is only used to update the weight
-	  // but only the target Neuron's delta is used: targetDelta * weight * gradient
-	  // since input Neurons and Bias Neurons are strictly source Neurons
+	  // Input Neurons and Bias Neurons do not need to calculate their delta.
+	  // This is because the delta is only used to update the weight but only the
+	  //   target Neuron's delta is used: targetDelta * weight * gradient.
+	  // Since input Neurons and Bias Neurons are strictly source Neurons
 	  //   they will never be a target Neuron and their delta's never used
 	  if (!this.isInput() && !this.isBias) {
 	    if (this.isOutput()) {
@@ -479,12 +557,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {number} weight - The strength of the connection.
 	 */
 	Neuron.prototype.connect = function(target, weight) {
-	  // bias Neurons are not allowed to have inputs
+	  // bias Neurons are not allowed to have incoming connections
 	  if (target.isBias) {
 	    return;
 	  }
 
-	  var connection = Neuron.connection(this, target, weight);
+	  var connection = new Neuron.Connection(this, target, weight);
 	  this.outgoing.push(connection);
 	  target.incoming.push(connection);
 	};
@@ -686,6 +764,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var ACTIVATION = __webpack_require__(1);
 
+	/**
+	 * @namespace
+	 * @type {}
+	 */
 	var util = {
 	  /**
 	   * A hack that times all activation functions, logging the results.

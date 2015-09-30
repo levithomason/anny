@@ -17,7 +17,7 @@
     "excludePattern": "(^|\\/|\\\\)_"
   },
   "opts": {
-    "template": "node_modules/minami",
+    "template": "node_modules/jaguarjs-jsdoc",
     "encoding": "utf8",
     "destination": "./docs/",
     "recurse": true,
