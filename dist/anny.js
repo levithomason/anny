@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
+		module.exports = factory(require("mathjs"), require("lodash"));
 	else if(typeof define === 'function' && define.amd)
-		define(factory);
+		define(["mathjs", "lodash"], factory);
 	else if(typeof exports === 'object')
-		exports["anny"] = factory();
+		exports["anny"] = factory(require("mathjs"), require("lodash"));
 	else
-		root["anny"] = factory();
-})(this, function() {
+		root["anny"] = factory(root["mathjs"], root["lodash"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_4__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -56,12 +56,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var anny = {
 	  ACTIVATION: __webpack_require__(1),
-	  ERROR: __webpack_require__(2),
-	  INITIALIZE: __webpack_require__(3),
-	  Layer: __webpack_require__(4),
-	  Network: __webpack_require__(6),
-	  Neuron: __webpack_require__(5),
-	  util: __webpack_require__(7)
+	  ERROR: __webpack_require__(3),
+	  INITIALIZE: __webpack_require__(5),
+	  Layer: __webpack_require__(6),
+	  Network: __webpack_require__(8),
+	  Neuron: __webpack_require__(7),
+	  util: __webpack_require__(9)
 	};
 
 	module.exports = anny;
@@ -69,55 +69,43 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	var math = __webpack_require__(2);
 
 	/**
-	 * Activation functions for Neurons and Layers.
+	 * Activation functions and their derivatives for Neurons.
 	 * @type {object}
 	 */
 	var ACTIVATION = {
 	  /**
-	   * Simply max(0, x).
-	   * Range: (0,+inf)
+	   * Simply max(0, x). Interestingly the derivative of the rectifier turns out
+	   * to be the logistic function. Range: (0,+inf)
 	   * @param x
-	   * @returns {number}
 	   */
-	  rectifier: function rectifier(x) {
+	  rectifier: {
 	    // https://en.wikipedia.org/wiki/Rectifier
-	    return math.max(0, x);
-	  },
-
-	  /**
-	   * The derivative of the rectifier which is interestingly turns out to be the
-	   * logistic function.
-	   * Range: (0,+inf)
-	   * @param x
-	   * @returns {number}
-	   */
-	  rectifierDerivative: function rectifierDerivative(x) {
-	    // https://en.wikipedia.org/wiki/Rectifier
-	    return 1 / (1 + math.exp(-x));
+	    func: function(x) {
+	      return math.max(0, x);
+	    },
+	    prime: function(x) {
+	      return 1 / (1 + math.exp(-x));
+	    },
 	  },
 
 	  /**
 	   * A smooth approximation of the rectifier.
 	   * Rage: (0,+inf)
 	   * @param x
-	   * @returns {number}
 	   */
-	  softplus: function softplus(x) {
+	  softplus: {
 	    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-	    return math.log(1 + math.exp(x));
-	  },
-
-	  /**
-	   * The derivative of the softplus.
-	   * @param x
-	   * @returns {number}
-	   */
-	  softplusDerivative: function softplusDerivative(x) {
-	    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-	    return math.log(1 + math.exp(x));
+	    func: function(x) {
+	      return math.log(1 + math.exp(x));
+	    },
+	    prime: function(x) {
+	      return math.log(1 + math.exp(x));
+	    },
 	  },
 
 	  /**
@@ -125,39 +113,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * function, though there are many sigmoid functions.
 	   * Range: (0,+1)
 	   * @param {number} x
+	   * @returns {number}
 	   */
-	  logistic: function logistic(x) {
+	  logistic: {
 	    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
-	    return 1 / (1 + math.exp(-x));
-	  },
-
-	  /**
-	   * The derivative of the logistic function.
-	   * @param {number} x
-	   */
-	  logisticDerivative: function logisticDerivative(x) {
-	    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
-	    var val = 1 / (1 + math.exp(-x));
-	    return val * (1 - val);
+	    func: function(x) {
+	      return 1 / (1 + math.exp(-x));
+	    },
+	    prime: function(x) {
+	      var val = 1 / (1 + math.exp(-x));
+	      return val * (1 - val);
+	    },
 	  },
 
 	  /**
 	   * Simply passes the input to the output with no transformation.
 	   * Range: (-inf,+inf)
 	   * @param {number} x
+	   * @returns {number}
 	   */
-	  identity: function identity(x) {
-	    return x;
-	  },
-
-	  /**
-	   * Derivative of the identity function.  The output is exactly the same as
-	   * the identify function. Included for consistency only.
-	   * @param x
-	   * @returns {*}
-	   */
-	  identityDerivative: function identityDerivative(x) {
-	    return x;
+	  identity: {
+	    func: function(x) {
+	      return x;
+	    },
+	    prime: function(x) {
+	      return x;
+	    },
 	  },
 
 	  /**
@@ -167,37 +148,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * multilayer perceptrons, particularly the hidden layers.
 	   * Range: (-1, +1)
 	   * @param {number} x
-	   */
-	  tanh: function tanh(x) {
-	    var negExp = math.exp(-x);
-	    var posExp = math.exp(x);
-	    return (posExp - negExp) / (posExp + negExp);
-	  },
-
-	  /**
-	   * The derivative of the hyperbolic tangent (tanh) function.
-	   * @param x
 	   * @returns {number}
 	   */
-	  tanhDerivative: function tanhDerivative(x) {
-	    return 1 - math.pow(math.tanh(x), 2);
+	  tanh: {
+	    func: function(x) {
+	      var negExp = math.exp(-x);
+	      var posExp = math.exp(x);
+	      return (posExp - negExp) / (posExp + negExp);
+	    },
+	    prime: function(x) {
+	      return 1 - math.pow(math.tanh(x), 2);
+	    },
 	  },
 
 	  /**
 	   * Modified hyperbolic tangent function.  Optimized for faster convergence.
+	   * Range: (-1, +1)
+	   * @param {number} x
 	   * @returns {number}
 	   */
-	  optimalTanh: function optimalTanh(x) {
-	    return 1.7159 * math.tanh(x * 2 / 3);
+	  optimalTanh: {
+	    func: function(x) {
+	      return 1.7159 * math.tanh(x * 2 / 3);
+	    },
+	    prime: function(x) {
+	      return 1.14393 * math.sech(x * 2 / 3);
+	    },
 	  },
-
-	  /**
-	   * The derivative of the modified hyperbolic tangent function.
-	   * @returns {number}
-	   */
-	  optimalTanhDerivative: function optimalTanhDerivative(x) {
-	    return 1.14393 * math.sech(x * 2 / 3);
-	  }
 	};
 
 	module.exports = ACTIVATION;
@@ -206,6 +183,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 /* 2 */
 /***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var _ = __webpack_require__(4);
 
 	/**
 	 * Functions for calculating Network error.  The error is simply the difference
@@ -242,8 +227,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var _ = __webpack_require__(4);
 
 	// Initialze Neuron and Connection values.
 	var INITIALIZE = {
@@ -283,11 +276,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 4 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var INITIALIZE = __webpack_require__(3);
-	var Neuron = __webpack_require__(5);
+	var _ = __webpack_require__(4);
+	var INITIALIZE = __webpack_require__(5);
+	var Neuron = __webpack_require__(7);
 
 	/**
 	 * Creates a single dimension Layer of Neurons.
@@ -357,10 +351,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var INITIALIZE = __webpack_require__(3);
+	var _ = __webpack_require__(4);
+	var INITIALIZE = __webpack_require__(5);
 	var ACTIVATION = __webpack_require__(1);
 
 	function Neuron() {
@@ -376,8 +371,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.output = 0;
 
 	  // activation
-	  this.activationFn = ACTIVATION.tanh;
-	  this.activationDerivative = ACTIVATION.tanhDerivative;
+	  this.activation = ACTIVATION.tanh;
 
 	  // learning
 	  this.error = 0;
@@ -411,7 +405,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   to minimize the error of the Neurons it is connected to downstream.
 	 */
 	Neuron.prototype.train = function(targetOutput) {
-	  var inputDerivative = this.activationDerivative(this.input);
+	  var inputDerivative = this.activation.prime(this.input);
 
 	  if (!_.isUndefined(targetOutput)) {
 	    this.error = targetOutput - this.output;
@@ -474,7 +468,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // set the output
 	  // do not squash input Neurons values, pass them straight through
-	  this.output = this.isInput() ? this.input : this.activationFn(this.input);
+	  this.output = this.isInput() ? this.input : this.activation.func(this.input);
 
 	  return this.output;
 	};
@@ -515,11 +509,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Layer = __webpack_require__(4);
-	var ERROR = __webpack_require__(2);
+	var _ = __webpack_require__(4);
+	var Layer = __webpack_require__(6);
+	var ERROR = __webpack_require__(3);
 
 	/**
 	 * Creates a Network of Layers consisting of Neurons. Each array element
@@ -549,6 +544,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
 	  this.output = [];
 	  this.errorFn = ERROR.meanSquared;
+	  this.error = null;
+	  this.errorThreshold = 0.001;
 
 	  this.allLayers = [];
 	  this.hiddenLayers = [];
@@ -621,8 +618,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  //  ensure it is normalized between -1 and 1
 	  //  ensure the input length matches the number of Network inputs
 	  //  ensure the output length matches the number of Network outputs
-	  var epochs = 50000;
-	  var errorThreshold = 0.001;
+	  var epochs = 20000;
 	  var callbackFrequency = frequency || 100;
 	  var lastEpochError = 0;
 	  var lastEpochTime = Date.now();
@@ -651,7 +647,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // loop over the training data summing the error of all samples
 	    // http://www.researchgate.net/post
 	    //   /Neural_networks_and_mean-square_errors#rgw51_55cb2f1399589
-	    var avgError = _.sum(_.map(data, function(sample) {
+	    this.error = _.sum(_.map(data, function(sample) {
 	      // make a prediction
 	      this.activate(sample.input);
 
@@ -664,18 +660,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    // callback with results periodically
 	    if (n === 1 || n % callbackFrequency === 0) {
-	      (callback || defaultCallback)(avgError, n);
+	      (callback || defaultCallback)(this.error, n);
 	    }
 
 	    // success / fail
-	    if (avgError <= errorThreshold) {
-	      console.debug(
-	        'Successfully trained to an error of', avgError, 'after', n, 'epochs.'
+	    if (this.error <= this.errorThreshold) {
+	      console.log(
+	        'Successfully trained to an error of', this.error, 'after', n, 'epochs.'
 	      );
 	      return false;
 	    } else if (n === epochs) {
-	      console.warn(
-	        'Failed to train. Error is', avgError, 'after', n, 'epochs.'
+	      console.log(
+	        'Failed to train. Error is', this.error, 'after', n, 'epochs.'
 	      );
 	    }
 	  }, this);
@@ -685,7 +681,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var ACTIVATION = __webpack_require__(1);

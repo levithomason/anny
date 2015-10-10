@@ -30,13 +30,24 @@ gulp.task('build-anny-js', function(cb) {
     },
     resolve: {
       root: paths.root,
-      modulesDirectories: paths.node_modules
+      modulesDirectories: [
+        paths.node_modules,
+        '.'
+      ]
     },
     module: {
       loaders: [
-        {test: /\.js$/, loader: 'eslint-loader', exclude: /node_modules/}
+        {
+          test: /\.js$/,
+          loaders: ['eslint'],
+          include: [paths.annyLib]
+        }
       ]
-    }
+    },
+    externals: [
+      'mathjs',
+      'lodash'
+    ]
   };
 
   // http://webpack.github.io/docs/node.js-api.html#stats
