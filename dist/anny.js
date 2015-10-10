@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
+		module.exports = factory(require("mathjs"), require("lodash"));
 	else if(typeof define === 'function' && define.amd)
-		define(factory);
+		define(["mathjs", "lodash"], factory);
 	else if(typeof exports === 'object')
-		exports["anny"] = factory();
+		exports["anny"] = factory(require("mathjs"), require("lodash"));
 	else
-		root["anny"] = factory();
-})(this, function() {
+		root["anny"] = factory(root["mathjs"], root["lodash"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_4__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -56,12 +56,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var anny = {
 	  ACTIVATION: __webpack_require__(1),
-	  ERROR: __webpack_require__(2),
-	  INITIALIZE: __webpack_require__(3),
-	  Layer: __webpack_require__(4),
-	  Network: __webpack_require__(6),
-	  Neuron: __webpack_require__(5),
-	  util: __webpack_require__(7)
+	  ERROR: __webpack_require__(3),
+	  INITIALIZE: __webpack_require__(5),
+	  Layer: __webpack_require__(6),
+	  Network: __webpack_require__(8),
+	  Neuron: __webpack_require__(7),
+	  util: __webpack_require__(9)
 	};
 
 	module.exports = anny;
@@ -69,7 +69,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	var math = __webpack_require__(2);
 
 	/**
 	 * Activation functions and their derivatives for Neurons.
@@ -182,6 +184,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 2 */
 /***/ function(module, exports) {
 
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var _ = __webpack_require__(4);
+
 	/**
 	 * Functions for calculating Network error.  The error is simply the difference
 	 * between the correct output and the actual output.
@@ -217,8 +227,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var _ = __webpack_require__(4);
 
 	// Initialze Neuron and Connection values.
 	var INITIALIZE = {
@@ -258,11 +276,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 4 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var INITIALIZE = __webpack_require__(3);
-	var Neuron = __webpack_require__(5);
+	var _ = __webpack_require__(4);
+	var INITIALIZE = __webpack_require__(5);
+	var Neuron = __webpack_require__(7);
 
 	/**
 	 * Creates a single dimension Layer of Neurons.
@@ -332,10 +351,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var INITIALIZE = __webpack_require__(3);
+	var _ = __webpack_require__(4);
+	var INITIALIZE = __webpack_require__(5);
 	var ACTIVATION = __webpack_require__(1);
 
 	function Neuron() {
@@ -489,11 +509,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Layer = __webpack_require__(4);
-	var ERROR = __webpack_require__(2);
+	var _ = __webpack_require__(4);
+	var Layer = __webpack_require__(6);
+	var ERROR = __webpack_require__(3);
 
 	/**
 	 * Creates a Network of Layers consisting of Neurons. Each array element
@@ -660,7 +681,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var ACTIVATION = __webpack_require__(1);

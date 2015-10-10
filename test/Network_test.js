@@ -79,7 +79,6 @@ describe('Network', function() {
         network.train(data, _.noop);
         expect(network.error).to.be.below(network.errorThreshold);
       });
-
     });
   });
 });
