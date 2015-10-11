@@ -16,19 +16,31 @@
     "includePattern": ".+\\.(js|md)$",
     "excludePattern": "(^|\\/|\\\\)_"
   },
+  "plugins": [
+    "plugins/markdown",
+    "plugins/summarize"
+  ],
   "opts": {
-    "template": "node_modules/jaguarjs-jsdoc",
+    "template": "",
     "encoding": "utf8",
     "destination": "./docs/",
     "recurse": true,
-    "tutorials": ""
+    "tutorials": "./docs/src/tutorials"
   },
   "templates": {
     "default": {
-      "includeDate": false
+      "includeDate": false,
+      "layoutFile": "./docs/src/layout.tmpl",
+      "staticFiles": {
+        "excludePattern": ".*webfont",
+        "includePattern": ".*\\.css$",
+        "include": [
+          "./docs/src/static"
+        ]
+      }
     },
     "applicationName": "Anny",
-    "disqus": "annyjs",
+    "disqus": "",
     "googleAnalytics": "",
     "openGraph": {
       "title": "",

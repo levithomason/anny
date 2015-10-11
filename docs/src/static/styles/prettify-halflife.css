@@ -1,0 +1,69 @@
+/*
+ * Halflife
+ * Prettify CSS Theme.
+ *
+ * Copyright (c) 2014 Dayle Rees
+ */
+
+.prettyprint {
+  padding: 2em;
+  background-color: #222;
+  font-size: .825em;
+  color: #ccc;
+}
+
+.prettyprint code {
+  background-color: #222;
+  font-family: 'Source Code Pro', Monaco, Consolas, "Lucida Console", monospace;
+}
+
+.prettyprint .pln {
+  color: #ccc;
+}
+
+.prettyprint .str {
+  color: #f9d423;
+}
+
+.prettyprint .kwd {
+  color: #fc913a;
+}
+
+.prettyprint .com {
+  color: #555;
+}
+
+.prettyprint .typ {
+  color: #7d8991;
+}
+
+.prettyprint .lit {
+  color: #f9d423;
+}
+
+.prettyprint .pun,
+.prettyprint .opn,
+.prettyprint .clo {
+  color: #ccc;
+}
+
+.prettyprint .tag {
+  color: #fc913a;
+}
+
+.prettyprint .atn {
+  color: #7d8991;
+}
+
+.prettyprint .atv {
+  color: #f9d423;
+}
+
+.prettyprint .dec,
+.prettyprint .var {
+  color: #f9d423;
+}
+
+.prettyprint .fun {
+  color: #fc913a;
+}

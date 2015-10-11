@@ -40,14 +40,15 @@ The project is automatically rebuilt and the browser refreshed.
 
 
 ```
-gulp                      build, serve, and watch
-gulp help                 list gulp commands and help
+gulp                      # build, serve, and watch
+gulp help                 # list gulp commands and help
 
-npm start                 install dependencies, build, serve, and watch
-npm test                  run tests and generate coverage
-npm run test-watch        run tests and watch for changes
-npm run check-coverage    check test coverage thresholds
-npm run report-coverage   submit coverage info, requires CODECLIMATE_REPO_TOKEN
+npm start                 # install dependencies, build, serve, and watch
+npm test                  # run tests and generate coverage
+npm run docs              # generate docs
+npm run test-watch        # run tests and watch for changes
+npm run check-coverage    # check test coverage thresholds
+npm run report-coverage   # submit coverage info, requires CODECLIMATE_REPO_TOKEN
 ```
 
 ## Project Structure

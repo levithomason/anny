@@ -1,0 +1,289 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Lato:400,300,700|Inconsolata:400,700);
+
+////////////////////////////////////////////////////////////////////////////////
+// Variables
+//
+
+@background: #777;
+@body-bg: #fff;
+@body-color: #444;
+
+// grayscale
+@gray-lighter: lighten(gray, 40);
+@gray-light: lighten(gray, 20);
+@gray: #888;
+@gray-dark: darken(gray, 20);
+@gray-darker: darken(gray, 40);
+
+// nav
+@nav-width: 200px;
+@nav-bg: whitesmoke;
+
+// fonts
+@font-family-body: 'Lato', sans-serif;
+@font-family-monospace: 'Inconsolata', monospace;
+
+// text
+@text-muted: darken(@body-bg, 20);
+
+// headings
+@heading-font-family: 'Open Sans', sans-serif;
+@heading-font-weight: bold;
+@heading-color: @body-color;
+
+// footer
+@footer-bg: @gray-dark;
+@footer-color: darken(@footer-bg, 20);
+
+////////////////////////////////////////////////////////////////////////////////
+// Base
+//
+
+html {
+  background: @background;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: @background;
+  color: @body-color;
+}
+
+//
+// Headings
+//
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: @heading-font-family;
+  font-weight: @heading-font-weight;
+  color: @heading-color;
+}
+
+h1 { font-size: 3em; }
+
+h2 { font-size: 2em; }
+
+h3 { font-size: 1.5em; }
+
+h4 { font-size: 1.125em; }
+
+h5 { font-size: .83em; }
+
+h6 { font-size: .75em; }
+
+//
+// Blockquotes
+//
+
+blockquote {
+  padding: 0.5em 0 0.5em 1em;
+  margin-left: 0;
+  color: @text-muted;
+  border-left: 4px solid lighten(@text-muted, 5);
+  p {
+    margin: 0;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Navigation
+//
+
+nav {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: @nav-width;
+  background: whitesmoke;
+  margin-top: 0;
+  overflow-y: auto;
+  font-size: 1rem;
+
+  // menu headers
+  h3 {
+    font-size: 1.25em;
+  }
+
+  // menus and items
+  ul {
+    margin-left: 1em;
+    padding-left: 1em;
+    border-left: 1px solid darken(@nav-bg, 10);
+    li {
+      font-size: 1em;
+    }
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Main
+//
+
+#main {
+  margin-left: @nav-width;
+  width: auto;
+  min-width: 400px;
+  max-width: 900px;
+  float: none;
+  padding: 1em;
+
+  .page-title,
+  .page-title ~ h3 {
+    display: none;
+  }
+
+  section {
+    margin-right: 0;
+    background: @body-bg;
+
+    header {
+      // reset odd left padding
+      padding-left: 0;
+      text-align: center;
+      margin: 2em 0 3em;
+    }
+
+    article {
+      .subsection-title {
+        font-size: 1.5em;
+      }
+
+      & > .name {
+        padding-top: 1em;
+        border-top: 1px solid @gray-lighter;
+      }
+
+      .description,
+      .params,
+      .details {
+        margin: 1em 0 2em;
+      }
+
+      .summary {
+        font-size: 1.2em;
+      }
+
+      // detail lists
+      // contains source, tutorials, method type, etc.
+      dl {
+        margin: 1em 0;
+        overflow: hidden;
+        border-left-width: 2px;
+        opacity: 0.4;
+        &:hover {
+          opacity: 1;
+        }
+        dt, dd {
+          padding: 0;
+          margin: 0;
+          float: left;
+        }
+        dt {
+          padding-left: 1em;
+          width: 20%;
+        }
+        dd {
+          ul {
+            padding: 0;
+            margin: 0;
+            li {
+              padding: 0;
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Footer
+//
+
+footer {
+  padding: 5em 2em;
+  margin-left: @nav-width;
+  max-width: 100vw;
+  color: @footer-color;
+  background: @footer-bg;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Code
+//
+
+.prettyprint {
+  margin: 1em 1em 1em 0;
+  background: #282828;
+  code {
+    background: #282828;
+    .com {
+      color: #777;
+    }
+  }
+
+  &.linenums {
+    padding: 0 0 0 5em;
+    color: #666;
+    background: #2e2e2e;
+
+    ol.linenums {
+      padding: 1em 0;
+      margin: 0;
+      background: #282828;
+      code {
+        padding: 0;
+      }
+      li {
+        padding-left: 1em;
+        border-left: none;
+        // highlighted line when viewing source
+        &.selected,
+        &.selected * {
+          background: fade(#000, 1);
+        }
+      }
+    }
+  }
+
+  //
+  // halflife theme overrides
+  //
+  .typ {
+    // make "types" (classes and imports) match basic text color
+    color: #ccc;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Tables
+//
+
+table.params {
+  width: 100%;
+  thead {
+    tr {
+      background: none;
+      th {
+        // description header
+        &:last-child {
+          border: none;
+          width: 50%;
+        }
+      }
+    }
+  }
+  tbody { }
+
+  tr {
+    border-bottom: 1px solid @gray-lighter;
+  }
+
+  thead, th, td {
+    border: none;
+  }
+}

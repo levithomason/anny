@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "istanbul cover _mocha",
-    "predocs": "rm -rf docs",
+    "predocs": "rm -rf docs/$npm_package_version",
     "docs": "jsdoc -c conf.json",
+    "docs-flatten": "mv docs/anny/$npm_package_version docs && rm -rf docs/anny",
+    "docs-clean-fonts": "rm -rf docs/$npm_package_version/fonts",
+    "postdocs": "npm run docs-flatten && npm run docs-clean-fonts",
     "test-watch": "istanbul cover _mocha -- -w",
     "postinstall": "bower install",
     "preinstall": "npm i -g gulp bower",
@@ -16,7 +19,7 @@
     "report-coverage": "codeclimate-test-reporter < coverage/lcov.info"
   },
   "engines": {
-    "node": "0.12.4",
+    "node": "0.12.7",
     "npm": "2.13.2"
   },
   "repository": {
@@ -44,7 +47,6 @@
     "gulp-debug": "^2.0.1",
     "gulp-eslint": "^0.15.0",
     "gulp-help": "^1.6.0",
-    "gulp-jsdoc": "^0.1.4",
     "gulp-less": "^3.0.3",
     "gulp-load-plugins": "^0.10.0",
     "gulp-minify-css": "^1.2.0",
@@ -56,8 +58,8 @@
     "gulp-util": "^3.0.6",
     "gulp-webserver": "^0.9.1",
     "istanbul": "^0.3.17",
-    "jaguarjs-jsdoc": "0.0.1",
     "jsdoc": "^3.3.2",
+    "less": "^2.5.3",
     "lodash": "^3.10.0",
     "mathjs": "^2.1.1",
     "minami": "^1.1.1",
