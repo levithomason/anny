@@ -9,7 +9,9 @@ var paths = {
   annyDist: ROOT + '/dist',
   annyLib: ROOT + '/lib',
   annyEntry: ROOT + '/index.js',
-  docs: ROOT + '/docs',
+  docsRoot: ROOT + '/docs',
+  docsSrc: ROOT + '/docs/src',
+  docsDist: ROOT + '/docs/dist',
   node_modules: ROOT + '/node_modules'
 };
 

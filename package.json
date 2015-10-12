@@ -4,19 +4,13 @@
   "description": "An artificial neural network, yo!",
   "main": "index.js",
   "scripts": {
+    "coverage-check": "istanbul check-coverage",
+    "coverage-report": "codeclimate-test-reporter < coverage/lcov.info",
+    "start": "gulp",
     "test": "istanbul cover _mocha",
-    "predocs": "rm -rf docs/$npm_package_version",
-    "docs": "jsdoc -c conf.json",
-    "docs-flatten": "mv docs/anny/$npm_package_version docs && rm -rf docs/anny",
-    "docs-clean-fonts": "rm -rf docs/$npm_package_version/fonts",
-    "postdocs": "npm run docs-flatten && npm run docs-clean-fonts",
     "test-watch": "istanbul cover _mocha -- -w",
     "postinstall": "bower install",
-    "preinstall": "npm i -g gulp bower",
-    "prestart": "npm i",
-    "start": "gulp",
-    "check-coverage": "istanbul check-coverage",
-    "report-coverage": "codeclimate-test-reporter < coverage/lcov.info"
+    "preinstall": "npm i -g gulp bower"
   },
   "engines": {
     "node": "0.12.7",
@@ -59,7 +53,6 @@
     "gulp-webserver": "^0.9.1",
     "istanbul": "^0.3.17",
     "jsdoc": "^3.3.2",
-    "less": "^2.5.3",
     "lodash": "^3.10.0",
     "mathjs": "^2.1.1",
     "minami": "^1.1.1",

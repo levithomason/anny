@@ -6,7 +6,8 @@ gulp.task('build', 'create a fresh anny and app build', function(cb) {
   runSequence(
     [
       'build-anny',
-      'build-app'
+      'build-app',
+      'docs',
     ],
     cb
   );

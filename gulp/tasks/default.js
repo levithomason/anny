@@ -5,11 +5,9 @@ var paths = require('../paths');
 
 gulp.task('default', 'build, serve, watch', function(cb) {
   runSequence(
-    [
-      'build',
-      'serve',
-      'watch'
-    ],
+    'build',
+    'serve',
+    'watch',
     cb
   )
 });

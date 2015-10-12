@@ -23,7 +23,7 @@
   "opts": {
     "template": "",
     "encoding": "utf8",
-    "destination": "./docs/",
+    "destination": "./docs/dist",
     "recurse": true,
     "tutorials": "./docs/src/tutorials"
   },

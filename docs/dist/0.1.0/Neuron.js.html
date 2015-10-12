@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>JSDoc: Source: Neuron.js</title>
+  <title>Source: Neuron.js</title>
 
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
   <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
-  <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
-  <link type="text/css" rel="stylesheet" href="../src/static/styles/prettify-halflife.css">
-  <link type="text/css" rel="stylesheet" href="../src/static/styles/jsdoc-default-override.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="styles/jsdoc-default.css">
+  <link rel="stylesheet" href="styles/prettify-halflife.css">
+  <link rel="stylesheet" href="styles/jsdoc-default-override.css">
 </head>
 
 <body>
@@ -32,20 +33,21 @@ var INITIALIZE = require('./Initialize');
 var ACTIVATION = require('./Activation');
 
 /**
- * A Neuron is the smallest unit of an artificial neural network.  They are not
- * useful until connected.
+ * A {@link Neuron} is the smallest unit of an artificial neural network.  They
+ * are not useful until connected.
  * @constructor
  */
 function Neuron() {
   /**
-   * Flag identifying this Neuron as a Bias Neuron.  Bias Neurons are like all
-   * all ot
+   * Flag identifying this {@link Neuron} as a Bias Neuron.  Bias Neurons are
+   * like all all ot
    * @type {boolean}
    */
   this.isBias = false;
 
   /**
-   * A unique id beginning at 0 and are incremented for every Neuron created.
+   * A unique id beginning at 0 and are incremented for every {@link Neuron}
+   * created.
    * @type {number}
    */
   this.id = Neuron.count++;
@@ -72,32 +74,34 @@ function Neuron() {
 
 /**
  * A running total number of Neurons created.  It is only used to generate
- * unique ids for each Neuron. Creating a new Neuron increments the count but
- * it is never decremented.
+ * unique ids for each Neuron. Creating a new {@link Neuron} increments the
+ * count but it is never decremented.
  * @type {number}
  */
 Neuron.count = 0;
 
 /**
- * The connection between two Neurons.  Connections are unidirectional.
- * @param {object} source - Neuron that will send its output to the `target`
- *   Neuron.
- * @param {object} target - Neuron that will get its input from the `source`
- *   Neuron.
+ * The connection between two [Neurons]{@link Neuron}.  Connections are
+ * unidirectional.
+ * @param {object} source - {@link Neuron} that will send its output to the
+ *   `target` Neuron.
+ * @param {object} target - {@link Neuron} that will get its input from the
+ *   `source` Neuron.
  * @param {number} weight - The strength of the connection.  Meaning, how much
- *   of the `source` output is passed to the `target` Neuron input.
+ *   of the `source` output is passed to the `target` {@link Neuron} input.
  * @constructor
  */
 Neuron.Connection = function(source, target, weight) {
   /**
-   * A reference to the actual Neuron that is at the beginning of this
+   * A reference to the actual {@link Neuron} that is at the beginning of this
    * Connection.
    * @type {Neuron}
    */
   this.source = source;
 
   /**
-   * A reference to the actual Neuron that is at the end of this Connection.
+   * A reference to the actual {@link Neuron} that is at the end of this
+   * Connection.
    * @type {Neuron}
    */
   this.target = target;
@@ -106,8 +110,8 @@ Neuron.Connection = function(source, target, weight) {
   // already part of the fan.
   /**
    * The weight is used as a multiplier for two purposes.  First, for
-   * activation, when transferring the output of the `source` Neuron to the
-   * input of the `target` Neuron. Second, during training, calculating the
+   * activation, when transferring the output of the `source` {@link Neuron} to
+   * the input of the `target` Neuron. Second, during training, calculating the
    * total error delta.
    * @type {number}
    */
@@ -115,9 +119,9 @@ Neuron.Connection = function(source, target, weight) {
 };
 
 /**
- * Train the Neuron to output the `targetOutput`.  If a `targetOutput` is not
- * provided, the Neuron will train itself to minimize the error of the Neurons
- * from its outgoing connections.
+ * Train the {@link Neuron} to output the `targetOutput`.  If a `targetOutput`
+ * is not provided, the {@link Neuron} will train itself to minimize the error
+ * of the [Neurons]{@link Neuron} from its outgoing connections.
  * @param {number} [targetOutput] - Manually set the target output.error.
  */
 Neuron.prototype.train = function(targetOutput) {
@@ -157,11 +161,13 @@ Neuron.prototype.train = function(targetOutput) {
 
 /**
  * Activate this Neuron, setting the input value and computing the output.
- *   Input Neuron output values will always be equal to their input value.
- *   Bias Neurons always output 1.
- *   All other Neurons will squash their input value to derive their output.
+ *   Input {@link Neuron} output values will always be equal to their input
+ * value. Bias [Neurons]{@link Neuron} always output 1. All other
+ * [Neurons]{@link Neuron} will squash their input value to derive their
+ * output.
  * @param {number} [input] - If omitted the input value will be calculated
- *   from the outputs and weights of the Neurons connected to this Neuron.
+ *   from the outputs and weights of the [Neurons]{@link Neuron} connected to
+ *   this Neuron.
  * @returns {number}
  */
 Neuron.prototype.activate = function(input) {
@@ -190,8 +196,8 @@ Neuron.prototype.activate = function(input) {
 };
 
 /**
- * Connect this Neuron to another Neuron.
- * @param {Neuron} target - The Neuron to connect to.
+ * Connect this {@link Neuron} to another Neuron.
+ * @param {Neuron} target - The {@link Neuron} to connect to.
  * @param {number} weight - The strength of the connection.
  */
 Neuron.prototype.connect = function(target, weight) {
@@ -206,7 +212,7 @@ Neuron.prototype.connect = function(target, weight) {
 };
 
 /**
- * Determine if this Neuron is an input Neuron.
+ * Determine if this {@link Neuron} is an input Neuron.
  * @returns {boolean}
  */
 Neuron.prototype.isInput = function() {
@@ -214,7 +220,7 @@ Neuron.prototype.isInput = function() {
 };
 
 /**
- * Determine if this Neuron is an output Neuron.
+ * Determine if this {@link Neuron} is an output Neuron.
  * @returns {boolean}
  */
 Neuron.prototype.isOutput = function() {
@@ -239,9 +245,25 @@ module.exports = Neuron;
 
 <footer>
   Created by
-  <a href="https://www.linkedin.com/in/levithomason">Levi Thomason</a>
-  @
-  <a href="https://github.com/dev-coop">Dev Coop</a>
+  <a href="https://www.github.com/levithomason" target="_blank">
+    Levi Thomason
+  </a>
+  and the
+  <a href="https://github.com/dev-coop" target="_blank">Dev Coop</a>.
+
+  <div class="divider"></div>
+
+  <div class="social-links">
+    <a href="https://www.github.com/levithomason" target="_blank">
+      <i class="fa fa-github-square fa-2x"></i>
+    </a>
+    <a href="https://twitter.com/levithomason7" target="_blank">
+      <i class="fa fa-twitter-square fa-2x"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/levithomason" target="_blank">
+      <i class="fa fa-linkedin-square fa-2x"></i>
+    </a>
+  </div>
 </footer>
 
 <script> prettyPrint(); </script>

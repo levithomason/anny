@@ -6,13 +6,13 @@
  */
 
 .prettyprint {
+  padding: 2em;
   background-color: #222;
   font-size: .825em;
   color: #ccc;
 }
 
 .prettyprint code {
-  padding: 2em;
   background-color: #222;
   font-family: 'Source Code Pro', Monaco, Consolas, "Lucida Console", monospace;
 }

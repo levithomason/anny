@@ -4,7 +4,7 @@
 // Variables
 //
 
-@background: #777;
+@background: whitesmoke;
 @body-bg: #fff;
 @body-color: #444;
 
@@ -17,14 +17,18 @@
 
 // nav
 @nav-width: 200px;
-@nav-bg: whitesmoke;
+@nav-bg: @background;
 
+// main
+@main-min-width: 480px;
+@main-max-width: 900px;
+@main-margin: 1em;
 // fonts
 @font-family-body: 'Lato', sans-serif;
 @font-family-monospace: 'Inconsolata', monospace;
 
 // text
-@text-muted: darken(@body-bg, 20);
+@text-muted: @gray;
 
 // headings
 @heading-font-family: 'Open Sans', sans-serif;
@@ -32,12 +36,15 @@
 @heading-color: @body-color;
 
 // footer
-@footer-bg: @gray-dark;
+@footer-bg: darken(@background, 5);
 @footer-color: darken(@footer-bg, 20);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Base
 //
+* {
+  box-sizing: border-box;
+}
 
 html {
   background: @background;
@@ -48,6 +55,7 @@ body {
   padding: 0;
   background: @background;
   color: @body-color;
+  overflow-x: hidden;
 }
 
 //
@@ -55,6 +63,7 @@ body {
 //
 
 h1, h2, h3, h4, h5, h6 {
+  margin: 1em 0 0.2em 0;
   font-family: @heading-font-family;
   font-weight: @heading-font-weight;
   color: @heading-color;
@@ -68,22 +77,34 @@ h3 { font-size: 1.5em; }
 
 h4 { font-size: 1.125em; }
 
-h5 { font-size: .83em; }
+h5 { font-size: 1em; }
 
-h6 { font-size: .75em; }
+h6 { font-size: .825em; }
 
 //
 // Blockquotes
 //
 
 blockquote {
-  padding: 0.5em 0 0.5em 1em;
+  padding: 1em 0 1em 1em;
   margin-left: 0;
   color: @text-muted;
-  border-left: 4px solid lighten(@text-muted, 5);
+  border-left: 4px solid @gray-lighter;
   p {
     margin: 0;
   }
+}
+
+//
+// Code
+//
+
+code {
+  background: @gray-lighter;
+  padding: 0.1em 0.5em;
+  color: mix(red, @gray);
+  font-size: 0.825em;
+  border-radius: 0.25em;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -122,21 +143,24 @@ nav {
 //
 
 #main {
-  margin-left: @nav-width;
+  position: relative;
+  margin: @main-margin @main-margin 0 @nav-width;
   width: auto;
-  min-width: 400px;
-  max-width: 900px;
+  min-width: @main-min-width;
+  max-width: @main-max-width;
   float: none;
-  padding: 1em;
+  padding: 0;
+  z-index: 1000;
 
   .page-title,
-  .page-title ~ h3 {
+  .page-title ~ h3 { // package name and version on home page
     display: none;
   }
 
   section {
     margin-right: 0;
     background: @body-bg;
+    border: none;
 
     header {
       // reset odd left padding
@@ -146,45 +170,58 @@ nav {
     }
 
     article {
+      h1 {
+        font-weight: 100;
+      }
+
+      .container-overview {
+        margin-bottom: 4em;
+      }
+
       .subsection-title {
         font-size: 1.5em;
+        & + .name {
+          margin-top: 0;
+        }
       }
 
       & > .name {
         padding-top: 1em;
-        border-top: 1px solid @gray-lighter;
+        border-top: 2px solid @gray-lighter;
       }
 
       .description,
       .params,
       .details {
-        margin: 1em 0 2em;
+        margin: 0.5em 0 2em;
+      }
+
+      .description {
+        color: lighten(@body-color, 5);
       }
 
       .summary {
         font-size: 1.2em;
+        margin: 0.5em 0 0;
       }
 
       // detail lists
       // contains source, tutorials, method type, etc.
       dl {
+        padding: 1em 0 1em 1em;
         margin: 1em 0;
         overflow: hidden;
-        border-left-width: 2px;
-        opacity: 0.4;
-        &:hover {
-          opacity: 1;
-        }
+        border-left: 1px dotted @gray-lighter;
         dt, dd {
+          float: left;
           padding: 0;
           margin: 0;
-          float: left;
         }
         dt {
-          padding-left: 1em;
           width: 20%;
         }
         dd {
+          width: 80%;
           ul {
             padding: 0;
             margin: 0;
@@ -204,12 +241,38 @@ nav {
 // Footer
 //
 
+// remove extra line break above footer
+// used in default float layout
+body > br.clear {
+  display: none;
+}
+
 footer {
-  padding: 5em 2em;
-  margin-left: @nav-width;
-  max-width: 100vw;
+  padding: 5em 2em 2em;
+  margin: @main-margin @main-margin 2em @nav-width;
+  width: auto;
+  min-width: @main-min-width;
+  max-width: @main-max-width;
   color: @footer-color;
   background: @footer-bg;
+  text-align: right;
+  &:not(:hover) {
+    a[href] {
+      color: darken(@footer-color, 10);
+    }
+  }
+
+  .divider {
+    margin: 1em 0;
+    height: 1px;
+    background: darken(@footer-bg, 5);
+  }
+
+  .social-links {
+    a + a {
+      margin-left: 0.2em;
+    }
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -218,23 +281,25 @@ footer {
 
 .prettyprint {
   margin: 1em 1em 1em 0;
-  background: #282828;
+  background: #2e2e2e;
+  padding: 1em;
   code {
-    background: #282828;
+    background: #2e2e2e;
     .com {
       color: #777;
     }
   }
 
   &.linenums {
+    margin: 0;
     padding: 0 0 0 5em;
     color: #666;
-    background: #2e2e2e;
+    background: #3e3e3e;
 
     ol.linenums {
       padding: 1em 0;
       margin: 0;
-      background: #282828;
+      background: #2e2e2e;
       code {
         padding: 0;
       }
@@ -244,7 +309,7 @@ footer {
         // highlighted line when viewing source
         &.selected,
         &.selected * {
-          background: fade(#000, 1);
+          background: mix(#38d, #2e2e2e, 35);
         }
       }
     }
@@ -256,6 +321,14 @@ footer {
   .typ {
     // make "types" (classes and imports) match basic text color
     color: #ccc;
+  }
+
+  .str {
+    color: rgb(111, 160, 86);
+  }
+
+  .lit {
+    color: rgb(104, 151, 187);
   }
 }
 
@@ -277,7 +350,11 @@ table.params {
       }
     }
   }
-  tbody { }
+
+  td {
+    padding: 0.5em 0;
+    vertical-align: middle;
+  }
 
   tr {
     border-bottom: 1px solid @gray-lighter;

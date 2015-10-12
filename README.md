@@ -29,13 +29,14 @@
 1. Install [node.js](https://nodejs.org/).
 1. `git clone git@github.com:dev-coop/anny.git`
 1. `cd anny`
+1. `npm install`
 1. `npm start`
 
-Once you're all setup, you can use the commands in Hacking below.
+Once you're all setup, you can use the commands below.
 
 ## Hacking
 Run `gulp` then open your browser to [http://localhost:8000](http://localhost:8000).
-Make changes to the Anny library in `/lib` or the demo app in `/app`.
+Make changes to Anny in `/lib`, the demo app in `/app`, or the doc site in `/docs/src`.
 The project is automatically rebuilt and the browser refreshed.
 
 
@@ -45,10 +46,7 @@ gulp help                 # list gulp commands and help
 
 npm start                 # install dependencies, build, serve, and watch
 npm test                  # run tests and generate coverage
-npm run docs              # generate docs
-npm run test-watch        # run tests and watch for changes
-npm run check-coverage    # check test coverage thresholds
-npm run report-coverage   # submit coverage info, requires CODECLIMATE_REPO_TOKEN
+npm run                   # list npm commands
 ```
 
 ## Project Structure
@@ -59,6 +57,9 @@ Anny, the neural net library.
 
 **`/app`**
 An AngularJS web app for demoing and testing purposes
+
+**`/docs`**
+The doc site src and builds, powered by [JSDoc](http://usejsdoc.org/).
 
 ## Why Anny?
 I wanted to understand machine learning.
