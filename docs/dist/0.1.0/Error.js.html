@@ -31,17 +31,18 @@
             <pre class="prettyprint source linenums"><code>var _ = require('lodash');
 
 /**
- * Functions for calculating {@link Network} error.  The error is simply the
- * difference between the correct output and the actual output.
+ * Functions for calculating Network error.  The error is simply the difference
+ * between the correct output and the actual output.
  * @namespace
+ * @see Network
  * @type {object}
  */
 var ERROR = {
   /**
-   * @param {number[]} expected - Array of output values the {@link Network}
-   *   should have produced.
-   * @param {number[]} actual - Array of output values the {@link Network}
-   *   actually produced.
+   * @param {number[]} expected - Array of output values the Network should
+   *   have produced.
+   * @param {number[]} actual - Array of output values the Network actually
+   *   produced.
    * @returns {number}
    */
   crossEntropy: function crossEntropy(expected, actual) {
@@ -53,10 +54,10 @@ var ERROR = {
   // These taken from: https://www.youtube.com/watch?v=U4BTzF3Wzt0
 
   /**
-   * @param {number[]} expected - Array of output values the {@link Network}
-   *   should have produced.
-   * @param {number[]} actual - Array of output values the {@link Network}
-   *   actually produced.
+   * @param {number[]} expected - Array of output values the Network should
+   *   have produced.
+   * @param {number[]} actual - Array of output values the Network actually
+   *   produced.
    * @returns {number}
    */
   meanSquared: function meanSquared(expected, actual) {
@@ -66,10 +67,10 @@ var ERROR = {
   },
 
   /**
-   * @param {number[]} expected - Array of output values the {@link Network}
-   *   should have produced.
-   * @param {number[]} actual - Array of output values the {@link Network}
-   *   actually produced.
+   * @param {number[]} expected - Array of output values the Network should
+   *   have produced.
+   * @param {number[]} actual - Array of output values the Network actually
+   *   produced.
    * @returns {number}
    */
   rootMeanSquared: function rootMeanSquared(expected, actual) {
@@ -77,10 +78,10 @@ var ERROR = {
   },
 
   /**
-   * @param {number[]} expected - Array of output values the {@link Network}
-   *   should have produced.
-   * @param {number[]} actual - Array of output values the {@link Network}
-   *   actually produced.
+   * @param {number[]} expected - Array of output values the Network should
+   *   have produced.
+   * @param {number[]} actual - Array of output values the Network actually
+   *   produced.
    * @returns {number}
    */
   arcTan: function arcTan(expected, actual) {
@@ -101,7 +102,7 @@ module.exports = ERROR;
 </div>
 
 <nav>
-  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li></ul>
+  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li></ul>
 </nav>
 
 <br class="clear">

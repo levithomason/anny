@@ -194,17 +194,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _ = __webpack_require__(4);
 
 	/**
-	 * Functions for calculating {@link Network} error.  The error is simply the
-	 * difference between the correct output and the actual output.
+	 * Functions for calculating Network error.  The error is simply the difference
+	 * between the correct output and the actual output.
 	 * @namespace
+	 * @see Network
 	 * @type {object}
 	 */
 	var ERROR = {
 	  /**
-	   * @param {number[]} expected - Array of output values the {@link Network}
-	   *   should have produced.
-	   * @param {number[]} actual - Array of output values the {@link Network}
-	   *   actually produced.
+	   * @param {number[]} expected - Array of output values the Network should
+	   *   have produced.
+	   * @param {number[]} actual - Array of output values the Network actually
+	   *   produced.
 	   * @returns {number}
 	   */
 	  crossEntropy: function crossEntropy(expected, actual) {
@@ -216,10 +217,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // These taken from: https://www.youtube.com/watch?v=U4BTzF3Wzt0
 
 	  /**
-	   * @param {number[]} expected - Array of output values the {@link Network}
-	   *   should have produced.
-	   * @param {number[]} actual - Array of output values the {@link Network}
-	   *   actually produced.
+	   * @param {number[]} expected - Array of output values the Network should
+	   *   have produced.
+	   * @param {number[]} actual - Array of output values the Network actually
+	   *   produced.
 	   * @returns {number}
 	   */
 	  meanSquared: function meanSquared(expected, actual) {
@@ -229,10 +230,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  /**
-	   * @param {number[]} expected - Array of output values the {@link Network}
-	   *   should have produced.
-	   * @param {number[]} actual - Array of output values the {@link Network}
-	   *   actually produced.
+	   * @param {number[]} expected - Array of output values the Network should
+	   *   have produced.
+	   * @param {number[]} actual - Array of output values the Network actually
+	   *   produced.
 	   * @returns {number}
 	   */
 	  rootMeanSquared: function rootMeanSquared(expected, actual) {
@@ -240,10 +241,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  /**
-	   * @param {number[]} expected - Array of output values the {@link Network}
-	   *   should have produced.
-	   * @param {number[]} actual - Array of output values the {@link Network}
-	   *   actually produced.
+	   * @param {number[]} expected - Array of output values the Network should
+	   *   have produced.
+	   * @param {number[]} actual - Array of output values the Network actually
+	   *   produced.
 	   * @returns {number}
 	   */
 	  arcTan: function arcTan(expected, actual) {
@@ -319,11 +320,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Neuron = __webpack_require__(7);
 
 	/**
-	 * Creates a single dimension {@link Layer} of [Neurons]{@link Neuron}.
-	 * @param {string} numNeurons - The number of [Neurons]{@link Neuron} this
-	 *   Layer should have.
-	 * @param {boolean} [addBias=false] - Add a bias {@link Neuron} to this Layer.
+	 * Creates a single dimension  Layer of Neurons.
+	 * @param {string} numNeurons - The number of Neurons this Layer should have.
+	 * @param {boolean} [addBias=false] - Add a bias  Neuron to this Layer.
 	 * @constructor
+	 * @see Neuron
 	 */
 	function Layer(numNeurons, addBias) {
 	  var self = this;
@@ -343,8 +344,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Connects every {@link Neuron} in this Layer to each {@link Neuron} in the
-	 * `target` Layer.
+	 * Connects every  Neuron in this Layer to each  Neuron in the `target` Layer.
 	 * @param {Layer} targetLayer - The Layer to connect to.
 	 */
 	Layer.prototype.connect = function(targetLayer) {
@@ -362,10 +362,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	/**
-	 * Activates all the [Neurons]{@link Neuron} in this Layer with the given array
-	 * of values.
-	 * @param {number[]} [values] - Map of input values for each {@link Neuron}.
-	 * @returns {number[]} - Array of {@link Neuron} output values.
+	 * Activates all the Neurons in this Layer with the given array of values.
+	 * @param {number[]} [values] - Map of input values for each  Neuron.
+	 * @returns {number[]} - Array of  Neuron output values.
 	 */
 	Layer.prototype.activate = function(values) {
 	  return _.map(this.neurons, function(neuron, i) {
@@ -374,12 +373,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	/**
-	 * Train the [Neurons]{@link Neuron} in this layer.  If target `outputs` are
-	 * specified, the
-	 * [Neurons]{@link Neuron} will learn to output these values.  This is only
-	 * useful for output Layers.
-	 * @param {number[]} [outputs] - Map of target output values for each {@link
-	 *   Neuron}.
+	 * Train the Neurons in this layer.  If target `outputs` are specified, the
+	 * Neurons will learn to output these values.  This is only useful for output
+	 * Layers.
+	 * @param {number[]} [outputs] - Map of target output values for each Neuron.
 	 */
 	Layer.prototype.train = function(outputs) {
 	  _.each(this.neurons, function(neuron, i) {
@@ -399,28 +396,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ACTIVATION = __webpack_require__(1);
 
 	/**
-	 * A {@link Neuron} is the smallest unit of an artificial neural network.  They
-	 * are not useful until connected.
+	 * A Neuron is the smallest unit of an artificial neural network.  They
+	 * are not useful until connected with a Connection.
 	 * @constructor
 	 */
 	function Neuron() {
 	  /**
-	   * Flag identifying this {@link Neuron} as a Bias Neuron.  Bias Neurons are
-	   * like all all ot
+	   * Flag identifying this Neuron as a Bias Neuron.  Bias Neurons are like
+	   * regular Neurons, except they have no incoming Connections and always
+	   * output 1.
 	   * @type {boolean}
 	   */
 	  this.isBias = false;
 
 	  /**
-	   * A unique id beginning at 0 and are incremented for every {@link Neuron}
-	   * created.
+	   * A unique id beginning at 0 and are incremented for every Neuron created.
 	   * @type {number}
 	   */
 	  this.id = Neuron.count++;
 
 	  /**
-	   * An array of Neuron.Connection
+	   * An array of Connections.
 	   * @type {Array}
+	   * @see Neuron.Connection
 	   */
 	  this.incoming = [];
 	  this.outgoing = [];
@@ -440,34 +438,33 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * A running total number of Neurons created.  It is only used to generate
-	 * unique ids for each Neuron. Creating a new {@link Neuron} increments the
-	 * count but it is never decremented.
+	 * unique ids for each Neuron. Creating a new Neuron increments the count but
+	 * it is never decremented.
 	 * @type {number}
 	 */
 	Neuron.count = 0;
 
 	/**
-	 * The connection between two [Neurons]{@link Neuron}.  Connections are
-	 * unidirectional.
-	 * @param {object} source - {@link Neuron} that will send its output to the
+	 * The connection between two Neurons. Connections are unidirectional.
+	 * @param {Neuron} source - The Neuron that will send its output to the
 	 *   `target` Neuron.
-	 * @param {object} target - {@link Neuron} that will get its input from the
+	 * @param {Neuron} target - The Neuron that will get its input from the
 	 *   `source` Neuron.
-	 * @param {number} weight - The strength of the connection.  Meaning, how much
-	 *   of the `source` output is passed to the `target` {@link Neuron} input.
+	 * @param {number} weight - The strength of the connection.  Meaning, what
+	 *   ratio of the `source` Neuron's output is passed to the `target` Neuron's
+	 *   input.
 	 * @constructor
+	 * @see Neuron
 	 */
 	Neuron.Connection = function(source, target, weight) {
 	  /**
-	   * A reference to the actual {@link Neuron} that is at the beginning of this
-	   * Connection.
+	   * A reference to the Neuron at the start of this Connection.
 	   * @type {Neuron}
 	   */
 	  this.source = source;
 
 	  /**
-	   * A reference to the actual {@link Neuron} that is at the end of this
-	   * Connection.
+	   * A reference to the Neuron at the end of this Connection.
 	   * @type {Neuron}
 	   */
 	  this.target = target;
@@ -476,7 +473,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // already part of the fan.
 	  /**
 	   * The weight is used as a multiplier for two purposes.  First, for
-	   * activation, when transferring the output of the `source` {@link Neuron} to
+	   * activation, when transferring the output of the `source` Neuron to
 	   * the input of the `target` Neuron. Second, during training, calculating the
 	   * total error delta.
 	   * @type {number}
@@ -485,9 +482,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	/**
-	 * Train the {@link Neuron} to output the `targetOutput`.  If a `targetOutput`
-	 * is not provided, the {@link Neuron} will train itself to minimize the error
-	 * of the [Neurons]{@link Neuron} from its outgoing connections.
+	 * Train the Neuron to output the `targetOutput`.  If a `targetOutput`
+	 * is not provided, the Neuron will train itself to minimize the error
+	 * of the Neurons from its outgoing connections.
 	 * @param {number} [targetOutput] - Manually set the target output.error.
 	 */
 	Neuron.prototype.train = function(targetOutput) {
@@ -527,12 +524,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Activate this Neuron, setting the input value and computing the output.
-	 *   Input {@link Neuron} output values will always be equal to their input
-	 * value. Bias [Neurons]{@link Neuron} always output 1. All other
-	 * [Neurons]{@link Neuron} will squash their input value to derive their
+	 *   Input Neuron output values will always be equal to their input
+	 * value. Bias Neurons always output 1. All other
+	 * Neurons will squash their input value to derive their
 	 * output.
 	 * @param {number} [input] - If omitted the input value will be calculated
-	 *   from the outputs and weights of the [Neurons]{@link Neuron} connected to
+	 *   from the outputs and weights of the Neurons connected to
 	 *   this Neuron.
 	 * @returns {number}
 	 */
@@ -562,8 +559,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	/**
-	 * Connect this {@link Neuron} to another Neuron.
-	 * @param {Neuron} target - The {@link Neuron} to connect to.
+	 * Connect this Neuron to another Neuron.
+	 * @param {Neuron} target - The Neuron to connect to.
 	 * @param {number} weight - The strength of the connection.
 	 */
 	Neuron.prototype.connect = function(target, weight) {
@@ -578,7 +575,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	/**
-	 * Determine if this {@link Neuron} is an input Neuron.
+	 * Determine if this Neuron is an input Neuron.
 	 * @returns {boolean}
 	 */
 	Neuron.prototype.isInput = function() {
@@ -586,7 +583,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	/**
-	 * Determine if this {@link Neuron} is an output Neuron.
+	 * Determine if this Neuron is an output Neuron.
 	 * @returns {boolean}
 	 */
 	Neuron.prototype.isOutput = function() {
@@ -613,8 +610,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Each element in between represents a hidden Layer with n Neurons.
 	 * @param {number[]} layerSizes - Number of neurons in each layer.
 	 * @constructor
-	 *
-	 * @tutorial getting-started
+	 * @see Layer
+	 * @see Neuron
 	 *
 	 * @example
 	 * // 2 inputs
@@ -632,30 +629,76 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var numInputs = _.first(layerSizes);
 	  var numOutputs = _.last(layerSizes);
 	  var hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
+	  /**
+	   * The output values of the Neurons in the last layer.  This is identical to
+	   * the Network's `outputLayer` output.
+	   * @type {Array}
+	   */
 	  this.output = [];
+
+	  /**
+	   * The cost function.  The function used to calculate the error of the
+	   * Network. In other words, to what degree was the Network's output wrong.
+	   * @see ERROR
+	   * @type {ERROR}
+	   */
 	  this.errorFn = ERROR.meanSquared;
+
+	  /**
+	   * The result of the `errorFn`.  Initializes as `null`.
+	   * @type {null|number}
+	   */
 	  this.error = null;
+
+	  /**
+	   * The max training iterations.  The Network will stop training after looping
+	   * through the training data this number of times.  One full loop through the
+	   * training data is counted as one epoch.
+	   * @type {number}
+	   */
+	  this.epochs = 20000;
+
+	  /**
+	   * The target `error` value.  The goal of the Network is to train until the
+	   * `error` is below this value.
+	   * @type {number}
+	   */
 	  this.errorThreshold = 0.001;
 
-	  this.allLayers = [];
-	  this.hiddenLayers = [];
-
-	  // input layer
+	  /**
+	   * The first Layer of the Network.  This Layer receives input during
+	   * activation.
+	   * @type {Layer}
+	   */
 	  this.inputLayer = new Layer(numInputs, true);
-	  this.allLayers.push(this.inputLayer);
 
-	  // hidden layers
-	  _.each(hiddenLayers, function(numNeurons) {
-	    var layer = new Layer(numNeurons, true);
-	    this.hiddenLayers.push(layer);
-	    this.allLayers.push(layer);
-	  }, this);
+	  /**
+	   * An array of the `hiddenLayer`s only.
+	   * @type {Layer[]}
+	   */
+	  this.hiddenLayers = _.map(hiddenLayers, function(numNeurons) {
+	    return new Layer(numNeurons, true);
+	  });
 
-	  // output layer
+	  /**
+	   * The first Layer of the Network.  This Layer receives input during
+	   * activation.
+	   * @type {Layer}
+	   */
 	  this.outputLayer = new Layer(numOutputs);
-	  this.allLayers.push(this.outputLayer);
 
-	  // connect layers and populate allLayers
+	  /**
+	   * An array of all Layers in the Network.  It is a single dimension array
+	   * containing the `inputLayer`, `hiddenLayers`, and the `outputLayer`.
+	   * @type {Layer}
+	   */
+	  this.allLayers = _.union(
+	    [this.inputLayer],
+	    this.hiddenLayers,
+	    [this.outputLayer]
+	  );
+
+	  // connect layers
 	  _.each(this.allLayers, function(layer, i) {
 	    var next = this.allLayers[i + 1];
 	    if (next) {
@@ -668,7 +711,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Activate the network with a given set of `input` values.
 	 * @param {number[]} inputs - Values to activate the Network input Neurons.
 	 *   Values should be normalized between -1 and 1 using Util.normalize.
-	 * @returns {*} output values
+	 * @returns {number[]} output values
 	 */
 	Network.prototype.activate = function(inputs) {
 	  this.inputLayer.activate(inputs);
@@ -708,7 +751,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  //  ensure it is normalized between -1 and 1
 	  //  ensure the input length matches the number of Network inputs
 	  //  ensure the output length matches the number of Network outputs
-	  var epochs = 20000;
 	  var callbackFrequency = frequency || 100;
 	  var lastEpochError = 0;
 	  var lastEpochTime = Date.now();
@@ -731,7 +773,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    lowestEpochError = Math.min(err, lowestEpochError);
 	  };
 
-	  _.each(_.range(epochs), function(index) {
+	  _.each(_.range(this.epochs), function(index) {
 	    var n = index + 1;
 
 	    // loop over the training data summing the error of all samples
@@ -759,7 +801,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        'Successfully trained to an error of', this.error, 'after', n, 'epochs.'
 	      );
 	      return false;
-	    } else if (n === epochs) {
+	    } else if (n === this.epochs) {
 	      console.log(
 	        'Failed to train. Error is', this.error, 'after', n, 'epochs.'
 	      );
@@ -778,7 +820,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * @namespace
-	 * @type {}
+	 * @type {{}}
 	 */
 	var util = {
 	  /**

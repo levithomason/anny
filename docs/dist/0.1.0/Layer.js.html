@@ -33,11 +33,11 @@ var INITIALIZE = require('./Initialize');
 var Neuron = require('./Neuron');
 
 /**
- * Creates a single dimension {@link Layer} of [Neurons]{@link Neuron}.
- * @param {string} numNeurons - The number of [Neurons]{@link Neuron} this
- *   Layer should have.
- * @param {boolean} [addBias=false] - Add a bias {@link Neuron} to this Layer.
+ * Creates a single dimension  Layer of Neurons.
+ * @param {string} numNeurons - The number of Neurons this Layer should have.
+ * @param {boolean} [addBias=false] - Add a bias  Neuron to this Layer.
  * @constructor
+ * @see Neuron
  */
 function Layer(numNeurons, addBias) {
   var self = this;
@@ -57,8 +57,7 @@ function Layer(numNeurons, addBias) {
 }
 
 /**
- * Connects every {@link Neuron} in this Layer to each {@link Neuron} in the
- * `target` Layer.
+ * Connects every  Neuron in this Layer to each  Neuron in the `target` Layer.
  * @param {Layer} targetLayer - The Layer to connect to.
  */
 Layer.prototype.connect = function(targetLayer) {
@@ -76,10 +75,9 @@ Layer.prototype.connect = function(targetLayer) {
 };
 
 /**
- * Activates all the [Neurons]{@link Neuron} in this Layer with the given array
- * of values.
- * @param {number[]} [values] - Map of input values for each {@link Neuron}.
- * @returns {number[]} - Array of {@link Neuron} output values.
+ * Activates all the Neurons in this Layer with the given array of values.
+ * @param {number[]} [values] - Map of input values for each  Neuron.
+ * @returns {number[]} - Array of  Neuron output values.
  */
 Layer.prototype.activate = function(values) {
   return _.map(this.neurons, function(neuron, i) {
@@ -88,12 +86,10 @@ Layer.prototype.activate = function(values) {
 };
 
 /**
- * Train the [Neurons]{@link Neuron} in this layer.  If target `outputs` are
- * specified, the
- * [Neurons]{@link Neuron} will learn to output these values.  This is only
- * useful for output Layers.
- * @param {number[]} [outputs] - Map of target output values for each {@link
- *   Neuron}.
+ * Train the Neurons in this layer.  If target `outputs` are specified, the
+ * Neurons will learn to output these values.  This is only useful for output
+ * Layers.
+ * @param {number[]} [outputs] - Map of target output values for each Neuron.
  */
 Layer.prototype.train = function(outputs) {
   _.each(this.neurons, function(neuron, i) {
@@ -112,7 +108,7 @@ module.exports = Layer;
 </div>
 
 <nav>
-  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li></ul>
+  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li></ul>
 </nav>
 
 <br class="clear">

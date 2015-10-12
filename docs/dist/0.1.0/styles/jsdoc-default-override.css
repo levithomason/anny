@@ -229,6 +229,9 @@ table.params {
 table.params thead tr {
   background: none;
 }
+table.params thead tr th {
+  padding: 0 0 0.25em 0;
+}
 table.params thead tr th:last-child {
   border: none;
   width: 50%;

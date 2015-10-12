@@ -6,10 +6,13 @@
 ###### Heading Size 6 
 
 ```
-// Code block
+// Code block comment
 
-function() {
-  this.foo = [];
+/**
+ * @param {string} arg An arbitrary argument.
+ */
+function foo(arg) {
+  this.foo = arg;
 }
 
 class Man {
@@ -17,6 +20,8 @@ class Man {
     return 'yo';
   }
 }
+
+export default Man;
 ```
 
 >Comment block, how does it look?
