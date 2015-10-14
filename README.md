@@ -9,7 +9,9 @@
 </h1>
 
 <p align="center">
-  <img src="https://img.shields.io/codeship/e6501e60-0902-0133-c93c-7e3d949a1704/master.svg?style=flat-square" alt="Codeship"/>
+  <a href="https://app.wercker.com/#applications/561dd8ec7b474cd811009e00">
+    <img src="https://img.shields.io/wercker/ci/dev-coop/anny.svg?style=flat-square" alt="Wercker"/>
+  </a>
   <a href="https://codeclimate.com/github/dev-coop/anny/coverage">
     <img src="https://img.shields.io/codeclimate/coverage/github/dev-coop/anny.svg?style=flat-square" alt="Test Coverage"/>
   </a>

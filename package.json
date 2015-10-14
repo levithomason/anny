@@ -23,14 +23,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/levithomason/anny.git"
+    "url": "git+https://github.com/dev-coop/anny.git"
   },
-  "author": "",
+  "author": "Levi Thomason <me@levithomason.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/levithomason/anny/issues"
+    "url": "https://github.com/dev-coop/anny/issues"
   },
-  "homepage": "https://github.com/levithomason/anny#readme",
+  "homepage": "https://github.com/dev-coop/anny#readme",
   "dependencies": {},
   "devDependencies": {
     "bower": "^1.4.1",
