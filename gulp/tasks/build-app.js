@@ -14,7 +14,7 @@ gulp.task('build-app', function(cb) {
       'build-app-js',
     ],
     cb
-  )
+  );
 });
 
 gulp.task('clean-app-build', function(cb) {

@@ -1,4 +1,4 @@
-var Neuron = require('../lib/Neuron');
+var Neuron = require('../src/Neuron');
 var neuron;
 
 describe('Neuron', function() {

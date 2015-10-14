@@ -1,5 +1,5 @@
-var Network = require('../lib/Network');
-var Layer = require('../lib/Layer');
+var Network = require('../src/Network');
+var Layer = require('../src/Layer');
 var network;
 
 describe('Network', function() {

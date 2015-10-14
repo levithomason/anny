@@ -1,4 +1,4 @@
-var Util = require('../lib/Util');
+var Util = require('../src/Util');
 
 describe('Util', function() {
   it('has no anonymous functions', function() {

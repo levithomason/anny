@@ -1,4 +1,4 @@
-var ERROR = require('../lib/Error');
+var ERROR = require('../src/Error');
 
 describe('ERROR', function() {
   it('contains only function properties', function() {
@@ -20,7 +20,6 @@ describe('ERROR', function() {
   });
 
   describe('rootMeanSquared', function() {
-
     it('returns the square root of meanSquared', function() {
       var expected = [1, 2, 3];
       var actual = [2, 3, 4];

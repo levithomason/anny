@@ -40,7 +40,7 @@ gulp.task('build-anny-js', function(cb) {
         {
           test: /\.js$/,
           loaders: ['eslint'],
-          include: [paths.annyLib]
+          include: [paths.annySrc]
         }
       ]
     },

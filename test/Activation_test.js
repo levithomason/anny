@@ -1,4 +1,4 @@
-var ACTIVATION = require('../lib/Activation');
+var ACTIVATION = require('../src/Activation');
 
 describe('ACTIVATION', function() {
   it('is an object', function() {

@@ -8,9 +8,17 @@
     "coverage-report": "codeclimate-test-reporter < coverage/lcov.info",
     "start": "gulp",
     "test": "istanbul cover _mocha",
+    "lint": "eslint .",
     "test-watch": "istanbul cover _mocha -- -w",
     "postinstall": "bower install",
     "preinstall": "npm i -g gulp bower"
+  },
+  "precommit": {
+    "silent": false,
+    "run": [
+      "lint",
+      "test"
+    ]
   },
   "engines": {
     "node": "0.12.7",
@@ -58,6 +66,7 @@
     "minami": "^1.1.1",
     "mocha": "^2.2.5",
     "node-libs-browser": "^0.5.2",
+    "precommit": "^1.1.5",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.1",
     "sinon": "^1.15.4",

@@ -7,7 +7,7 @@ var paths = {
   appBower: ROOT + '/app/bower',
   appDist: ROOT + '/app/dist',
   annyDist: ROOT + '/dist',
-  annyLib: ROOT + '/lib',
+  annySrc: ROOT + '/src',
   annyEntry: ROOT + '/index.js',
   docsRoot: ROOT + '/docs',
   docsSrc: ROOT + '/docs/src',

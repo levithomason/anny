@@ -2,7 +2,7 @@ instrumentation:
     excludes: [app, dist, docs, gulp, test]
 check:
     global:
-        statements: 0
-        lines: 0
-        branches: 0
-        functions: 0
+        statements: 80
+        lines: 80
+        branches: 80
+        functions: 80

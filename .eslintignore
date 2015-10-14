@@ -1,0 +1,6 @@
+# node_modules ignored by default
+app/bower
+app/dist
+coverage
+dist
+docs/dist

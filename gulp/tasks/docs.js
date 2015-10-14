@@ -26,13 +26,15 @@ gulp.task('docs-jsdoc', function(cb) {
     '$(npm bin)/jsdoc -c conf.json',
 
     // flatten
-    'mv ' + paths.docsDist + '/' + pkg.name + '/' + pkg.version + ' ' + paths.docsDist,
+    'mv ' +
+      paths.docsDist + '/' + pkg.name + '/' + pkg.version + ' ' +
+      paths.docsDist,
     'rm -rf ' + paths.docsDist + '/' + pkg.name,
 
     // remove fonts
     'rm -rf ' + paths.docsDist + '/' + pkg.version + '/fonts'
 
-  ].join(' && '), cb)
+  ].join(' && '), cb);
 });
 
 gulp.task('docs-less', function(cb) {

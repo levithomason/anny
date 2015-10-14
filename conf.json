@@ -3,7 +3,7 @@
     "include": [
       "./package.json",
       "./README.md",
-      "./lib"
+      "./src"
     ],
     "exclude": [
       "./app",

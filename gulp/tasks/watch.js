@@ -6,7 +6,7 @@ gulp.task('watch', 'rebuild when files change', function(cb) {
   gulp.watch([
     // anny
     paths.annyEntry,
-    paths.annyLib + '/**/*',
+    paths.annySrc + '/**/*',
 
     // app
     paths.root + '/index.html',
