@@ -23,8 +23,8 @@
 </p>
 
 ## Get Started
-[Documentation](http://dev-coop.github.io/anny/docs/dist/0.1.0/index.html)
-[Demo](http://dev-coop.github.io/anny)
+Read the [documentation](http://dev-coop.github.io/anny/docs/dist/0.1.0)
+or try the [demo](http://dev-coop.github.io/anny).
 
 ## Hacking
 

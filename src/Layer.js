@@ -3,9 +3,9 @@ var INITIALIZE = require('./Initialize');
 var Neuron = require('./Neuron');
 
 /**
- * Creates a single dimension  Layer of Neurons.
+ * Creates a single dimension Layer of Neurons.
  * @param {string} numNeurons - The number of Neurons this Layer should have.
- * @param {boolean} [addBias=false] - Add a bias  Neuron to this Layer.
+ * @param {boolean} [addBias=false] - Add a bias Neuron to this Layer.
  * @constructor
  * @see Neuron
  */
@@ -27,7 +27,7 @@ function Layer(numNeurons, addBias) {
 }
 
 /**
- * Connects every  Neuron in this Layer to each  Neuron in the `target` Layer.
+ * Connects every Neuron in this Layer to each Neuron in the `target` Layer.
  * @param {Layer} targetLayer - The Layer to connect to.
  */
 Layer.prototype.connect = function(targetLayer) {
@@ -46,8 +46,8 @@ Layer.prototype.connect = function(targetLayer) {
 
 /**
  * Activates all the Neurons in this Layer with the given array of values.
- * @param {number[]} [values] - Map of input values for each  Neuron.
- * @returns {number[]} - Array of  Neuron output values.
+ * @param {number[]} [values] - Map of input values for each Neuron.
+ * @returns {number[]} - Array of Neuron output values.
  */
 Layer.prototype.activate = function(values) {
   return _.map(this.neurons, function(neuron, i) {

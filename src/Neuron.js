@@ -76,8 +76,6 @@ Neuron.Connection = function(source, target, weight) {
    */
   this.target = target;
 
-  // We add one to initialize the weight value as if this connection were
-  // already part of the fan.
   /**
    * The weight is used as a multiplier for two purposes.  First, for
    * activation, when transferring the output of the `source` Neuron to
@@ -85,6 +83,8 @@ Neuron.Connection = function(source, target, weight) {
    * total error delta.
    * @type {number}
    */
+  // We add one to initialize the weight value as if this connection were
+  // already part of the fan.
   this.weight = weight || INITIALIZE.weight(target.incoming.length + 1);
 };
 
