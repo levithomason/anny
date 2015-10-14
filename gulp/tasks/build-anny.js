@@ -44,10 +44,10 @@ gulp.task('build-anny-js', function(cb) {
         }
       ]
     },
-    externals: [
-      'mathjs',
-      'lodash'
-    ]
+    externals: {
+      mathjs: 'math',
+      lodash: '_',
+    }
   };
 
   // http://webpack.github.io/docs/node.js-api.html#stats
