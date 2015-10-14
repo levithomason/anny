@@ -1,11 +1,11 @@
 var anny = {
-  ACTIVATION: require('./lib/Activation'),
-  ERROR: require('./lib/Error'),
-  INITIALIZE: require('./lib/Initialize'),
-  Layer: require('./lib/Layer'),
-  Network: require('./lib/Network'),
-  Neuron: require('./lib/Neuron'),
-  util: require('./lib/Util')
+  ACTIVATION: require('./src/Activation'),
+  ERROR: require('./src/Error'),
+  INITIALIZE: require('./src/Initialize'),
+  Layer: require('./src/Layer'),
+  Network: require('./src/Network'),
+  Neuron: require('./src/Neuron'),
+  util: require('./src/Util')
 };
 
 module.exports = anny;

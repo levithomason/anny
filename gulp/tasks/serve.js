@@ -6,6 +6,7 @@ gulp.task('serve', 'start the livereload dev server', function(cb) {
   return gulp.src([
     paths.root,
     paths.appDist,
+    paths.docsDist,
   ])
     .pipe(g.webserver({
       port: 8000,
@@ -18,10 +19,9 @@ gulp.task('serve', 'start the livereload dev server', function(cb) {
         filter: function(filePath) {
           var isAppDist = filePath.match(paths.appDist);
           var isAnnyDist = filePath.match(paths.annyDist);
-          var shouldReload = isAppDist || isAnnyDist;
-          // console.log(shouldReload, isAppDist, isAnnyDist);
+          var isDocsDist = filePath.match(paths.docsDist);
 
-          return shouldReload;
+          return isAppDist || isAnnyDist || isDocsDist;
         }
       }
     }));

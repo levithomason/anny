@@ -1,4 +1,7 @@
 .idea/
 coverage/
 node_modules/
-npm-debug.log
+npm-debug.log*
+app/dist/
+dist/
+docs/dist/

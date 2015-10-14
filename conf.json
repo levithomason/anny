@@ -1,0 +1,43 @@
+{
+  "source": {
+    "include": [
+      "./package.json",
+      "./README.md",
+      "./src"
+    ],
+    "exclude": [
+      "./app",
+      "./coverage",
+      "./dist",
+      "./docs",
+      "./gulp",
+      "./test"
+    ],
+    "includePattern": ".+\\.(js|md)$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "plugins": [
+    "plugins/markdown",
+    "plugins/summarize"
+  ],
+  "opts": {
+    "template": "",
+    "encoding": "utf8",
+    "destination": "./docs/dist",
+    "recurse": true,
+    "tutorials": "./docs/src/tutorials"
+  },
+  "templates": {
+    "default": {
+      "includeDate": false,
+      "layoutFile": "./docs/src/layout.tmpl",
+      "staticFiles": {
+        "excludePattern": ".*webfont",
+        "includePattern": ".*\\.css$",
+        "include": [
+          "./docs/src/static"
+        ]
+      }
+    }
+  }
+}

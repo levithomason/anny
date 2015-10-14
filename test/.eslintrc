@@ -1,0 +1,9 @@
+{
+  "globals": {
+    "_": false,
+    "math": false,
+    "expect": false,
+    "chai": false,
+    "sinonChai": false,
+  }
+}

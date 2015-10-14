@@ -40,14 +40,14 @@ gulp.task('build-anny-js', function(cb) {
         {
           test: /\.js$/,
           loaders: ['eslint'],
-          include: [paths.annyLib]
+          include: [paths.annySrc]
         }
       ]
     },
-    externals: [
-      'mathjs',
-      'lodash'
-    ]
+    externals: {
+      mathjs: 'math',
+      lodash: '_',
+    }
   };
 
   // http://webpack.github.io/docs/node.js-api.html#stats
