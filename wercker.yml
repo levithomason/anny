@@ -1,0 +1,77 @@
+# This references the default nodejs container from
+# the Docker Hub: https://registry.hub.docker.com/_/node/
+# If you want Nodesource's container you would reference nodesource/node
+# Read more about containers on our dev center
+# http://devcenter.wercker.com/docs/containers/index.html
+box: node
+# This is the build pipeline. Pipelines are the core of wercker
+# Read more about pipelines on our dev center
+# http://devcenter.wercker.com/docs/pipelines/index.html
+
+# You can also use services such as databases. Read more on our dev center:
+# http://devcenter.wercker.com/docs/services/index.html
+# services:
+    # - postgres
+    # http://devcenter.wercker.com/docs/services/postgresql.html
+
+    # - mongodb
+    # http://devcenter.wercker.com/docs/services/mongodb.html
+build:
+  # The steps that will be executed on build
+  # Steps make up the actions in your pipeline
+  # Read more about steps on our dev center:
+  # http://devcenter.wercker.com/docs/steps/index.html
+  steps:
+    - npm-install
+    - npm-test
+    - script:
+        name: coverage
+        code: |
+          npm run coverage-check
+          npm run coverage-report
+    - script:
+        name: echo nodejs information
+        code: |
+          echo "node version $(node -v) running"
+          echo "npm version $(npm -v) running"
+  after-steps:
+      - slack-notifier:
+          url: $SLACK_URL
+          username: wercker
+deploy:
+  steps:
+    - add-to-known_hosts:
+        hostname: github.com
+    - add-ssh-key:
+        keyname: GITHUB_KEY
+    - script:
+        name: config git
+        code: |
+          git config --global user.email "dev-coop-bot@gmail.com"
+          git config --global user.name "dev-coop-bot"
+    - script:
+        name: checkout full branch
+        code: |
+          git fetch --unshallow
+          git checkout $WERCKER_GIT_BRANCH
+    # Symlinked binaries in $(npm bin) are broken as they are copied from the
+    # build process.  Remove and reinstall node_modules.
+    - script:
+        name: rm -rf node_modules
+        code: |
+          rm -rf node_modules
+    - npm-install
+    - script:
+        name: build
+        code: |
+          $(npm bin)/gulp build
+    - script:
+        name: deploy
+        code: |
+          git add -f app/dist dist docs/dist
+          git commit -n -m "deploy commit by $WERCKER_STARTED_BY"
+          git push $GIT_REMOTE $WERCKER_GIT_BRANCH
+          git push -f $GIT_REMOTE $WERCKER_GIT_BRANCH:gh-pages
+  after-steps:
+    - slack-notifier:
+        url: $SLACK_URL
