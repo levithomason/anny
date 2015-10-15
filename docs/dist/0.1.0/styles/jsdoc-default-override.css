@@ -1,0 +1,250 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Lato:400,300,700|Inconsolata:400,700);
+* {
+  box-sizing: border-box;
+}
+html {
+  background: whitesmoke;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background: whitesmoke;
+  color: #444;
+  overflow-x: hidden;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 1em 0 0.2em 0;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  color: #444;
+}
+h1 {
+  font-size: 3em;
+}
+h2 {
+  font-size: 2em;
+}
+h3 {
+  font-size: 1.5em;
+}
+h4 {
+  font-size: 1.125em;
+}
+h5 {
+  font-size: 1em;
+}
+h6 {
+  font-size: .825em;
+}
+blockquote {
+  padding: 1em 0 1em 1em;
+  margin-left: 0;
+  color: #888;
+  border-left: 4px solid #e6e6e6;
+}
+blockquote p {
+  margin: 0;
+}
+code {
+  background: #e6e6e6;
+  padding: 0.1em 0.5em;
+  color: #c44444;
+  font-size: 0.825em;
+  border-radius: 0.25em;
+}
+nav {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 200px;
+  background: whitesmoke;
+  margin-top: 0;
+  overflow-y: auto;
+  font-size: 1rem;
+}
+nav h3 {
+  font-size: 1.25em;
+}
+nav ul {
+  margin-left: 1em;
+  padding-left: 1em;
+  border-left: 1px solid #dcdcdc;
+}
+nav ul li {
+  font-size: 1em;
+}
+#main {
+  position: relative;
+  margin: 1em 1em 0 200px;
+  width: auto;
+  min-width: 480px;
+  max-width: 900px;
+  float: none;
+  padding: 0;
+  z-index: 1000;
+}
+#main .page-title,
+#main .page-title ~ h3 {
+  display: none;
+}
+#main section {
+  margin-right: 0;
+  background: #fff;
+  border: none;
+}
+#main section header {
+  padding-left: 0;
+  text-align: center;
+  margin: 2em 0 3em;
+}
+#main section article h1 {
+  font-weight: 100;
+}
+#main section article .container-overview {
+  margin-bottom: 4em;
+}
+#main section article .subsection-title {
+  font-size: 1.5em;
+}
+#main section article .subsection-title + .name {
+  margin-top: 0;
+}
+#main section article > .name {
+  padding-top: 1em;
+  border-top: 2px solid #e6e6e6;
+}
+#main section article .description,
+#main section article .params,
+#main section article .details {
+  margin: 0.5em 0 2em;
+}
+#main section article .description {
+  color: #515151;
+}
+#main section article .summary {
+  font-size: 1.2em;
+  margin: 0.5em 0 0;
+}
+#main section article dl {
+  padding: 1em 0 1em 1em;
+  margin: 1em 0;
+  overflow: hidden;
+  border-left: 1px dotted #e6e6e6;
+}
+#main section article dl dt,
+#main section article dl dd {
+  float: left;
+  padding: 0;
+  margin: 0;
+}
+#main section article dl dt {
+  width: 20%;
+}
+#main section article dl dd {
+  width: 80%;
+}
+#main section article dl dd ul {
+  padding: 0;
+  margin: 0;
+}
+#main section article dl dd ul li {
+  padding: 0;
+  margin: 0;
+}
+body > br.clear {
+  display: none;
+}
+footer {
+  padding: 5em 2em 2em;
+  margin: 1em 1em 2em 200px;
+  width: auto;
+  min-width: 480px;
+  max-width: 900px;
+  color: #b5b5b5;
+  background: #e8e8e8;
+  text-align: right;
+}
+footer:not(:hover) a[href] {
+  color: #9c9c9c;
+}
+footer .divider {
+  margin: 1em 0;
+  height: 1px;
+  background: #dbdbdb;
+}
+footer .social-links a + a {
+  margin-left: 0.2em;
+}
+.prettyprint {
+  margin: 1em 1em 1em 0;
+  background: #2e2e2e;
+  padding: 1em;
+}
+.prettyprint code {
+  background: #2e2e2e;
+}
+.prettyprint code .com {
+  color: #777;
+}
+.prettyprint.linenums {
+  margin: 0;
+  padding: 0 0 0 5em;
+  color: #666;
+  background: #3e3e3e;
+}
+.prettyprint.linenums ol.linenums {
+  padding: 1em 0;
+  margin: 0;
+  background: #2e2e2e;
+}
+.prettyprint.linenums ol.linenums code {
+  padding: 0;
+}
+.prettyprint.linenums ol.linenums li {
+  padding-left: 1em;
+  border-left: none;
+}
+.prettyprint.linenums ol.linenums li.selected,
+.prettyprint.linenums ol.linenums li.selected * {
+  background: #304e6b;
+}
+.prettyprint .typ {
+  color: #ccc;
+}
+.prettyprint .str {
+  color: #6fa056;
+}
+.prettyprint .lit {
+  color: #6897bb;
+}
+table.params {
+  width: 100%;
+}
+table.params thead tr {
+  background: none;
+}
+table.params thead tr th {
+  padding: 0 0 0.25em 0;
+}
+table.params thead tr th:last-child {
+  border: none;
+  width: 50%;
+}
+table.params td {
+  padding: 0.5em 0;
+  vertical-align: middle;
+}
+table.params tr {
+  border-bottom: 1px solid #e6e6e6;
+}
+table.params thead,
+table.params th,
+table.params td {
+  border: none;
+}
