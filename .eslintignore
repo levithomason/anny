@@ -1,4 +1,8 @@
 # node_modules ignored by default
+.idea/
+_builds/
+_projects/
+_steps/
 app/bower
 app/dist
 coverage

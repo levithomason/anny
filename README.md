@@ -25,7 +25,7 @@
 </p>
 
 ## Get Started
-Read the [documentation](http://dev-coop.github.io/anny/docs/dist/0.1.0)
+Read the [documentation](http://dev-coop.github.io/anny/docs)
 or try the [demo](http://dev-coop.github.io/anny).
 
 ## Hacking
