@@ -8,3 +8,4 @@ npm-debug.log*
 app/dist/
 dist/
 docs/dist/
+docs/index.html
