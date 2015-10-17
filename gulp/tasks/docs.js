@@ -12,6 +12,7 @@ gulp.task('docs', 'build docs for the current version', function(cb) {
     'docs-clean',
     'docs-jsdoc',
     'docs-less',
+    'docs-index-html',
     cb
   );
 });
@@ -45,4 +46,10 @@ gulp.task('docs-less', function(cb) {
     .pipe(g.less())
     .pipe(g.autoprefixer())
     .pipe(gulp.dest(paths.docsDist + '/' + pkg.version + '/styles'));
+});
+
+gulp.task('docs-index-html', function(){
+  return gulp.src([paths.docsSrc + '/index.html'])
+    .pipe(g.replace(/CURRENT_PACKAGE_VERSION/g, 'dist/' + pkg.version))
+    .pipe(gulp.dest(paths.docsRoot));
 });
