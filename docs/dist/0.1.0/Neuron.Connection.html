@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Class: Connection</title>
+
+  <script src="scripts/prettify/prettify.js"></script>
+  <script src="scripts/prettify/lang-css.js"></script>
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="styles/jsdoc-default.css">
+  <link rel="stylesheet" href="styles/prettify-halflife.css">
+  <link rel="stylesheet" href="styles/jsdoc-default-override.css">
+  <link rel="stylesheet" href="styles/fork-me-ribbon.css">
+</head>
+
+<body>
+
+<div class="fork-me-ribbon">
+  <a href="https://github.com/dev-coop/anny/fork">
+    <i class="fa fa-code-fork"></i> Anny on <i class="fa fa-github"></i>
+  </a>
+</div>
+
+<div id="main">
+
+  <h1 class="page-title">Class: Connection</h1>
+
+  
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="Neuron.html">Neuron</a>.</span>
+        
+        Connection
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    <h4 class="name" id="Connection"><span class="type-signature"></span>new Connection<span class="signature">(source, target, weight)</span><span class="type-signature"></span></h4>
+
+    
+    <p class="summary">The connection between two Neurons.</p>
+    
+
+
+
+<div class="description">
+    <p>The connection between two Neurons. Connections are unidirectional.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>source</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Neuron.html">Neuron</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The Neuron that will send its output to the
+  <code>target</code> Neuron.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Neuron.html">Neuron</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The Neuron that will get its input from the
+  <code>source</code> Neuron.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>weight</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The strength of the connection.  Meaning, what
+  ratio of the <code>source</code> Neuron's output is passed to the <code>target</code> Neuron's
+  input.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line66">line 66</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="Neuron.html">Neuron</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="source"><span class="type-signature"></span>source<span class="type-signature"> :<a href="Neuron.html">Neuron</a></span></h4>
+
+
+<p class="summary">A reference to the Neuron at the start of this Connection.</p>
+
+
+
+<div class="description">
+    <p>A reference to the Neuron at the start of this Connection.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="Neuron.html">Neuron</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line71">line 71</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="target"><span class="type-signature"></span>target<span class="type-signature"> :<a href="Neuron.html">Neuron</a></span></h4>
+
+
+<p class="summary">A reference to the Neuron at the end of this Connection.</p>
+
+
+
+<div class="description">
+    <p>A reference to the Neuron at the end of this Connection.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="Neuron.html">Neuron</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line77">line 77</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="weight"><span class="type-signature"></span>weight<span class="type-signature"> :number</span></h4>
+
+
+<p class="summary">The weight is used as a multiplier for two purposes.</p>
+
+
+
+<div class="description">
+    <p>The weight is used as a multiplier for two purposes.  First, for
+activation, when transferring the output of the <code>source</code> Neuron to
+the input of the <code>target</code> Neuron. Second, during training, calculating the
+total error delta.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line88">line 88</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+  Created by
+  <a href="https://www.github.com/levithomason" target="_blank">
+    Levi Thomason
+  </a>
+  and the
+  <a href="https://github.com/dev-coop" target="_blank">Dev Coop</a>.
+
+  <div class="divider"></div>
+
+  <div class="social-links">
+    <a href="https://www.github.com/levithomason" target="_blank">
+      <i class="fa fa-github-square fa-2x"></i>
+    </a>
+    <a href="https://twitter.com/levithomason7" target="_blank">
+      <i class="fa fa-twitter-square fa-2x"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/levithomason" target="_blank">
+      <i class="fa fa-linkedin-square fa-2x"></i>
+    </a>
+  </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
