@@ -15,7 +15,7 @@
   },
   "precommit": {
     "silent": false,
-    "run": "lint, test"
+    "run": "lint"
   },
   "engines": {
     "node": "0.12.7",
