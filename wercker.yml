@@ -69,9 +69,14 @@ deploy:
         name: deploy
         code: |
           git add -f app/dist dist docs/dist
-          git commit -n -m "deploy commit by $WERCKER_STARTED_BY"
-          git push $GIT_REMOTE $WERCKER_GIT_BRANCH
-          git push -f $GIT_REMOTE $WERCKER_GIT_BRANCH:gh-pages
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "starting deploy, repo is dirty after build"
+            git commit -n -m "deploy commit by $WERCKER_STARTED_BY"
+            git push $GIT_REMOTE $WERCKER_GIT_BRANCH
+            git push -f $GIT_REMOTE $WERCKER_GIT_BRANCH:gh-pages
+          else
+            echo "skipping deploy, repo is clean after build"
+          fi
   after-steps:
     - slack-notifier:
         url: $SLACK_URL
