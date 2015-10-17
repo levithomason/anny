@@ -43,5 +43,6 @@ gulp.task('docs-less', function(cb) {
     ])
     .pipe(g.plumber())
     .pipe(g.less())
+    .pipe(g.autoprefixer())
     .pipe(gulp.dest(paths.docsDist + '/' + pkg.version + '/styles'));
 });

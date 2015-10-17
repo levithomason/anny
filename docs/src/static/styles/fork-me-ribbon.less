@@ -1,0 +1,58 @@
+@fork-me-ribbon-bg: #ff891b;
+@fork-me-ribbon-color: mix(#000, @fork-me-ribbon-bg, 60);
+@fork-me-ribbon-thread: mix(#000, @fork-me-ribbon-bg, 20);
+
+.fork-me-ribbon {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  z-index: 999999;
+  pointer-events: none;
+
+  a {
+    position: absolute;
+    padding-bottom: 0.1em;
+    top: 50px;
+    right: -75px;
+    width: 300px;
+    font-size: 1.1em;
+    line-height: 2.2em;
+    font-weight: bold;
+    text-align: center;
+    color: @fork-me-ribbon-color;
+    background: @fork-me-ribbon-bg;
+    transform: rotate(45deg);
+    text-shadow: -1px 1px 0 overlay(#999, @fork-me-ribbon-bg);
+    cursor: pointer;
+    pointer-events: all;
+    box-shadow:
+      inset 1px 1px 0 2px fade(#fff, 10),
+      inset -1px -1px 0 2px fade(#000, 5),
+      -1px 0 2px fade(#000, 20);
+    &:hover {
+      text-decoration: none;
+    }
+    // stitches
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      overflow: hidden;
+      height: 85%;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      border-top: 1px dashed @fork-me-ribbon-thread;
+      border-bottom: 1px dashed @fork-me-ribbon-thread;
+    }
+
+    i {
+      margin-top: 0.2em;
+    }
+  }
+}
