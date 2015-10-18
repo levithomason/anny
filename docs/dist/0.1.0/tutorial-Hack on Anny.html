@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Tutorial: Example</title>
+  <title>Tutorial: Hack on Anny</title>
 
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
@@ -26,40 +26,53 @@
 
 <div id="main">
 
-  <h1 class="page-title">Tutorial: Example</h1>
+  <h1 class="page-title">Tutorial: Hack on Anny</h1>
 
   <section>
 
 <header>
     
 
-    <h2>Example</h2>
+    <h2>Hack on Anny</h2>
 </header>
 
 <article>
-    <h1>Heading Size 1</h1><h2>Heading Size 2</h2><h3>Heading Size 3</h3><h4>Heading Size 4</h4><h5>Heading Size 5</h5><h6>Heading Size 6</h6><pre class="prettyprint source"><code>// Code block comment
-
-/**
- * @param {string} arg An arbitrary argument.
- */
-function foo(arg) {
-  this.foo = arg;
-}
-
-class Man {
-  hi() {
-    return 'yo';
-  }
-}
-
-export default Man;</code></pre><blockquote>
-<p>Comment block, how does it look?</p>
-</blockquote>
+    <h2>Setup</h2><p>If you plan to submit your changes back to Anny, use the <a href="#Contributing">Contributing</a> instructions.</p>
 <ol>
-<li>number lists</li>
-<li>look kinda</li>
-<li>like this</li>
+<li>Install <a href="https://nodejs.org/">node.js</a></li>
+<li><code>git clone https://github.com/dev-coop/anny.git</code></li>
+<li><code>cd anny</code></li>
+<li><code>npm install</code></li>
+<li><code>npm start</code></li>
 </ol>
+<h2>Contributing</h2><p>Use these instructions if you plan on submitting your changes to Anny.</p>
+<ol>
+<li><a href="https://github.com/dev-coop/anny/fork">Fork</a> Anny to your account</li>
+<li><code>git clone &lt;your fork&gt;</code></li>
+<li><code>cd anny</code></li>
+<li><code>git checkout -b &lt;new branch&gt;</code></li>
+<li><code>npm install</code></li>
+<li><code>npm start</code></li>
+<li>Make changes, commit and push</li>
+<li>Open a <a href="https://github.com/dev-coop/anny/compare/integration...">Pull Request</a> with base: <code>integration</code> and compare: <code>&lt;your branch&gt;</code>.</li>
+</ol>
+<p>We'll review your PR and help you get it merged into the <code>integration</code> branch.</p>
+<h2>Dev Process</h2><p>Once you have Anny running locally, you can use the commands below.</p>
+<p>Run <code>gulp</code> then open your browser to <a href="http://localhost:8000">http://localhost:8000</a>.
+Make changes to Anny in <code>/lib</code>, the demo app in <code>/app</code>, or the doc site in <code>/docs/src</code>.
+The project is automatically rebuilt and the browser refreshed.</p>
+<pre class="prettyprint source"><code>gulp                      # build, serve, and watch
+gulp help                 # list gulp commands and help
+
+npm start                 # install dependencies, build, serve, and watch
+npm test                  # run tests and generate coverage
+npm run                   # list npm commands</code></pre><h2>Project Structure</h2><p>This repo contains two projects.</p>
+<p><strong><code>/lib</code></strong>
+Anny, the neural net library.  </p>
+<p><strong><code>/app</code></strong>
+An AngularJS web app for demoing and testing purposes</p>
+<p><strong><code>/docs</code></strong>
+The doc site src and builds, powered by <a href="http://usejsdoc.org/">JSDoc</a>.</p>
 </article>
 
 </section>
