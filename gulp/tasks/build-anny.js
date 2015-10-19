@@ -1,10 +1,11 @@
-var g = require('gulp-load-plugins')();
-var gulp = g.help(require('gulp'), require('../gulphelp'));
-var del = require('del');
-var runSequence = require('run-sequence');
-var paths = require('../paths');
+const g = require('gulp-load-plugins')();
+const gulp = g.help(require('gulp'), require('../gulphelp'));
+import del from 'del';
+import runSequence from 'run-sequence';
+import paths from '../../paths';
+import webpack from 'webpack';
 
-gulp.task('build-anny', function(cb) {
+gulp.task('build-anny', cb => {
   runSequence(
     'clean-build-anny',
     'build-anny-js',
@@ -12,15 +13,13 @@ gulp.task('build-anny', function(cb) {
   );
 });
 
-gulp.task('clean-build-anny', function(cb) {
+gulp.task('clean-build-anny', cb => {
   del(paths.annyDist, cb);
 });
 
-gulp.task('build-anny-js', function(cb) {
-  var webpack = require('webpack');
-
+gulp.task('build-anny-js', cb => {
   // http://webpack.github.io/docs/configuration.html
-  var webpackOpts = {
+  let webpackOpts = {
     entry: paths.annyEntry,
     output: {
       path: paths.annyDist,
@@ -54,7 +53,7 @@ gulp.task('build-anny-js', function(cb) {
   };
 
   // http://webpack.github.io/docs/node.js-api.html#stats
-  var webpackOutputOpts = {
+  let webpackOutputOpts = {
     hash: false,            // the hash of the compilation
     version: false,         // webpack version info
     timings: true,          // timing info
@@ -74,7 +73,7 @@ gulp.task('build-anny-js', function(cb) {
   };
 
   // run webpack
-  webpack(webpackOpts, function(err, stats) {
+  webpack(webpackOpts, (err, stats) => {
     if (err) {
       throw new g.util.PluginError('webpack', err);
     }

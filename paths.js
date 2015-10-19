@@ -1,5 +1,4 @@
-var path = require('path');
-var ROOT = path.dirname(__dirname);
+var ROOT = __dirname;
 
 var paths = {
   root: ROOT,
