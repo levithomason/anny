@@ -79,10 +79,7 @@ deploy:
     - script:
         name: generate changelog
         code: |
-          if [[ -n $(which github_changelog_generator) ]]; then
-            echo "...installing github_changelog_generator"
-            sudo gem install github_changelog_generator
-          fi
+          sudo gem install github_changelog_generator
           github_changelog_generator $WERCKER_GIT_OWNER/$WERCKER_GIT_REPOSITORY
     - script:
         name: deploy
