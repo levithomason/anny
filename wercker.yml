@@ -1,45 +1,37 @@
-# This references the default nodejs container from
-# the Docker Hub: https://registry.hub.docker.com/_/node/
-# If you want Nodesource's container you would reference nodesource/node
-# Read more about containers on our dev center
-# http://devcenter.wercker.com/docs/containers/index.html
 box: shawnzhu/ruby-nodejs
-# This is the build pipeline. Pipelines are the core of wercker
-# Read more about pipelines on our dev center
-# http://devcenter.wercker.com/docs/pipelines/index.html
-
-# You can also use services such as databases. Read more on our dev center:
-# http://devcenter.wercker.com/docs/services/index.html
-# services:
-    # - postgres
-    # http://devcenter.wercker.com/docs/services/postgresql.html
-
-    # - mongodb
-    # http://devcenter.wercker.com/docs/services/mongodb.html
 build:
-  # The steps that will be executed on build
-  # Steps make up the actions in your pipeline
-  # Read more about steps on our dev center:
-  # http://devcenter.wercker.com/docs/steps/index.html
   steps:
+    - script:
+        name: echo version information
+        code: |
+          echo "ruby: $(ruby -v)"
+          echo "node: $(node -v)"
+          echo "npm: $(npm -v)"
+          echo "git: $(git --version)"
     - npm-install
+    - script:
+      name: bower install
+      code: |
+        $(npm bin)/bower install --allow-root
     - npm-test
     - script:
         name: coverage
         code: |
           npm run coverage-check
           npm run coverage-report
-    - script:
-        name: echo nodejs information
-        code: |
-          echo "node version $(node -v) running"
-          echo "npm version $(npm -v) running"
   after-steps:
       - slack-notifier:
           url: $SLACK_URL
           username: wercker
 deploy:
   steps:
+    - script:
+        name: echo version information
+        code: |
+          echo "ruby: $(ruby -v)"
+          echo "node: $(node -v)"
+          echo "npm: $(npm -v)"
+          echo "git: $(git --version)"
     - add-to-known_hosts:
         hostname: github.com
     - add-ssh-key:
@@ -56,11 +48,16 @@ deploy:
           git checkout $WERCKER_GIT_BRANCH
     # Symlinked binaries in $(npm bin) are broken as they are copied from the
     # build process.  Remove and reinstall node_modules.
+    # Nuke and reinstall bower components for good measure.
     - script:
-        name: rm -rf node_modules
+        name: remove modules
         code: |
-          rm -rf node_modules
+          rm -rf node_modules app/bower
     - npm-install
+    - script:
+      name: bower install
+      code: |
+        $(npm bin)/bower install --allow-root
     - script:
         name: build
         code: |
