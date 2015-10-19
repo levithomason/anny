@@ -37,6 +37,20 @@ deploy:
     - add-ssh-key:
         keyname: GITHUB_KEY
     - script:
+        name: upgrade git
+        code: |
+          # 2015-10-18: apt only has git 1.7.9.5 as latest
+          # use git maintainers PPA to get 2.x
+          # this is needed for the --unshallow flag in checkout script
+          echo "Current git: $(git --version)"
+          echo "...adding git-core PPA repo"
+          sudo apt-add-repository ppa:git-core/ppa
+          echo "...update apt-get"
+          sudo apt-get update
+          echo "...install git"
+          sudo apt-get --assume-yes install git
+          echo "Upgraded to git: $(git --version)"
+    - script:
         name: config git
         code: |
           git config --global user.email "dev-coop-bot@gmail.com"
