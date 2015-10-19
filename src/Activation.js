@@ -1,11 +1,11 @@
-var math = require('mathjs');
+import math from 'mathjs';
 
 /**
  * Activation functions and their derivatives for a {@link Neuron}.
  * @namespace
  * @type {object}
  */
-var ACTIVATION = {
+const ACTIVATION = {
   /**
    * Simply max(0, x). Interestingly the derivative of the rectifier turns out
    * to be the logistic function. Range: (0,+inf)
@@ -13,12 +13,8 @@ var ACTIVATION = {
    */
   rectifier: {
     // https://en.wikipedia.org/wiki/Rectifier
-    func: function(x) {
-      return math.max(0, x);
-    },
-    prime: function(x) {
-      return 1 / (1 + math.exp(-x));
-    },
+    func: x => math.max(0, x),
+    prime: x => 1 / (1 + math.exp(-x)),
   },
 
   /**
@@ -28,12 +24,8 @@ var ACTIVATION = {
    */
   softplus: {
     // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-    func: function(x) {
-      return math.log(1 + math.exp(x));
-    },
-    prime: function(x) {
-      return math.log(1 + math.exp(x));
-    },
+    func: x => math.log(1 + math.exp(x)),
+    prime: x => math.log(1 + math.exp(x)),
   },
 
   /**
@@ -45,11 +37,9 @@ var ACTIVATION = {
    */
   logistic: {
     // 4.4 The Sigmoid Fig. 4.a, Not recommended.
-    func: function(x) {
-      return 1 / (1 + math.exp(-x));
-    },
-    prime: function(x) {
-      var val = 1 / (1 + math.exp(-x));
+    func: x => 1 / (1 + math.exp(-x)),
+    prime: x => {
+      let val = 1 / (1 + math.exp(-x));
       return val * (1 - val);
     },
   },
@@ -61,12 +51,8 @@ var ACTIVATION = {
    * @returns {number}
    */
   identity: {
-    func: function(x) {
-      return x;
-    },
-    prime: function(x) {
-      return x;
-    },
+    func: x => x,
+    prime: x => x,
   },
 
   /**
@@ -79,14 +65,12 @@ var ACTIVATION = {
    * @returns {number}
    */
   tanh: {
-    func: function(x) {
-      var negExp = math.exp(-x);
-      var posExp = math.exp(x);
+    func: x => {
+      let negExp = math.exp(-x);
+      let posExp = math.exp(x);
       return (posExp - negExp) / (posExp + negExp);
     },
-    prime: function(x) {
-      return 1 - math.pow(math.tanh(x), 2);
-    },
+    prime: x => 1 - math.pow(math.tanh(x), 2),
   },
 
   /**
@@ -96,13 +80,9 @@ var ACTIVATION = {
    * @returns {number}
    */
   optimalTanh: {
-    func: function(x) {
-      return 1.7159 * math.tanh(x * 2 / 3);
-    },
-    prime: function(x) {
-      return 1.14393 * math.sech(x * 2 / 3);
-    },
+    func: x => 1.7159 * math.tanh(x * 2 / 3),
+    prime: x => 1.14393 * math.sech(x * 2 / 3),
   },
 };
 
-module.exports = ACTIVATION;
+export default ACTIVATION;

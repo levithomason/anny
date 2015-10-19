@@ -1,34 +1,32 @@
-var ACTIVATION = require('./Activation');
+import ACTIVATION from './Activation';
 
 /**
  * @namespace
  * @type {{}}
  */
-var util = {
+const util = {
   /**
    * A hack that times all activation functions, logging the results.
    */
-  findFastestActivation: function findFastestActivation() {
-    var epochs = 5000000;
-    var results = [];
-    var start;
-    var ms;
-    var x = Math.random() - 0.5;
+  findFastestActivation() {
+    let epochs = 5000000;
+    let results = [];
+    let start;
+    let ms;
+    let x = Math.random() - 0.5;
 
     console.log('epochs:', epochs);
     console.log('value:', x);
     console.log('...this will take a while');
 
-    _.each(ACTIVATION, function(fn) {
+    _.each(ACTIVATION, fn => {
       start = new Date();
-      _.times(epochs, function() {
-        fn(x);
-      });
+      _.times(epochs, () => fn(x));
       ms = new Date() - start;
-      var bar = _.repeat('=', Math.round(ms / (epochs / 250000)));
+      let bar = _.repeat('=', Math.round(ms / (epochs / 250000)));
 
       results.push({
-        bar: ['|' + bar + '>', ms, fn.name].join(' '),
+        bar: `|${bar}> ${ms} ${fn.name}`,
         ms: ms
       });
     });
@@ -36,9 +34,7 @@ var util = {
     // log results
     console.log('_______________ results in ms _______________');
 
-    _.each(_.sortBy(results, 'ms'), function(result) {
-      console.log(result.bar);
-    });
+    _.each(_.sortBy(results, 'ms'), result => console.log(result.bar));
   },
 
   /**
@@ -52,16 +48,16 @@ var util = {
    * @param {number} [dataMax] - The number to use at the max value in the
    *   `array`. Defaults to the actual max `array` value.
    */
-  normalize: function normalize(array, dataMin, dataMax) {
-    var scaleMax = dataMax || _.max(array);
-    var scaleMin = dataMin || _.min(array);
-    var scaleOffset = 0 - scaleMin;
-    var scaleRange = scaleMax - scaleMin;
+  normalize(array, dataMin, dataMax) {
+    let scaleMax = dataMax || _.max(array);
+    let scaleMin = dataMin || _.min(array);
+    let scaleOffset = 0 - scaleMin;
+    let scaleRange = scaleMax - scaleMin;
 
-    return _.map(array, function(n) {
+    return _.map(array, n => {
       if (n > scaleMax || n < scaleMin) {
         throw new Error(
-          n + ' is beyond the scale range: ' + scaleMin + ' to ' + scaleMax
+          `${n} is beyond the scale range: ${scaleMin} to ${scaleMax}`
         );
       }
       return (n + scaleOffset) / (scaleRange / 2) - 1;
@@ -73,12 +69,10 @@ var util = {
    * @param func - The function to create an approximate derivative of.
    * @returns {function}
    */
-  getApproximateDerivative: function getApproximateDerivative(func) {
+  getApproximateDerivative(func) {
     // https://github.com/pr1001/MathPlus/blob/master/mathplus.js#L316
-    return function(x) {
-      return (func(x + 1e-10) - func(x)) / 1e-10;
-    };
+    return x => (func(x + 1e-10) - func(x)) / 1e-10;
   }
 };
 
-module.exports = util;
+export default util;

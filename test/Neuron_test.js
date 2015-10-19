@@ -1,28 +1,28 @@
-var Neuron = require('../src/Neuron');
-var neuron;
-var inputValues = [-1, 0, 1];
+import Neuron from '../src/Neuron';
+let neuron;
+let inputValues = [-1, 0, 1];
 
-describe('Neuron', function() {
-  beforeEach(function() {
+describe('Neuron', () => {
+  beforeEach(() => {
     neuron = new Neuron();
   });
 
-  describe('activate', function() {
-    it('always outputs 1 if isBias Neuron', function() {
+  describe('activate', () => {
+    it('always outputs 1 if isBias Neuron', () => {
       neuron.isBias = true;
-      inputValues.forEach(function(n) {
+      inputValues.forEach((n) => {
         neuron.activate(n).should.equal(1);
       });
     });
-    it('sets the input when specified', function() {
-      inputValues.forEach(function(n) {
+    it('sets the input when specified', () => {
+      inputValues.forEach((n) => {
         neuron.activate(n);
         neuron.input.should.equal(n);
       });
     });
-    it('sums input from output of Neurons connect to it', function() {
-      var sourceA = new Neuron();
-      var sourceB = new Neuron();
+    it('sums input from output of Neurons connect to it', () => {
+      let sourceA = new Neuron();
+      let sourceB = new Neuron();
       sourceA.output = 1;
       sourceB.output = 1;
 
@@ -32,13 +32,13 @@ describe('Neuron', function() {
       neuron.activate();
       neuron.input.should.equal(2);
     });
-    it('does not squash input values if isInput', function() {
+    it('does not squash input values if isInput', () => {
       neuron.isInput().should.equal(true);
       neuron.activate(10);
       neuron.output.should.equal(10);
     });
-    it('does squash input values if !isInput', function() {
-      var source = new Neuron();
+    it('does squash input values if !isInput', () => {
+      let source = new Neuron();
       source.connect(neuron);
       neuron.isInput().should.equal(false);
       neuron.activate(10);
@@ -46,23 +46,23 @@ describe('Neuron', function() {
     });
   });
 
-  describe('isInput', function() {
-    it('is true when it has no incoming connections', function() {
+  describe('isInput', () => {
+    it('is true when it has no incoming connections', () => {
       neuron.isInput().should.be.equal(true);
     });
-    it('is false when it has incoming connections', function() {
-      var input = new Neuron();
+    it('is false when it has incoming connections', () => {
+      let input = new Neuron();
       input.connect(neuron, 1);
       neuron.isInput().should.be.equal(false);
     });
   });
 
-  describe('isOutput', function() {
-    it('is true when it has no outgoing connections', function() {
+  describe('isOutput', () => {
+    it('is true when it has no outgoing connections', () => {
       neuron.isOutput().should.be.equal(true);
     });
-    it('is false when it has outgoing connections', function() {
-      var output = new Neuron();
+    it('is false when it has outgoing connections', () => {
+      let output = new Neuron();
       neuron.connect(output, 1);
       neuron.isOutput().should.be.equal(false);
     });

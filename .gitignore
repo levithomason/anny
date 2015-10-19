@@ -5,6 +5,7 @@ _steps/
 coverage/
 node_modules/
 npm-debug.log*
+app/bower/
 app/dist/
 dist/
 docs/dist/
