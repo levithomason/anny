@@ -1,39 +1,39 @@
-var Network = require('../src/Network');
-var Layer = require('../src/Layer');
-var network;
+import Network from '../src/Network';
+import Layer from '../src/Layer';
+let network;
 
-describe('Network', function() {
-  beforeEach(function() {
+describe('Network', () => {
+  beforeEach(() => {
     network = new Network([1, 1]);
   });
 
-  it('initializes with a `null` error', function() {
+  it('initializes with a `null` error', () => {
     expect(network.error).to.equal(null);
   });
 
-  it('has an input layer', function() {
+  it('has an input layer', () => {
     network.inputLayer.should.be.an.instanceOf(Layer);
   });
 
-  it('has an output layer', function() {
+  it('has an output layer', () => {
     network.outputLayer.should.be.an.instanceOf(Layer);
   });
 
-  it('has hidden layers', function() {
-    _.each(network.hiddenLayers, function(layer) {
+  it('has hidden layers', () => {
+    _.each(network.hiddenLayers, (layer) => {
       layer.should.be.an.instanceOf(Layer);
     });
   });
 
-  describe('train', function() {
-    it('is a function', function() {
+  describe('train', () => {
+    it('is a ', () => {
       network.train.should.be.a('function');
     });
 
-    describe('logic gates', function() {
-      it('OR', function() {
+    describe('logic gates', () => {
+      it('OR', () => {
         network = new Network([2, 1]);
-        var data = [
+        let data = [
           {input: [0, 0], output: [0]},
           {input: [0, 1], output: [1]},
           {input: [1, 0], output: [1]},
@@ -43,10 +43,10 @@ describe('Network', function() {
         expect(network.error).to.be.below(network.errorThreshold);
       });
 
-      it('XOR', function() {
+      it('XOR', () => {
         // TODO: this should be possible with 2, 3, 1 but is intermittent.
         network = new Network([2, 5, 3, 1]);
-        var data = [
+        let data = [
           {input: [0, 0], output: [0]},
           {input: [0, 1], output: [1]},
           {input: [1, 0], output: [1]},
@@ -56,9 +56,9 @@ describe('Network', function() {
         expect(network.error).to.be.below(network.errorThreshold);
       });
 
-      it('AND', function() {
+      it('AND', () => {
         network = new Network([2, 3, 1]);
-        var data = [
+        let data = [
           {input: [0, 0], output: [0]},
           {input: [0, 1], output: [0]},
           {input: [1, 0], output: [0]},
@@ -68,9 +68,9 @@ describe('Network', function() {
         expect(network.error).to.be.below(network.errorThreshold);
       });
 
-      it('NAND', function() {
+      it('NAND', () => {
         network = new Network([2, 3, 1]);
-        var data = [
+        let data = [
           {input: [0, 0], output: [1]},
           {input: [0, 1], output: [1]},
           {input: [1, 0], output: [1]},
