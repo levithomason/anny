@@ -3,7 +3,7 @@
 # If you want Nodesource's container you would reference nodesource/node
 # Read more about containers on our dev center
 # http://devcenter.wercker.com/docs/containers/index.html
-box: node
+box: shawnzhu/ruby-nodejs
 # This is the build pipeline. Pipelines are the core of wercker
 # Read more about pipelines on our dev center
 # http://devcenter.wercker.com/docs/pipelines/index.html
@@ -66,9 +66,18 @@ deploy:
         code: |
           $(npm bin)/gulp build
     - script:
+        name: generate changelog
+        code: |
+          if [[ -n $(which github_changelog_generator) ]]; then
+            echo "...installing github_changelog_generator"
+            sudo gem install github_changelog_generator
+          fi
+          github_changelog_generator $WERCKER_GIT_OWNER/$WERCKER_GIT_REPOSITORY
+    - script:
         name: deploy
         code: |
-          git add -f app/bower app/dist dist docs/dist docs/index.html
+          # force add ignored files
+          git add -f app/bower app/dist CHANGELOG.md dist docs/dist docs/index.html
           if [[ -n $(git status --porcelain) ]]; then
             echo "starting deploy, repo is dirty after build"
             git commit -n -m "deploy commit by $WERCKER_STARTED_BY"
