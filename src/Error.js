@@ -1,4 +1,4 @@
-var _ = require('lodash');
+import _ from 'lodash';
 
 /**
  * Functions for calculating Network error.  The error is simply the difference
@@ -7,7 +7,7 @@ var _ = require('lodash');
  * @see Network
  * @type {object}
  */
-var ERROR = {
+const ERROR = {
   /**
    * @param {number[]} expected - Array of output values the Network should
    *   have produced.
@@ -15,10 +15,10 @@ var ERROR = {
    *   produced.
    * @returns {number}
    */
-  crossEntropy: function crossEntropy(expected, actual) {
-    return -(_.sum(actual, function(actVal, i) {
-        return Math.log(actVal) * expected[i];
-      })) / actual.length;
+  crossEntropy(expected, actual) {
+    return -(_.sum(actual, (actVal, i) => {
+      return Math.log(actVal) * expected[i];
+    })) / actual.length;
   },
 
   // These taken from: https://www.youtube.com/watch?v=U4BTzF3Wzt0
@@ -30,10 +30,10 @@ var ERROR = {
    *   produced.
    * @returns {number}
    */
-  meanSquared: function meanSquared(expected, actual) {
-    return _.sum(actual, function(actVal, i) {
-        return Math.pow(expected[i] - actVal, 2);
-      }) / actual.length;
+  meanSquared(expected, actual) {
+    return _.sum(actual, (actVal, i) => {
+      return Math.pow(expected[i] - actVal, 2);
+    }) / actual.length;
   },
 
   /**
@@ -43,7 +43,7 @@ var ERROR = {
    *   produced.
    * @returns {number}
    */
-  rootMeanSquared: function rootMeanSquared(expected, actual) {
+  rootMeanSquared(expected, actual) {
     return Math.sqrt(ERROR.meanSquared(expected, actual));
   },
 
@@ -54,11 +54,11 @@ var ERROR = {
    *   produced.
    * @returns {number}
    */
-  arcTan: function arcTan(expected, actual) {
-    return _.sum(actual, function(actVal, i) {
-        return Math.atan(expected[i] - actVal);
-      }) / actual.length;
+  arcTan(expected, actual) {
+    return _.sum(actual, (actVal, i) => {
+      return Math.atan(expected[i] - actVal);
+    }) / actual.length;
   }
 };
 
-module.exports = ERROR;
+export default ERROR;
