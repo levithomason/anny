@@ -14,6 +14,7 @@
 
 **Merged pull requests:**
 
+- add config for codeclimate platform [\#54](https://github.com/dev-coop/anny/pull/54) ([levithomason](https://github.com/levithomason))
 - always gem install changelog [\#53](https://github.com/dev-coop/anny/pull/53) ([levithomason](https://github.com/levithomason))
 - upgrade git in deploy [\#52](https://github.com/dev-coop/anny/pull/52) ([levithomason](https://github.com/levithomason))
 - Add bower echo more version info during deploy [\#51](https://github.com/dev-coop/anny/pull/51) ([levithomason](https://github.com/levithomason))
