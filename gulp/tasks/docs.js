@@ -1,13 +1,13 @@
-var del = require('del');
-var exec = require('child_process').exec;
-var g = require('gulp-load-plugins')();
-var gulp = g.help(require('gulp'), require('../gulphelp'));
-var runSequence = require('run-sequence');
+const g = require('gulp-load-plugins')();
+const gulp = g.help(require('gulp'), require('../gulphelp'));
+import del from 'del';
+import {exec} from 'child_process';
+import runSequence from 'run-sequence';
 
-var pkg = require('../../package.json');
-var paths = require('../paths');
+import pkg from '../../package.json';
+import paths from '../../paths';
 
-gulp.task('docs', 'build docs for the current version', function(cb) {
+gulp.task('docs', 'build docs for the current version', cb => {
   runSequence(
     'docs-clean',
     'docs-jsdoc',
@@ -17,39 +17,35 @@ gulp.task('docs', 'build docs for the current version', function(cb) {
   );
 });
 
-gulp.task('docs-clean', function(cb) {
-  del(paths.docsDist + '/' + pkg.version, cb);
+gulp.task('docs-clean', cb => {
+  del(`${paths.docsDist}/${pkg.version}`, cb);
 });
 
-gulp.task('docs-jsdoc', function(cb) {
+gulp.task('docs-jsdoc', cb => {
   exec([
-    // run jsdoc
-    '$(npm bin)/jsdoc -c conf.json',
+    `$(npm bin)/jsdoc -c conf.json`,
 
-    // flatten
-    'mv ' +
-      paths.docsDist + '/' + pkg.name + '/' + pkg.version + ' ' +
-      paths.docsDist,
-    'rm -rf ' + paths.docsDist + '/' + pkg.name,
+    `mv ${paths.docsDist}/${pkg.name}/${pkg.version} ${paths.docsDist}`,
+    `rm -rf ${paths.docsDist}/${pkg.name}`,
 
     // remove fonts
-    'rm -rf ' + paths.docsDist + '/' + pkg.version + '/fonts'
+    `rm -rf ${paths.docsDist}/${pkg.version}/fonts`
 
   ].join(' && '), cb);
 });
 
-gulp.task('docs-less', function(cb) {
+gulp.task('docs-less', cb => {
   return gulp.src([
-      paths.docsSrc + '/static/styles/*.less'
+      `${paths.docsSrc}/static/styles/*.less`
     ])
     .pipe(g.plumber())
     .pipe(g.less())
     .pipe(g.autoprefixer())
-    .pipe(gulp.dest(paths.docsDist + '/' + pkg.version + '/styles'));
+    .pipe(gulp.dest(`${paths.docsDist}/${pkg.version}/styles`));
 });
 
-gulp.task('docs-index-html', function() {
-  return gulp.src([paths.docsSrc + '/index.html'])
-    .pipe(g.replace(/CURRENT_PACKAGE_VERSION/g, 'dist/' + pkg.version))
+gulp.task('docs-index-html', cb => {
+  return gulp.src([`${paths.docsSrc}/index.html`])
+    .pipe(g.replace(/CURRENT_PACKAGE_VERSION/g, `dist/${pkg.version}`))
     .pipe(gulp.dest(paths.docsRoot));
 });

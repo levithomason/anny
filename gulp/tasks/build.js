@@ -1,8 +1,8 @@
-var g = require('gulp-load-plugins')();
-var gulp = g.help(require('gulp'), require('../gulphelp'));
-var runSequence = require('run-sequence');
+const g = require('gulp-load-plugins')();
+const gulp = g.help(require('gulp'), require('../gulphelp'));
+import runSequence from 'run-sequence';
 
-gulp.task('build', 'create a fresh anny and app build', function(cb) {
+gulp.task('build', 'create a fresh anny and app build', cb => {
   runSequence(
     [
       'build-anny',
