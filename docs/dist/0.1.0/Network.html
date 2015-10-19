@@ -37,9 +37,9 @@
 
 <header>
     
-        <h2>
-        Network
-        </h2>
+        <h2>Network</h2>
+        
+            <div class="class-description"><p>A Network contains Layers of Neurons.</p></div>
         
     
 </header>
@@ -50,18 +50,19 @@
         
 
     
+    <h2>Constructor</h2>
+    
 
     <h4 class="name" id="Network"><span class="type-signature"></span>new Network<span class="signature">(layerSizes)</span><span class="type-signature"></span></h4>
 
-    
-    <p class="summary">Creates a Network of Layers consisting of Neurons.</p>
     
 
 
 
 <div class="description">
     <p>Creates a Network of Layers consisting of Neurons. Each array element
-indicates a layer.  The value indicates the number of Neurons in that Layer.</p>
+indicates a layer.  The value indicates the number of Neurons in that
+Layer.</p>
 <p>The first element represents the number of Neurons in the input Layer.
 The last element represents the number of Neurons in the output Layer.
 Each element in between represents a hidden Layer with n Neurons.</p>
@@ -157,21 +158,12 @@ Each element in between represents a hidden Layer with n Neurons.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line29">line 29</a>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line20">line 20</a>
     </li></ul></dd>
     
 
     
 
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="Layer.html">Layer</a></li>
-        
-            <li><a href="Neuron.html">Neuron</a></li>
-        </ul>
-    </dd>
     
 
     
@@ -195,13 +187,13 @@ Each element in between represents a hidden Layer with n Neurons.</p>
     
     <pre class="prettyprint"><code>// 2 inputs
 // 1 output
-var net = new Network([2, 1]);</code></pre>
+const net = new Network([2, 1]);</code></pre>
 
     <pre class="prettyprint"><code>// 16 inputs
 // 10 neuron hidden layer
 // 4 neuron hidden layer
 // 1 output
-var net = new Network([16, 10, 4, 1]);</code></pre>
+const net = new Network([16, 10, 4, 1]);</code></pre>
 
 
 
@@ -280,7 +272,7 @@ containing the <code>inputLayer</code>, <code>hiddenLayers</code>, and the <code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line96">line 96</a>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line101">line 101</a>
     </li></ul></dd>
     
 
@@ -306,9 +298,9 @@ containing the <code>inputLayer</code>, <code>hiddenLayers</code>, and the <code
 
 
 <div class="description">
-    <p>The max training iterations.  The Network will stop training after looping
-through the training data this number of times.  One full loop through the
-training data is counted as one epoch.</p>
+    <p>The max training iterations.  The Network will stop training after
+looping through the training data this number of times.  One full loop
+through the training data is counted as one epoch.</p>
 </div>
 
 
@@ -356,7 +348,7 @@ training data is counted as one epoch.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line60">line 60</a>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line65">line 65</a>
     </li></ul></dd>
     
 
@@ -433,7 +425,7 @@ training data is counted as one epoch.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line52">line 52</a>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -508,7 +500,7 @@ Network. In other words, to what degree was the Network's output wrong.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line46">line 46</a>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line51">line 51</a>
     </li></ul></dd>
     
 
@@ -590,7 +582,7 @@ Network. In other words, to what degree was the Network's output wrong.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line67">line 67</a>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line72">line 72</a>
     </li></ul></dd>
     
 
@@ -664,7 +656,7 @@ Network. In other words, to what degree was the Network's output wrong.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line80">line 80</a>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line85">line 85</a>
     </li></ul></dd>
     
 
@@ -739,7 +731,7 @@ activation.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line74">line 74</a>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line79">line 79</a>
     </li></ul></dd>
     
 
@@ -814,7 +806,7 @@ the Network's <code>outputLayer</code> output.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line38">line 38</a>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line43">line 43</a>
     </li></ul></dd>
     
 
@@ -889,7 +881,7 @@ activation.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line89">line 89</a>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line94">line 94</a>
     </li></ul></dd>
     
 
@@ -1019,7 +1011,7 @@ activation.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line117">line 117</a>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line122">line 122</a>
     </li></ul></dd>
     
 
@@ -1176,7 +1168,7 @@ Values in the array specify the target output of the Neuron in the output
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line130">line 130</a>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line135">line 135</a>
     </li></ul></dd>
     
 
@@ -1388,7 +1380,7 @@ Values in the array specify the target output of the Neuron in the output
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line150">line 150</a>
+        <a href="Network.js.html">Network.js</a>, <a href="Network.js.html#line155">line 155</a>
     </li></ul></dd>
     
 
