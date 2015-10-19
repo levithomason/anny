@@ -1,14 +1,6 @@
 box: shawnzhu/ruby-nodejs
 build:
   steps:
-    - npm-install
-    - plasticine/bower-install@0.0.4
-    - npm-test
-    - script:
-        name: coverage
-        code: |
-          npm run coverage-check
-          npm run coverage-report
     - script:
         name: echo version information
         code: |
@@ -16,12 +8,30 @@ build:
           echo "node: $(node -v)"
           echo "npm: $(npm -v)"
           echo "git: $(git --version)"
+    - npm-install
+    - script:
+      name: bower install
+      code: |
+        $(npm bin)/bower install --allow-root
+    - npm-test
+    - script:
+        name: coverage
+        code: |
+          npm run coverage-check
+          npm run coverage-report
   after-steps:
       - slack-notifier:
           url: $SLACK_URL
           username: wercker
 deploy:
   steps:
+    - script:
+        name: echo version information
+        code: |
+          echo "ruby: $(ruby -v)"
+          echo "node: $(node -v)"
+          echo "npm: $(npm -v)"
+          echo "git: $(git --version)"
     - add-to-known_hosts:
         hostname: github.com
     - add-ssh-key:
@@ -44,7 +54,10 @@ deploy:
         code: |
           rm -rf node_modules app/bower
     - npm-install
-    - plasticine/bower-install@0.0.4
+    - script:
+      name: bower install
+      code: |
+        $(npm bin)/bower install --allow-root
     - script:
         name: build
         code: |
@@ -70,13 +83,6 @@ deploy:
           else
             echo "skipping deploy, repo is clean after build"
           fi
-    - script:
-        name: echo version information
-        code: |
-          echo "ruby: $(ruby -v)"
-          echo "node: $(node -v)"
-          echo "npm: $(npm -v)"
-          echo "git: $(git --version)"
   after-steps:
     - slack-notifier:
         url: $SLACK_URL
