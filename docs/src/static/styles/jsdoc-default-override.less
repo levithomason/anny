@@ -144,12 +144,13 @@ nav {
 
 #main {
   position: relative;
+  float: none;
+  padding: 0;
   margin: @main-margin @main-margin 0 @nav-width;
   width: auto;
   min-width: @main-min-width;
   max-width: @main-max-width;
-  float: none;
-  padding: 0;
+  box-shadow: 0 0 10px darken(@background, 10);
   z-index: 1000;
 
   .page-title,
