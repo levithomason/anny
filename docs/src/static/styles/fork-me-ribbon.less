@@ -1,6 +1,6 @@
-@fork-me-ribbon-bg: #ff891b;
-@fork-me-ribbon-color: mix(#000, @fork-me-ribbon-bg, 60);
-@fork-me-ribbon-thread: mix(#000, @fork-me-ribbon-bg, 20);
+@ribbon-bg: #ff891b;
+@ribbon-color: mix(#fff, @ribbon-bg, 90);
+@ribbon-thread: mix(#000, @ribbon-bg, 20);
 
 .fork-me-ribbon {
   position: absolute;
@@ -22,16 +22,16 @@
     line-height: 2.2em;
     font-weight: bold;
     text-align: center;
-    color: @fork-me-ribbon-color;
-    background: @fork-me-ribbon-bg;
+    color: @ribbon-color;
+    background: @ribbon-bg;
     transform: rotate(45deg);
-    text-shadow: -1px 1px 0 overlay(#999, @fork-me-ribbon-bg);
+    text-shadow: 0 -1px 0 overlay(#777, @ribbon-bg);
     cursor: pointer;
     pointer-events: all;
     box-shadow:
-      inset 1px 1px 0 2px fade(#fff, 10),
-      inset -1px -1px 0 2px fade(#000, 5),
-      -1px 0 2px fade(#000, 20);
+      inset 0 1px 0 2px fade(#fff, 10),
+      inset 0 -1px 0 2px fade(#000, 5),
+      0 0 2px fade(#000, 30);
     &:hover {
       text-decoration: none;
     }
@@ -47,8 +47,8 @@
       left: 0;
       right: 0;
       margin: auto;
-      border-top: 1px dashed @fork-me-ribbon-thread;
-      border-bottom: 1px dashed @fork-me-ribbon-thread;
+      border-top: 1px dashed @ribbon-thread;
+      border-bottom: 1px dashed @ribbon-thread;
     }
 
     i {
