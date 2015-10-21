@@ -24,7 +24,7 @@ function AnnyFactory($rootScope) {
   };
 
   factory.train = function(trainingSet, callback, frequency) {
-    factory.network.train(trainingSet, callback, frequency);
+    factory.network.trainBatch(trainingSet, callback, frequency);
 
     var results = ['Predictions after training:'];
 
