@@ -42,6 +42,7 @@ class Neuron {
     // learning
     this.error = 0;
     this.delta = 0;
+    this.cycles = 1;
     this.learningRate = INITIALIZE.learningRate();
   }
 
@@ -51,7 +52,9 @@ class Neuron {
    * of the Neurons from its outgoing connections.
    * @param {number} [targetOutput] - Manually set the target output.error.
    */
-  train(targetOutput) {
+  setDelta(targetOutput) {
+    this.cycles++;
+
     let inputDerivative = this.activation.prime(this.input);
 
     if (!_.isUndefined(targetOutput)) {
@@ -68,21 +71,37 @@ class Neuron {
     //   they will never be a target Neuron and their delta's never used
     if (!this.isInput() && !this.isBias) {
       if (this.isOutput()) {
-        this.delta = -this.error * inputDerivative;
+        this.delta += -this.error * inputDerivative;
       } else {
-        this.delta = _.sum(this.outgoing, connection => {
+        this.delta += _.sum(this.outgoing, connection => {
           return inputDerivative * connection.weight * connection.target.delta;
         });
       }
     }
 
+    // set gradient
+    _.each(this.outgoing, connection => {
+      // https://youtu.be/p1-FiWjThs8?t=12m21s
+      connection.gradient += this.output * connection.target.delta;
+    });
+  }
+
+  /**
+   * Adjust weights based on previously calculated deltas.
+   */
+  learn() {
     // adjust weights
     _.each(this.outgoing, connection => {
-      // get gradient
-      // https://youtu.be/p1-FiWjThs8?t=12m21s
-      let gradient = this.output * connection.target.delta;
+      connection.weight -=
+        connection.gradient * this.learningRate / this.cycles;
+      connection.gradient = 0;
+    });
+  }
 
-      connection.weight -= gradient * this.learningRate;
+  zeroDelta() {
+    this.delta = 0;
+    this.cycles = 0;
+    _.each(this.outgoing, connection => {
     });
   }
 
@@ -178,6 +197,7 @@ Neuron.count = 0;
  * @see Neuron
  */
 Neuron.Connection = function(source, target, weight) {
+  this.gradient = 0;
   /**
    * A reference to the Neuron at the start of this Connection.
    * @type {Neuron}
@@ -193,12 +213,12 @@ Neuron.Connection = function(source, target, weight) {
   /**
    * The weight is used as a multiplier for two purposes.  First, for
    * activation, when transferring the output of the `source` Neuron to
-   * the input of the `target` Neuron. Second, during training, calculating the
-   * total error delta.
+   * the input of the `target` Neuron. Second, during backpropagation and
+   * learning, calculating the total error delta.
    * @type {number}
    */
-  // We add one to initialize the weight value as if this connection were
-  // already part of the fan.
+    // We add one to initialize the weight value as if this connection were
+    // already part of the fan.
   this.weight = weight || INITIALIZE.weight(target.incoming.length + 1);
 };
 

@@ -132,15 +132,36 @@ class Network {
    * Values in the array specify the target output of the Neuron in the output
    *   layer.
    */
-  correct(output) {
-    this.outputLayer.train(output);
+  setDelta(output) {
+    this.outputLayer.setDelta(output);
 
-    // train hidden layers in reverse (last to first)
+    // setDelta hidden layers in reverse (last to first)
     for (let i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
-      this.hiddenLayers[i].train();
+      this.hiddenLayers[i].setDelta();
     }
 
-    this.inputLayer.train();
+    this.inputLayer.setDelta();
+  }
+
+  /**
+   * Correct the Network to produce the specified `output`.
+   * @param {number[]} output - The target output for the Network.
+   * Values in the array specify the target output of the Neuron in the output
+   *   layer.
+   */
+  learn() {
+    this.outputLayer.learn();
+
+    // learn hidden layers in reverse (last to first)
+    for (let i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
+      this.hiddenLayers[i].learn();
+    }
+
+    this.inputLayer.learn();
+  }
+
+  zeroDelta() {
+    _.invoke(this.allLayers, 'zeroDelta');
   }
 
   /**
@@ -152,7 +173,7 @@ class Network {
    * @param {number} [frequency] - How many iterations to let pass between
    *   logging the current error.
    */
-  train(data, callback, frequency) {
+  trainOnline(data, callback, frequency) {
     // TODO: validation and help on the data.
     //  ensure it is normalized between -1 and 1
     //  ensure the input length matches the number of Network inputs
@@ -190,11 +211,89 @@ class Network {
         this.activate(sample.input);
 
         // correct the error
-        this.correct(sample.output);
+        this.train(sample.output);
 
         // get the error
         return this.errorFn(sample.output, this.output) / data.length;
       }));
+
+      // callback with results periodically
+      if (n === 1 || n % callbackFrequency === 0) {
+        (callback || defaultCallback)(this.error, n);
+      }
+
+      // success / fail
+      if (this.error <= this.errorThreshold) {
+        console.log(
+          `Successfully trained to an error of ${this.error} after ${n} epochs.`
+        );
+        return false;
+      } else if (n === this.epochs) {
+        console.log(
+          `Failed to train. Error is ${this.error} after ${n} epochs.`
+        );
+      }
+    });
+  }
+
+  /**
+   * Train the Network to produce the output from the given input.
+   * @param {object[]} data - Array of objects in the form
+   * `{input: [], output: []}`.
+   * @param {function} [callback] - Called with the current error every
+   *   `frequency`.
+   * @param {number} [frequency] - How many iterations to let pass between
+   *   logging the current error.
+   */
+  trainBatch(data, callback, frequency) {
+    let callbackFrequency = frequency || 100;
+    let lastEpochError = 0;
+    let lastEpochTime = Date.now();
+    let lowestEpochError = Infinity;
+
+    let defaultCallback = (err, epoch) => {
+      let isNewLow = err < lowestEpochError;
+      let difference = err - lastEpochError;
+      let time = Date.now() - lastEpochTime;
+      let indicator = difference >= 0 ? '↑' : '↓';
+      console.log(
+        `epoch ${_.padRight(epoch, 5)}`,
+        (isNewLow ? '★' : ' '),
+        `err ${err.toFixed(16)}`,
+        indicator, Math.abs(difference).toFixed(16),
+        (`◷ ${(time / 1000).toFixed(2)}s`)
+      );
+      lastEpochError = err;
+      lastEpochTime = Date.now();
+      lowestEpochError = Math.min(err, lowestEpochError);
+    };
+
+
+    _.each(_.range(this.epochs), index => {
+      let n = index + 1;
+
+      // reset deltas before accumulating them
+      this.zeroDelta();
+
+      // loop over the training data summing the error of all samples
+      // http://www.researchgate.net/post
+      //   /Neural_networks_and_mean-square_errors#rgw51_55cb2f1399589
+      this.error = _.sum(_.map(data, sample => {
+        // make a prediction
+        this.activate(sample.input);
+
+        // calculate the error
+        this.setDelta(sample.output);
+
+        // LEARN HERE FOR ONLINE
+        this.learn();
+
+        // get the error
+        return this.errorFn(sample.output, this.output);
+      })) / data.length;
+
+      // LEARN HERE FOR BATCH
+      // this.learn();
 
       // callback with results periodically
       if (n === 1 || n % callbackFrequency === 0) {
