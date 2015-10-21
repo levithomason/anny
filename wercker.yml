@@ -80,7 +80,7 @@ deploy:
         name: generate changelog
         code: |
           sudo gem install github_changelog_generator
-          github_changelog_generator $WERCKER_GIT_OWNER/$WERCKER_GIT_REPOSITORY
+          github_changelog_generator -t $GITHUB_TOKEN $WERCKER_GIT_OWNER/$WERCKER_GIT_REPOSITORY
     - script:
         name: deploy
         code: |
