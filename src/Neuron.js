@@ -42,7 +42,6 @@ class Neuron {
     // learning
     this.error = 0;
     this.delta = 0;
-    this.cycles = 1;
     this.learningRate = INITIALIZE.learningRate();
   }
 
@@ -53,8 +52,6 @@ class Neuron {
    * @param {number} [targetOutput] - Manually set the target output.error.
    */
   setDelta(targetOutput) {
-    this.cycles++;
-
     let inputDerivative = this.activation.prime(this.input);
 
     if (!_.isUndefined(targetOutput)) {
@@ -92,17 +89,15 @@ class Neuron {
   learn() {
     // adjust weights
     _.each(this.outgoing, connection => {
-      connection.weight -=
-        connection.gradient * this.learningRate / this.cycles;
+      connection.weight -= connection.gradient * this.learningRate;
+      // zero the gradient now that we've used it for learning
+      // it will be accumulated on the next setDelta call(s)
       connection.gradient = 0;
     });
   }
 
   zeroDelta() {
     this.delta = 0;
-    this.cycles = 0;
-    _.each(this.outgoing, connection => {
-    });
   }
 
   /**
