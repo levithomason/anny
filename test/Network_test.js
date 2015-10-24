@@ -26,59 +26,57 @@ describe('Network', () => {
   });
 
   describe('train', () => {
-    it('is a ', () => {
+    it('is a function', () => {
       network.train.should.be.a('function');
     });
 
-    describe('logic gates', () => {
-      it('OR', () => {
-        network = new Network([2, 1]);
-        let data = [
-          {input: [0, 0], output: [0]},
-          {input: [0, 1], output: [1]},
-          {input: [1, 0], output: [1]},
-          {input: [1, 1], output: [1]}
-        ];
-        network.train(data, _.noop);
-        expect(network.error).to.be.below(network.errorThreshold);
-      });
+    it('learns an OR gate', () => {
+      network = new Network([2, 1]);
+      let data = [
+        {input: [0, 0], output: [0]},
+        {input: [0, 1], output: [1]},
+        {input: [1, 0], output: [1]},
+        {input: [1, 1], output: [1]}
+      ];
+      network.train(data, _.noop);
+      expect(network.error).to.be.below(network.errorThreshold);
+    });
 
-      it('XOR', () => {
-        // TODO: this should be possible with 2, 3, 1 but is intermittent.
-        network = new Network([2, 5, 3, 1]);
-        let data = [
-          {input: [0, 0], output: [0]},
-          {input: [0, 1], output: [1]},
-          {input: [1, 0], output: [1]},
-          {input: [1, 1], output: [0]}
-        ];
-        network.train(data, _.noop);
-        expect(network.error).to.be.below(network.errorThreshold);
-      });
+    it('learns a XOR gate', () => {
+      // TODO: this should be possible with 2, 3, 1 but is intermittent.
+      network = new Network([2, 5, 3, 1]);
+      let data = [
+        {input: [0, 0], output: [0]},
+        {input: [0, 1], output: [1]},
+        {input: [1, 0], output: [1]},
+        {input: [1, 1], output: [0]}
+      ];
+      network.train(data, _.noop);
+      expect(network.error).to.be.below(network.errorThreshold);
+    });
 
-      it('AND', () => {
-        network = new Network([2, 3, 1]);
-        let data = [
-          {input: [0, 0], output: [0]},
-          {input: [0, 1], output: [0]},
-          {input: [1, 0], output: [0]},
-          {input: [1, 1], output: [1]}
-        ];
-        network.train(data, _.noop);
-        expect(network.error).to.be.below(network.errorThreshold);
-      });
+    it('learns an AND gate', () => {
+      network = new Network([2, 3, 1]);
+      let data = [
+        {input: [0, 0], output: [0]},
+        {input: [0, 1], output: [0]},
+        {input: [1, 0], output: [0]},
+        {input: [1, 1], output: [1]}
+      ];
+      network.train(data, _.noop);
+      expect(network.error).to.be.below(network.errorThreshold);
+    });
 
-      it('NAND', () => {
-        network = new Network([2, 3, 1]);
-        let data = [
-          {input: [0, 0], output: [1]},
-          {input: [0, 1], output: [1]},
-          {input: [1, 0], output: [1]},
-          {input: [1, 1], output: [0]}
-        ];
-        network.train(data, _.noop);
-        expect(network.error).to.be.below(network.errorThreshold);
-      });
+    it('learns a NAND gate', () => {
+      network = new Network([2, 3, 1]);
+      let data = [
+        {input: [0, 0], output: [1]},
+        {input: [0, 1], output: [1]},
+        {input: [1, 0], output: [1]},
+        {input: [1, 1], output: [0]}
+      ];
+      network.train(data, _.noop);
+      expect(network.error).to.be.below(network.errorThreshold);
     });
   });
 });

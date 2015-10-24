@@ -19,7 +19,7 @@ class Neuron {
     this.isBias = false;
 
     /**
-     * A unique id beginning at 0 and are incremented for every Neuron created.
+     * A unique id beginning at 0 and incremented for every Neuron created.
      * @type {number}
      */
     this.id = Neuron.count++;
