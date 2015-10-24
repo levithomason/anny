@@ -10,18 +10,9 @@ import Neuron from './Neuron';
  * @see {Neuron}
  */
 class Layer {
-  constructor(numNeurons, addBias) {
+  constructor(numNeurons) {
     this.neurons = [];
-
-    // add neurons
     _.times(numNeurons, () => this.neurons.push(new Neuron()));
-
-    // add bias neuron
-    if (addBias) {
-      let biasNeuron = new Neuron();
-      biasNeuron.isBias = true;
-      this.neurons.push(biasNeuron);
-    }
   }
 
   /**
@@ -29,11 +20,19 @@ class Layer {
    * @param {Layer} targetLayer - The Layer to connect to.
    */
   connect(targetLayer) {
-    _.each(this.neurons, source => {
-      // every neuron in this layer is connected to each neuron in the next.
-      // we can assume the numInputs to be the num of neurons in this layer.
+    // if this Layer has no bias Neuron, add one
+    // only Layers with outgoing connections get bias Neurons
+    if (!_.some(this.neurons, 'isBias')) {
+      const biasNeuron = new Neuron();
+      biasNeuron.isBias = true;
+      this.neurons.push(biasNeuron);
+    }
 
-      // connect to each neuron in this Layer to the targetLayer
+    _.each(this.neurons, source => {
+      // every neuron in this Layer is connected to each neuron in the next.
+      // we can assume the numInputs to be the num of neurons in this Layer.
+
+      // connect each neuron in this Layer to every Neuron in the targetLayer
       _.each(targetLayer.neurons, target => {
         source.connect(target, INITIALIZE.weight(this.neurons.length));
       });
@@ -52,7 +51,7 @@ class Layer {
   }
 
   /**
-   * Train the Neurons in this layer.  If target `outputs` are specified, the
+   * Train the Neurons in this Layer.  If target `outputs` are specified, the
    * Neurons will learn to output these values.  This is only useful for output
    * Layers.
    * @param {number[]} [outputs] - Map of target output values for each Neuron.

@@ -76,14 +76,14 @@ class Network {
      * activation.
      * @type {Layer}
      */
-    this.inputLayer = new Layer(numInputs, true);
+    this.inputLayer = new Layer(numInputs);
 
     /**
      * An array of the `hiddenLayer`s only.
      * @type {Layer[]}
      */
     this.hiddenLayers = _.map(hiddenLayers, numNeurons => {
-      return new Layer(numNeurons, true);
+      return new Layer(numNeurons);
     });
 
     /**
