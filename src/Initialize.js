@@ -7,16 +7,6 @@ import _ from 'lodash';
  */
 const INITIALIZE = {
   /**
-   * Initialize the bias for a Neuron.
-   * @param {number} [range=0.2]
-   * @returns {number}
-   */
-  bias(range) {
-    let val = !_.isUndefined(range) ? range : 0.2;
-    return _.random(-val, val);
-  },
-
-  /**
    * Initialize the learning rate for a Neuron.
    * @returns {number}
    */
