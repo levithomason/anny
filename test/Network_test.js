@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import Network from '../src/Network';
 import Layer from '../src/Layer';
 let network;

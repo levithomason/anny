@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import Util from '../src/Util';
 
 describe('Util', () => {

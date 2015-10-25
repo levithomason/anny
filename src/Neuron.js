@@ -3,13 +3,24 @@ import INITIALIZE from './Initialize';
 import ACTIVATION from './Activation';
 
 /**
- * A Neuron is the smallest unit of an artificial neural network.  They
- * are not useful until connected with a Connection.
  * @class
- * @name Neuron
+ * A Neuron is the smallest unit of an artificial neural network. When it is
+ *   activated it computes an `output` value from its `input`s.  It receives
+ *   `input` values from the `output` of Neurons connected to it upstream.
+ *   During training, a Neuron will adjust the weights of its `outgoing`
+ *   [Connections]{@link Neuron.Connection}.
  */
 class Neuron {
-  constructor() {
+  /**
+   * @param {number} [learningRate=INITIALIZE.learningRate()] The rate at which
+   *   this Neuron should update its Connection weights during training.
+   *   Usually a very small number (ie 0.01 - 0.5), experiment for optimal
+   *   results.
+   * @param {object} [activation=ACTIVATION.tanh] An object containing an
+   *   activation function and its first derivative. Typically selected from
+   *   {@link ACTIVATION}.
+   */
+  constructor(learningRate, activation) {
     /**
      * Flag identifying this Neuron as a Bias Neuron.  Bias Neurons are like
      * regular Neurons, except they have no incoming Connections and always
@@ -25,11 +36,16 @@ class Neuron {
     this.id = Neuron.count++;
 
     /**
-     * An array of Connections.
+     * An array of incoming Connections from other Neurons.
      * @type {Array}
      * @see Neuron.Connection
      */
     this.incoming = [];
+    /**
+     * An array of outgoing Connections to other Neurons.
+     * @type {Array}
+     * @see Neuron.Connection
+     */
     this.outgoing = [];
 
     // signal values
@@ -37,12 +53,16 @@ class Neuron {
     this.output = 0;
 
     // activation
-    this.activation = ACTIVATION.tanh;
+    /**
+     *
+     * @type {ACTIVATION.tanh|{func, prime}|*}
+     */
+    this.activation = activation || ACTIVATION.tanh;
 
     // learning
     this.error = 0;
     this.delta = 0;
-    this.learningRate = INITIALIZE.learningRate();
+    this.learningRate = learningRate || INITIALIZE.learningRate();
   }
 
   /**
@@ -197,8 +217,8 @@ Neuron.Connection = function(source, target, weight) {
    * total error delta.
    * @type {number}
    */
-  // We add one to initialize the weight value as if this connection were
-  // already part of the fan.
+    // We add one to initialize the weight value as if this connection were
+    // already part of the fan.
   this.weight = weight || INITIALIZE.weight(target.incoming.length + 1);
 };
 

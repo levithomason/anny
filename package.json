@@ -32,7 +32,9 @@
     "url": "https://github.com/dev-coop/anny/issues"
   },
   "homepage": "https://github.com/dev-coop/anny#readme",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^3.10.1"
+  },
   "devDependencies": {
     "babel": "^5.8.23",
     "babel-eslint": "^4.1.3",
