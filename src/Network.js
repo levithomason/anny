@@ -76,14 +76,14 @@ class Network {
      * activation.
      * @type {Layer}
      */
-    this.inputLayer = new Layer(numInputs);
+    this.inputLayer = new Layer(numInputs, true);
 
     /**
      * An array of the `hiddenLayer`s only.
      * @type {Layer[]}
      */
     this.hiddenLayers = _.map(hiddenLayers, numNeurons => {
-      return new Layer(numNeurons);
+      return new Layer(numNeurons, true);
     });
 
     /**
@@ -179,6 +179,8 @@ class Network {
       lowestEpochError = Math.min(err, lowestEpochError);
     };
 
+    // use an 'each' loop so we can break out of it on success/fail
+    // a 'times' loop cannot be broken
     _.each(_.range(this.epochs), index => {
       let n = index + 1;
 
