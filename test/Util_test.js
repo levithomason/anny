@@ -2,12 +2,6 @@ import _ from 'lodash';
 import Util from '../src/Util';
 
 describe('Util', () => {
-  it('has no anonymous s', () => {
-    _.each(Util, (fn, name) => {
-      fn.name.should.equal(name);
-    });
-  });
-
   describe('normalize', () => {
     it('scales an array of numbers to -1 and 1', () => {
       let normalized = Util.normalize(_.range(-100, 100));
@@ -47,10 +41,10 @@ describe('Util', () => {
   });
 
   describe('getApproximateDerivative', () => {
-    it('returns a ', () => {
+    it('returns a function', () => {
       Util.getApproximateDerivative(_.noop).should.be.a('function');
     });
-    it('returns a  that returns a number', () => {
+    it('returns a function that returns a number', () => {
       let derivative = Util.getApproximateDerivative(Math.sin);
       derivative(_.random()).should.be.a('number');
     });

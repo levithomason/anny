@@ -3,24 +3,24 @@ import INITIALIZE from './Initialize';
 import ACTIVATION from './Activation';
 
 /**
- * @class
- * A Neuron is the smallest unit of an artificial neural network. When it is
- *   activated it computes an `output` value from its `input`s.  It receives
- *   `input` values from the `output` of Neurons connected to it upstream.
- *   During training, a Neuron will adjust the weights of its `outgoing`
- *   [Connections]{@link Neuron.Connection}.
+ * @class A Neuron is the smallest unit of an artificial neural network. When
+ *   it is activated it computes an `output` value from its `input`s.  It
+ *   receives `input` values from the `output` of other Neurons connected to it
+ *   upstream. During training, a Neuron will adjust the weights of its
+ *   `outgoing` [Connections]{@link Neuron.Connection}.
  */
 class Neuron {
   /**
-   * @param {number} [learningRate=INITIALIZE.learningRate()] The rate at which
-   *   this Neuron should update its Connection weights during training.
-   *   Usually a very small number (ie 0.01 - 0.5), experiment for optimal
-   *   results.
-   * @param {object} [activation=ACTIVATION.tanh] An object containing an
+   * @param {object} [activation=ACTIVATION.tanh] - An object containing an
    *   activation function and its first derivative. Typically selected from
    *   {@link ACTIVATION}.
+   * @param {number} [learningRate=INITIALIZE.learningRate()] - The rate at
+   *   which this Neuron should update its Connection weights during training.
+   *   Usually a very small number (ie 0.01 - 0.5), experiment for optimal
+   *   results.
    */
-  constructor(learningRate, activation) {
+  constructor(activation = ACTIVATION.tanh,
+              learningRate = INITIALIZE.learningRate()) {
     /**
      * Flag identifying this Neuron as a Bias Neuron.  Bias Neurons are like
      * regular Neurons, except they have no incoming Connections and always
@@ -57,12 +57,12 @@ class Neuron {
      *
      * @type {ACTIVATION.tanh|{func, prime}|*}
      */
-    this.activation = activation || ACTIVATION.tanh;
+    this.activation = activation;
 
     // learning
     this.error = 0;
     this.delta = 0;
-    this.learningRate = learningRate || INITIALIZE.learningRate();
+    this.learningRate = learningRate;
   }
 
   /**

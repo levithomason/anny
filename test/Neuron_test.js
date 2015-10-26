@@ -15,7 +15,7 @@ describe('Neuron', () => {
     });
     it('accepts a learning rate', () => {
       const rate = _.random(true);
-      const n = new Neuron(rate);
+      const n = new Neuron(null, rate);
       n.learningRate.should.equal(rate);
     });
     it('has a default tanh activation', () => {
@@ -23,7 +23,7 @@ describe('Neuron', () => {
     });
     it('accepts an activation function', () => {
       const activtion = {foo: 'bar'};
-      const n = new Neuron(null, activtion);
+      const n = new Neuron(activtion);
       n.activation.should.deep.equal(activtion);
     });
   });

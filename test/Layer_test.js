@@ -4,21 +4,39 @@ let layer;
 
 describe('Layer', () => {
   beforeEach(() => {
-    layer = new Layer();
+    layer = new Layer(1);
   });
 
   it('does not include a bias neuron by default', () => {
     _.some(layer.neurons, 'isBias').should.equal(false);
   });
 
+  describe('constructor', () => {
+    it('creates the number of neurons specified', () => {
+      const size = _.random(0, 1000);
+      const layer = new Layer(size);
+      layer.neurons.should.have.length(size);
+    });
+    it('constructs neurons with the specified activation', () => {
+      const activation = {func: 'yo', prime: 'yep'};
+      const layer = new Layer(1, activation);
+      layer.neurons[0].activation.should.deep.equal(activation);
+    });
+    it('constructs neurons with the specified learning rate', () => {
+      const rate = _.random(true);
+      const layer = new Layer(1, null, rate);
+      layer.neurons[0].learningRate.should.equal(rate);
+    });
+  });
+
   describe('connect', () => {
     it('adds a bias Neuron to the source layer', () => {
-      const targetLayer = new Layer();
+      const targetLayer = new Layer(1);
       layer.connect(targetLayer);
       _.some(layer.neurons, 'isBias').should.equal(true);
     });
     it('does not add a bias Neuron to the target layer', () => {
-      const targetLayer = new Layer();
+      const targetLayer = new Layer(1);
       layer.connect(targetLayer);
       _.some(targetLayer.neurons, 'isBias').should.equal(false);
     });

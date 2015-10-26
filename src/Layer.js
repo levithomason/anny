@@ -3,16 +3,23 @@ import INITIALIZE from './Initialize';
 import Neuron from './Neuron';
 
 /**
- * Creates a single dimension Layer of Neurons.
- * @param {string} numNeurons - The number of Neurons this Layer should have.
- * @param {boolean} [addBias=false] - Add a bias Neuron to this Layer.
- * @constructor
+ * @class Creates a single dimension Layer of [Neurons]{@link Neuron}.
  * @see {Neuron}
  */
 class Layer {
-  constructor(numNeurons) {
-    this.neurons = [];
-    _.times(numNeurons, () => this.neurons.push(new Neuron()));
+  /**
+   * @param {number} size - The number of Neurons this Layer should have.
+   * @param {number} [learningRate] - The learning rate passed directly to the
+   *   Neuron constructor.
+   * @param {object} [activation] - The activation function passed directly to
+   *   the
+   *   Neuron constructor.
+   */
+  constructor(size, activation, learningRate) {
+    if (!_.isNumber(size)) {
+      throw new Error(`Layer() 'size' must be a number, not: ${typeof size}`);
+    }
+    this.neurons = _.times(size, () => new Neuron(activation, learningRate));
   }
 
   /**
