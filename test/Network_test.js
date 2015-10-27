@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import Network from '../src/Network';
 import Layer from '../src/Layer';
+import DATA from '../src/Data';
 let network;
 
 describe('Network', () => {
@@ -33,50 +34,26 @@ describe('Network', () => {
 
     it('learns an OR gate', () => {
       network = new Network([2, 1]);
-      let data = [
-        {input: [0, 0], output: [0]},
-        {input: [0, 1], output: [1]},
-        {input: [1, 0], output: [1]},
-        {input: [1, 1], output: [1]}
-      ];
-      network.train(data, _.noop);
+      network.train(DATA.ORGate, _.noop);
       expect(network.error).to.be.below(network.errorThreshold);
     });
 
     it('learns a XOR gate', () => {
       // TODO: this should be possible with 2, 3, 1 but is intermittent.
       network = new Network([2, 5, 3, 1]);
-      let data = [
-        {input: [0, 0], output: [0]},
-        {input: [0, 1], output: [1]},
-        {input: [1, 0], output: [1]},
-        {input: [1, 1], output: [0]}
-      ];
-      network.train(data, _.noop);
+      network.train(DATA.XORGate, _.noop);
       expect(network.error).to.be.below(network.errorThreshold);
     });
 
     it('learns an AND gate', () => {
       network = new Network([2, 3, 1]);
-      let data = [
-        {input: [0, 0], output: [0]},
-        {input: [0, 1], output: [0]},
-        {input: [1, 0], output: [0]},
-        {input: [1, 1], output: [1]}
-      ];
-      network.train(data, _.noop);
+      network.train(DATA.ANDGate, _.noop);
       expect(network.error).to.be.below(network.errorThreshold);
     });
 
     it('learns a NAND gate', () => {
       network = new Network([2, 3, 1]);
-      let data = [
-        {input: [0, 0], output: [1]},
-        {input: [0, 1], output: [1]},
-        {input: [1, 0], output: [1]},
-        {input: [1, 1], output: [0]}
-      ];
-      network.train(data, _.noop);
+      network.train(DATA.NANDGate, _.noop);
       expect(network.error).to.be.below(network.errorThreshold);
     });
   });

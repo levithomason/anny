@@ -7,7 +7,7 @@ var paths = {
   appDist: ROOT + '/app/dist',
   annyDist: ROOT + '/dist',
   annySrc: ROOT + '/src',
-  annyEntry: ROOT + '/index.js',
+  annyEntry: ROOT + '/src/index.js',
   docsRoot: ROOT + '/docs',
   docsSrc: ROOT + '/docs/src',
   docsDist: ROOT + '/docs/dist',

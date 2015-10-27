@@ -1,99 +1,100 @@
-box: shawnzhu/ruby-nodejs
-build:
-  steps:
-    - script:
-        name: echo version information
-        code: |
-          echo "ruby: $(ruby -v)"
-          echo "node: $(node -v)"
-          echo "npm: $(npm -v)"
-          echo "git: $(git --version)"
-    - npm-install
-    - script:
-      name: bower install
-      code: |
-        $(npm bin)/bower install --allow-root
-    - npm-test
-    - script:
-        name: coverage
-        code: |
-          npm run coverage-check
-          npm run coverage-report
-  after-steps:
-      - slack-notifier:
-          url: $SLACK_URL
-          username: wercker
-deploy:
-  steps:
-    - script:
-        name: echo version information
-        code: |
-          echo "ruby: $(ruby -v)"
-          echo "node: $(node -v)"
-          echo "npm: $(npm -v)"
-          echo "git: $(git --version)"
-    - add-to-known_hosts:
-        hostname: github.com
-    - add-ssh-key:
-        keyname: GITHUB_KEY
-    - script:
-        name: upgrade git
-        code: |
-          # 2015-10-18: apt only has git 1.7.9.5 as latest
-          # use git maintainers PPA to get 2.x
-          # this is needed for the --unshallow flag in checkout script
-          echo "Current git: $(git --version)"
-          echo "...adding git-core PPA repo"
-          sudo apt-add-repository ppa:git-core/ppa
-          echo "...update apt-get"
-          sudo apt-get update
-          echo "...install git"
-          sudo apt-get --assume-yes install git
-          echo "Upgraded to git: $(git --version)"
-    - script:
-        name: config git
-        code: |
-          git config --global user.email "dev-coop-bot@gmail.com"
-          git config --global user.name "dev-coop-bot"
-    - script:
-        name: checkout full branch
-        code: |
-          git fetch --unshallow
-          git checkout $WERCKER_GIT_BRANCH
-    # Symlinked binaries in $(npm bin) are broken as they are copied from the
-    # build process.  Remove and reinstall node_modules.
-    # Nuke and reinstall bower components for good measure.
-    - script:
-        name: remove modules
-        code: |
-          rm -rf node_modules app/bower
-    - npm-install
-    - script:
-      name: bower install
-      code: |
-        $(npm bin)/bower install --allow-root
-    - script:
-        name: build
-        code: |
-          $(npm bin)/gulp build
-    - script:
-        name: generate changelog
-        code: |
-          sudo gem install github_changelog_generator
-          github_changelog_generator -t $GITHUB_TOKEN $WERCKER_GIT_OWNER/$WERCKER_GIT_REPOSITORY
-    - script:
-        name: deploy
-        code: |
-          # force add ignored files
-          git add -f app/bower app/dist CHANGELOG.md dist docs/dist docs/index.html
-          if [[ -n $(git status --porcelain) ]]; then
-            echo "starting deploy, repo is dirty after build"
-            git commit -n -m "deploy commit by $WERCKER_STARTED_BY"
-            git push $GIT_REMOTE $WERCKER_GIT_BRANCH
-            git push -f $GIT_REMOTE $WERCKER_GIT_BRANCH:gh-pages
-          else
-            echo "skipping deploy, repo is clean after build"
-          fi
-  after-steps:
-    - slack-notifier:
-        url: $SLACK_URL
+# box: shawnzhu/ruby-nodejs
+# build:
+#   steps:
+#     - script:
+#         name: echo version information
+#         code: |
+#           echo "ruby: $(ruby -v)"
+#           echo "node: $(node -v)"
+#           echo "npm: $(npm -v)"
+#           echo "git: $(git --version)"
+#     - npm-install
+#     - script:
+#       name: bower install
+#       code: |
+#         $(npm bin)/bower install --allow-root
+#     - script:
+#         name: test
+#         code: |
+#           npm test
+#           npm run coverage-check
+#           npm run coverage-report
+#   after-steps:
+#       - slack-notifier:
+#           url: $SLACK_URL
+#           username: wercker
+# deploy:
+#   steps:
+#     - script:
+#         name: echo version information
+#         code: |
+#           echo "ruby: $(ruby -v)"
+#           echo "node: $(node -v)"
+#           echo "npm: $(npm -v)"
+#           echo "git: $(git --version)"
+#     - add-to-known_hosts:
+#         hostname: github.com
+#     - add-ssh-key:
+#         keyname: GITHUB_KEY
+#     - script:
+#         name: upgrade git
+#         code: |
+#           # 2015-10-18: apt only has git 1.7.9.5 as latest
+#           # use git maintainers PPA to get 2.x
+#           # this is needed for the --unshallow flag in checkout script
+#           echo "Current git: $(git --version)"
+#           echo "...adding git-core PPA repo"
+#           sudo apt-add-repository ppa:git-core/ppa
+#           echo "...update apt-get"
+#           sudo apt-get update
+#           echo "...install git"
+#           sudo apt-get --assume-yes install git
+#           echo "Upgraded to git: $(git --version)"
+#     - script:
+#         name: config git
+#         code: |
+#           git config --global user.email "dev-coop-bot@gmail.com"
+#           git config --global user.name "dev-coop-bot"
+#     - script:
+#         name: checkout full branch
+#         code: |
+#           git fetch --unshallow
+#           git checkout $WERCKER_GIT_BRANCH
+#     # Symlinked binaries in $(npm bin) are broken as they are copied from the
+#     # build process.  Remove and reinstall node_modules.
+#     # Nuke and reinstall bower components for good measure.
+#     - script:
+#         name: remove modules
+#         code: |
+#           rm -rf node_modules app/bower
+#     - npm-install
+#     - script:
+#       name: bower install
+#       code: |
+#         $(npm bin)/bower install --allow-root
+#     - script:
+#         name: build
+#         code: |
+#           $(npm bin)/gulp build
+#     - script:
+#         name: generate changelog
+#         code: |
+#           sudo gem install github_changelog_generator
+#           github_changelog_generator -t $GITHUB_TOKEN $WERCKER_GIT_OWNER/$WERCKER_GIT_REPOSITORY
+#     - script:
+#         name: deploy
+#         code: |
+#           # force add ignored files
+#           git add -f app/bower app/dist CHANGELOG.md dist docs/dist docs/index.html
+#           if [[ -n $(git status --porcelain) ]]; then
+#             echo "starting deploy, repo is dirty after build"
+#             git commit -n -m "deploy commit by $WERCKER_STARTED_BY"
+#             git push $GIT_REMOTE $WERCKER_GIT_BRANCH
+#             git push -f $GIT_REMOTE $WERCKER_GIT_BRANCH:gh-pages
+#           else
+#             echo "skipping deploy, repo is clean after build"
+#           fi
+#   after-steps:
+#     - slack-notifier:
+#         url: $SLACK_URL
+#
