@@ -20,10 +20,10 @@ const INITIALIZE = {
    * @param numInputs
    * @returns {number}
    */
-  weight(numInputs) {
+  weight(numInputs = 1) {
     // 4.6 Initializing the weights (16)
-    // TODO: weight per input is constant.  These values can be cached.
-    let maxWeight = Math.pow(numInputs || 1, -1 / 2);
+    // We find ^-1/4 performs better than the original ^1/2
+    let maxWeight = Math.pow(numInputs, -1 / 4);
     return _.random(-maxWeight, maxWeight, true);
   }
 };

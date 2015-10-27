@@ -136,10 +136,7 @@ class Neuron {
     }
 
     // set the output
-    // do not squash input Neurons values, pass them straight through
-    this.output = this.isInput()
-      ? this.input
-      : this.activation.func(this.input);
+    this.output = this.activation.func(this.input);
 
     return this.output;
   }
@@ -219,7 +216,7 @@ Neuron.Connection = function(source, target, weight) {
    */
     // We add one to initialize the weight value as if this connection were
     // already part of the fan.
-  this.weight = weight || INITIALIZE.weight(target.incoming.length + 1);
+  this.weight = weight || INITIALIZE.weight(target.incoming.length);
 };
 
 export default Neuron;

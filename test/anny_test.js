@@ -1,4 +1,4 @@
-import anny from '../index';
+import anny from '../src/index';
 
 describe('anny', () => {
   it('has activation functions', () => {

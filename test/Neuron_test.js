@@ -53,18 +53,6 @@ describe('Neuron', () => {
       neuron.activate();
       neuron.input.should.equal(2);
     });
-    it('does not squash input values if isInput', () => {
-      neuron.isInput().should.equal(true);
-      neuron.activate(10);
-      neuron.output.should.equal(10);
-    });
-    it('does squash input values if !isInput', () => {
-      let source = new Neuron();
-      source.connect(neuron);
-      neuron.isInput().should.equal(false);
-      neuron.activate(10);
-      neuron.output.should.not.equal(10);
-    });
   });
 
   describe('isInput', () => {

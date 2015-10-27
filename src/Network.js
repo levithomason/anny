@@ -150,12 +150,11 @@ class Network {
    * @param {number} [frequency] - How many iterations to let pass between
    *   logging the current error.
    */
-  train(data, callback, frequency) {
+  train(data, callback, frequency = 100) {
     // TODO: validation and help on the data.
     //  ensure it is normalized between -1 and 1
     //  ensure the input length matches the number of Network inputs
     //  ensure the output length matches the number of Network outputs
-    let callbackFrequency = frequency || 100;
     let lastEpochError = 0;
     let lastEpochTime = Date.now();
     let lowestEpochError = Infinity;
@@ -197,19 +196,20 @@ class Network {
       }));
 
       // callback with results periodically
-      if (n === 1 || n % callbackFrequency === 0) {
+      if (n === 1 || n % frequency === 0) {
         (callback || defaultCallback)(this.error, n);
       }
 
       // success / fail
+      const error = this.error.toFixed(15);
       if (this.error <= this.errorThreshold) {
         console.log(
-          `Successfully trained to an error of ${this.error} after ${n} epochs.`
+          `Successfully trained to an error of ${error} after ${n} epochs.`
         );
         return false;
       } else if (n === this.epochs) {
         console.log(
-          `Failed to train. Error is ${this.error} after ${n} epochs.`
+          `Failed to train. Error is ${error} after ${n} epochs.`
         );
       }
     });
