@@ -15,6 +15,9 @@
 
 **Merged pull requests:**
 
+- Integration [\#65](https://github.com/dev-coop/anny/pull/65) ([levithomason](https://github.com/levithomason))
+- Neuron config [\#64](https://github.com/dev-coop/anny/pull/64) ([levithomason](https://github.com/levithomason))
+- update doc site styles, add clean-wercker command [\#63](https://github.com/dev-coop/anny/pull/63) ([levithomason](https://github.com/levithomason))
 - Integration [\#61](https://github.com/dev-coop/anny/pull/61) ([levithomason](https://github.com/levithomason))
 - add github token to changelog generator step [\#60](https://github.com/dev-coop/anny/pull/60) ([levithomason](https://github.com/levithomason))
 - removed cached ignored [\#57](https://github.com/dev-coop/anny/pull/57) ([levithomason](https://github.com/levithomason))

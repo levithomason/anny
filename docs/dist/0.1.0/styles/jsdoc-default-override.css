@@ -104,6 +104,9 @@ nav ul li {
   text-align: center;
   margin: 2em 0 3em;
 }
+#main section header .class-description {
+  text-align: left;
+}
 #main section article h1 {
   font-weight: 100;
 }
