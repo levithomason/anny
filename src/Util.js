@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import ACTIVATION from './Activation';
 
 /**
@@ -48,19 +49,17 @@ const util = {
    * @param {number} [dataMax] - The number to use at the max value in the
    *   `array`. Defaults to the actual max `array` value.
    */
-  normalize(array, dataMin, dataMax) {
-    let scaleMax = dataMax || _.max(array);
-    let scaleMin = dataMin || _.min(array);
-    let scaleOffset = 0 - scaleMin;
-    let scaleRange = scaleMax - scaleMin;
+  normalize(array, dataMin = _.min(array), dataMax = _.max(array)) {
+    let offset = 0 - dataMin;
+    let range = dataMax - dataMin;
 
     return _.map(array, n => {
-      if (n > scaleMax || n < scaleMin) {
+      if (n > dataMax || n < dataMin) {
         throw new Error(
-          `${n} is beyond the scale range: ${scaleMin} to ${scaleMax}`
+          `${n} is beyond the scale range: ${dataMin} to ${dataMax}`
         );
       }
-      return (n + scaleOffset) / (scaleRange / 2) - 1;
+      return (n + offset) / (range / 2) - 1;
     });
   },
 

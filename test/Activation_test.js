@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import ACTIVATION from '../src/Activation';
 
 describe('ACTIVATION', () => {

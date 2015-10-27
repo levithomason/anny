@@ -1,3 +1,5 @@
+import _ from 'lodash';
+import ACTIVATION from '../src/Activation';
 import Neuron from '../src/Neuron';
 let neuron;
 let inputValues = [-1, 0, 1];
@@ -5,6 +7,25 @@ let inputValues = [-1, 0, 1];
 describe('Neuron', () => {
   beforeEach(() => {
     neuron = new Neuron();
+  });
+
+  describe('constructor', () => {
+    it('has a default learning rate', () => {
+      neuron.learningRate.should.be.a('number');
+    });
+    it('accepts a learning rate', () => {
+      const rate = _.random(true);
+      const n = new Neuron(null, rate);
+      n.learningRate.should.equal(rate);
+    });
+    it('has a default tanh activation', () => {
+      neuron.activation.should.deep.equal(ACTIVATION.tanh);
+    });
+    it('accepts an activation function', () => {
+      const activtion = {foo: 'bar'};
+      const n = new Neuron(activtion);
+      n.activation.should.deep.equal(activtion);
+    });
   });
 
   describe('activate', () => {
@@ -15,7 +36,7 @@ describe('Neuron', () => {
       });
     });
     it('sets the input when specified', () => {
-      inputValues.forEach((n) => {
+      inputValues.forEach(n => {
         neuron.activate(n);
         neuron.input.should.equal(n);
       });
@@ -31,18 +52,6 @@ describe('Neuron', () => {
 
       neuron.activate();
       neuron.input.should.equal(2);
-    });
-    it('does not squash input values if isInput', () => {
-      neuron.isInput().should.equal(true);
-      neuron.activate(10);
-      neuron.output.should.equal(10);
-    });
-    it('does squash input values if !isInput', () => {
-      let source = new Neuron();
-      source.connect(neuron);
-      neuron.isInput().should.equal(false);
-      neuron.activate(10);
-      neuron.output.should.not.equal(10);
     });
   });
 

@@ -1,11 +1,11 @@
-import anny from '../index';
+import anny from '../src/index';
 
 describe('anny', () => {
-  it('has activation s', () => {
+  it('has activation functions', () => {
     anny.ACTIVATION.should.be.a('object');
   });
 
-  it('has error s', () => {
+  it('has error functions', () => {
     anny.ERROR.should.be.a('object');
   });
 
