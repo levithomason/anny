@@ -1,20 +1,21 @@
+import _ from 'lodash';
 import ERROR from '../src/Error';
 
 describe('ERROR', () => {
-  it('contains only  properties', () => {
+  it('contains only function properties', () => {
     _.each(ERROR, (fn) => {
       fn.should.be.a('function');
     });
   });
 
-  it('has no anonymous s', () => {
+  it('has no anonymous functions', () => {
     _.each(ERROR, (fn, name) => {
       fn.name.should.equal(name);
     });
   });
 
   it('has methods that return numbers', () => {
-    _.each(ERROR, (fn) => {
+    _.each(ERROR, fn => {
       fn([1, 2, 3], [2, 3, 4]).should.be.a('number');
     });
   });

@@ -3,7 +3,7 @@ import Layer from './Layer';
 import ERROR from './Error';
 
 /**
- * A Network contains Layers of Neurons.
+ * A Network contains [Layers]{@link Layer} of [Neurons]{@link Neuron}.
  *
  * @example
  * // 2 inputs
@@ -32,9 +32,9 @@ class Network {
    * @see Neuron
    */
   constructor(layerSizes) {
-    let numInputs = _.first(layerSizes);
-    let numOutputs = _.last(layerSizes);
-    let hiddenLayers = _.slice(layerSizes, 1, layerSizes.length - 1);
+    let inputSize = layerSizes.shift();
+    let outputSize = layerSizes.pop();
+    let hiddenSizes = layerSizes;
     /**
      * The output values of the Neurons in the last layer.  This is identical to
      * the Network's `outputLayer` output.
@@ -76,22 +76,20 @@ class Network {
      * activation.
      * @type {Layer}
      */
-    this.inputLayer = new Layer(numInputs, true);
+    this.inputLayer = new Layer(inputSize);
 
     /**
      * An array of the `hiddenLayer`s only.
      * @type {Layer[]}
      */
-    this.hiddenLayers = _.map(hiddenLayers, numNeurons => {
-      return new Layer(numNeurons, true);
-    });
+    this.hiddenLayers = _.map(hiddenSizes, size => new Layer(size));
 
     /**
      * The first Layer of the Network.  This Layer receives input during
      * activation.
      * @type {Layer}
      */
-    this.outputLayer = new Layer(numOutputs);
+    this.outputLayer = new Layer(outputSize);
 
     /**
      * An array of all Layers in the Network.  It is a single dimension array
@@ -179,6 +177,8 @@ class Network {
       lowestEpochError = Math.min(err, lowestEpochError);
     };
 
+    // use an 'each' loop so we can break out of it on success/fail
+    // a 'times' loop cannot be broken
     _.each(_.range(this.epochs), index => {
       let n = index + 1;
 
