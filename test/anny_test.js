@@ -5,6 +5,10 @@ describe('anny', () => {
     anny.ACTIVATION.should.be.a('object');
   });
 
+  it('has data', () => {
+    anny.DATA.should.be.a('object');
+  });
+
   it('has error functions', () => {
     anny.ERROR.should.be.a('object');
   });

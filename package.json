@@ -18,10 +18,6 @@
     "silent": false,
     "run": "lint, test, coverage-check"
   },
-  "engines": {
-    "node": "0.12.7",
-    "npm": "2.13.2"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/dev-coop/anny.git"
