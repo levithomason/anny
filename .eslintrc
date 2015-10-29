@@ -11,6 +11,5 @@
   ],
   "rules": {
     "no-unused-vars": [2, {"vars": "all", "args": "none"}]
-  },
-  "formatter": "node_modules/eslint-friendly-formatter"
+  }
 }

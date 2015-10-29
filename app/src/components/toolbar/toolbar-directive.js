@@ -25,19 +25,19 @@ angular.module('App.toolbar')
         };
 
         scope.trainORGate = function trainORGate() {
-          AnnyFactory.train(AnnyFactory.DATA.ORGate);
+          AnnyFactory.train(AnnyFactory.data.ORGate);
         };
 
         scope.trainXORGate = function trainXORGate() {
-          AnnyFactory.train(AnnyFactory.DATA.XORGate);
+          AnnyFactory.train(AnnyFactory.data.XORGate);
         };
 
         scope.trainANDGate = function trainANDGate() {
-          AnnyFactory.train(AnnyFactory.DATA.ANDGate);
+          AnnyFactory.train(AnnyFactory.data.ANDGate);
         };
 
         scope.trainNANDGate = function trainNANDGate() {
-          AnnyFactory.train(AnnyFactory.DATA.NANDGate);
+          AnnyFactory.train(AnnyFactory.data.NANDGate);
         };
       },
     };
