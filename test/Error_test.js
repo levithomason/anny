@@ -22,10 +22,10 @@ describe('ERROR', () => {
 
   describe('rootMeanSquared', () => {
     it('returns the square root of meanSquared', () => {
-      let expected = [1, 2, 3];
-      let actual = [2, 3, 4];
-      let SQRT_MSE = Math.sqrt(ERROR.meanSquared(expected, actual));
-      let RMS = ERROR.rootMeanSquared(expected, actual);
+      const expected = [1, 2, 3];
+      const actual = [2, 3, 4];
+      const SQRT_MSE = Math.sqrt(ERROR.meanSquared(expected, actual));
+      const RMS = ERROR.rootMeanSquared(expected, actual);
 
       RMS.should.equal(SQRT_MSE);
     });

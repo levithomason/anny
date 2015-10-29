@@ -39,7 +39,7 @@ const ACTIVATION = {
     // 4.4 The Sigmoid Fig. 4.a, Not recommended.
     func: x => 1 / (1 + math.exp(-x)),
     prime: x => {
-      let val = 1 / (1 + math.exp(-x));
+      const val = 1 / (1 + math.exp(-x));
       return val * (1 - val);
     },
   },
@@ -66,8 +66,8 @@ const ACTIVATION = {
    */
   tanh: {
     func: x => {
-      let negExp = math.exp(-x);
-      let posExp = math.exp(x);
+      const negExp = math.exp(-x);
+      const posExp = math.exp(x);
       return (posExp - negExp) / (posExp + negExp);
     },
     prime: x => 1 - math.pow(math.tanh(x), 2),

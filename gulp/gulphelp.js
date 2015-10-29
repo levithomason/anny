@@ -7,7 +7,7 @@ const gulpHelpConfig = {
   hideDepsMessage: true,            // hide all task dependencies
   afterPrintCallback: () => {       // run after the default help task runs
 
-  }
+  },
 };
 
 export default gulpHelpConfig;

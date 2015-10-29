@@ -29,15 +29,15 @@ gulp.task('docs-jsdoc', cb => {
     `rm -rf ${paths.docsDist}/${pkg.name}`,
 
     // remove fonts
-    `rm -rf ${paths.docsDist}/${pkg.version}/fonts`
+    `rm -rf ${paths.docsDist}/${pkg.version}/fonts`,
 
   ].join(' && '), cb);
 });
 
 gulp.task('docs-less', cb => {
   return gulp.src([
-      `${paths.docsSrc}/static/styles/*.less`
-    ])
+    `${paths.docsSrc}/static/styles/*.less`,
+  ])
     .pipe(g.plumber())
     .pipe(g.less())
     .pipe(g.autoprefixer())

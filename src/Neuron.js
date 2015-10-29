@@ -74,7 +74,7 @@ class Neuron {
    * @param {number} [targetOutput] - Manually set the target output.error.
    */
   train(targetOutput) {
-    let inputDerivative = this.activation.prime(this.input);
+    const inputDerivative = this.activation.prime(this.input);
 
     if (!_.isUndefined(targetOutput)) {
       this.error = targetOutput - this.output;
@@ -102,7 +102,7 @@ class Neuron {
     _.each(this.outgoing, connection => {
       // get gradient
       // https://youtu.be/p1-FiWjThs8?t=12m21s
-      let gradient = this.output * connection.target.delta;
+      const gradient = this.output * connection.target.delta;
 
       connection.weight -= gradient * this.learningRate;
     });
@@ -154,7 +154,7 @@ class Neuron {
       return;
     }
 
-    let connection = new Neuron.Connection(this, target, weight);
+    const connection = new Neuron.Connection(this, target, weight);
     this.outgoing.push(connection);
     target.incoming.push(connection);
   }
@@ -199,7 +199,7 @@ Neuron.count = 0;
  *   input.
  * @see Neuron
  */
-Neuron.Connection = function(source, target, weight) {
+Neuron.Connection = function Connection(source, target, weight) {
   /**
    * A reference to the Neuron at the start of this Connection.
    * @type {Neuron}

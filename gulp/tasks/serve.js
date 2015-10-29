@@ -17,12 +17,12 @@ gulp.task('serve', 'start the livereload dev server', cb => {
       livereload: {
         enable: true,
         filter: filePath => {
-          let isAppDist = filePath.match(paths.appDist);
-          let isAnnyDist = filePath.match(paths.annyDist);
-          let isDocsDist = filePath.match(paths.docsDist);
+          const isAppDist = filePath.match(paths.appDist);
+          const isAnnyDist = filePath.match(paths.annyDist);
+          const isDocsDist = filePath.match(paths.docsDist);
 
           return isAppDist || isAnnyDist || isDocsDist;
-        }
-      }
+        },
+      },
     }));
 });

@@ -3,8 +3,8 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
     replace: true,
     scope: {},
     template: '<div class="vis-network"></div>',
-    link: function(scope, elm) {
-      scope.getData = function() {
+    link: function link(scope, elm) {
+      scope.getData = function getData() {
         var nodes = [];
         var edges = [];
 
@@ -22,24 +22,24 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
               id: id,
               title: [
                 '<b>id:</b> ', id, '<br/>',
-                '<b>delta:</b> ', delta, '<br/>'
+                '<b>delta:</b> ', delta, '<br/>',
               ].join(''),
               level: layerIndex,
               label: (neuron.isInput() ? [
-                  '\no:', output
-                ] : neuron.isOutput() ? [
-                  '\ni:', input,
-                  '\no:', output,
-                  '\ne:', error
-                ] : neuron.isBias ? [
-                  '\no:', output
-                ] : /* hidden layer */ [
-                  '\ni:', input,
-                  '\no:', output
-                ]
+                '\no:', output,
+              ] : neuron.isOutput() ? [
+                '\ni:', input,
+                '\no:', output,
+                '\ne:', error,
+              ] : neuron.isBias ? [
+                '\no:', output,
+              ] : /* hidden layer */ [
+                '\ni:', input,
+                '\no:', output,
+              ]
               ).join(' '),
               value: Math.abs(output),
-              group: neuron.isBias ? 'bias' : 'normal'
+              group: neuron.isBias ? 'bias' : 'normal',
             });
 
             // connections
@@ -58,8 +58,8 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
                   hover: weight >= 0 ? 'hsl(210, 35%, 45%)' :
                     'hsl(30, 40%, 40%)',
                   highlight: weight >= 0 ? 'hsl(210, 60%, 70%)' :
-                    'hsl(30, 60%, 60%)'
-                }
+                    'hsl(30, 60%, 60%)',
+                },
               });
             });
           });
@@ -67,23 +67,23 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
 
         return {
           nodes: new vis.DataSet(nodes),
-          edges: new vis.DataSet(edges)
+          edges: new vis.DataSet(edges),
         };
       };
 
       // causes a refresh of the network graph
-      scope.setData = function() {
+      scope.setData = function setData() {
         scope.network.setData(scope.getData());
       };
 
-      $rootScope.$on('anny:changed', function() {
+      $rootScope.$on('anny:changed', function onChange() {
         scope.setData();
       });
 
       // create network
       scope.network =
         new vis.Network(elm[0], scope.getData(), visNetworkOptions);
-    }
+    },
   };
 }
 

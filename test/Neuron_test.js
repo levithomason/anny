@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import ACTIVATION from '../src/Activation';
 import Neuron from '../src/Neuron';
+const inputValues = [-1, 0, 1];
 let neuron;
-let inputValues = [-1, 0, 1];
 
 describe('Neuron', () => {
   beforeEach(() => {
@@ -42,8 +42,8 @@ describe('Neuron', () => {
       });
     });
     it('sums input from output of Neurons connect to it', () => {
-      let sourceA = new Neuron();
-      let sourceB = new Neuron();
+      const sourceA = new Neuron();
+      const sourceB = new Neuron();
       sourceA.output = 1;
       sourceB.output = 1;
 
@@ -60,7 +60,7 @@ describe('Neuron', () => {
       neuron.isInput().should.be.equal(true);
     });
     it('is false when it has incoming connections', () => {
-      let input = new Neuron();
+      const input = new Neuron();
       input.connect(neuron, 1);
       neuron.isInput().should.be.equal(false);
     });
@@ -71,7 +71,7 @@ describe('Neuron', () => {
       neuron.isOutput().should.be.equal(true);
     });
     it('is false when it has outgoing connections', () => {
-      let output = new Neuron();
+      const output = new Neuron();
       neuron.connect(output, 1);
       neuron.isOutput().should.be.equal(false);
     });
