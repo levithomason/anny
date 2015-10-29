@@ -3,5 +3,9 @@
     "expect": false,
     "chai": false,
     "sinonChai": false,
+  },
+  "env": {
+    "node": true,
+    "mocha": true
   }
 }

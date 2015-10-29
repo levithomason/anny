@@ -14,17 +14,17 @@ describe('Layer', () => {
   describe('constructor', () => {
     it('creates the number of neurons specified', () => {
       const size = _.random(0, 1000);
-      const layer = new Layer(size);
+      layer = new Layer(size);
       layer.neurons.should.have.length(size);
     });
     it('constructs neurons with the specified activation', () => {
       const activation = {func: 'yo', prime: 'yep'};
-      const layer = new Layer(1, activation);
+      layer = new Layer(1, activation);
       layer.neurons[0].activation.should.deep.equal(activation);
     });
     it('constructs neurons with the specified learning rate', () => {
       const rate = _.random(true);
-      const layer = new Layer(1, null, rate);
+      layer = new Layer(1, null, rate);
       layer.neurons[0].learningRate.should.equal(rate);
     });
   });

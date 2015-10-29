@@ -4,7 +4,7 @@ engines:
     fixme: true
 ratings:
   paths:
-    - "app/**/*"
+    - "app/src/**/*"
     - "gulp/**/*"
     - "src/**/*"
     - "test/**/*"
@@ -16,5 +16,3 @@ ratings:
 #
 exclude_paths:
   - "dist/*"
-  - "app/bower/*"
-  - "app/dist/*"

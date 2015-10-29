@@ -19,20 +19,20 @@ gulp.task('clean-build-anny', cb => {
 
 gulp.task('build-anny-js', cb => {
   // http://webpack.github.io/docs/configuration.html
-  let webpackOpts = {
+  const webpackOpts = {
     entry: paths.annyEntry,
     output: {
       path: paths.annyDist,
       filename: 'anny.js',
       libraryTarget: 'umd',
-      library: 'anny'
+      library: 'anny',
     },
     resolve: {
       root: paths.root,
       modulesDirectories: [
         paths.node_modules,
-        '.'
-      ]
+        '.',
+      ],
     },
     module: {
       loaders: [
@@ -42,18 +42,18 @@ gulp.task('build-anny-js', cb => {
             'babel',
             'eslint',
           ],
-          include: [paths.annySrc]
-        }
-      ]
+          include: [paths.annySrc],
+        },
+      ],
     },
     externals: {
       mathjs: 'math',
       lodash: '_',
-    }
+    },
   };
 
   // http://webpack.github.io/docs/node.js-api.html#stats
-  let webpackOutputOpts = {
+  const webpackOutputOpts = {
     hash: false,            // the hash of the compilation
     version: false,         // webpack version info
     timings: true,          // timing info
@@ -69,7 +69,7 @@ gulp.task('build-anny-js', cb => {
     chunkOrigins: false,    // the origins of chunks and chunk merging info
     modulesSort: '',        // (string) sort the modules by that field
     chunksSort: '',         // (string) sort the chunks by that field
-    assetsSort: ''          // (string) sort the assets by that field
+    assetsSort: '',         // (string) sort the assets by that field
   };
 
   // run webpack

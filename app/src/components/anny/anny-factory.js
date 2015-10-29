@@ -1,7 +1,7 @@
 function AnnyFactory($rootScope) {
   var factory = {};
 
-  factory.init = function() {
+  factory.init = function init() {
     factory.newNetwork([2, 1]);
   };
 
@@ -10,13 +10,15 @@ function AnnyFactory($rootScope) {
     factory.emitChange();
   };
 
-  factory.getRandomLayers = function() {
+  factory.data = anny.DATA;
+
+  factory.getRandomLayers = function getRandomLayers() {
     var inputs = 2;
     var outputs = 1;
     var numHiddenLayers = _.random(1, 3);
     var hiddenLayers = [];
 
-    _.times(numHiddenLayers, function() {
+    _.times(numHiddenLayers, function time() {
       hiddenLayers.push(_.random(3, 5));
     });
 
@@ -24,9 +26,8 @@ function AnnyFactory($rootScope) {
   };
 
   factory.train = function(trainingSet, callback, frequency) {
-    factory.network.train(trainingSet, callback, frequency);
-
     var results = ['Predictions after training:'];
+    factory.network.train(trainingSet, callback, frequency);
 
     _.each(trainingSet, function(sample) {
       var input = sample.input;
@@ -41,12 +42,12 @@ function AnnyFactory($rootScope) {
     factory.emitChange();
   };
 
-  factory.newNetwork = function(layers) {
+  factory.newNetwork = function newNetwork(layers) {
     factory.network = new anny.Network(layers || factory.getRandomLayers());
     factory.emitChange();
   };
 
-  factory.emitChange = function() {
+  factory.emitChange = function emitChange() {
     $rootScope.$broadcast('anny:changed');
     window.network = factory.network;
   };

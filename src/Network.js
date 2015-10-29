@@ -32,9 +32,9 @@ class Network {
    * @see Neuron
    */
   constructor(layerSizes) {
-    let inputSize = layerSizes.shift();
-    let outputSize = layerSizes.pop();
-    let hiddenSizes = layerSizes;
+    const inputSize = layerSizes.shift();
+    const outputSize = layerSizes.pop();
+    const hiddenSizes = layerSizes;
     /**
      * The output values of the Neurons in the last layer.  This is identical to
      * the Network's `outputLayer` output.
@@ -104,7 +104,7 @@ class Network {
 
     // connect layers
     _.each(this.allLayers, (layer, i) => {
-      let next = this.allLayers[i + 1];
+      const next = this.allLayers[i + 1];
       if (next) {
         layer.connect(next);
       }
@@ -159,11 +159,11 @@ class Network {
     let lastEpochTime = Date.now();
     let lowestEpochError = Infinity;
 
-    let defaultCallback = (err, epoch) => {
-      let isNewLow = err < lowestEpochError;
-      let difference = err - lastEpochError;
-      let time = Date.now() - lastEpochTime;
-      let indicator = difference >= 0 ? '↑' : '↓';
+    const defaultCallback = (err, epoch) => {
+      const isNewLow = err < lowestEpochError;
+      const difference = err - lastEpochError;
+      const time = Date.now() - lastEpochTime;
+      const indicator = difference >= 0 ? '↑' : '↓';
       console.log(
         `epoch ${_.padRight(epoch, 5)}`,
         (isNewLow ? '★' : ' '),
@@ -179,7 +179,7 @@ class Network {
     // use an 'each' loop so we can break out of it on success/fail
     // a 'times' loop cannot be broken
     _.each(_.range(this.epochs), index => {
-      let n = index + 1;
+      const n = index + 1;
 
       // loop over the training data summing the error of all samples
       // http://www.researchgate.net/post
