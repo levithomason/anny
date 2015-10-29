@@ -3,11 +3,13 @@ import INITIALIZE from './Initialize';
 import ACTIVATION from './Activation';
 
 /**
- * @class A Neuron is the smallest unit of an artificial neural network. When
- *   it is activated it computes an `output` value from its `input`s.  It
- *   receives `input` values from the `output` of other Neurons connected to it
- *   upstream. During training, a Neuron will adjust the weights of its
- *   `outgoing` [Connections]{@link Neuron.Connection}.
+ * @class
+ *   A Neuron is the base unit of the network. They are connected by a
+ *   {@link Connection} It's purpose is to sum its inputs and compute an
+ *   output. During training, a Neuron will adjust the weights of its outgoing
+ *   [Connections]{@link Neuron.Connection} to other Neurons.
+ *
+ *   Neurons are organized into [Layers]{@link Layer}
  */
 class Neuron {
   /**
@@ -183,7 +185,11 @@ class Neuron {
 Neuron.count = 0;
 
 /**
- * The connection between two Neurons. Connections are unidirectional.
+ * @class
+ *   [Neurons]{@link Neuron} communication via Connections. Their weights
+ *   determine the output of the network and are updated during training.  The
+ *   knowledge or ability of a network is represented in the weight matrix (all
+ *   the weight values).
  * @param {Neuron} source - The Neuron that will send its output to the
  *   `target` Neuron.
  * @param {Neuron} target - The Neuron that will get its input from the
@@ -191,7 +197,6 @@ Neuron.count = 0;
  * @param {number} weight - The strength of the connection.  Meaning, what
  *   ratio of the `source` Neuron's output is passed to the `target` Neuron's
  *   input.
- * @constructor
  * @see Neuron
  */
 Neuron.Connection = function(source, target, weight) {

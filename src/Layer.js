@@ -3,11 +3,16 @@ import INITIALIZE from './Initialize';
 import Neuron from './Neuron';
 
 /**
- * @class Creates a single dimension Layer of [Neurons]{@link Neuron}.
+ * @class
+ *   Layers are collections of [Neurons]{@link Neuron}.  They can do all the
+ *   things Neurons can do by invoking methods on all the Neurons in the Layer.
+ *
+ *   Layers are organized into a {@link Network}
  * @see {Neuron}
  */
 class Layer {
   /**
+   * Creates a single dimension Layer of [Neurons]{@link Neuron}.
    * @param {number} size - The number of Neurons this Layer should have.
    * @param {number} [learningRate] - The learning rate passed directly to the
    *   Neuron constructor.

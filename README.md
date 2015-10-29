@@ -9,8 +9,8 @@
 </h1>
 
 <p align="center">
-  <a href="https://app.wercker.com/#applications/561dd8ec7b474cd811009e00">
-    <img src="https://img.shields.io/wercker/ci/dev-coop/anny.svg?style=flat-square" alt="Wercker"/>
+  <a href="https://circleci.com/gh/dev-coop/anny">
+    <img src="https://img.shields.io/circleci/project/dev-coop/anny/master.svg?style=flat-square" alt="CircleCI"/>
   </a>
   <a href="https://codeclimate.com/github/dev-coop/anny/coverage">
     <img src="https://img.shields.io/codeclimate/coverage/github/dev-coop/anny.svg?style=flat-square" alt="Test Coverage"/>
