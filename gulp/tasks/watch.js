@@ -1,6 +1,6 @@
-var g = require('gulp-load-plugins')();
-var gulp = g.help(require('gulp'), require('../gulphelp'));
-var paths = require('../../paths');
+const g = require('gulp-load-plugins')();
+const gulp = g.help(require('gulp'), require('../gulphelp'));
+import paths from '../../paths';
 
 gulp.task('watch', 'rebuild when files change', cb => {
   gulp.watch([
@@ -17,7 +17,7 @@ gulp.task('watch', 'rebuild when files change', cb => {
   gulp.watch([
     `${paths.root}/README.md`,
     `${paths.docsSrc}/**/*`,
-    `!${paths.docsSrc}/**/*.less`
+    `!${paths.docsSrc}/**/*.less`,
   ], ['docs']);
 
   // docs less

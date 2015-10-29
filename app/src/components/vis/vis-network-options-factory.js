@@ -8,15 +8,15 @@ function visNetworkOptions() {
     shape: 'dot',
     scaling: {
       min: 5,
-      max: 15
+      max: 15,
     },
     font: {
       color: '#777',
       size: 12,
-      face: 'Lato'
+      face: 'Lato',
     },
     labelHighlightBold: true,
-    mass: 1
+    mass: 1,
   };
 
   // Groups
@@ -27,13 +27,13 @@ function visNetworkOptions() {
         background: 'hsl(210, 80%, 80%)',
         hover: {
           border: 'hsl(210, 35%, 45%)',
-          background: 'hsl(210, 80%, 80%)'
+          background: 'hsl(210, 80%, 80%)',
         },
         highlight: {
           border: 'hsl(210, 60%, 70%)',
-          background: 'hsl(210, 80%, 80%)'
-        }
-      }
+          background: 'hsl(210, 80%, 80%)',
+        },
+      },
     },
     bias: {
       borderWidth: 2,
@@ -43,14 +43,14 @@ function visNetworkOptions() {
         background: 'transparent',
         hover: {
           border: 'hsl(0, 0%, 60%)',
-          background: 'transparent'
+          background: 'transparent',
         },
         highlight: {
           border: 'hsl(0, 0%, 80%)',
-          background: 'transparent'
-        }
-      }
-    }
+          background: 'transparent',
+        },
+      },
+    },
   };
 
   // Edges
@@ -58,27 +58,27 @@ function visNetworkOptions() {
     smooth: {
       enabled: false, // faster rendering
       type: 'dynamic',
-      roundness: 0.5
+      roundness: 0.5,
     },
     scaling: {
       min: 0.5,
-      max: 8
+      max: 8,
     },
     hoverWidth: 1,
-    selectionWidth: 1.5
+    selectionWidth: 1.5,
   };
 
   // Layout
   options.layout = {
     hierarchical: {
-      direction: 'LR'
-    }
+      direction: 'LR',
+    },
   };
 
   // Interaction
   options.interaction = {
     hover: true,
-    tooltipDelay: 150
+    tooltipDelay: 150,
   };
 
   // Physics
@@ -89,7 +89,7 @@ function visNetworkOptions() {
       springLength: 50,
       springConstant: 0.002,
       nodeDistance: 80,
-      damping: 0.4
+      damping: 0.4,
     },
     maxVelocity: 50,
     minVelocity: 0.1,
@@ -98,9 +98,9 @@ function visNetworkOptions() {
       iterations: 0,
       updateInterval: 0,
       onlyDynamicEdges: false,
-      fit: true
+      fit: true,
     },
-    timestep: 0.5
+    timestep: 0.5,
   };
 
   return options;

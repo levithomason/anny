@@ -23,9 +23,9 @@ const INITIALIZE = {
   weight(numInputs = 1) {
     // 4.6 Initializing the weights (16)
     // We find ^-1/4 performs better than the original ^1/2
-    let maxWeight = Math.pow(numInputs, -1 / 4);
+    const maxWeight = Math.pow(numInputs, -1 / 4);
     return _.random(-maxWeight, maxWeight, true);
-  }
+  },
 };
 
 export default INITIALIZE;

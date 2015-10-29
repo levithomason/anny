@@ -6,15 +6,15 @@ angular.module('App.toolbar')
       scope: {},
       templateUrl: 'app/dist/components/toolbar/toolbar.html',
       link: function(scope) {
-        scope.resetNet = function() {
+        scope.resetNet = function resetNet() {
           AnnyFactory.init();
         };
 
-        scope.randomNet = function() {
+        scope.randomNet = function randomNet() {
           AnnyFactory.newNetwork();
         };
 
-        scope.activateRandom = function() {
+        scope.activateRandom = function activateRandom() {
           var inputs = [];
 
           _.times(AnnyFactory.network.inputLayer.neurons.length, function() {
@@ -24,41 +24,21 @@ angular.module('App.toolbar')
           AnnyFactory.activate(inputs);
         };
 
-        scope.trainORGate = function() {
-          AnnyFactory.train([
-            {input: [0, 0], output: [0]},
-            {input: [0, 1], output: [1]},
-            {input: [1, 0], output: [1]},
-            {input: [1, 1], output: [1]}
-          ]);
+        scope.trainORGate = function trainORGate() {
+          AnnyFactory.train(AnnyFactory.DATA.ORGate);
         };
 
-        scope.trainXORGate = function() {
-          AnnyFactory.train([
-            {input: [0, 0], output: [0]},
-            {input: [0, 1], output: [1]},
-            {input: [1, 0], output: [1]},
-            {input: [1, 1], output: [0]}
-          ]);
+        scope.trainXORGate = function trainXORGate() {
+          AnnyFactory.train(AnnyFactory.DATA.XORGate);
         };
 
-        scope.trainANDGate = function() {
-          AnnyFactory.train([
-            {input: [0, 0], output: [0]},
-            {input: [0, 1], output: [0]},
-            {input: [1, 0], output: [0]},
-            {input: [1, 1], output: [1]}
-          ]);
+        scope.trainANDGate = function trainANDGate() {
+          AnnyFactory.train(AnnyFactory.DATA.ANDGate);
         };
 
-        scope.trainNANDGate = function() {
-          AnnyFactory.train([
-            {input: [0, 0], output: [1]},
-            {input: [0, 1], output: [1]},
-            {input: [1, 0], output: [1]},
-            {input: [1, 1], output: [0]}
-          ]);
+        scope.trainNANDGate = function trainNANDGate() {
+          AnnyFactory.train(AnnyFactory.DATA.NANDGate);
         };
-      }
+      },
     };
   });

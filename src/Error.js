@@ -58,7 +58,7 @@ const ERROR = {
     return _.sum(actual, (actVal, i) => {
       return Math.atan(expected[i] - actVal);
     }) / actual.length;
-  }
+  },
 };
 
 export default ERROR;

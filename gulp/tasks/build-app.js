@@ -36,7 +36,7 @@ gulp.task('build-app-fonts', cb => {
 });
 
 gulp.task('build-app-less', cb => {
-  let minifyOpts = {keepSpecialComments: 0};
+  const minifyOpts = {keepSpecialComments: 0};
 
   return gulp.src([
     `${paths.appSrc}/less/variables.less`,

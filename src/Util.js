@@ -17,8 +17,8 @@ const util = {
    *   `array`. Defaults to the actual max `array` value.
    */
   normalize(array, dataMin = _.min(array), dataMax = _.max(array)) {
-    let offset = 0 - dataMin;
-    let range = dataMax - dataMin;
+    const offset = 0 - dataMin;
+    const range = dataMax - dataMin;
 
     return _.map(array, n => {
       if (n > dataMax || n < dataMin) {
@@ -38,7 +38,7 @@ const util = {
   getApproximateDerivative(func) {
     // https://github.com/pr1001/MathPlus/blob/master/mathplus.js#L316
     return x => (func(x + 1e-10) - func(x)) / 1e-10;
-  }
+  },
 };
 
 export default util;

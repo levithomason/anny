@@ -1,6 +1,6 @@
-var ROOT = __dirname;
+const ROOT = __dirname;
 
-var paths = {
+const paths = {
   root: ROOT,
   appSrc: ROOT + '/app/src',
   appBower: ROOT + '/app/bower',
@@ -11,7 +11,7 @@ var paths = {
   docsRoot: ROOT + '/docs',
   docsSrc: ROOT + '/docs/src',
   docsDist: ROOT + '/docs/dist',
-  node_modules: ROOT + '/node_modules'
+  node_modules: ROOT + '/node_modules',
 };
 
-module.exports = paths;
+export default paths;

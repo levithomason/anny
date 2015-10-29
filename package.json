@@ -8,7 +8,8 @@
     "coverage-report": "codeclimate-test-reporter < coverage/lcov.info",
     "start": "gulp",
     "test": "babel-node $(npm bin)/isparta cover _mocha -- -R dot",
-    "lint": "eslint .",
+    "lint": "eslint . --format ./node_modules/eslint-friendly-formatter",
+    "lint-watch": "watch 'npm run lint' app docs gulp src test",
     "test-watch": "babel-node $(npm bin)/isparta cover _mocha -- -w",
     "postinstall": "bower install",
     "clean": "while read line; do rm -rf $line; done < .gitignore",
@@ -23,7 +24,7 @@
     "url": "https://github.com/dev-coop/anny.git"
   },
   "author": "Levi Thomason <me@levithomason.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/dev-coop/anny/issues"
   },
@@ -36,14 +37,16 @@
     "chai": "^3.0.0",
     "codeclimate-test-reporter": "^0.1.0",
     "del": "^1.2.0",
-    "eslint": "^0.24.1",
-    "eslint-loader": "^0.14.2",
+    "eslint": "^1.7.3",
+    "eslint-config-defaults": "^7.1.1",
+    "eslint-friendly-formatter": "^1.2.2",
+    "eslint-loader": "^1.1.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
     "gulp-cached": "^1.1.0",
     "gulp-concat": "^2.6.0",
     "gulp-debug": "^2.0.1",
-    "gulp-eslint": "^0.15.0",
+    "gulp-eslint": "^1.0.0",
     "gulp-help": "^1.6.0",
     "gulp-less": "^3.0.3",
     "gulp-load-plugins": "^0.10.0",
@@ -68,6 +71,7 @@
     "run-sequence": "^1.1.1",
     "sinon": "^1.15.4",
     "sinon-chai": "^2.8.0",
+    "watch": "^0.16.0",
     "webpack": "^1.10.1"
   }
 }
