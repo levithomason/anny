@@ -36,7 +36,3 @@ deployment:
       - else
       -   echo "skipping deploy, repo is clean after build"
       - fi
-
-notify:
-  webhooks:
-    - url: https://hooks.slack.com/services/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
