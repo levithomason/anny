@@ -4,6 +4,10 @@
  * @namespace
  */
 const DATA = {
+  /**
+   * The 4 possible input patterns to a OR gate.
+   * 2 inputs, 1 output, 4 samples
+   */
   ORGate: [
     {input: [0, 0], output: [0]},
     {input: [0, 1], output: [1]},
@@ -11,6 +15,10 @@ const DATA = {
     {input: [1, 1], output: [1]},
   ],
 
+  /**
+   * The 4 possible input patterns to a XOR gate.
+   * 2 inputs, 1 output, 4 samples
+   */
   XORGate: [
     {input: [0, 0], output: [0]},
     {input: [0, 1], output: [1]},
@@ -18,6 +26,10 @@ const DATA = {
     {input: [1, 1], output: [0]},
   ],
 
+  /**
+   * The 4 possible input patterns to a AND gate.
+   * 2 inputs, 1 output, 4 samples
+   */
   ANDGate: [
     {input: [0, 0], output: [0]},
     {input: [0, 1], output: [0]},
@@ -25,6 +37,10 @@ const DATA = {
     {input: [1, 1], output: [1]},
   ],
 
+  /**
+   * The 4 possible input patterns to a NAND gate.
+   * 2 inputs, 1 output, 4 samples
+   */
   NANDGate: [
     {input: [0, 0], output: [1]},
     {input: [0, 1], output: [1]},
@@ -35,6 +51,7 @@ const DATA = {
   /**
    * Iris flower data set.  The output labels are: Iris setosa, Iris versicolor,
    * Iris virginica. https://www.wikiwand.com/en/Iris_flower_data_set
+   * 4 inputs, 3 output, 150 samples
    */
   irisFlower: [
     {input: [5.1, 3.5, 1.4, 0.2], output: [1, 0, 0]},
