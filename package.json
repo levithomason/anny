@@ -5,7 +5,7 @@
   "main": "dist/anny.js",
   "files": [
     "dist",
-    "src",
+    "src"
   ],
   "scripts": {
     "coverage-check": "istanbul check-coverage",
