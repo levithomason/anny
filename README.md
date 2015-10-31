@@ -35,7 +35,8 @@ Read the [documentation](http://dev-coop.github.io/anny/docs)
 or try the [demo](http://dev-coop.github.io/anny).
 
 Train a multilayer perceptron to approximate an OR logic gate:
-```
+
+```js
 var network = new anny.Network([2, 1]);
 network.train(anny.DATA.ANDGate);
 
