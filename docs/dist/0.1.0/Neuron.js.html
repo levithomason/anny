@@ -40,11 +40,13 @@ import INITIALIZE from './Initialize';
 import ACTIVATION from './Activation';
 
 /**
- * @class A Neuron is the smallest unit of an artificial neural network. When
- *   it is activated it computes an `output` value from its `input`s.  It
- *   receives `input` values from the `output` of other Neurons connected to it
- *   upstream. During training, a Neuron will adjust the weights of its
- *   `outgoing` [Connections]{@link Neuron.Connection}.
+ * @class
+ *   A Neuron is the base unit of the network. They are connected by a
+ *   {@link Connection} It's purpose is to sum its inputs and compute an
+ *   output. During training, a Neuron will adjust the weights of its outgoing
+ *   [Connections]{@link Neuron.Connection} to other Neurons.
+ *
+ *   Neurons are organized into [Layers]{@link Layer}
  */
 class Neuron {
   /**
@@ -109,7 +111,7 @@ class Neuron {
    * @param {number} [targetOutput] - Manually set the target output.error.
    */
   train(targetOutput) {
-    let inputDerivative = this.activation.prime(this.input);
+    const inputDerivative = this.activation.prime(this.input);
 
     if (!_.isUndefined(targetOutput)) {
       this.error = targetOutput - this.output;
@@ -137,7 +139,7 @@ class Neuron {
     _.each(this.outgoing, connection => {
       // get gradient
       // https://youtu.be/p1-FiWjThs8?t=12m21s
-      let gradient = this.output * connection.target.delta;
+      const gradient = this.output * connection.target.delta;
 
       connection.weight -= gradient * this.learningRate;
     });
@@ -189,7 +191,7 @@ class Neuron {
       return;
     }
 
-    let connection = new Neuron.Connection(this, target, weight);
+    const connection = new Neuron.Connection(this, target, weight);
     this.outgoing.push(connection);
     target.incoming.push(connection);
   }
@@ -220,7 +222,11 @@ class Neuron {
 Neuron.count = 0;
 
 /**
- * The connection between two Neurons. Connections are unidirectional.
+ * @class
+ *   [Neurons]{@link Neuron} communication via Connections. Their weights
+ *   determine the output of the network and are updated during training.  The
+ *   knowledge or ability of a network is represented in the weight matrix (all
+ *   the weight values).
  * @param {Neuron} source - The Neuron that will send its output to the
  *   `target` Neuron.
  * @param {Neuron} target - The Neuron that will get its input from the
@@ -228,10 +234,9 @@ Neuron.count = 0;
  * @param {number} weight - The strength of the connection.  Meaning, what
  *   ratio of the `source` Neuron's output is passed to the `target` Neuron's
  *   input.
- * @constructor
  * @see Neuron
  */
-Neuron.Connection = function(source, target, weight) {
+Neuron.Connection = function Connection(source, target, weight) {
   /**
    * A reference to the Neuron at the start of this Connection.
    * @type {Neuron}
@@ -267,7 +272,7 @@ export default Neuron;
 </div>
 
 <nav>
-  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li><li><a href="tutorial-Hack on Anny.html">Hack on Anny</a></li></ul>
+  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="DATA.html">DATA</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li><li><a href="tutorial-Hack on Anny.html">Hack on Anny</a></li></ul>
 </nav>
 
 <br class="clear">

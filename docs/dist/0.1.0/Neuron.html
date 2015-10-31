@@ -39,11 +39,11 @@
     
         <h2>Neuron</h2>
         
-            <div class="class-description"><p>A Neuron is the smallest unit of an artificial neural network. When
-  it is activated it computes an <code>output</code> value from its <code>input</code>s.  It
-  receives <code>input</code> values from the <code>output</code> of other Neurons connected to it
-  upstream. During training, a Neuron will adjust the weights of its
-  <code>outgoing</code> <a href="Neuron.Connection.html">Connections</a>.</p></div>
+            <div class="class-description"><p>A Neuron is the base unit of the network. They are connected by a
+  Connection It's purpose is to sum its inputs and compute an
+  output. During training, a Neuron will adjust the weights of its outgoing
+  <a href="Neuron.Connection.html">Connections</a> to other Neurons.</p>
+<p>  Neurons are organized into <a href="Layer.html">Layers</a></p></div>
         
     
 </header>
@@ -217,7 +217,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line12">line 12</a>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -255,7 +255,7 @@
 
         <dl>
             <dt><a href="Neuron.Connection.html">Connection</a></dt>
-            <dd>The connection between two Neurons.</dd>
+            <dd></dd>
         </dl>
     
 
@@ -326,7 +326,7 @@ it is never decremented.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line183">line 183</a>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line185">line 185</a>
     </li></ul></dd>
     
 
@@ -400,7 +400,7 @@ it is never decremented.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line60">line 60</a>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line62">line 62</a>
     </li></ul></dd>
     
 
@@ -474,7 +474,7 @@ it is never decremented.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line36">line 36</a>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -548,7 +548,7 @@ it is never decremented.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line43">line 43</a>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -631,7 +631,7 @@ output 1.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line30">line 30</a>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line32">line 32</a>
     </li></ul></dd>
     
 
@@ -705,7 +705,7 @@ output 1.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line49">line 49</a>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line51">line 51</a>
     </li></ul></dd>
     
 
@@ -859,7 +859,7 @@ output.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line120">line 120</a>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line122">line 122</a>
     </li></ul></dd>
     
 
@@ -1033,7 +1033,7 @@ output.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line149">line 149</a>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line151">line 151</a>
     </li></ul></dd>
     
 
@@ -1117,7 +1117,7 @@ output.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line164">line 164</a>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line166">line 166</a>
     </li></ul></dd>
     
 
@@ -1219,7 +1219,7 @@ output.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line172">line 172</a>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line174">line 174</a>
     </li></ul></dd>
     
 
@@ -1384,7 +1384,7 @@ of the Neurons from its outgoing connections.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line74">line 74</a>
+        <a href="Neuron.js.html">Neuron.js</a>, <a href="Neuron.js.html#line76">line 76</a>
     </li></ul></dd>
     
 
@@ -1426,7 +1426,7 @@ of the Neurons from its outgoing connections.</p>
 </div>
 
 <nav>
-  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li><li><a href="tutorial-Hack on Anny.html">Hack on Anny</a></li></ul>
+  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="DATA.html">DATA</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li><li><a href="tutorial-Hack on Anny.html">Hack on Anny</a></li></ul>
 </nav>
 
 <br class="clear">

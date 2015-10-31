@@ -9,12 +9,18 @@
 
 **Closed issues:**
 
+- Better way to add bias neuron [\#58](https://github.com/dev-coop/anny/issues/58)
 - Add changelog [\#44](https://github.com/dev-coop/anny/issues/44)
 - Input neurons should not use activationFn [\#31](https://github.com/dev-coop/anny/issues/31)
 - No anonymous functions [\#19](https://github.com/dev-coop/anny/issues/19)
 
 **Merged pull requests:**
 
+- remove ruby-version file [\#70](https://github.com/dev-coop/anny/pull/70) ([levithomason](https://github.com/levithomason))
+- Integration [\#69](https://github.com/dev-coop/anny/pull/69) ([levithomason](https://github.com/levithomason))
+- Update linter [\#68](https://github.com/dev-coop/anny/pull/68) ([levithomason](https://github.com/levithomason))
+- Integration [\#67](https://github.com/dev-coop/anny/pull/67) ([levithomason](https://github.com/levithomason))
+- Example data [\#66](https://github.com/dev-coop/anny/pull/66) ([levithomason](https://github.com/levithomason))
 - Integration [\#65](https://github.com/dev-coop/anny/pull/65) ([levithomason](https://github.com/levithomason))
 - Neuron config [\#64](https://github.com/dev-coop/anny/pull/64) ([levithomason](https://github.com/levithomason))
 - update doc site styles, add clean-wercker command [\#63](https://github.com/dev-coop/anny/pull/63) ([levithomason](https://github.com/levithomason))

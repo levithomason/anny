@@ -40,11 +40,16 @@ import INITIALIZE from './Initialize';
 import Neuron from './Neuron';
 
 /**
- * @class Creates a single dimension Layer of [Neurons]{@link Neuron}.
+ * @class
+ *   Layers are collections of [Neurons]{@link Neuron}.  They can do all the
+ *   things Neurons can do by invoking methods on all the Neurons in the Layer.
+ *
+ *   Layers are organized into a {@link Network}
  * @see {Neuron}
  */
 class Layer {
   /**
+   * Creates a single dimension Layer of [Neurons]{@link Neuron}.
    * @param {number} size - The number of Neurons this Layer should have.
    * @param {number} [learningRate] - The learning rate passed directly to the
    *   Neuron constructor.
@@ -118,7 +123,7 @@ export default Layer;
 </div>
 
 <nav>
-  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li><li><a href="tutorial-Hack on Anny.html">Hack on Anny</a></li></ul>
+  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="DATA.html">DATA</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li><li><a href="tutorial-Hack on Anny.html">Hack on Anny</a></li></ul>
 </nav>
 
 <br class="clear">
