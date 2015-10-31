@@ -15,7 +15,6 @@
     "lint": "eslint . --format ./node_modules/eslint-friendly-formatter",
     "lint-watch": "watch 'npm run lint' app docs gulp src test",
     "test-watch": "babel-node $(npm bin)/isparta cover _mocha -- -w",
-    "postinstall": "bower install",
     "clean": "while read line; do rm -rf $line; done < .gitignore",
     "clean-wercker": "rm -rf _builds _projects _steps"
   },
