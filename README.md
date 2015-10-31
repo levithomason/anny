@@ -24,9 +24,24 @@
   Anny is an artificial neural network, yo!
 </p>
 
+
+```
+npm install anny --save
+```
+
 ## Get Started
+
 Read the [documentation](http://dev-coop.github.io/anny/docs)
 or try the [demo](http://dev-coop.github.io/anny).
+
+Train a multilayer perceptron to approximate an OR logic gate:
+```
+var network = new anny.Network([2, 1]);
+network.train(anny.DATA.ANDGate);
+
+network.activate([0, 0]); // => 0.000836743108
+network.activate([0, 1]); // => 0.998253857294
+```
 
 ## Why Anny?
 
