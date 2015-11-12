@@ -138,7 +138,9 @@ class Neuron {
     }
 
     // set the output
-    this.output = this.activation.func(this.input);
+    this.output = this.isInput()
+      ? this.input
+      : this.activation.func(this.input);
 
     return this.output;
   }
