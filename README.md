@@ -29,7 +29,7 @@
 npm install anny --save
 ```
 
-## Get Started
+## Getting Started
 
 Read the [documentation](http://dev-coop.github.io/anny/docs)
 or try the [demo](http://dev-coop.github.io/anny).
