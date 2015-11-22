@@ -41,4 +41,13 @@ describe('Layer', () => {
       _.some(targetLayer.neurons, 'isBias').should.equal(false);
     });
   });
+
+  describe('size', () => {
+    it('returns the number of non-bias neurons in the layer', () => {
+      const neurons = _.times(_.random(1, 99), n => ({isBias: false}));
+      const biasNeurons = _.times(_.random(1, 99), n => ({isBias: true}));
+      layer.neurons = _.union(neurons, biasNeurons);
+      layer.size().should.equal(neurons.length);
+    });
+  });
 });
