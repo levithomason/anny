@@ -10,19 +10,19 @@ describe('ACTIVATION', () => {
 
   describe('activation object', () => {
     _.each(ACTIVATION, object => {
-      it('has a `func` method that returns a number', () => {
+      it('has a "func" method that returns a number', () => {
         object.func(_.random(-100, 100, true)).should.be.a('number')
       })
 
-      it('has a `prime` method that returns a number', () => {
+      it('has a "prime" method that returns a number', () => {
         object.prime(_.random(-100, 100, true)).should.be.a('number')
       })
 
-      it('has a `rangeMin` number property', () => {
+      it('has a "rangeMin" number property', () => {
         expect(object.rangeMin).to.be.a('number')
       })
 
-      it('has a `rangeMax` number property', () => {
+      it('has a "rangeMax" number property', () => {
         expect(object.rangeMax).to.be.a('number')
       })
     })
