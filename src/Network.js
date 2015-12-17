@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import Layer from './Layer'
 import ERROR from './Error'
-import util from './Util'
+import validate from './Validate'
 
 /**
  * A Network contains [Layers]{@link Layer} of [Neurons]{@link Neuron}.
@@ -164,7 +164,7 @@ class Network {
    *   logging the current error.
    */
   train(data, callback, frequency = 100) {
-    util.validateTrainingData(this, data)
+    validate.trainingData(this, data)
     // TODO: validation and help on the data.
     //  ensure it is normalized between -1 and 1
     //  ensure the input length matches the number of Network inputs
