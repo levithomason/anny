@@ -1,1 +1,1 @@
-angular.module('App.vis', []);
+angular.module('App.vis', [])

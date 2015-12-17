@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import _ from 'lodash'
+
 
 /**
  * @namespace
@@ -16,18 +17,18 @@ const util = {
    * @param {number} [dataMax] - The number to use at the max value in the
    *   `array`. Defaults to the actual max `array` value.
    */
-  normalize(array, dataMin = _.min(array), dataMax = _.max(array)) {
-    const offset = 0 - dataMin;
-    const range = dataMax - dataMin;
+  normalize: (array, dataMin = _.min(array), dataMax = _.max(array)) => {
+    const offset = 0 - dataMin
+    const range = dataMax - dataMin
 
     return _.map(array, n => {
       if (n > dataMax || n < dataMin) {
         throw new Error(
           `${n} is beyond the scale range: ${dataMin} to ${dataMax}`
-        );
+        )
       }
-      return (n + offset) / (range / 2) - 1;
-    });
+      return (n + offset) / (range / 2) - 1
+    })
   },
 
   /**
@@ -35,10 +36,18 @@ const util = {
    * @param func - The function to create an approximate derivative of.
    * @returns {function}
    */
-  getApproximateDerivative(func) {
+  getApproximateDerivative: (func) => {
     // https://github.com/pr1001/MathPlus/blob/master/mathplus.js#L316
-    return x => (func(x + 1e-10) - func(x)) / 1e-10;
+    return x => (func(x + 1e-10) - func(x)) / 1e-10
   },
-};
 
-export default util;
+  /**
+   * Thin helper for use getting object type.
+   * @param {*} arg The value whose type should be returned.
+   */
+  type: (arg) => {
+    return Object.prototype.toString.call(arg)
+  },
+}
+
+export default util

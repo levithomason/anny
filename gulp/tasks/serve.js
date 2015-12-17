@@ -1,6 +1,6 @@
-const g = require('gulp-load-plugins')();
-const gulp = g.help(require('gulp'), require('../gulphelp'));
-import paths from '../../paths';
+const g = require('gulp-load-plugins')()
+const gulp = g.help(require('gulp'), require('../gulphelp'))
+import paths from '../../paths'
 
 gulp.task('serve', 'start the livereload dev server', cb => {
   return gulp.src([
@@ -17,12 +17,12 @@ gulp.task('serve', 'start the livereload dev server', cb => {
       livereload: {
         enable: true,
         filter: filePath => {
-          const isAppDist = filePath.match(paths.appDist);
-          const isAnnyDist = filePath.match(paths.annyDist);
-          const isDocsDist = filePath.match(paths.docsDist);
+          const isAppDist = filePath.match(paths.appDist)
+          const isAnnyDist = filePath.match(paths.annyDist)
+          const isDocsDist = filePath.match(paths.docsDist)
 
-          return isAppDist || isAnnyDist || isDocsDist;
+          return isAppDist || isAnnyDist || isDocsDist
         },
       },
-    }));
-});
+    }))
+})

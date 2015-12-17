@@ -1,6 +1,6 @@
-import _ from 'lodash';
-import INITIALIZE from './Initialize';
-import Neuron from './Neuron';
+import _ from 'lodash'
+import INITIALIZE from './Initialize'
+import Neuron from './Neuron'
 
 /**
  * @class
@@ -22,9 +22,9 @@ class Layer {
    */
   constructor(size, activation, learningRate) {
     if (!_.isNumber(size)) {
-      throw new Error(`Layer() 'size' must be a number, not: ${typeof size}`);
+      throw new Error(`Layer() 'size' must be a number, not: ${typeof size}`)
     }
-    this.neurons = _.times(size, () => new Neuron(activation, learningRate));
+    this.neurons = _.times(size, () => new Neuron(activation, learningRate))
   }
 
   /**
@@ -35,9 +35,9 @@ class Layer {
     // if this Layer has no bias Neuron, add one
     // only Layers with outgoing connections get bias Neurons
     if (!_.some(this.neurons, 'isBias')) {
-      const biasNeuron = new Neuron();
-      biasNeuron.isBias = true;
-      this.neurons.push(biasNeuron);
+      const biasNeuron = new Neuron()
+      biasNeuron.isBias = true
+      this.neurons.push(biasNeuron)
     }
 
     _.each(this.neurons, source => {
@@ -46,9 +46,9 @@ class Layer {
 
       // connect each neuron in this Layer to every Neuron in the targetLayer
       _.each(targetLayer.neurons, target => {
-        source.connect(target, INITIALIZE.weight(this.neurons.length));
-      });
-    });
+        source.connect(target, INITIALIZE.weight(this.neurons.length))
+      })
+    })
   }
 
   /**
@@ -58,8 +58,8 @@ class Layer {
    */
   activate(values) {
     return _.map(this.neurons, (neuron, i) => {
-      return neuron.activate(values ? values[i] : undefined);
-    });
+      return neuron.activate(values ? values[i] : undefined)
+    })
   }
 
   /**
@@ -70,9 +70,16 @@ class Layer {
    */
   train(outputs) {
     _.each(this.neurons, (neuron, i) => {
-      neuron.train(outputs ? outputs[i] : undefined);
-    });
+      neuron.train(outputs ? outputs[i] : undefined)
+    })
+  }
+
+  /**
+   * Returns the number of Neurons in this Layer, excluding Bias Neurons.
+   */
+  size() {
+    return _.filter(this.neurons, {isBias: false}).length
   }
 }
 
-export default Layer;
+export default Layer

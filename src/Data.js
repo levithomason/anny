@@ -205,6 +205,6 @@ const DATA = {
     {input: [6.2, 3.4, 5.4, 2.3], output: [0, 0, 1]},
     {input: [5.9, 3.0, 5.1, 1.8], output: [0, 0, 1]},
   ],
-};
+}
 
-export default DATA;
+export default DATA

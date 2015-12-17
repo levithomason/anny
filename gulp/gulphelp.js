@@ -8,6 +8,6 @@ const gulpHelpConfig = {
   afterPrintCallback: () => {       // run after the default help task runs
 
   },
-};
+}
 
-export default gulpHelpConfig;
+export default gulpHelpConfig

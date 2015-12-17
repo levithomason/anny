@@ -1,4 +1,4 @@
-const ROOT = __dirname;
+const ROOT = __dirname
 
 const paths = {
   root: ROOT,
@@ -12,6 +12,6 @@ const paths = {
   docsSrc: ROOT + '/docs/src',
   docsDist: ROOT + '/docs/dist',
   node_modules: ROOT + '/node_modules',
-};
+}
 
-export default paths;
+export default paths

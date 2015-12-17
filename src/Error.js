@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash'
 
 /**
  * Functions for calculating Network error.  The error is simply the difference
@@ -17,8 +17,8 @@ const ERROR = {
    */
   crossEntropy(expected, actual) {
     return -(_.sum(actual, (actVal, i) => {
-      return Math.log(actVal) * expected[i];
-    })) / actual.length;
+      return Math.log(actVal) * expected[i]
+    })) / actual.length
   },
 
   // These taken from: https://www.youtube.com/watch?v=U4BTzF3Wzt0
@@ -32,8 +32,8 @@ const ERROR = {
    */
   meanSquared(expected, actual) {
     return _.sum(actual, (actVal, i) => {
-      return Math.pow(expected[i] - actVal, 2);
-    }) / actual.length;
+      return Math.pow(expected[i] - actVal, 2)
+    }) / actual.length
   },
 
   /**
@@ -44,7 +44,7 @@ const ERROR = {
    * @returns {number}
    */
   rootMeanSquared(expected, actual) {
-    return Math.sqrt(ERROR.meanSquared(expected, actual));
+    return Math.sqrt(ERROR.meanSquared(expected, actual))
   },
 
   /**
@@ -56,9 +56,9 @@ const ERROR = {
    */
   arcTan(expected, actual) {
     return _.sum(actual, (actVal, i) => {
-      return Math.atan(expected[i] - actVal);
-    }) / actual.length;
+      return Math.atan(expected[i] - actVal)
+    }) / actual.length
   },
-};
+}
 
-export default ERROR;
+export default ERROR

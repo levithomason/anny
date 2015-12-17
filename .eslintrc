@@ -9,7 +9,9 @@
     "defaults/rules/eslint/style/airbnb",
     "defaults/rules/eslint/variables/airbnb"
   ],
+  "parser": "babel-eslint",
   "rules": {
-    "no-unused-vars": [2, {"vars": "all", "args": "none"}]
+    "no-unused-vars": [2, {"vars": "all", "args": "none"}],
+    "semi": [2, "never"]
   }
 }

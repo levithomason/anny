@@ -3,4 +3,4 @@ angular.module('App', [
 
   'App.vis',
   'App.toolbar',
-]);
+])
