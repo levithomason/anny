@@ -5,7 +5,8 @@ import INITIALIZE from './Initialize'
 import Layer from './Layer'
 import Network from './Network'
 import Neuron from './Neuron'
-import * as util from './Util'
+import util from './Util'
+import validate from './Validate'
 
 const anny = {
   ACTIVATION,
@@ -16,6 +17,7 @@ const anny = {
   Network,
   Neuron,
   util,
+  validate,
 }
 
 export default anny
