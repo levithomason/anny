@@ -1,8 +1,8 @@
-const g = require('gulp-load-plugins')();
-const gulp = g.help(require('gulp'), require('../gulphelp'));
-import del from 'del';
-import runSequence from 'run-sequence';
-import paths from '../../paths';
+const g = require('gulp-load-plugins')()
+const gulp = g.help(require('gulp'), require('../gulphelp'))
+import del from 'del'
+import runSequence from 'run-sequence'
+import paths from '../../paths'
 
 gulp.task('build-app', cb => {
   runSequence(
@@ -14,29 +14,29 @@ gulp.task('build-app', cb => {
       'build-app-js',
     ],
     cb
-  );
-});
+  )
+})
 
 gulp.task('clean-app-build', cb => {
-  del(paths.appDist, cb);
-});
+  del(paths.appDist, cb)
+})
 
 gulp.task('build-app-html', cb => {
   return gulp.src([
     `${paths.appSrc}/**/*.html`,
   ])
-    .pipe(gulp.dest(paths.appDist));
-});
+    .pipe(gulp.dest(paths.appDist))
+})
 
 gulp.task('build-app-fonts', cb => {
   return gulp.src([
     `${paths.appSrc}/fonts/**/*`,
   ])
-    .pipe(gulp.dest(`${paths.appDist}/fonts`));
-});
+    .pipe(gulp.dest(`${paths.appDist}/fonts`))
+})
 
 gulp.task('build-app-less', cb => {
-  const minifyOpts = {keepSpecialComments: 0};
+  const minifyOpts = {keepSpecialComments: 0}
 
   return gulp.src([
     `${paths.appSrc}/less/variables.less`,
@@ -53,8 +53,8 @@ gulp.task('build-app-less', cb => {
     .pipe(gulp.dest(`${paths.appDist}/css`))
     .pipe(g.minifyCss(minifyOpts))
     .pipe(g.rename('app.min.css'))
-    .pipe(gulp.dest(`${paths.appDist}/css`));
-});
+    .pipe(gulp.dest(`${paths.appDist}/css`))
+})
 
 gulp.task('build-app-js', cb => {
   return gulp.src([
@@ -76,5 +76,5 @@ gulp.task('build-app-js', cb => {
     .pipe(gulp.dest(paths.appDist))
     .pipe(g.uglify())
     .pipe(g.rename({extname: '.min.js'}))
-    .pipe(gulp.dest(paths.appDist));
-});
+    .pipe(gulp.dest(paths.appDist))
+})

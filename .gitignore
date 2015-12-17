@@ -1,10 +1,11 @@
-_builds/
-_projects/
-_steps/
+# Heads Up!
+# Each line in this file is passed to `rm -rf` on `npm run clean`
+#
+
 CHANGELOG.md
 coverage/
 node_modules/
-npm-debug.log*
+*.log*
 app/bower/
 app/dist/
 dist/

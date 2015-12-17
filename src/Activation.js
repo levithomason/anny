@@ -1,4 +1,4 @@
-import math from 'mathjs';
+import math from 'mathjs'
 
 /**
  * Activation functions and their derivatives for a {@link Neuron}.
@@ -41,8 +41,8 @@ const ACTIVATION = {
     // 4.4 The Sigmoid Fig. 4.a, Not recommended.
     func: x => 1 / (1 + math.exp(-x)),
     prime: x => {
-      const val = 1 / (1 + math.exp(-x));
-      return val * (1 - val);
+      const val = 1 / (1 + math.exp(-x))
+      return val * (1 - val)
     },
     rangeMin: 0,
     rangeMax: 1,
@@ -70,9 +70,9 @@ const ACTIVATION = {
    */
   tanh: {
     func: x => {
-      const negExp = math.exp(-x);
-      const posExp = math.exp(x);
-      return (posExp - negExp) / (posExp + negExp);
+      const negExp = math.exp(-x)
+      const posExp = math.exp(x)
+      return (posExp - negExp) / (posExp + negExp)
     },
     prime: x => 1 - math.pow(math.tanh(x), 2),
     rangeMin: -1,
@@ -90,6 +90,6 @@ const ACTIVATION = {
     rangeMin: -1,
     rangeMax: 1,
   },
-};
+}
 
-export default ACTIVATION;
+export default ACTIVATION
