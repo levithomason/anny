@@ -1,8 +1,9 @@
-global.sinon = require('sinon')
-global.chai = require('chai')
-global.sinonChai = require('sinon-chai')
+import sinon from 'sinon'
+import chai from 'chai'
+import math from 'mathjs'
+
+global.sinon = sinon
+global.chai = chai
 global.expect = chai.expect
 global.should = chai.should()
-chai.use(sinonChai)
-
-global.math = require('mathjs')
+global.math = math

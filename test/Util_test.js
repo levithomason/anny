@@ -43,92 +43,10 @@ describe('util', () => {
     it('returns a function', () => {
       util.getApproximateDerivative(_.noop).should.be.a('function')
     })
+
     it('returns a function that returns a number', () => {
       const derivative = util.getApproximateDerivative(Math.sin)
       derivative(_.random()).should.be.a('number')
-    })
-  })
-
-  describe('validateTrainingData', () => {
-    let netInputSize = 1
-    let netOutputSize = 1
-    let data = [{input: [0], output: [0]}]
-    const network = {
-      inputLayer: {size: () => netInputSize},
-      outputLayer: {size: () => netOutputSize},
-    }
-
-    const validate = () => util.validateTrainingData(network, data)
-
-    it('does not throw with valid training data and network', () => {
-      expect(validate).not.to.throw()
-    })
-
-    it('throws if training data is not array', () => {
-      data = 'not array'
-      expect(validate).to.throw()
-    })
-
-    it('throws if training data is an empty array', () => {
-      data = []
-      expect(validate).to.throw()
-    })
-
-    it('throws if training array elements are not plain objects', () => {
-      _.each([undefined, null, 'not a POJO', 1, [], _.noop], type => {
-        data = [type]
-        expect(validate).to.throw()
-      })
-    })
-
-    it('throws if training objects do not have an "input" array', () => {
-      _.each([undefined, null, 'not an array', 1, {}, _.noop], type => {
-        data.input = type
-        expect(validate).to.throw()
-      })
-    })
-
-    it('throws if training objects do not have an "output" array', () => {
-      _.each([undefined, null, 'not an array', 1, {}, _.noop], type => {
-        data.output = type
-        expect(validate).to.throw()
-      })
-    })
-
-    it('throws if training data "input" is an empty array', () => {
-      data.input = []
-      expect(validate).to.throw()
-    })
-
-    it('throws if training data "output" is an empty array', () => {
-      data.output = []
-      expect(validate).to.throw()
-    })
-
-    it('throws if training data "input" contains a non-number', () => {
-      _.each([undefined, null, 'NaN', {}, [], _.noop], type => {
-        data.input[0] = type
-        expect(validate).to.throw()
-      })
-    })
-
-    it('throws if training data "input" contains a non-number', () => {
-      _.each([undefined, null, 'NaN', {}, [], _.noop], type => {
-        data.output[0] = type
-        expect(validate).to.throw()
-      })
-    })
-
-    it('throws if data "input" size !== network input size', () => {
-      netInputSize = 1
-      data[0].input = [0, 0]
-      expect(validate).to.throw()
-    })
-
-    it('throws if data "output" size !== network output size', () => {
-      netOutputSize = 1
-      data[0].output = [0, 0]
-      expect(validate).to.throw()
     })
   })
 })

@@ -1,11 +1,13 @@
 {
-  "globals": {
-    "expect": false,
-    "chai": false,
-    "sinonChai": false,
-  },
   "env": {
     "node": true,
     "mocha": true
-  }
+  },
+  "globals": {
+    "chai": false,
+    "expect": false,
+    "math": false,
+    "should": false,
+    "sinon": false
+  },
 }
