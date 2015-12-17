@@ -1,21 +1,21 @@
-const g = require('gulp-load-plugins')();
-const gulp = g.help(require('gulp'), require('../gulphelp'));
-import del from 'del';
-import runSequence from 'run-sequence';
-import paths from '../../paths';
-import webpack from 'webpack';
+const g = require('gulp-load-plugins')()
+const gulp = g.help(require('gulp'), require('../gulphelp'))
+import del from 'del'
+import runSequence from 'run-sequence'
+import paths from '../../paths'
+import webpack from 'webpack'
 
 gulp.task('build-anny', cb => {
   runSequence(
     'clean-build-anny',
     'build-anny-js',
     cb
-  );
-});
+  )
+})
 
 gulp.task('clean-build-anny', cb => {
-  del(paths.annyDist, cb);
-});
+  del(paths.annyDist, cb)
+})
 
 gulp.task('build-anny-js', cb => {
   // http://webpack.github.io/docs/configuration.html
@@ -50,7 +50,7 @@ gulp.task('build-anny-js', cb => {
       mathjs: 'math',
       lodash: '_',
     },
-  };
+  }
 
   // http://webpack.github.io/docs/node.js-api.html#stats
   const webpackOutputOpts = {
@@ -70,19 +70,19 @@ gulp.task('build-anny-js', cb => {
     modulesSort: '',        // (string) sort the modules by that field
     chunksSort: '',         // (string) sort the chunks by that field
     assetsSort: '',         // (string) sort the assets by that field
-  };
+  }
 
   // run webpack
   webpack(webpackOpts, (err, stats) => {
     if (err) {
-      throw new g.util.PluginError('webpack', err);
+      throw new g.util.PluginError('webpack', err)
     }
 
     g.util.log(
       g.util.colors.green('[webpack]'),
       stats.toString(webpackOutputOpts)
-    );
+    )
 
-    cb();
-  });
-});
+    cb()
+  })
+})

@@ -7,38 +7,38 @@ angular.module('App.toolbar')
       templateUrl: 'app/dist/components/toolbar/toolbar.html',
       link: function(scope) {
         scope.resetNet = function resetNet() {
-          AnnyFactory.init();
-        };
+          AnnyFactory.init()
+        }
 
         scope.randomNet = function randomNet() {
-          AnnyFactory.newNetwork();
-        };
+          AnnyFactory.newNetwork()
+        }
 
         scope.activateRandom = function activateRandom() {
-          var inputs = [];
+          var inputs = []
 
           _.times(AnnyFactory.network.inputLayer.neurons.length, function() {
-            inputs.push(_.random(-1, 1, true));
-          });
+            inputs.push(_.random(-1, 1, true))
+          })
 
-          AnnyFactory.activate(inputs);
-        };
+          AnnyFactory.activate(inputs)
+        }
 
         scope.trainORGate = function trainORGate() {
-          AnnyFactory.train(AnnyFactory.data.ORGate);
-        };
+          AnnyFactory.train(AnnyFactory.data.ORGate)
+        }
 
         scope.trainXORGate = function trainXORGate() {
-          AnnyFactory.train(AnnyFactory.data.XORGate);
-        };
+          AnnyFactory.train(AnnyFactory.data.XORGate)
+        }
 
         scope.trainANDGate = function trainANDGate() {
-          AnnyFactory.train(AnnyFactory.data.ANDGate);
-        };
+          AnnyFactory.train(AnnyFactory.data.ANDGate)
+        }
 
         scope.trainNANDGate = function trainNANDGate() {
-          AnnyFactory.train(AnnyFactory.data.NANDGate);
-        };
+          AnnyFactory.train(AnnyFactory.data.NANDGate)
+        }
       },
-    };
-  });
+    }
+  })

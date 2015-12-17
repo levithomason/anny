@@ -1,5 +1,5 @@
 function visNetworkOptions() {
-  var options = {};
+  var options = {}
 
   // Nodes
   options.nodes = {
@@ -17,7 +17,7 @@ function visNetworkOptions() {
     },
     labelHighlightBold: true,
     mass: 1,
-  };
+  }
 
   // Groups
   options.groups = {
@@ -51,7 +51,7 @@ function visNetworkOptions() {
         },
       },
     },
-  };
+  }
 
   // Edges
   options.edges = {
@@ -66,20 +66,20 @@ function visNetworkOptions() {
     },
     hoverWidth: 1,
     selectionWidth: 1.5,
-  };
+  }
 
   // Layout
   options.layout = {
     hierarchical: {
       direction: 'LR',
     },
-  };
+  }
 
   // Interaction
   options.interaction = {
     hover: true,
     tooltipDelay: 150,
-  };
+  }
 
   // Physics
   options.physics = {
@@ -101,10 +101,10 @@ function visNetworkOptions() {
       fit: true,
     },
     timestep: 0.5,
-  };
+  }
 
-  return options;
+  return options
 }
 
 angular.module('App.vis')
-  .factory('visNetworkOptions', visNetworkOptions);
+  .factory('visNetworkOptions', visNetworkOptions)

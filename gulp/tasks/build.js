@@ -1,6 +1,6 @@
-const g = require('gulp-load-plugins')();
-const gulp = g.help(require('gulp'), require('../gulphelp'));
-import runSequence from 'run-sequence';
+const g = require('gulp-load-plugins')()
+const gulp = g.help(require('gulp'), require('../gulphelp'))
+import runSequence from 'run-sequence'
 
 gulp.task('build', 'create a fresh anny and app build', cb => {
   runSequence(
@@ -10,5 +10,5 @@ gulp.task('build', 'create a fresh anny and app build', cb => {
       'docs',
     ],
     cb
-  );
-});
+  )
+})

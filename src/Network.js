@@ -1,6 +1,7 @@
-import _ from 'lodash';
-import Layer from './Layer';
-import ERROR from './Error';
+import _ from 'lodash'
+import Layer from './Layer'
+import ERROR from './Error'
+import util from './Util'
 
 /**
  * A Network contains [Layers]{@link Layer} of [Neurons]{@link Neuron}.
@@ -32,15 +33,27 @@ class Network {
    * @see Neuron
    */
   constructor(layerSizes) {
-    const inputSize = layerSizes.shift();
-    const outputSize = layerSizes.pop();
-    const hiddenSizes = layerSizes;
+    if (!_.isArray(layerSizes)) {
+      throw new Error(
+        `Network() \`layerSizes\` must be an array, not: ${typeof layerSizes}`
+      )
+    }
+
+    if (_.isEmpty(layerSizes) || !_.every(layerSizes, _.isNumber)) {
+      throw new Error(
+        `Network() \`layerSizes\` array elements must be all numbers.`
+      )
+    }
+
+    const inputSize = layerSizes.shift()
+    const outputSize = layerSizes.pop()
+    const hiddenSizes = layerSizes
     /**
      * The output values of the Neurons in the last layer.  This is identical to
      * the Network's `outputLayer` output.
      * @type {Array}
      */
-    this.output = [];
+    this.output = []
 
     /**
      * The cost function.  The function used to calculate the error of the
@@ -48,13 +61,13 @@ class Network {
      * @see ERROR
      * @type {ERROR}
      */
-    this.errorFn = ERROR.meanSquared;
+    this.errorFn = ERROR.meanSquared
 
     /**
      * The result of the `errorFn`.  Initializes as `null`.
      * @type {null|number}
      */
-    this.error = null;
+    this.error = null
 
     /**
      * The max training iterations.  The Network will stop training after
@@ -62,34 +75,34 @@ class Network {
      * through the training data is counted as one epoch.
      * @type {number}
      */
-    this.epochs = 20000;
+    this.epochs = 20000
 
     /**
      * The target `error` value.  The goal of the Network is to train until the
      * `error` is below this value.
      * @type {number}
      */
-    this.errorThreshold = 0.001;
+    this.errorThreshold = 0.001
 
     /**
      * The first Layer of the Network.  This Layer receives input during
      * activation.
      * @type {Layer}
      */
-    this.inputLayer = new Layer(inputSize);
+    this.inputLayer = new Layer(inputSize)
 
     /**
      * An array of the `hiddenLayer`s only.
      * @type {Layer[]}
      */
-    this.hiddenLayers = _.map(hiddenSizes, size => new Layer(size));
+    this.hiddenLayers = _.map(hiddenSizes, size => new Layer(size))
 
     /**
      * The first Layer of the Network.  This Layer receives input during
      * activation.
      * @type {Layer}
      */
-    this.outputLayer = new Layer(outputSize);
+    this.outputLayer = new Layer(outputSize)
 
     /**
      * An array of all Layers in the Network.  It is a single dimension array
@@ -100,15 +113,15 @@ class Network {
       [this.inputLayer],
       this.hiddenLayers,
       [this.outputLayer]
-    );
+    )
 
     // connect layers
     _.each(this.allLayers, (layer, i) => {
-      const next = this.allLayers[i + 1];
+      const next = this.allLayers[i + 1]
       if (next) {
-        layer.connect(next);
+        layer.connect(next)
       }
-    });
+    })
   }
 
   /**
@@ -118,10 +131,10 @@ class Network {
    * @returns {number[]} output values
    */
   activate(inputs) {
-    this.inputLayer.activate(inputs);
-    _.invoke(this.hiddenLayers, 'activate');
-    this.output = this.outputLayer.activate();
-    return this.output;
+    this.inputLayer.activate(inputs)
+    _.invoke(this.hiddenLayers, 'activate')
+    this.output = this.outputLayer.activate()
+    return this.output
   }
 
   /**
@@ -131,14 +144,14 @@ class Network {
    *   layer.
    */
   correct(output) {
-    this.outputLayer.train(output);
+    this.outputLayer.train(output)
 
     // train hidden layers in reverse (last to first)
     for (let i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
-      this.hiddenLayers[i].train();
+      this.hiddenLayers[i].train()
     }
 
-    this.inputLayer.train();
+    this.inputLayer.train()
   }
 
   /**
@@ -151,69 +164,70 @@ class Network {
    *   logging the current error.
    */
   train(data, callback, frequency = 100) {
+    util.validateTrainingData(this, data)
     // TODO: validation and help on the data.
     //  ensure it is normalized between -1 and 1
     //  ensure the input length matches the number of Network inputs
     //  ensure the output length matches the number of Network outputs
-    let lastEpochError = 0;
-    let lastEpochTime = Date.now();
-    let lowestEpochError = Infinity;
+    let lastEpochError = 0
+    let lastEpochTime = Date.now()
+    let lowestEpochError = Infinity
 
     const defaultCallback = (err, epoch) => {
-      const isNewLow = err < lowestEpochError;
-      const difference = err - lastEpochError;
-      const time = Date.now() - lastEpochTime;
-      const indicator = difference >= 0 ? '↑' : '↓';
+      const isNewLow = err < lowestEpochError
+      const difference = err - lastEpochError
+      const time = Date.now() - lastEpochTime
+      const indicator = difference >= 0 ? '↑' : '↓'
       console.log(
         `epoch ${_.padRight(epoch, 5)}`,
         (isNewLow ? '★' : ' '),
         `err ${err.toFixed(16)}`,
         indicator, Math.abs(difference).toFixed(16),
         (`◷ ${(time / 1000).toFixed(2)}s`)
-      );
-      lastEpochError = err;
-      lastEpochTime = Date.now();
-      lowestEpochError = Math.min(err, lowestEpochError);
-    };
+      )
+      lastEpochError = err
+      lastEpochTime = Date.now()
+      lowestEpochError = Math.min(err, lowestEpochError)
+    }
 
     // use an 'each' loop so we can break out of it on success/fail
     // a 'times' loop cannot be broken
     _.each(_.range(this.epochs), index => {
-      const n = index + 1;
+      const n = index + 1
 
       // loop over the training data summing the error of all samples
       // http://www.researchgate.net/post
       //   /Neural_networks_and_mean-square_errors#rgw51_55cb2f1399589
       this.error = _.sum(_.map(data, sample => {
         // make a prediction
-        this.activate(sample.input);
+        this.activate(sample.input)
 
         // correct the error
-        this.correct(sample.output);
+        this.correct(sample.output)
 
         // get the error
-        return this.errorFn(sample.output, this.output) / data.length;
-      }));
+        return this.errorFn(sample.output, this.output) / data.length
+      }))
 
       // callback with results periodically
       if (n === 1 || n % frequency === 0) {
-        (callback || defaultCallback)(this.error, n);
+        (callback || defaultCallback)(this.error, n)
       }
 
       // success / fail
-      const error = this.error.toFixed(15);
+      const error = this.error.toFixed(15)
       if (this.error <= this.errorThreshold) {
         console.log(
           `Successfully trained to an error of ${error} after ${n} epochs.`
-        );
-        return false;
+        )
+        return false
       } else if (n === this.epochs) {
         console.log(
           `Failed to train. Error is ${error} after ${n} epochs.`
-        );
+        )
       }
-    });
+    })
   }
 }
 
-export default Network;
+export default Network

@@ -1,6 +1,6 @@
-import _ from 'lodash';
-import INITIALIZE from './Initialize';
-import ACTIVATION from './Activation';
+import _ from 'lodash'
+import INITIALIZE from './Initialize'
+import ACTIVATION from './Activation'
 
 /**
  * @class
@@ -29,42 +29,42 @@ class Neuron {
      * output 1.
      * @type {boolean}
      */
-    this.isBias = false;
+    this.isBias = false
 
     /**
      * A unique id beginning at 0 and incremented for every Neuron created.
      * @type {number}
      */
-    this.id = Neuron.count++;
+    this.id = Neuron.count++
 
     /**
      * An array of incoming Connections from other Neurons.
      * @type {Array}
      * @see Neuron.Connection
      */
-    this.incoming = [];
+    this.incoming = []
     /**
      * An array of outgoing Connections to other Neurons.
      * @type {Array}
      * @see Neuron.Connection
      */
-    this.outgoing = [];
+    this.outgoing = []
 
     // signal values
-    this.input = 0;
-    this.output = 0;
+    this.input = 0
+    this.output = 0
 
     // activation
     /**
      *
      * @type {ACTIVATION.tanh|{func, prime}|*}
      */
-    this.activation = activation;
+    this.activation = activation
 
     // learning
-    this.error = 0;
-    this.delta = 0;
-    this.learningRate = learningRate;
+    this.error = 0
+    this.delta = 0
+    this.learningRate = learningRate
   }
 
   /**
@@ -74,10 +74,10 @@ class Neuron {
    * @param {number} [targetOutput] - Manually set the target output.error.
    */
   train(targetOutput) {
-    const inputDerivative = this.activation.prime(this.input);
+    const inputDerivative = this.activation.prime(this.input)
 
     if (!_.isUndefined(targetOutput)) {
-      this.error = targetOutput - this.output;
+      this.error = targetOutput - this.output
     }
 
     // set the delta
@@ -90,11 +90,11 @@ class Neuron {
     //   they will never be a target Neuron and their delta's never used
     if (!this.isInput() && !this.isBias) {
       if (this.isOutput()) {
-        this.delta = -this.error * inputDerivative;
+        this.delta = -this.error * inputDerivative
       } else {
         this.delta = _.sum(this.outgoing, connection => {
-          return inputDerivative * connection.weight * connection.target.delta;
-        });
+          return inputDerivative * connection.weight * connection.target.delta
+        })
       }
     }
 
@@ -102,10 +102,10 @@ class Neuron {
     _.each(this.outgoing, connection => {
       // get gradient
       // https://youtu.be/p1-FiWjThs8?t=12m21s
-      const gradient = this.output * connection.target.delta;
+      const gradient = this.output * connection.target.delta
 
-      connection.weight -= gradient * this.learningRate;
-    });
+      connection.weight -= gradient * this.learningRate
+    })
   }
 
   /**
@@ -121,28 +121,28 @@ class Neuron {
    */
   activate(input) {
     if (this.isBias) {
-      this.output = 1;
-      return this.output;
+      this.output = 1
+      return this.output
     }
 
     // set the input
     if (!_.isUndefined(input)) {
-      this.input = input;
+      this.input = input
     } else {
       this.input = _.sum(this.incoming, connection => {
         // we don't need to add the bias neuron manually here.
         // since the bias Neuron is connected like all other Neurons and it's
         // output is always 1, the weight will be added by bias.output * weight.
-        return connection.source.output * connection.weight;
-      });
+        return connection.source.output * connection.weight
+      })
     }
 
     // set the output
     this.output = this.isInput()
       ? this.input
-      : this.activation.func(this.input);
+      : this.activation.func(this.input)
 
-    return this.output;
+    return this.output
   }
 
   /**
@@ -153,12 +153,12 @@ class Neuron {
   connect(target, weight) {
     // bias Neurons are not allowed to have incoming connections
     if (target.isBias) {
-      return;
+      return
     }
 
-    const connection = new Neuron.Connection(this, target, weight);
-    this.outgoing.push(connection);
-    target.incoming.push(connection);
+    const connection = new Neuron.Connection(this, target, weight)
+    this.outgoing.push(connection)
+    target.incoming.push(connection)
   }
 
   /**
@@ -166,7 +166,7 @@ class Neuron {
    * @returns {boolean}
    */
   isInput() {
-    return !this.isBias && this.incoming.length === 0;
+    return !this.isBias && this.incoming.length === 0
   }
 
   /**
@@ -174,7 +174,7 @@ class Neuron {
    * @returns {boolean}
    */
   isOutput() {
-    return this.outgoing.length === 0;
+    return this.outgoing.length === 0
   }
 }
 
@@ -184,7 +184,7 @@ class Neuron {
  * it is never decremented.
  * @type {number}
  */
-Neuron.count = 0;
+Neuron.count = 0
 
 /**
  * @class
@@ -206,13 +206,13 @@ Neuron.Connection = function Connection(source, target, weight) {
    * A reference to the Neuron at the start of this Connection.
    * @type {Neuron}
    */
-  this.source = source;
+  this.source = source
 
   /**
    * A reference to the Neuron at the end of this Connection.
    * @type {Neuron}
    */
-  this.target = target;
+  this.target = target
 
   /**
    * The weight is used as a multiplier for two purposes.  First, for
@@ -223,7 +223,7 @@ Neuron.Connection = function Connection(source, target, weight) {
    */
     // We add one to initialize the weight value as if this connection were
     // already part of the fan.
-  this.weight = weight || INITIALIZE.weight(target.incoming.length);
-};
+  this.weight = weight || INITIALIZE.weight(target.incoming.length)
+}
 
-export default Neuron;
+export default Neuron

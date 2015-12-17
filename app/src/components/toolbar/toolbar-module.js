@@ -1,1 +1,1 @@
-angular.module('App.toolbar', []);
+angular.module('App.toolbar', [])

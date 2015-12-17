@@ -5,18 +5,18 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
     template: '<div class="vis-network"></div>',
     link: function link(scope, elm) {
       scope.getData = function getData() {
-        var nodes = [];
-        var edges = [];
+        var nodes = []
+        var edges = []
 
         // layers
         _.each(AnnyFactory.network.allLayers, function(layer, layerIndex) {
           // neurons
           _.each(layer.neurons, function(neuron) {
-            var id = neuron.id;
-            var input = neuron.input.toFixed(3);
-            var output = neuron.output.toFixed(3);
-            var delta = neuron.delta.toFixed(6);
-            var error = neuron.error.toFixed(3);
+            var id = neuron.id
+            var input = neuron.input.toFixed(3)
+            var output = neuron.output.toFixed(3)
+            var delta = neuron.delta.toFixed(6)
+            var error = neuron.error.toFixed(3)
 
             nodes.push({
               id: id,
@@ -40,11 +40,11 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
               ).join(' '),
               value: Math.abs(output),
               group: neuron.isBias ? 'bias' : 'normal',
-            });
+            })
 
             // connections
             _.each(neuron.outgoing, function(connection) {
-              var weight = connection.weight.toFixed(3);
+              var weight = connection.weight.toFixed(3)
 
               edges.push({
                 from: connection.source.id,
@@ -60,32 +60,32 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
                   highlight: weight >= 0 ? 'hsl(210, 60%, 70%)' :
                     'hsl(30, 60%, 60%)',
                 },
-              });
-            });
-          });
-        });
+              })
+            })
+          })
+        })
 
         return {
           nodes: new vis.DataSet(nodes),
           edges: new vis.DataSet(edges),
-        };
-      };
+        }
+      }
 
       // causes a refresh of the network graph
       scope.setData = function setData() {
-        scope.network.setData(scope.getData());
-      };
+        scope.network.setData(scope.getData())
+      }
 
       $rootScope.$on('anny:changed', function onChange() {
-        scope.setData();
-      });
+        scope.setData()
+      })
 
       // create network
       scope.network =
-        new vis.Network(elm[0], scope.getData(), visNetworkOptions);
+        new vis.Network(elm[0], scope.getData(), visNetworkOptions)
     },
-  };
+  }
 }
 
 angular.module('App.vis')
-  .directive('visNetwork', visNetwork);
+  .directive('visNetwork', visNetwork)
