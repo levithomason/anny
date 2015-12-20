@@ -31,8 +31,7 @@
   },
   "homepage": "https://github.com/dev-coop/anny#readme",
   "dependencies": {
-    "lodash": "^3.10.0",
-    "mathjs": "^2.1.1"
+    "lodash": "^3.10.0"
   },
   "devDependencies": {
     "babel": "^6.3.13",

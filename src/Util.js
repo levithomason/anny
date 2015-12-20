@@ -37,7 +37,6 @@ const util = {
    * @returns {function}
    */
   getApproximateDerivative: (func) => {
-    // https://github.com/pr1001/MathPlus/blob/master/mathplus.js#L316
     return x => (func(x + 1e-10) - func(x)) / 1e-10
   },
 

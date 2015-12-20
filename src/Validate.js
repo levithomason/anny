@@ -23,7 +23,7 @@ class ValidationError extends Error {
  */
 const validate = {
   /**
-   * @param {[]} data The training data set.
+   * @param {array} data The training data set.
    */
   dataIsArray: (data) => {
     if (!_.isArray(data)) {
@@ -32,7 +32,7 @@ const validate = {
   },
 
   /**
-   * @param {[]} data The training data set.
+   * @param {array} data The training data set.
    */
   dataIsNotEmpty: (data) => {
     if (_.isEmpty(data)) {
@@ -172,7 +172,7 @@ const validate = {
   /**
    * Ensures that a training set in valid form.
    * @param {Network} network The Network to be trained.
-   * @param {{}[]} data The data set to train the Network on.
+   * @param {object[]} data The data set to train the Network on.
    */
   trainingData: (network, data) => {
     validate.dataIsArray(data)

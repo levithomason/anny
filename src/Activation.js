@@ -1,5 +1,3 @@
-import math from 'mathjs'
-
 /**
  * Activation functions and their derivatives for a {@link Neuron}.
  * @namespace
@@ -13,8 +11,8 @@ const ACTIVATION = {
    */
   rectifier: {
     // https://en.wikipedia.org/wiki/Rectifier
-    func: x => math.max(0, x),
-    prime: x => 1 / (1 + math.exp(-x)),
+    func: x => Math.max(0, x),
+    prime: x => 1 / (1 + Math.exp(-x)),
     rangeMin: 0,
     rangeMax: Infinity,
   },
@@ -25,8 +23,8 @@ const ACTIVATION = {
    */
   softplus: {
     // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-    func: x => math.log(1 + math.exp(x)),
-    prime: x => math.log(1 + math.exp(x)),
+    func: x => Math.log(1 + Math.exp(x)),
+    prime: x => Math.log(1 + Math.exp(x)),
     rangeMin: 0,
     rangeMax: Infinity,
   },
@@ -39,9 +37,9 @@ const ACTIVATION = {
    */
   logistic: {
     // 4.4 The Sigmoid Fig. 4.a, Not recommended.
-    func: x => 1 / (1 + math.exp(-x)),
+    func: x => 1 / (1 + Math.exp(-x)),
     prime: x => {
-      const val = 1 / (1 + math.exp(-x))
+      const val = 1 / (1 + Math.exp(-x))
       return val * (1 - val)
     },
     rangeMin: 0,
@@ -70,11 +68,11 @@ const ACTIVATION = {
    */
   tanh: {
     func: x => {
-      const negExp = math.exp(-x)
-      const posExp = math.exp(x)
+      const negExp = Math.exp(-x)
+      const posExp = Math.exp(x)
       return (posExp - negExp) / (posExp + negExp)
     },
-    prime: x => 1 - math.pow(math.tanh(x), 2),
+    prime: x => 1 - Math.pow(Math.tanh(x), 2),
     rangeMin: -1,
     rangeMax: 1,
   },
@@ -85,8 +83,8 @@ const ACTIVATION = {
    * @returns {number}
    */
   optimalTanh: {
-    func: x => 1.7159 * math.tanh(x * 2 / 3),
-    prime: x => 1.14393 * math.sech(x * 2 / 3),
+    func: x => 1.7159 * Math.tanh(x * 2 / 3),
+    prime: x => 1.14393 * (1 / Math.cosh(x * 2 / 3)),
     rangeMin: -1,
     rangeMax: 1,
   },
