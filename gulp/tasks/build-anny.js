@@ -47,7 +47,6 @@ gulp.task('build-anny-js', cb => {
       ],
     },
     externals: {
-      mathjs: 'math',
       lodash: '_',
     },
   }
