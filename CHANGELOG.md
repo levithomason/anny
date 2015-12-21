@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/dev-coop/anny/tree/HEAD)
-
-[Full Changelog](https://github.com/dev-coop/anny/compare/v0.1.2...HEAD)
+## [v0.2.0](https://github.com/dev-coop/anny/tree/v0.2.0) (2015-12-21)
+[Full Changelog](https://github.com/dev-coop/anny/compare/v0.1.2...v0.2.0)
 
 **Closed issues:**
 

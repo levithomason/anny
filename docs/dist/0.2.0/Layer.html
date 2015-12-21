@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Class: Layer</title>
+
+  <script src="scripts/prettify/prettify.js"></script>
+  <script src="scripts/prettify/lang-css.js"></script>
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="styles/jsdoc-default.css">
+  <link rel="stylesheet" href="styles/prettify-halflife.css">
+  <link rel="stylesheet" href="styles/jsdoc-default-override.css">
+  <link rel="stylesheet" href="styles/fork-me-ribbon.css">
+</head>
+
+<body>
+
+<div class="fork-me-ribbon">
+  <a href="https://github.com/dev-coop/anny/fork">
+    <i class="fa fa-code-fork"></i> Anny on <i class="fa fa-github"></i>
+  </a>
+</div>
+
+<div id="main">
+
+  <h1 class="page-title">Class: Layer</h1>
+
+  
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>Layer</h2>
+        
+            <div class="class-description"><p>Layers are collections of <a href="Neuron.html">Neurons</a>.  They can do all the
+  things Neurons can do by invoking methods on all the Neurons in the Layer.</p>
+<p>  Layers are organized into a <a href="Network.html">Network</a></p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="Layer"><span class="type-signature"></span>new Layer<span class="signature">(size, learningRate<span class="signature-attributes">opt</span>, activation<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Creates a single dimension Layer of <a href="Neuron.html">Neurons</a>.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>size</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The number of Neurons this Layer should have.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>learningRate</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The learning rate passed directly to the
+  Neuron constructor.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>activation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The activation function passed directly to
+  the
+  Neuron constructor.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Layer.js.html">Layer.js</a>, <a href="Layer.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>{<a href="Neuron.html">Neuron</a>}</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="activate"><span class="type-signature"></span>activate<span class="signature">(values<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array.&lt;number>}</span></h4>
+
+    
+    <p class="summary">Activates all the Neurons in this Layer with the given array of values.</p>
+    
+
+
+
+<div class="description">
+    <p>Activates all the Neurons in this Layer with the given array of values.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>values</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;number></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Map of input values for each Neuron.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Layer.js.html">Layer.js</a>, <a href="Layer.js.html#line59">line 59</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>Array of Neuron output values.</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;number></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="connect"><span class="type-signature"></span>connect<span class="signature">(targetLayer)</span><span class="type-signature"></span></h4>
+
+    
+    <p class="summary">Connects every Neuron in this Layer to each Neuron in the <code>target</code> Layer.</p>
+    
+
+
+
+<div class="description">
+    <p>Connects every Neuron in this Layer to each Neuron in the <code>target</code> Layer.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>targetLayer</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Layer.html">Layer</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The Layer to connect to.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Layer.js.html">Layer.js</a>, <a href="Layer.js.html#line34">line 34</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="size"><span class="type-signature"></span>size<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+    <p class="summary">Returns the number of Neurons in this Layer, excluding Bias Neurons.</p>
+    
+
+
+
+<div class="description">
+    <p>Returns the number of Neurons in this Layer, excluding Bias Neurons.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Layer.js.html">Layer.js</a>, <a href="Layer.js.html#line80">line 80</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="train"><span class="type-signature"></span>train<span class="signature">(outputs<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+    <p class="summary">Train the Neurons in this Layer.</p>
+    
+
+
+
+<div class="description">
+    <p>Train the Neurons in this Layer.  If target <code>outputs</code> are specified, the
+Neurons will learn to output these values.  This is only useful for output
+Layers.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>outputs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;number></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Map of target output values for each Neuron.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Layer.js.html">Layer.js</a>, <a href="Layer.js.html#line71">line 71</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li><li><a href="ValidationError.html">ValidationError</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="DATA.html">DATA</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li><li><a href="validate.html">validate</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li><li><a href="tutorial-Hack on Anny.html">Hack on Anny</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+  Created by
+  <a href="https://www.github.com/levithomason" target="_blank">
+    Levi Thomason
+  </a>
+  and the
+  <a href="https://github.com/dev-coop" target="_blank">Dev Coop</a>.
+
+  <div class="divider"></div>
+
+  <div class="social-links">
+    <a href="https://www.github.com/levithomason" target="_blank">
+      <i class="fa fa-github-square fa-2x"></i>
+    </a>
+    <a href="https://twitter.com/levithomason7" target="_blank">
+      <i class="fa fa-twitter-square fa-2x"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/levithomason" target="_blank">
+      <i class="fa fa-linkedin-square fa-2x"></i>
+    </a>
+  </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

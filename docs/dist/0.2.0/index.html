@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Home</title>
+
+  <script src="scripts/prettify/prettify.js"></script>
+  <script src="scripts/prettify/lang-css.js"></script>
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="styles/jsdoc-default.css">
+  <link rel="stylesheet" href="styles/prettify-halflife.css">
+  <link rel="stylesheet" href="styles/jsdoc-default-override.css">
+  <link rel="stylesheet" href="styles/fork-me-ribbon.css">
+</head>
+
+<body>
+
+<div class="fork-me-ribbon">
+  <a href="https://github.com/dev-coop/anny/fork">
+    <i class="fa fa-code-fork"></i> Anny on <i class="fa fa-github"></i>
+  </a>
+</div>
+
+<div id="main">
+
+  <h1 class="page-title">Home</h1>
+
+  
+
+
+
+    
+
+
+    <h3>anny 0.2.0</h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><p align="center">
+  <a href="http://dev-coop.github.io/anny/">
+    <img height="150" width="150" src="https://raw.githubusercontent.com/dev-coop/anny/master/logo.png">
+  </a>
+</p>
+
+<h1 align="center">
+  <a href="http://dev-coop.github.io/anny">Anny</a>
+</h1>
+
+<p align="center">
+  <a href="https://circleci.com/gh/dev-coop/anny">
+    <img src="https://img.shields.io/circleci/project/dev-coop/anny/master.svg?style=flat-square" alt="CircleCI"/>
+  </a>
+  <a href="https://codeclimate.com/github/dev-coop/anny/coverage">
+    <img src="https://img.shields.io/codeclimate/coverage/github/dev-coop/anny.svg?style=flat-square" alt="Test Coverage"/>
+  </a>
+  <a href="https://codeclimate.com/github/dev-coop/anny">
+    <img src="https://img.shields.io/codeclimate/github/dev-coop/anny.svg?style=flat-square" alt="Code Climate"/>
+  </a>
+</p>
+
+<p align="center">
+  Anny is an artificial neural network, yo!
+</p>
+
+
+<pre class="prettyprint source"><code>npm install anny --save</code></pre><h2>Get Started</h2><p>Read the <a href="http://dev-coop.github.io/anny/docs">documentation</a>
+or try the <a href="http://dev-coop.github.io/anny">demo</a>.</p>
+<p>Train a multilayer perceptron to approximate an OR logic gate:</p>
+<pre class="prettyprint source lang-js"><code>const network = new anny.Network([2, 1])
+network.train(anny.DATA.ANDGate)
+
+network.activate([0, 0]) // => 0.000836743108
+network.activate([0, 1]) // => 0.998253857294</code></pre><h2>Why Anny?</h2><p>I wanted to understand machine learning.</p>
+<blockquote>
+<p>What I cannot create, I do not understand. Know how to solve every problem that has been solved.
+&mdash; Richard Feynman</p>
+</blockquote>
+<h2>Inspirations</h2><ol>
+<li><a href="https://www.youtube.com/watch?v=EfGD2qveGdQ">Watching</a> DeepMind's DQN teach 
+itself to play Atari.</li>
+<li><a href="http://cs.stanford.edu/people/karpathy/reinforcejs/waterworld.html">Playing</a> 
+with WaterWorld, a DQN implementation in JavaScript (REINFORCEjs).</li>
+<li>Realizing DeepMind's work was public, and this can be done in a browser.</li>
+</ol>
+<p><strong>Libraries</strong></p>
+<ul>
+<li><a href="https://github.com/cazala/synaptic">Synaptic.js</a></li>
+<li><a href="https://github.com/cazala/synaptic">Brain.js</a></li>
+<li><a href="https://github.com/karpathy/convnetjs">ConvNetJS</a></li>
+<li><a href="https://github.com/karpathy/reinforcejs">REINFORCEjs</a></li>
+</ul>
+<h2>Notes</h2><blockquote>
+<p><a href="https://docs.google.com/document/d/1h-G9qqp-xC_ykq-weEIjtk0IvXdmij3tCDRfP75BJUg">My Google Doc notes</a> from <a href="http://neuralnetworksanddeeplearning.com/">neuralnetworksanddeeplearning.com</a><br><a href="https://plus.google.com/+SoumithChintala/posts/RZfdrRQWL6u">Good Weight Initializations</a><br><a href="http://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf">Backpropagation</a><br><a href="http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf">Efficient Backpropagation</a> Equation references in the source code point to this doc.<br><a href="http://andrew.gibiansky.com/blog/machine-learning/convolutional-neural-networks/">Convolution Networks</a>  </p>
+</blockquote></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li><li><a href="ValidationError.html">ValidationError</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="DATA.html">DATA</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li><li><a href="validate.html">validate</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li><li><a href="tutorial-Hack on Anny.html">Hack on Anny</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+  Created by
+  <a href="https://www.github.com/levithomason" target="_blank">
+    Levi Thomason
+  </a>
+  and the
+  <a href="https://github.com/dev-coop" target="_blank">Dev Coop</a>.
+
+  <div class="divider"></div>
+
+  <div class="social-links">
+    <a href="https://www.github.com/levithomason" target="_blank">
+      <i class="fa fa-github-square fa-2x"></i>
+    </a>
+    <a href="https://twitter.com/levithomason7" target="_blank">
+      <i class="fa fa-twitter-square fa-2x"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/levithomason" target="_blank">
+      <i class="fa fa-linkedin-square fa-2x"></i>
+    </a>
+  </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
