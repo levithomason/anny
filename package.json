@@ -16,6 +16,8 @@
     "lint:fix": "npm run lint -- --fix",
     "lint:watch": "watch 'npm run lint --silent' -d -u",
     "test:watch": "babel-node $(npm bin)/isparta cover _mocha -- -w",
+    "babel-node": "babel-node",
+    "playground": "nodemon --exec npm run babel-node -- playground.js",
     "postinstall": "bower install",
     "clean": "while read line; do rm -rf $line; done < .gitignore"
   },
