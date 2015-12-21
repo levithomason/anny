@@ -2,6 +2,36 @@
 
 ## [Unreleased](https://github.com/dev-coop/anny/tree/HEAD)
 
+[Full Changelog](https://github.com/dev-coop/anny/compare/v0.1.2...HEAD)
+
+**Closed issues:**
+
+- Remove mathjs dependency [\#82](https://github.com/dev-coop/anny/issues/82)
+- Validation before training  [\#77](https://github.com/dev-coop/anny/issues/77)
+- Implement batch training [\#28](https://github.com/dev-coop/anny/issues/28)
+
+**Merged pull requests:**
+
+- Remove Network.train\(\) console.logs in favor of callbacks [\#90](https://github.com/dev-coop/anny/pull/90) ([levithomason](https://github.com/levithomason))
+- Remove mathjs dependency [\#87](https://github.com/dev-coop/anny/pull/87) ([levithomason](https://github.com/levithomason))
+- Increase coverage [\#86](https://github.com/dev-coop/anny/pull/86) ([levithomason](https://github.com/levithomason))
+- Integration [\#85](https://github.com/dev-coop/anny/pull/85) ([levithomason](https://github.com/levithomason))
+- Validate training data before training [\#83](https://github.com/dev-coop/anny/pull/83) ([levithomason](https://github.com/levithomason))
+
+## [v0.1.2](https://github.com/dev-coop/anny/tree/v0.1.2) (2015-11-14)
+[Full Changelog](https://github.com/dev-coop/anny/compare/v0.1.1...v0.1.2)
+
+**Merged pull requests:**
+
+- Integration [\#80](https://github.com/dev-coop/anny/pull/80) ([levithomason](https://github.com/levithomason))
+- Do not squash input values [\#79](https://github.com/dev-coop/anny/pull/79) ([levithomason](https://github.com/levithomason))
+- Update README.md [\#76](https://github.com/dev-coop/anny/pull/76) ([levithomason](https://github.com/levithomason))
+- update readme [\#75](https://github.com/dev-coop/anny/pull/75) ([levithomason](https://github.com/levithomason))
+
+## [v0.1.1](https://github.com/dev-coop/anny/tree/v0.1.1) (2015-10-31)
+[Full Changelog](https://github.com/dev-coop/anny/compare/v0.1.0...v0.1.1)
+
+## [v0.1.0](https://github.com/dev-coop/anny/tree/v0.1.0) (2015-10-31)
 **Implemented enhancements:**
 
 - Parallelize training [\#23](https://github.com/dev-coop/anny/issues/23)
@@ -16,6 +46,10 @@
 
 **Merged pull requests:**
 
+- Integration [\#74](https://github.com/dev-coop/anny/pull/74) ([levithomason](https://github.com/levithomason))
+- move deploy to separate script [\#73](https://github.com/dev-coop/anny/pull/73) ([levithomason](https://github.com/levithomason))
+- fix multiline deploy script [\#72](https://github.com/dev-coop/anny/pull/72) ([levithomason](https://github.com/levithomason))
+- fix circle deploy script [\#71](https://github.com/dev-coop/anny/pull/71) ([levithomason](https://github.com/levithomason))
 - remove ruby-version file [\#70](https://github.com/dev-coop/anny/pull/70) ([levithomason](https://github.com/levithomason))
 - Integration [\#69](https://github.com/dev-coop/anny/pull/69) ([levithomason](https://github.com/levithomason))
 - Update linter [\#68](https://github.com/dev-coop/anny/pull/68) ([levithomason](https://github.com/levithomason))
