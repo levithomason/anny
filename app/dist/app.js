@@ -3,79 +3,79 @@ angular.module('App', [
 
   'App.vis',
   'App.toolbar',
-]);
+])
 
-angular.module('anny', []);
+angular.module('anny', [])
 
-angular.module('App.toolbar', []);
+angular.module('App.toolbar', [])
 
-angular.module('App.vis', []);
+angular.module('App.vis', [])
 
-function AnnyFactory($rootScope) {
-  var factory = {};
+
+AnnyFactory.$inject = ["$rootScope"];function AnnyFactory($rootScope) {
+  var factory = {}
 
   factory.init = function init() {
-    factory.newNetwork([2, 1]);
-  };
+    factory.newNetwork([2, 1])
+  }
 
   factory.activate = function(inputs) {
-    factory.network.activate(inputs);
-    factory.emitChange();
-  };
+    factory.network.activate(inputs)
+    factory.emitChange()
+  }
 
-  factory.data = anny.DATA;
+  factory.data = anny.DATA
 
   factory.getRandomLayers = function getRandomLayers() {
-    var inputs = 2;
-    var outputs = 1;
-    var numHiddenLayers = _.random(1, 3);
-    var hiddenLayers = [];
+    var inputs = 2
+    var outputs = 1
+    var numHiddenLayers = _.random(1, 3)
+    var hiddenLayers = []
 
     _.times(numHiddenLayers, function time() {
-      hiddenLayers.push(_.random(3, 5));
-    });
+      hiddenLayers.push(_.random(3, 5))
+    })
 
-    return [].concat(inputs, hiddenLayers, outputs);
-  };
+    return [].concat(inputs, hiddenLayers, outputs)
+  }
 
   factory.train = function(trainingSet, callback, frequency) {
-    var results = ['Predictions after training:'];
-    factory.network.train(trainingSet, callback, frequency);
+    var results = ['Predictions after training:']
+    factory.network.train(trainingSet, callback, frequency)
 
     _.each(trainingSet, function(sample) {
-      var input = sample.input;
-      var output = factory.network.activate(input);
+      var input = sample.input
+      var output = factory.network.activate(input)
       results.push(
         '[' + input.toString() + '] == ' + (output >= 0.5) + ' ' + output
-      );
-    });
+      )
+    })
 
-    console.log(results.join('\n'));
+    console.log(results.join('\n'))
 
-    factory.emitChange();
-  };
+    factory.emitChange()
+  }
 
   factory.newNetwork = function newNetwork(layers) {
-    factory.network = new anny.Network(layers || factory.getRandomLayers());
-    factory.emitChange();
-  };
+    factory.network = new anny.Network(layers || factory.getRandomLayers())
+    factory.emitChange()
+  }
 
   factory.emitChange = function emitChange() {
-    $rootScope.$broadcast('anny:changed');
-    window.network = factory.network;
-  };
+    $rootScope.$broadcast('anny:changed')
+    window.network = factory.network
+  }
 
-  factory.init();
+  factory.init()
 
-  return factory;
+  return factory
 }
-AnnyFactory.$inject = ["$rootScope"];
 
 angular.module('anny')
-  .factory('AnnyFactory', AnnyFactory);
+  .factory('AnnyFactory', AnnyFactory)
 
 function visNetworkOptions() {
-  var options = {};
+  var options = {}
 
   // Nodes
   options.nodes = {
@@ -93,7 +93,7 @@ function visNetworkOptions() {
     },
     labelHighlightBold: true,
     mass: 1,
-  };
+  }
 
   // Groups
   options.groups = {
@@ -127,7 +127,7 @@ function visNetworkOptions() {
         },
       },
     },
-  };
+  }
 
   // Edges
   options.edges = {
@@ -142,20 +142,20 @@ function visNetworkOptions() {
     },
     hoverWidth: 1,
     selectionWidth: 1.5,
-  };
+  }
 
   // Layout
   options.layout = {
     hierarchical: {
       direction: 'LR',
     },
-  };
+  }
 
   // Interaction
   options.interaction = {
     hover: true,
     tooltipDelay: 150,
-  };
+  }
 
   // Physics
   options.physics = {
@@ -177,13 +177,13 @@ function visNetworkOptions() {
       fit: true,
     },
     timestep: 0.5,
-  };
+  }
 
-  return options;
+  return options
 }
 
 angular.module('App.vis')
-  .factory('visNetworkOptions', visNetworkOptions);
+  .factory('visNetworkOptions', visNetworkOptions)
 
 angular.module('App.toolbar')
 
@@ -194,61 +194,62 @@ angular.module('App.toolbar')
       templateUrl: 'app/dist/components/toolbar/toolbar.html',
       link: function(scope) {
         scope.resetNet = function resetNet() {
-          AnnyFactory.init();
-        };
+          AnnyFactory.init()
+        }
 
         scope.randomNet = function randomNet() {
-          AnnyFactory.newNetwork();
-        };
+          AnnyFactory.newNetwork()
+        }
 
         scope.activateRandom = function activateRandom() {
-          var inputs = [];
+          var inputs = []
 
           _.times(AnnyFactory.network.inputLayer.neurons.length, function() {
-            inputs.push(_.random(-1, 1, true));
-          });
+            inputs.push(_.random(-1, 1, true))
+          })
 
-          AnnyFactory.activate(inputs);
-        };
+          AnnyFactory.activate(inputs)
+        }
 
         scope.trainORGate = function trainORGate() {
-          AnnyFactory.train(AnnyFactory.data.ORGate);
-        };
+          AnnyFactory.train(AnnyFactory.data.ORGate)
+        }
 
         scope.trainXORGate = function trainXORGate() {
-          AnnyFactory.train(AnnyFactory.data.XORGate);
-        };
+          AnnyFactory.train(AnnyFactory.data.XORGate)
+        }
 
         scope.trainANDGate = function trainANDGate() {
-          AnnyFactory.train(AnnyFactory.data.ANDGate);
-        };
+          AnnyFactory.train(AnnyFactory.data.ANDGate)
+        }
 
         scope.trainNANDGate = function trainNANDGate() {
-          AnnyFactory.train(AnnyFactory.data.NANDGate);
-        };
+          AnnyFactory.train(AnnyFactory.data.NANDGate)
+        }
       },
-    };
-  }]);
+    }
+  }])
 
-function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
+
+visNetwork.$inject = ["visNetworkOptions", "AnnyFactory", "$rootScope"];function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
   return {
     replace: true,
     scope: {},
     template: '<div class="vis-network"></div>',
     link: function link(scope, elm) {
       scope.getData = function getData() {
-        var nodes = [];
-        var edges = [];
+        var nodes = []
+        var edges = []
 
         // layers
         _.each(AnnyFactory.network.allLayers, function(layer, layerIndex) {
           // neurons
           _.each(layer.neurons, function(neuron) {
-            var id = neuron.id;
-            var input = neuron.input.toFixed(3);
-            var output = neuron.output.toFixed(3);
-            var delta = neuron.delta.toFixed(6);
-            var error = neuron.error.toFixed(3);
+            var id = neuron.id
+            var input = neuron.input.toFixed(3)
+            var output = neuron.output.toFixed(3)
+            var delta = neuron.delta.toFixed(6)
+            var error = neuron.error.toFixed(3)
 
             nodes.push({
               id: id,
@@ -272,11 +273,11 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
               ).join(' '),
               value: Math.abs(output),
               group: neuron.isBias ? 'bias' : 'normal',
-            });
+            })
 
             // connections
             _.each(neuron.outgoing, function(connection) {
-              var weight = connection.weight.toFixed(3);
+              var weight = connection.weight.toFixed(3)
 
               edges.push({
                 from: connection.source.id,
@@ -292,33 +293,32 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
                   highlight: weight >= 0 ? 'hsl(210, 60%, 70%)' :
                     'hsl(30, 60%, 60%)',
                 },
-              });
-            });
-          });
-        });
+              })
+            })
+          })
+        })
 
         return {
           nodes: new vis.DataSet(nodes),
           edges: new vis.DataSet(edges),
-        };
-      };
+        }
+      }
 
       // causes a refresh of the network graph
       scope.setData = function setData() {
-        scope.network.setData(scope.getData());
-      };
+        scope.network.setData(scope.getData())
+      }
 
       $rootScope.$on('anny:changed', function onChange() {
-        scope.setData();
-      });
+        scope.setData()
+      })
 
       // create network
       scope.network =
-        new vis.Network(elm[0], scope.getData(), visNetworkOptions);
+        new vis.Network(elm[0], scope.getData(), visNetworkOptions)
     },
-  };
+  }
 }
-visNetwork.$inject = ["visNetworkOptions", "AnnyFactory", "$rootScope"];
 
 angular.module('App.vis')
-  .directive('visNetwork', visNetwork);
+  .directive('visNetwork', visNetwork)
