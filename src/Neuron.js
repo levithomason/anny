@@ -152,9 +152,7 @@ class Neuron {
    */
   connect(target, weight) {
     // bias Neurons are not allowed to have incoming connections
-    if (target.isBias) {
-      return
-    }
+    if (target.isBias) return
 
     const connection = new Neuron.Connection(this, target, weight)
     this.outgoing.push(connection)

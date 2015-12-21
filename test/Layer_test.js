@@ -12,6 +12,10 @@ describe('Layer', () => {
   })
 
   describe('constructor', () => {
+    it('throws if "layerSize" is not a number', () => {
+      const misuse = () => new Layer()
+      expect(misuse).to.throw()
+    })
     it('creates the number of neurons specified', () => {
       const size = _.random(0, 1000)
       layer = new Layer(size)
@@ -30,10 +34,20 @@ describe('Layer', () => {
   })
 
   describe('connect', () => {
-    it('adds a bias Neuron to the source layer', () => {
+    it('adds a bias Neuron to the source layer if there is not one', () => {
       const targetLayer = new Layer(1)
+      _.some(layer.neurons, 'isBias').should.equal(false)
       layer.connect(targetLayer)
       _.some(layer.neurons, 'isBias').should.equal(true)
+    })
+    it('does not add a bias Neuron to the source layer if there is one', () => {
+      const targetLayerA = new Layer(1)
+      const targetLayerB = new Layer(1)
+      _.some(layer.neurons, 'isBias').should.equal(false)
+      layer.connect(targetLayerA)
+      _.filter(layer.neurons, 'isBias').should.have.a.lengthOf(1)
+      layer.connect(targetLayerB)
+      _.filter(layer.neurons, 'isBias').should.have.a.lengthOf(1)
     })
     it('does not add a bias Neuron to the target layer', () => {
       const targetLayer = new Layer(1)
