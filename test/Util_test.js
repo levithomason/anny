@@ -49,4 +49,13 @@ describe('util', () => {
       derivative(_.random()).should.be.a('number')
     })
   })
+
+  describe('type', () => {
+    it('returns the same value as Object.prototype.toString.call()', () => {
+      const types = [undefined, null, true, 0, '', [], {}, _.noop]
+      _.each(types, type => {
+        util.type(type).should.equal(Object.prototype.toString.call(type))
+      })
+    })
+  })
 })

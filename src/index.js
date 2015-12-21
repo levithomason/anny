@@ -20,4 +20,5 @@ const anny = {
   validate,
 }
 
+module.exports = anny
 export default anny

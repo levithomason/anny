@@ -10,10 +10,11 @@ import {type} from './Util'
  */
 class ValidationError extends Error {
   constructor(message) {
-    super(message)
+    const msg = [].concat(message).join('')
+    super(msg)
     this.name = 'ValidationError'
-    this.message = [].concat(message).join('')
-    this.stack = (new Error()).stack
+    this.message = msg
+    Error.captureStackTrace(this, 'ValidationError')
   }
 }
 
