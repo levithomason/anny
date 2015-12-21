@@ -151,7 +151,7 @@ class Network {
    * @param {Network~onSuccess} [options.onSuccess] - Called if the Network
    *   `error` falls below the `errorThreshold` during training.
    */
-  train(data, options) {
+  train(data, options = {}) {
     validate.trainingData(this, data)
     // TODO: ensure data is normalized to the range of the activation functions
     const {
