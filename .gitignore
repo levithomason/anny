@@ -2,12 +2,6 @@
 # Each line in this file is passed to `rm -rf` on `npm run clean`
 #
 
-CHANGELOG.md
 coverage/
 node_modules/
 *.log*
-app/bower/
-app/dist/
-dist/
-docs/dist/
-docs/index.html
