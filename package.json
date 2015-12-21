@@ -1,6 +1,6 @@
 {
   "name": "anny",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "An artificial neural network, yo!",
   "main": "dist/anny.js",
   "files": [
