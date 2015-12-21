@@ -157,12 +157,12 @@ describe('Network', () => {
       describe('frequency', () => {
         it('controls how often "onProgress" is called', () => {
           const frequency = _.random(1, 10)
-          let counter = 0
+          let counter = 1
           network.train(data, {
             maxEpochs: 100,
             frequency,
             onProgress: (error, epoch) => {
-              epoch.should.equal(frequency * counter || 1)
+              epoch.should.equal(frequency * counter)
               counter += 1
             },
           })
@@ -201,15 +201,6 @@ describe('Network', () => {
       })
 
       describe('onProgress', () => {
-        it('is always called on the first epoch', () => {
-          network.train(data, {
-            maxEpochs: 1,
-            onProgress: (error, epoch) => {
-              epoch.should.equal(1)
-            },
-          })
-        })
-
         it('is called with "error" and "epoch" values', () => {
           network.train(data, {
             maxEpochs: 1,

@@ -216,7 +216,7 @@ class Network {
       if (n === maxEpochs) onFail(this.error, n)
 
       // call onProgress after the first epoch and every `frequency` thereafter
-      if (n === 1 || n % frequency === 0) return onProgress(this.error, n)
+      if (n % frequency === 0) return onProgress(this.error, n)
     })
   }
 
