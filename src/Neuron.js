@@ -62,7 +62,6 @@ class Neuron {
     this.activation = activation
 
     // learning
-    this.error = 0
     this.delta = 0
     this.learningRate = learningRate
   }
@@ -74,8 +73,6 @@ class Neuron {
    * @param {number} [targetOutput] - Manually set the target output.error.
    */
   train(targetOutput) {
-    const inputDerivative = this.activation.prime(this.input)
-
     // set the delta
     // https://www.youtube.com/watch?v=p1-FiWjThs8
     //
@@ -86,23 +83,25 @@ class Neuron {
     //   they will never be a target Neuron and their delta's never used
     if (!this.isInput() && !this.isBias) {
       if (this.isOutput()) {
-        this.error = targetOutput - this.output
-        this.delta = -this.error * inputDerivative
+        this.delta = this.output - targetOutput
       } else {
-        this.delta = _.sum(this.outgoing, connection => {
-          return inputDerivative * connection.weight * connection.target.delta
+        this.delta = _.sum(this.outgoing, ({target, weight}) => {
+          return this.activation.prime(this.input) * weight * target.delta
         })
       }
     }
 
-    // adjust weights
-    _.each(this.outgoing, connection => {
-      // get gradient
-      // https://youtu.be/p1-FiWjThs8?t=12m21s
-      const gradient = this.output * connection.target.delta
+    // adjust outgoing weights
+    // Output Neurons do not have outgoing connections
+    if (!this.isOutput()) {
+      _.each(this.outgoing, connection => {
+        // get gradient
+        // https://youtu.be/p1-FiWjThs8?t=12m21s
+        const gradient = this.output * connection.target.delta
 
-      connection.weight -= gradient * this.learningRate
-    })
+        connection.weight -= gradient * this.learningRate
+      })
+    }
   }
 
   /**

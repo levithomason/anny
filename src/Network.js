@@ -195,7 +195,7 @@ class Network {
       // loop over the training data summing the error of all samples
       // http://www.researchgate.net/post
       //   /Neural_networks_and_mean-square_errors#rgw51_55cb2f1399589
-      this.error = _.sum(_.map(data, sample => {
+      this.error = _.sum(data, sample => {
         // make a prediction
         this.activate(sample.input)
 
@@ -204,7 +204,7 @@ class Network {
 
         // get the error
         return this.errorFn(sample.output, this.output) / data.length
-      }))
+      })
 
       // success
       if (this.error <= errorThreshold) {
