@@ -76,10 +76,6 @@ class Neuron {
   train(targetOutput) {
     const inputDerivative = this.activation.prime(this.input)
 
-    if (!_.isUndefined(targetOutput)) {
-      this.error = targetOutput - this.output
-    }
-
     // set the delta
     // https://www.youtube.com/watch?v=p1-FiWjThs8
     //
@@ -90,6 +86,7 @@ class Neuron {
     //   they will never be a target Neuron and their delta's never used
     if (!this.isInput() && !this.isBias) {
       if (this.isOutput()) {
+        this.error = targetOutput - this.output
         this.delta = -this.error * inputDerivative
       } else {
         this.delta = _.sum(this.outgoing, connection => {
