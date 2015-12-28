@@ -77,6 +77,7 @@ class Neuron {
     if (this.isInput() || this.isBias) return
 
     // set deltas
+    // https://en.wikipedia.org/wiki/Backpropagation/#Phase_1:_Propagation
     if (this.isOutput()) {
       this.delta = this.output - targetOutput
     } else {
@@ -86,6 +87,7 @@ class Neuron {
     }
 
     // adjust weights
+    // https://en.wikipedia.org/wiki/Backpropagation/#Phase_2:_Weight_update
     _.each(this.incoming, connection => {
       const gradient = connection.source.output * this.delta
       connection.weight -= gradient * this.learningRate
