@@ -104,10 +104,7 @@ class Neuron {
    * @returns {number}
    */
   activate(input) {
-    if (this.isBias) {
-      this.output = 1
-      return this.output
-    }
+    if (this.isBias) return this.output = 1
 
     // set the input
     if (!_.isUndefined(input)) {
@@ -122,11 +119,9 @@ class Neuron {
     }
 
     // set the output
-    this.output = this.isInput()
+    return this.output = this.isInput()
       ? this.input
       : this.activation.func(this.input)
-
-    return this.output
   }
 
   /**
