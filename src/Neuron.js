@@ -143,7 +143,7 @@ class Neuron {
    * @returns {boolean}
    */
   isInput() {
-    return !this.isBias && this.incoming.length === 0
+    return !this.isBias && _.isEmpty(this.incoming)
   }
 
   /**
@@ -151,7 +151,7 @@ class Neuron {
    * @returns {boolean}
    */
   isOutput() {
-    return this.outgoing.length === 0
+    return _.isEmpty(this.outgoing)
   }
 }
 
