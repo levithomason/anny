@@ -16,7 +16,6 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
             var input = neuron.input.toFixed(3)
             var output = neuron.output.toFixed(3)
             var delta = neuron.delta.toFixed(6)
-            var error = neuron.error.toFixed(3)
 
             nodes.push({
               id: id,
@@ -30,7 +29,6 @@ function visNetwork(visNetworkOptions, AnnyFactory, $rootScope) {
               ] : neuron.isOutput() ? [
                 '\ni:', input,
                 '\no:', output,
-                '\ne:', error,
               ] : neuron.isBias ? [
                 '\no:', output,
               ] : /* hidden layer */ [
