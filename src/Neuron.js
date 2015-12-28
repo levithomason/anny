@@ -62,7 +62,6 @@ class Neuron {
     this.activation = activation
 
     // learning
-    this.error = 0
     this.delta = 0
     this.learningRate = learningRate
   }
@@ -70,40 +69,27 @@ class Neuron {
   /**
    * Train the Neuron to output the `targetOutput`.  If a `targetOutput`
    * is not provided, the Neuron will train itself to minimize the error
-   * of the Neurons from its outgoing connections.
+   * of the Neurons at its outgoing connections.
    * @param {number} [targetOutput] - Manually set the target output.error.
    */
   train(targetOutput) {
-    const inputDerivative = this.activation.prime(this.input)
+    // input and bias neurons have no incoming connections to update
+    if (this.isInput() || this.isBias) return
 
-    if (!_.isUndefined(targetOutput)) {
-      this.error = targetOutput - this.output
-    }
-
-    // set the delta
-    // https://www.youtube.com/watch?v=p1-FiWjThs8
-    //
-    // Input Neurons and Bias Neurons do not need to calculate their delta.
-    // This is because the delta is only used to update the weight but only the
-    //   target Neuron's delta is used: targetDelta * weight * gradient.
-    // Since input Neurons and Bias Neurons are strictly source Neurons
-    //   they will never be a target Neuron and their delta's never used
-    if (!this.isInput() && !this.isBias) {
-      if (this.isOutput()) {
-        this.delta = -this.error * inputDerivative
-      } else {
-        this.delta = _.sum(this.outgoing, connection => {
-          return inputDerivative * connection.weight * connection.target.delta
-        })
-      }
+    // set deltas
+    // https://en.wikipedia.org/wiki/Backpropagation/#Phase_1:_Propagation
+    if (this.isOutput()) {
+      this.delta = this.output - targetOutput
+    } else {
+      this.delta = _.sum(this.outgoing, ({target, weight}) => {
+        return this.activation.prime(this.input) * weight * target.delta
+      })
     }
 
     // adjust weights
-    _.each(this.outgoing, connection => {
-      // get gradient
-      // https://youtu.be/p1-FiWjThs8?t=12m21s
-      const gradient = this.output * connection.target.delta
-
+    // https://en.wikipedia.org/wiki/Backpropagation/#Phase_2:_Weight_update
+    _.each(this.incoming, connection => {
+      const gradient = connection.source.output * this.delta
       connection.weight -= gradient * this.learningRate
     })
   }
@@ -120,10 +106,7 @@ class Neuron {
    * @returns {number}
    */
   activate(input) {
-    if (this.isBias) {
-      this.output = 1
-      return this.output
-    }
+    if (this.isBias) return this.output = 1
 
     // set the input
     if (!_.isUndefined(input)) {
@@ -138,11 +121,9 @@ class Neuron {
     }
 
     // set the output
-    this.output = this.isInput()
+    return this.output = this.isInput()
       ? this.input
       : this.activation.func(this.input)
-
-    return this.output
   }
 
   /**
@@ -164,7 +145,7 @@ class Neuron {
    * @returns {boolean}
    */
   isInput() {
-    return !this.isBias && this.incoming.length === 0
+    return !this.isBias && _.isEmpty(this.incoming)
   }
 
   /**
@@ -172,7 +153,7 @@ class Neuron {
    * @returns {boolean}
    */
   isOutput() {
-    return this.outgoing.length === 0
+    return _.isEmpty(this.outgoing)
   }
 }
 
