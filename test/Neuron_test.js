@@ -22,9 +22,9 @@ describe('Neuron', () => {
       neuron.activation.should.deep.equal(ACTIVATION.tanh)
     })
     it('accepts an activation function', () => {
-      const activtion = {foo: 'bar'}
-      const n = new Neuron(activtion)
-      n.activation.should.deep.equal(activtion)
+      const activation = {foo: 'bar'}
+      const n = new Neuron(activation)
+      n.activation.should.deep.equal(activation)
     })
   })
 
