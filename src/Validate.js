@@ -191,6 +191,55 @@ const validate = {
       validate.sampleOutputFitsNetwork(sample, i, network)
     })
   },
+
+  trainingOptions(options) {
+    if (!_.isPlainObject(options)) {
+      throw new Error(`training "options" must be a plain object.`)
+    }
+
+    const validOptions = [
+      'errorFn',
+      'errorThreshold',
+      'frequency',
+      'maxEpochs',
+      'onFail',
+      'onProgress',
+      'onSuccess',
+    ]
+
+    _.each(options, (val, key) => {
+      if (_.includes(validOptions, key)) return
+      throw new Error(`Unknown training option "${key}", try: ${validOptions}`)
+    })
+
+    if (!_.isFunction(options.errorFn)) {
+      throw new Error(`training option "errorFn" must be a function.`)
+    }
+
+    if (!_.isNumber(options.errorThreshold)) {
+      throw new Error(`training option "errorThreshold" must be a number.`)
+    }
+
+    if (!_.isNumber(options.frequency)) {
+      throw new Error(`training option "frequency" must be a number.`)
+    }
+
+    if (!_.isNumber(options.maxEpochs)) {
+      throw new Error(`training option "maxEpochs" must be a number`)
+    }
+
+    if (_.has(options, 'onFail') && !_.isFunction(options.onFail)) {
+      throw new Error(`training option "onFail" must be a function.`)
+    }
+
+    if (_.has(options, 'onProgress') && !_.isFunction(options.onProgress)) {
+      throw new Error(`training option "onProgress" must be a function.`)
+    }
+
+    if (_.has(options, 'onSuccess') && !_.isFunction(options.onSuccess)) {
+      throw new Error(`training option "onSuccess" must be a function.`)
+    }
+  },
 }
 
 export default validate

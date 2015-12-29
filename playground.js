@@ -2,10 +2,11 @@
 import _ from 'lodash'
 import Network from './src/Network'
 import Data from './src/Data'
+import Trainer from './src/Trainer'
 
 const network = new Network([2, 1])
 
-network.train(Data.ORGate, {
+const trainer = new Trainer({
   frequency: 1000,
   onSuccess: (error, epoch) => {
     console.log(`Successfully trained to ${error} error after ${epoch} epochs`)
@@ -17,3 +18,5 @@ network.train(Data.ORGate, {
     console.log(`${_.pad(epoch, 5)} ${error}`)
   },
 })
+
+trainer.train(network, Data.ORGate)

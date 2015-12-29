@@ -54,14 +54,6 @@ class Network {
     this.output = []
 
     /**
-     * The cost function.  The function used to calculate the error of the
-     * Network. In other words, to what degree was the Network's output wrong.
-     * @see ERROR
-     * @type {ERROR}
-     */
-    this.errorFn = ERROR.meanSquared
-
-    /**
      * The result of the `errorFn`.  Initializes as `null`.
      * @type {null|number}
      */
@@ -129,121 +121,6 @@ class Network {
 
     this.inputLayer.train()
   }
-
-  /**
-   * Train the Network to produce the output from the given input.
-   * @param {object[]} data - Array of objects in the form
-   * `{input: [], output: []}`.
-   * @param {{}} [options] Training options.
-   * @param {number} [options.errorThreshold=0.001] The target `error` value.
-   *   The goal of the Network is to train until the `error` is below this
-   *   value.
-   * @param {number} [options.frequency] - How many iterations through the
-   *   training data between calling `options.onProgress`.
-   * @param {number} [options.maxEpochs=20000] The max training iterations.
-   *   The Network will stop training after iterating through the training data
-   *   this number of times.  One full loop through the training data is
-   *   counted as one epoch.
-   * @param {Network~onFail} [options.onFail] - Called if the Network `error`
-   *   does not fall below the `errorThreshold` after `maxEpochs`.
-   * @param {Network~onProgress} [options.onProgress] - Called every
-   *   `frequency` epochs.
-   * @param {Network~onSuccess} [options.onSuccess] - Called if the Network
-   *   `error` falls below the `errorThreshold` during training.
-   */
-  train(data, options = {}) {
-    validate.trainingData(this, data)
-    // TODO: ensure data is normalized to the range of the activation functions
-    const {
-      errorThreshold = 0.001,
-      frequency = 100,
-      maxEpochs = 20000,
-      onFail = _.noop,
-      onProgress = _.noop,
-      onSuccess = _.noop,
-      } = options
-
-    if (!_.isNumber(errorThreshold)) {
-      throw new Error(`train(...) "errorThreshold" must be a number.`)
-    }
-
-    if (!_.isNumber(frequency)) {
-      throw new Error(`train(...) "frequency" must be a number.`)
-    }
-
-    if (!_.isNumber(maxEpochs)) {
-      throw new Error(`train(...) "maxEpochs" must be a number`)
-    }
-
-    if (!_.isFunction(onFail)) {
-      throw new Error(`train(...) "onFail" must be a function.`)
-    }
-
-    if (!_.isFunction(onProgress)) {
-      throw new Error(`train(...) "onProgress" must be a function.`)
-    }
-
-    if (!_.isFunction(onSuccess)) {
-      throw new Error(`train(...) "onSuccess" must be a function.`)
-    }
-
-    // use an 'each' loop so we can break out of it on success/fail
-    // a 'times' loop cannot be broken
-    _.each(_.range(maxEpochs), index => {
-      const n = index + 1
-
-      // loop over the training data summing the error of all samples
-      // http://www.researchgate.net/post
-      //   /Neural_networks_and_mean-square_errors#rgw51_55cb2f1399589
-      this.error = _.sum(data, sample => {
-        // make a prediction
-        this.activate(sample.input)
-
-        // correct the error
-        this.correct(sample.output)
-
-        // get the error
-        return this.errorFn(sample.output, this.output) / data.length
-      })
-
-      // success
-      if (this.error <= errorThreshold) {
-        onSuccess(this.error, n)
-        return false
-      }
-
-      // fail
-      if (n === maxEpochs) onFail(this.error, n)
-
-      // call onProgress after the first epoch and every `frequency` thereafter
-      if (n % frequency === 0) return onProgress(this.error, n)
-    })
-  }
-
-  /**
-   * Called if the Network error falls below the `errorThreshold`.
-   * @callback Network~onSuccess
-   * @param {number} error The Network error value at the time of success.
-   * @param {number} epoch Indicates on which iteration through the training
-   *   data the Network became successful.
-   */
-
-  /**
-   * Called if the Network error is not below the `errorThreshold` after
-   * `maxEpochs` iterations through the training data set.
-   * @callback Network~onFail
-   * @param {number} error The Network error value at the time of success.
-   * @param {number} epoch Indicates on which iteration through the training
-   *   data the Network became successful.
-   */
-
-  /**
-   * Called if the Network error falls below the `errorThreshold`.
-   * @callback Network~onProgress
-   * @param {number} error The Network error value at the time of success.
-   * @param {number} epoch Indicates on which iteration through the training
-   *   data the Network became successful.
-   */
 }
 
 export default Network
