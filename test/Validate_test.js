@@ -245,4 +245,45 @@ describe('Validate', () => {
       validate.sampleOutputFitsNetwork.called.should.equal(true)
     })
   })
+
+
+  describe('trainingOptions', () => {
+    const misuse = badOptions => validate.trainingOptions(badOptions)
+
+    it('throws if "options" is not a plain object', () => {
+      expect(_.partial(misuse, null)).to.throw()
+    })
+
+    it('throws if "options" contains an invalid option', () => {
+      expect(_.partial(misuse, {foo: 'bar'})).to.throw()
+    })
+
+    it('throws if "errorFn" is not a function', () => {
+      expect(_.partial(misuse, {errorFn: ''})).to.throw()
+    })
+
+    it('throws if "errorThreshold" is not a number', () => {
+      expect(_.partial(misuse, {errorThreshold: ''})).to.throw()
+    })
+
+    it('throws if "frequency" is not a number', () => {
+      expect(_.partial(misuse, {frequency: ''})).to.throw()
+    })
+
+    it('throws if "maxEpochs" is not a number', () => {
+      expect(_.partial(misuse, {maxEpochs: ''})).to.throw()
+    })
+
+    it('throws if "onFail" is not a function', () => {
+      expect(_.partial(misuse, {onFail: ''})).to.throw()
+    })
+
+    it('throws if "onProgress" is not a function', () => {
+      expect(_.partial(misuse, {onProgress: ''})).to.throw()
+    })
+
+    it('throws if "onSuccess" is not a function', () => {
+      expect(_.partial(misuse, {onSuccess: ''})).to.throw()
+    })
+  })
 })
