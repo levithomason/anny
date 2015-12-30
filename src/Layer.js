@@ -53,13 +53,11 @@ class Layer {
 
   /**
    * Activates all the Neurons in this Layer with the given array of values.
-   * @param {number[]} [values] - Map of input values for each Neuron.
+   * @param {number[]} [values=[]] - Map of input values for each Neuron.
    * @returns {number[]} - Array of Neuron output values.
    */
-  activate(values) {
-    return _.map(this.neurons, (neuron, i) => {
-      return neuron.activate(values ? values[i] : undefined)
-    })
+  activate(values = []) {
+    return _.map(this.neurons, (neuron, i) => neuron.activate(values[i]))
   }
 
   /**

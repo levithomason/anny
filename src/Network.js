@@ -1,8 +1,6 @@
 import _ from 'lodash'
 import Layer from './Layer'
-import ERROR from './Error'
 import {type} from './Util'
-import validate from './Validate'
 
 /**
  * A Network contains [Layers]{@link Layer} of [Neurons]{@link Neuron}.
@@ -93,7 +91,7 @@ class Network {
   }
 
   /**
-   * Activate the network with a given set of `input` values.
+   * Activate the Network with a given set of `input` values.
    * @param {number[]} inputs - Values to activate the Network input Neurons.
    *   Values should be normalized between -1 and 1 using Util.normalize.
    * @returns {number[]} output values
@@ -101,8 +99,7 @@ class Network {
   activate(inputs) {
     this.inputLayer.activate(inputs)
     _.invoke(this.hiddenLayers, 'activate')
-    this.output = this.outputLayer.activate()
-    return this.output
+    return this.output = this.outputLayer.activate()
   }
 
   /**

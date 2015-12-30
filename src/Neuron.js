@@ -73,8 +73,7 @@ class Neuron {
    * Neurons will squash their input value to derive their
    * output.
    * @param {number} [input] - If omitted the input value will be calculated
-   *   from the outputs and weights of the Neurons connected to
-   *   this Neuron.
+   *   from the outputs and weights of the Neurons connected to this Neuron.
    * @returns {number}
    */
   activate(input) {
