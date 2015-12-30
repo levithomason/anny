@@ -1,15 +1,12 @@
 import _ from 'lodash'
 import Network from '../src/Network'
 import Layer from '../src/Layer'
-import DATA from '../src/Data'
 let network
-let data
 let sandbox
 
 describe('Network', () => {
   beforeEach(() => {
     network = new Network([2, 1])
-    data = DATA.ORGate
     sandbox = sinon.sandbox.create()
   })
 
