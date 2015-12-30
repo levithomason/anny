@@ -63,15 +63,12 @@ class Layer {
   }
 
   /**
-   * Train the Neurons in this Layer.  If target `outputs` are specified, the
-   * Neurons will learn to output these values.  This is only useful for output
-   * Layers.
-   * @param {number[]} [outputs] - Map of target output values for each Neuron.
+   * Sets all the Neuron `delta`s in this Layer to the given array of values.
+   * @param {number[]} [deltas=[]] - Delta values, one for each Neuron.
+   * @returns {number[]}
    */
-  train(outputs) {
-    _.each(this.neurons, (neuron, i) => {
-      neuron.train(outputs ? outputs[i] : undefined)
-    })
+  backprop(deltas = []) {
+    return _.map(this.neurons, (neuron, i) => neuron.backprop(deltas[i]))
   }
 
   /**

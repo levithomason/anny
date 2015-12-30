@@ -90,8 +90,29 @@ class Trainer {
         // make a prediction
         network.activate(sample.input)
 
-        // correct the error
-        network.correct(sample.output)
+        // backprop deltas
+        // https://en.wikipedia.org/wiki/Backpropagation/#Phase_1:_Propagation
+        // TODO abstract into ERROR.meanSquared.partial
+        const deltas = _.map(network.output, (actVal, i) => {
+          return actVal - sample.output[i]
+        })
+
+        network.backprop(deltas)
+
+        // update weights
+        // https://en.wikipedia.org/wiki/Backpropagation/#Phase_2:_Weight_update
+        // TODO abstract into swappable weight update rules
+        const weightUpdateRule = (layer) => {
+          _.each(layer.neurons, (neuron) => {
+            _.each(neuron.incoming, connection => {
+              const gradient = connection.source.output * neuron.delta
+              connection.weight -= gradient * neuron.learningRate
+            })
+          })
+        }
+
+        weightUpdateRule(network.outputLayer)
+        _.each(network.hiddenLayers, weightUpdateRule)
 
         // get the error
         return errorFn(sample.output, network.output) / data.length

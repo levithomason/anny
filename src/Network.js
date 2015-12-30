@@ -106,20 +106,18 @@ class Network {
   }
 
   /**
-   * Correct the Network to produce the specified `output`.
-   * @param {number[]} output - The target output for the Network.
-   * Values in the array specify the target output of the Neuron in the output
-   *   layer.
+   * Set output Layer `delta`s and propagate them backward through the Network.
+   * @param {number[]} deltas - Delta values, one for each output Neuron.
    */
-  correct(output) {
-    this.outputLayer.train(output)
+  backprop(deltas) {
+    this.outputLayer.backprop(deltas)
 
-    // train hidden layers in reverse (last to first)
+    // backprop hidden layers in reverse (last to first)
     for (let i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
-      this.hiddenLayers[i].train()
+      this.hiddenLayers[i].backprop()
     }
 
-    this.inputLayer.train()
+    this.inputLayer.backprop()
   }
 }
 

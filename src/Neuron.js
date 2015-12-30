@@ -67,34 +67,6 @@ class Neuron {
   }
 
   /**
-   * Train the Neuron to output the `targetOutput`.  If a `targetOutput`
-   * is not provided, the Neuron will train itself to minimize the error
-   * of the Neurons at its outgoing connections.
-   * @param {number} [targetOutput] - Manually set the target output.error.
-   */
-  train(targetOutput) {
-    // input and bias neurons have no incoming connections to update
-    if (this.isInput() || this.isBias) return
-
-    // set deltas
-    // https://en.wikipedia.org/wiki/Backpropagation/#Phase_1:_Propagation
-    if (this.isOutput()) {
-      this.delta = this.output - targetOutput
-    } else {
-      this.delta = _.sum(this.outgoing, ({target, weight}) => {
-        return this.activation.prime(this.input) * weight * target.delta
-      })
-    }
-
-    // adjust weights
-    // https://en.wikipedia.org/wiki/Backpropagation/#Phase_2:_Weight_update
-    _.each(this.incoming, connection => {
-      const gradient = connection.source.output * this.delta
-      connection.weight -= gradient * this.learningRate
-    })
-  }
-
-  /**
    * Activate this Neuron, setting the input value and computing the output.
    *   Input Neuron output values will always be equal to their input
    * value. Bias Neurons always output 1. All other
@@ -124,6 +96,29 @@ class Neuron {
     return this.output = this.isInput()
       ? this.input
       : this.activation.func(this.input)
+  }
+
+  /**
+   * Set this Neuron's `delta` value, or compute it if omitted.
+   * @param {number} [delta] - If omitted, the delta value will be calculated
+   *   from the deltas and weights of the Neurons this Neuron is connected to.
+   * @returns {number}
+   */
+  backprop(delta) {
+    // input and bias neurons have no incoming connections to update
+    if (this.isInput() || this.isBias) return this.delta
+
+    // set deltas
+    // https://en.wikipedia.org/wiki/Backpropagation/#Phase_1:_Propagation
+    if (!_.isUndefined(delta)) {
+      this.delta = delta
+    } else {
+      this.delta = _.sum(this.outgoing, ({target, weight}) => {
+        return this.activation.prime(this.input) * weight * target.delta
+      })
+    }
+
+    return this.delta
   }
 
   /**

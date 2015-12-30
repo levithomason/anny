@@ -86,11 +86,11 @@ describe('Network', () => {
     })
   })
 
-  describe('correct', () => {
+  describe('train', () => {
     it('calls train on the input layer', () => {
       network.inputLayer.train = sandbox.spy()
       network.inputLayer.train.called.should.equal(false)
-      network.correct()
+      network.train()
       network.inputLayer.train.called.should.equal(true)
     })
 
@@ -98,14 +98,14 @@ describe('Network', () => {
       network = new Network([2, 2, 1])
       _.each(network.hiddenLayers, l => l.train = sandbox.spy())
       _.each(network.hiddenLayers, l => l.train.called.should.equal(false))
-      network.correct()
+      network.train()
       _.each(network.hiddenLayers, l => l.train.called.should.equal(true))
     })
 
     it('calls train on the output layer', () => {
       network.outputLayer.train = sandbox.spy()
       network.outputLayer.train.called.should.equal(false)
-      network.correct()
+      network.train()
       network.outputLayer.train.called.should.equal(true)
     })
   })
