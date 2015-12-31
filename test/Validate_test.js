@@ -258,6 +258,10 @@ describe('Validate', () => {
       expect(_.partial(misuse, {foo: 'bar'})).to.throw()
     })
 
+    it('throws if "batch" is not a boolean or number', () => {
+      expect(_.partial(misuse, {batch: ''})).to.throw()
+    })
+
     it('throws if "errorFn" is not a function', () => {
       expect(_.partial(misuse, {errorFn: ''})).to.throw()
     })
