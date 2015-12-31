@@ -198,6 +198,7 @@ const validate = {
     }
 
     const validOptions = [
+      'batch',
       'errorFn',
       'errorThreshold',
       'frequency',
@@ -211,6 +212,10 @@ const validate = {
       if (_.includes(validOptions, key)) return
       throw new Error(`Unknown training option "${key}", try: ${validOptions}`)
     })
+
+    if (!_.isBoolean(options.batch) && !_.isNumber(options.batch)) {
+      throw new Error(`training option "batch" must be a boolean or number.`)
+    }
 
     if (!_.isFunction(options.errorFn)) {
       throw new Error(`training option "errorFn" must be a function.`)

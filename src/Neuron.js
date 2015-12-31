@@ -197,6 +197,29 @@ Neuron.Connection = function Connection(source, target, weight) {
     // We add one to initialize the weight value as if this connection were
     // already part of the fan.
   this.weight = weight || INITIALIZE.weight(target.incoming.length)
+
+  /**
+   * Accumulator for the weight change value.  When applied to the weight, this
+   * value is set to 0.
+   * @type {number}
+   */
+  this.delta = 0
+
+  /**
+   * Accumulate `delta`.
+   * @param {number} delta The pending change in `weight` value.
+   */
+  this.accumulate = (delta) => {
+    this.delta += delta
+  }
+
+  /**
+   * Apply the current `delta` to the `weight` value and reset the `delta`.
+   */
+  this.update = () => {
+    this.weight -= this.delta
+    this.delta = 0
+  }
 }
 
 export default Neuron

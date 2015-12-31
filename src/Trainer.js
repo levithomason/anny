@@ -17,6 +17,17 @@ import ERROR from './Error'
 class Trainer {
   /**
    * @param {object} [options]
+   * @param {boolean|number} [options.batch]
+   *   Use batch, online (stochastic), or mini-batch learning modes.
+   *
+   *   Batch `true`: Connection weights are updated once after iterating
+   *   through all the training samples in the training data (an epoch).
+   *
+   *   Online `false`: Connection weights are updated after every training
+   *   sample in the training data.
+   *
+   *   Mini-batch `<number>`: Connection weights are updated every `<number>`
+   *   training samples.
    * @param {object} [options.errorFn]
    *   The cost function.  The function used to calculate the error of the
    *   Network. In other words, to what degree was the Network's output wrong.
@@ -44,6 +55,7 @@ class Trainer {
    */
   constructor(options = {}) {
     const defaultOptions = {
+      batch: false,
       errorFn: ERROR.meanSquared,
       errorThreshold: 0.001,
       frequency: 100,
@@ -69,6 +81,7 @@ class Trainer {
     validate.trainingOptions(mergedOptions)
     // TODO: normalize data to the range of the activation functions
     const {
+      batch,
       errorFn,
       errorThreshold,
       frequency,
@@ -78,15 +91,23 @@ class Trainer {
       onSuccess,
       } = mergedOptions
 
+    const isBatch = batch === true
+    const isOnline = batch === false
+
     // use an 'each' loop so we can break out of it on success/fail
     // a 'times' loop cannot be broken
-    _.each(_.range(maxEpochs), index => {
-      const n = index + 1
+    let counter = 0
+    _.each(_.range(maxEpochs), epochIndex => {
+      const epoch = epochIndex + 1
+      // reset batch flag every epoch (batch)
+      let isBatchMatch = isBatch
 
       // loop over the training data summing the error of all samples
       // http://www.researchgate.net/post
       //   /Neural_networks_and_mean-square_errors#rgw51_55cb2f1399589
       network.error = _.sum(data, sample => {
+        const isMiniBatchMatch = _.isNumber(batch) && counter % batch === 0
+
         // make a prediction
         network.activate(sample.input)
 
@@ -102,17 +123,26 @@ class Trainer {
         // update weights
         // https://en.wikipedia.org/wiki/Backpropagation/#Phase_2:_Weight_update
         // TODO abstract into swappable weight update rules
-        const weightUpdateRule = (layer) => {
+        const weightUpdateRule = (layer, shouldUpdate) => {
           _.each(layer.neurons, (neuron) => {
             _.each(neuron.incoming, connection => {
               const gradient = connection.source.output * neuron.delta
-              connection.weight -= gradient * neuron.learningRate
+              const delta = gradient * neuron.learningRate
+              connection.accumulate(delta)
+              if (shouldUpdate) connection.update()
             })
           })
         }
 
-        weightUpdateRule(network.outputLayer)
-        _.each(network.hiddenLayers, weightUpdateRule)
+        const shouldUpdate = isOnline || isBatchMatch || isMiniBatchMatch
+        weightUpdateRule(network.outputLayer, shouldUpdate)
+        _.each(network.hiddenLayers, layer => {
+          weightUpdateRule(layer, shouldUpdate)
+        })
+
+        // first sample is done, clear batch flag for subsequent samples
+        isBatchMatch = false
+        counter++
 
         // get the error
         return errorFn(sample.output, network.output) / data.length
@@ -120,15 +150,17 @@ class Trainer {
 
       // success
       if (onSuccess && network.error <= errorThreshold) {
-        onSuccess(network.error, n)
+        onSuccess(network.error, epoch)
         return false
       }
 
       // fail
-      if (onFail && n === maxEpochs) onFail(network.error, n)
+      if (onFail && epoch === maxEpochs) onFail(network.error, epoch)
 
       // call onProgress after the first epoch and every `frequency` thereafter
-      if (onProgress && n % frequency === 0) return onProgress(network.error, n)
+      if (onProgress && epoch % frequency === 0) {
+        return onProgress(network.error, epoch)
+      }
     })
   }
 
