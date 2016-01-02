@@ -4,9 +4,8 @@ import Data from './src/Data'
 import Layer from './src/Layer'
 import Network from './src/Network'
 import Trainer from './src/Trainer'
-import {normalize} from './src/Util'
 
-let epochs = []
+const epochs = []
 let successes = 0
 let fails = 0
 
@@ -32,17 +31,9 @@ _.times(1, n => {
   // ----------------------------------------
 
   const layerSizes = [4, 40, 3]
-  const learningRate =
-    //0.1
-    //0.01
-    0.001
+  const learningRate = 0.001
   const net = new Network(layerSizes)
-  const batch =
-    //true
-    false
-    //4
-    //10
-    //Math.round(data.length / 3)
+  const batch = false
 
   console.log(_.repeat('-', 70))
   console.log(`
