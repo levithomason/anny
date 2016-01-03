@@ -136,8 +136,7 @@ class Neuron {
   }
 
   /**
-   * Calculate and accumulate Connection weight gradients.
-   * Weights are immediately updated and the accumulated gradients are reset.
+   * Update Connection weights and reset their accumulated gradients.
    */
   updateWeights() {
     _.each(this.incoming, connection => connection.update())
@@ -234,10 +233,11 @@ Neuron.Connection = class Connection {
   }
 
   /**
-   * Calculate and accumulate `gradient`, update `weight` and reset `gradient`.
+   * Update `weight` and reset accumulated `gradient`.
    */
   update() {
     this.accumulate()
+    // TODO support other weight update rules, like iRProp+
     this.weight -= this.gradient
     this.gradient = 0
   }

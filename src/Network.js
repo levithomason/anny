@@ -112,8 +112,9 @@ class Network {
   }
 
   /**
-   * Set output Layer `delta`s and propagate them backward through the Network.
-   * The input Layers have no use for deltas, so it is skipped.
+   * Set Network `error` and output Layer `delta`s and propagate them backward
+   * through the Network. The input Layer has no use for deltas, so it is
+   * skipped.
    * @param {number[]} targetOutput - The expected Network output vector.
    */
   backprop(targetOutput) {
@@ -145,8 +146,7 @@ class Network {
   }
 
   /**
-   * Calculate and accumulate Neuron Connection weight gradients.
-   * Weights are immediately updated and the accumulated gradients are reset.
+   * Update Neuron Connection weights and reset their accumulated gradients.
    */
   updateWeights() {
     // NOTE can be parallel, Neuron outputs and deltas are already set

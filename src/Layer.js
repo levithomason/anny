@@ -78,8 +78,7 @@ class Layer {
   }
 
   /**
-   * Calculate and accumulate Neuron Connection weight gradients.
-   * Weights are immediately updated and the accumulated gradients are reset.
+   * Update Neuron Connection weights and reset their accumulated gradients.
    */
   updateWeights() {
     _.each(this.neurons, neuron => neuron.updateWeights())

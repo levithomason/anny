@@ -46,8 +46,6 @@ class Trainer {
    *   Called if the Network `error` falls below the `errorThreshold` during
    *   training.
    * @constructor
-   * @see Network
-   * @see ERROR
    */
   constructor(options = {}) {
     const defaultOptions = {
@@ -63,12 +61,14 @@ class Trainer {
   }
 
   /**
-   * Train the Network to produce the output from the given input.
+   * Train the `network` to classify the `data`.
    * @param {Network} network - The Network to be trained.
    * @param {object[]} data - Array of objects in the form
    * `{input: [], output: []}`.
    * @param {object} [overrides] Overrides are merged into this trainer
    *   instance's options.
+   * @see Network
+   * @see Data
    */
   train(network, data, overrides = {}) {
     validate.trainingData(network, data)
@@ -132,33 +132,33 @@ class Trainer {
   }
 
   /**
-   * Called if the Network error falls below the `errorThreshold`.
+   * Called if the `network` error falls below the `errorThreshold`.
    * @callback Trainer~onSuccess
    * @param {number} error
-   *   The Network error value at the time of success.
+   *   The `network` error value at the time of success.
    * @param {number} epoch
-   *   Indicates on which iteration through the training data the Network
+   *   Indicates on which iteration through the training data the `network`
    *   became successful.
    */
 
   /**
-   * Called if the Network error is not below the `errorThreshold` after
+   * Called if the `network` error is not below the `errorThreshold` after
    * `maxEpochs` iterations through the training data set.
    * @callback Trainer~onFail
    * @param {number} error
-   *   The Network error value at the time of success.
+   *   The `network` error value at the time of success.
    * @param {number} epoch
-   *   Indicates on which iteration through the training data the Network
+   *   Indicates on which iteration through the training data the `network`
    *   became successful.
    */
 
   /**
-   * Called if the Network error falls below the `errorThreshold`.
+   * Called if the `network` error falls below the `errorThreshold`.
    * @callback Trainer~onProgress
    * @param {number} error
-   *   The Network error value at the time of success.
+   *   The `network` error value at the time of success.
    * @param {number} epoch
-   *   Indicates on which iteration through the training data the Network
+   *   Indicates on which iteration through the training data the `network`
    *   became successful.
    */
 }
