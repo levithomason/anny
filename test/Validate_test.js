@@ -245,4 +245,76 @@ describe('Validate', () => {
       validate.sampleOutputFitsNetwork.called.should.equal(true)
     })
   })
+
+
+  describe('trainingOptions', () => {
+    const misuse = badOptions => validate.trainingOptions(badOptions)
+    let options
+
+    beforeEach(() => {
+      options = {
+        batch: true,
+        errorThreshold: 0.001,
+        frequency: 100,
+        maxEpochs: 1000,
+        onFail: _.noop,
+        onProgress: _.noop,
+        onSuccess: _.noop,
+      }
+    })
+
+    it('throws if "options" is not a plain object', () => {
+      expect(_.partial(misuse, null))
+        .to.throw('training "options" must be a plain object.')
+    })
+
+    it('throws if "options" contains an invalid option', () => {
+      options.a = 'foo'
+      expect(_.partial(misuse, options)).to.throw(
+        `Unknown training option "a", try: ${_.keys(_.without(options, 'a'))}`
+      )
+    })
+
+    it('throws if "batch" is not a boolean or number', () => {
+      options.batch = ''
+      expect(_.partial(misuse, options))
+        .to.throw('training option "batch" must be a boolean or number.')
+    })
+
+    it('throws if "errorThreshold" is not a number', () => {
+      options.errorThreshold = ''
+      expect(_.partial(misuse, options))
+        .to.throw('training option "errorThreshold" must be a number.')
+    })
+
+    it('throws if "frequency" is not a number', () => {
+      options.frequency = ''
+      expect(_.partial(misuse, options))
+        .to.throw('training option "frequency" must be a number.')
+    })
+
+    it('throws if "maxEpochs" is not a number', () => {
+      options.maxEpochs = ''
+      expect(_.partial(misuse, options))
+        .to.throw('training option "maxEpochs" must be a number')
+    })
+
+    it('throws if "onFail" is not a function', () => {
+      options.onFail = ''
+      expect(_.partial(misuse, options))
+        .to.throw('training option "onFail" must be a function.')
+    })
+
+    it('throws if "onProgress" is not a function', () => {
+      options.onProgress = ''
+      expect(_.partial(misuse, options))
+        .to.throw('training option "onProgress" must be a function.')
+    })
+
+    it('throws if "onSuccess" is not a function', () => {
+      options.onSuccess = ''
+      expect(_.partial(misuse, options))
+        .to.throw('training option "onSuccess" must be a function.')
+    })
+  })
 })

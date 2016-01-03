@@ -13,6 +13,7 @@
   "rules": {
     "no-unused-vars": [2, {"vars": "all", "args": "none"}],
     "semi": [2, "never"],
-    "no-return-assign": 0
+    "no-return-assign": 0,
+    "no-loop-func": 0
   }
 }

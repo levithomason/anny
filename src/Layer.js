@@ -53,25 +53,35 @@ class Layer {
 
   /**
    * Activates all the Neurons in this Layer with the given array of values.
-   * @param {number[]} [values] - Map of input values for each Neuron.
+   * @param {number[]} [values=[]] - Map of input values for each Neuron.
    * @returns {number[]} - Array of Neuron output values.
    */
-  activate(values) {
-    return _.map(this.neurons, (neuron, i) => {
-      return neuron.activate(values ? values[i] : undefined)
-    })
+  activate(values = []) {
+    return _.map(this.neurons, (neuron, i) => neuron.activate(values[i]))
   }
 
   /**
-   * Train the Neurons in this Layer.  If target `outputs` are specified, the
-   * Neurons will learn to output these values.  This is only useful for output
-   * Layers.
-   * @param {number[]} [outputs] - Map of target output values for each Neuron.
+   * Sets all the Neuron `delta`s in this Layer to the given array of values.
+   * @param {number[]} [deltas=[]] - Delta values, one for each Neuron.
+   * @returns {number[]}
    */
-  train(outputs) {
-    _.each(this.neurons, (neuron, i) => {
-      neuron.train(outputs ? outputs[i] : undefined)
-    })
+  backprop(deltas = []) {
+    _.each(this.neurons, (neuron, i) => neuron.backprop(deltas[i]))
+  }
+
+  /**
+   * Calculate and accumulate Neuron Connection weight gradients.
+   * Does not update weights. Useful during batch/mini-batch training.
+   */
+  accumulateGradients() {
+    _.each(this.neurons, neuron => neuron.accumulateGradients())
+  }
+
+  /**
+   * Update Neuron Connection weights and reset their accumulated gradients.
+   */
+  updateWeights() {
+    _.each(this.neurons, neuron => neuron.updateWeights())
   }
 
   /**

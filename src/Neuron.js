@@ -43,6 +43,7 @@ class Neuron {
      * @see Neuron.Connection
      */
     this.incoming = []
+
     /**
      * An array of outgoing Connections to other Neurons.
      * @type {Array}
@@ -50,11 +51,18 @@ class Neuron {
      */
     this.outgoing = []
 
-    // signal values
+    /**
+     * The input value of the last activation.
+     * @type {number}
+     */
     this.input = 0
+
+    /**
+     * The output value of the last activation.
+     * @type {number}
+     */
     this.output = 0
 
-    // activation
     /**
      *
      * @type {ACTIVATION.tanh|{func, prime}|*}
@@ -67,42 +75,13 @@ class Neuron {
   }
 
   /**
-   * Train the Neuron to output the `targetOutput`.  If a `targetOutput`
-   * is not provided, the Neuron will train itself to minimize the error
-   * of the Neurons at its outgoing connections.
-   * @param {number} [targetOutput] - Manually set the target output.error.
-   */
-  train(targetOutput) {
-    // input and bias neurons have no incoming connections to update
-    if (this.isInput() || this.isBias) return
-
-    // set deltas
-    // https://en.wikipedia.org/wiki/Backpropagation/#Phase_1:_Propagation
-    if (this.isOutput()) {
-      this.delta = this.output - targetOutput
-    } else {
-      this.delta = _.sum(this.outgoing, ({target, weight}) => {
-        return this.activation.prime(this.input) * weight * target.delta
-      })
-    }
-
-    // adjust weights
-    // https://en.wikipedia.org/wiki/Backpropagation/#Phase_2:_Weight_update
-    _.each(this.incoming, connection => {
-      const gradient = connection.source.output * this.delta
-      connection.weight -= gradient * this.learningRate
-    })
-  }
-
-  /**
    * Activate this Neuron, setting the input value and computing the output.
    *   Input Neuron output values will always be equal to their input
    * value. Bias Neurons always output 1. All other
    * Neurons will squash their input value to derive their
    * output.
    * @param {number} [input] - If omitted the input value will be calculated
-   *   from the outputs and weights of the Neurons connected to
-   *   this Neuron.
+   *   from the outputs and weights of the Neurons connected to this Neuron.
    * @returns {number}
    */
   activate(input) {
@@ -124,6 +103,43 @@ class Neuron {
     return this.output = this.isInput()
       ? this.input
       : this.activation.func(this.input)
+  }
+
+  /**
+   * Set this Neuron's `delta` value, or compute it if omitted.
+   * @param {number} [delta] - If omitted, the delta value will be calculated
+   *   from the deltas and weights of the Neurons this Neuron is connected to.
+   * @returns {number}
+   */
+  backprop(delta) {
+    // input and bias neurons have no incoming connections to update
+    if (this.isInput() || this.isBias) return this.delta
+
+    // set deltas
+    if (!_.isUndefined(delta)) {
+      this.delta = delta
+    } else {
+      this.delta = _.sum(this.outgoing, ({target, weight}) => {
+        return this.activation.prime(this.input) * weight * target.delta
+      })
+    }
+
+    return this.delta
+  }
+
+  /**
+   * Calculate and accumulate Connection weight gradients.
+   * Does not update weights. Useful during batch/mini-batch training.
+   */
+  accumulateGradients() {
+    _.each(this.incoming, connection => connection.accumulate())
+  }
+
+  /**
+   * Update Connection weights and reset their accumulated gradients.
+   */
+  updateWeights() {
+    _.each(this.incoming, connection => connection.update())
   }
 
   /**
@@ -180,29 +196,51 @@ Neuron.count = 0
  *   input.
  * @see Neuron
  */
-Neuron.Connection = function Connection(source, target, weight) {
-  /**
-   * A reference to the Neuron at the start of this Connection.
-   * @type {Neuron}
-   */
-  this.source = source
+Neuron.Connection = class Connection {
+  constructor(source, target, weight) {
+    /**
+     * A reference to the Neuron at the start of this Connection.
+     * @type {Neuron}
+     */
+    this.source = source
+
+    /**
+     * A reference to the Neuron at the end of this Connection.
+     * @type {Neuron}
+     */
+    this.target = target
+
+    /**
+     * The weight is used as a multiplier for two purposes.  First, for
+     * activation, when transferring the output of the `source` Neuron to
+     * the input of the `target` Neuron. Second, during training, calculating
+     * the total error delta.
+     * @type {number}
+     */
+      // We add one to initialize the weight value as if this connection were
+      // already part of the fan.
+    this.weight = weight || INITIALIZE.weight(target.incoming.length)
+
+    this.gradient = 0
+  }
 
   /**
-   * A reference to the Neuron at the end of this Connection.
-   * @type {Neuron}
+   * Calculate and accumulate `gradient`. Does not update `weight`.
    */
-  this.target = target
+  accumulate() {
+    const gradient = this.source.output * this.target.delta
+    this.gradient += gradient * this.target.learningRate
+  }
 
   /**
-   * The weight is used as a multiplier for two purposes.  First, for
-   * activation, when transferring the output of the `source` Neuron to
-   * the input of the `target` Neuron. Second, during training, calculating the
-   * total error delta.
-   * @type {number}
+   * Update `weight` and reset accumulated `gradient`.
    */
-    // We add one to initialize the weight value as if this connection were
-    // already part of the fan.
-  this.weight = weight || INITIALIZE.weight(target.incoming.length)
+  update() {
+    this.accumulate()
+    // TODO support other weight update rules, like iRProp+
+    this.weight -= this.gradient
+    this.gradient = 0
+  }
 }
 
 export default Neuron

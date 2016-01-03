@@ -20,7 +20,7 @@ const INITIALIZE = {
    * @param numInputs
    * @returns {number}
    */
-  weight(numInputs = 1) {
+  weight(numInputs) {
     // 4.6 Initializing the weights (16)
     // We find ^-1/4 performs better than the original ^1/2
     const maxWeight = Math.pow(numInputs, -1 / 4)

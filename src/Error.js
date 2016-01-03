@@ -32,7 +32,7 @@ const ERROR = {
    */
   meanSquared(expected, actual) {
     return _.sum(actual, (actVal, i) => {
-      return Math.pow(expected[i] - actVal, 2)
+      return 0.5 * Math.pow(expected[i] - actVal, 2)
     }) / actual.length
   },
 

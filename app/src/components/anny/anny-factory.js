@@ -37,7 +37,9 @@ function AnnyFactory($rootScope) {
       )
     })
 
+    /* eslint-disable no-console */
     console.log(results.join('\n'))
+    /* eslint-enable no-console */
 
     factory.emitChange()
   }

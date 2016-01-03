@@ -12,6 +12,7 @@
     "coverage-report": "codeclimate-test-reporter < coverage/lcov.info",
     "start": "gulp",
     "test": "babel-node $(npm bin)/isparta cover _mocha -- -R dot",
+    "posttest": "npm run coverage-check",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "lint:watch": "watch 'npm run lint --silent' -d -u",
