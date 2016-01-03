@@ -34,8 +34,8 @@ describe('Network', () => {
   })
 
   describe('constructor', () => {
-    it('initializes with a "null" error', () => {
-      expect(network.error).to.equal(null)
+    it('initializes with a "0" error', () => {
+      expect(network.error).to.equal(0)
     })
 
     it('has all layers in a single array', () => {
@@ -99,11 +99,10 @@ describe('Network', () => {
       _.each(network.hiddenLayers, l => l.backprop.called.should.equal(true))
     })
 
-    it('calls backprop on the input layer', () => {
+    it('does not call backprop on the input layer', () => {
       network.inputLayer.backprop = sandbox.spy()
-      network.inputLayer.backprop.called.should.equal(false)
       network.backprop()
-      network.inputLayer.backprop.called.should.equal(true)
+      network.inputLayer.backprop.called.should.equal(false)
     })
   })
 })

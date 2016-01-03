@@ -254,7 +254,6 @@ describe('Validate', () => {
     beforeEach(() => {
       options = {
         batch: true,
-        errorFn: _.noop,
         errorThreshold: 0.001,
         frequency: 100,
         maxEpochs: 1000,
@@ -280,12 +279,6 @@ describe('Validate', () => {
       options.batch = ''
       expect(_.partial(misuse, options))
         .to.throw('training option "batch" must be a boolean or number.')
-    })
-
-    it('throws if "errorFn" is not a function', () => {
-      options.errorFn = ''
-      expect(_.partial(misuse, options))
-        .to.throw('training option "errorFn" must be a function.')
     })
 
     it('throws if "errorThreshold" is not a number', () => {
