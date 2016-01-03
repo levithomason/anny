@@ -26,15 +26,6 @@ export function normalize(array, min = _.min(array), max = _.max(array)) {
 }
 
 /**
- * Returns a new function that is an approximate derivative of the `func`.
- * @param func - The function to create an approximate derivative of.
- * @returns {function}
- */
-export function getApproximateDerivative(func) {
-  return x => (func(x + 1e-10) - func(x)) / 1e-10
-}
-
-/**
  * Thin helper for use getting object type.
  * @param {*} arg The value whose type should be returned.
  */
@@ -48,7 +39,6 @@ export function type(arg) {
  */
 const util = {
   normalize,
-  getApproximateDerivative,
   type,
 }
 

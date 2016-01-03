@@ -39,17 +39,6 @@ describe('util', () => {
     })
   })
 
-  describe('getApproximateDerivative', () => {
-    it('returns a function', () => {
-      util.getApproximateDerivative(_.noop).should.be.a('function')
-    })
-
-    it('returns a function that returns a number', () => {
-      const derivative = util.getApproximateDerivative(Math.sin)
-      derivative(_.random()).should.be.a('number')
-    })
-  })
-
   describe('type', () => {
     it('returns the same value as Object.prototype.toString.call()', () => {
       const types = [undefined, null, true, 0, '', [], {}, _.noop]
