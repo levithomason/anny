@@ -1,20 +1,31 @@
 /* eslint-disable no-console */
 import _ from 'lodash'
-import Data from './src/Data'
-import Layer from './src/Layer'
+import DATA from './src/Data'
 import Network from './src/Network'
 import Trainer from './src/Trainer'
 
-const epochs = []
-let successes = 0
-let fails = 0
+// ----------------------------------------
+// Settings
+// ----------------------------------------
+
+const dataSetName = 'ORGate'
+
+const hiddenLayers = [8]
+const learningRate = 0.001
+const batch = false
+
+const maxEpochs = 20000
+const frequency = 1000
+const trainings = 1
 
 // ----------------------------------------
 // Shuffle & normalize data
 // ----------------------------------------
 
-const data = _.shuffle(_.map(Data.irisFlower, (sample) => {
-  sample.input = _.map(sample.input, n => n / 7.9)
+const dataSet = DATA[dataSetName]
+const data = _.shuffle(_.map(dataSet, (sample) => {
+  const maxInput = _.max(_.flatten(_.pluck(dataSet, 'input')))
+  sample.input = _.map(sample.input, input => input / maxInput)
   return sample
 }))
 
@@ -22,57 +33,56 @@ const data = _.shuffle(_.map(Data.irisFlower, (sample) => {
 // Multiple Train
 // ----------------------------------------
 
-_.times(1, n => {
+const epochs = []
+let successes = 0
+let fails = 0
+
+const layerSizes = _.flatten([
+  data[0].input.length,
+  hiddenLayers,
+  data[0].output.length,
+])
+
+console.log(`
+  data set     : ${dataSetName}
+  batch        : ${batch}
+  maxEpochs    : ${maxEpochs}
+  frequency    : ${frequency}
+  layerSizes   : ${layerSizes.join(', ')}
+  learningRate : ${learningRate}
+`)
+
+_.times(trainings, training => {
   let lastError = 0
   let lowestError = Infinity
+  console.log(`${_.repeat('-', 60)}`)
+  console.log(`training ${training + 1}`)
 
   // ----------------------------------------
   // Network
   // ----------------------------------------
 
-  const layerSizes = [4, 40, 3]
-  const learningRate = 0.001
-  const net = new Network(layerSizes)
-  const batch = false
-
-  console.log(_.repeat('-', 70))
-  console.log(`
-    batch:        ${batch}
-    layerSizes:   ${layerSizes.join(', ')}
-    learningRate: ${learningRate}
-  `)
-
-  net.allLayers = _.map(layerSizes, size => (
-    new Layer(size, undefined, learningRate)
-  ))
-  net.inputLayer = _.first(net.allLayers)
-  net.hiddenLayers = _.slice(net.allLayers, 1, net.allLayers.length - 1)
-  net.outputLayer = _.last(net.allLayers)
-
-  _.each(net.allLayers, (layer, i) => {
-    const next = net.allLayers[i + 1]
-    if (next) layer.connect(next)
-  })
+  const network = new Network(layerSizes)
 
   // ----------------------------------------
   // Trainer
   // ----------------------------------------
 
   const trainer = new Trainer({
-    batch: batch,
-    maxEpochs: 50000,
-    frequency: 500,
+    batch,
+    maxEpochs,
+    frequency,
     onSuccess: (error, epoch) => {
-      console.log(`Successfully trained to ${error} error after ${epoch} epochs`)
-      epochs.push(epoch)
       successes++
+      epochs.push(epoch)
+      console.log(`\nSuccess: error ${error} @ ${epoch} epochs`)
     },
     onFail: (error, epoch) => {
-      console.log(`Fail to train, error is ${error} after ${epoch} epochs`)
       fails++
+      console.log(`\nFail: error ${error} @ ${epoch} epochs`)
     },
     onProgress: (error, epoch) => {
-      const sign = error < lastError ? '↓' : '↑'
+      const sign = error === lastError && '-' || (error < lastError ? '↓' : '↑')
       const lowest = error < lowestError ? '★' : ' '
       const percent =
         `${_.padLeft(100 - Math.round((lastError / error) * 100), 4)}%`
@@ -82,16 +92,27 @@ _.times(1, n => {
     },
   })
 
-  trainer.train(net, data)
+  trainer.train(network, data)
 })
 
 // ----------------------------------------
 // Log results
 // ----------------------------------------
 
+console.log(``)
+console.log(`// ${_.repeat('-', 60)}`)
+console.log(`// Results`)
+console.log(`// ${_.repeat('-', 60)}`)
+
 console.log(`
-  Min:     ${_.min(epochs)}
-  Max:     ${_.max(epochs)}
-  Avg:     ${Math.round(_.sum(epochs, n => n / epochs.length))}
-  Ratio:   ${successes}/${fails}
+  data set     : ${dataSetName}
+  layerSizes   : ${layerSizes.join(', ')}
+  learningRate : ${learningRate}
+  batch        : ${batch}
+  maxEpochs    : ${maxEpochs}
+--------------------------
+  epochs avg:  : ${_.round(_.sum(epochs, n => n / epochs.length))}
+  epoch range: : ${_.min(epochs)}-${_.max(epochs)}
+
+  ratio        : ${successes}/${fails}
 `)
