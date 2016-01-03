@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import ERROR from './Error'
 import Layer from './Layer'
 import {type} from './Util'
 
@@ -52,10 +53,17 @@ class Network {
     this.output = []
 
     /**
-     * The result of the `errorFn`.  Initializes as `null`.
-     * @type {null|number}
+     * The result of the `errorFn`.
+     * @type {Number}
      */
-    this.error = null
+    this.error = 0
+
+    /**
+     * The cost function.  The function used to calculate Network `error`.
+     * In other words, to what degree was the Network's output wrong.
+     * @type {function}
+     */
+    this.errorFn = ERROR.meanSquared
 
     /**
      * An array of all Layers in the Network.  It is a single dimension array
@@ -104,17 +112,48 @@ class Network {
 
   /**
    * Set output Layer `delta`s and propagate them backward through the Network.
-   * @param {number[]} deltas - Delta values, one for each output Neuron.
+   * The input Layers have no use for deltas, so it is skipped.
+   * @param {number[]} targetOutput - The expected Network output vector.
    */
-  backprop(deltas) {
-    this.outputLayer.backprop(deltas)
+  backprop(targetOutput) {
+    this.error = this.errorFn(targetOutput, this.output)
 
-    // backprop hidden layers in reverse (last to first)
+    // TODO abstract into ERROR.meanSquared.partial once ERROR is refactored
+    const delta = _.map(this.output, (actVal, j) => {
+      return actVal - targetOutput[j]
+    })
+
+    this.outputLayer.backprop(delta)
+
     for (let i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
       this.hiddenLayers[i].backprop()
     }
+  }
 
-    this.inputLayer.backprop()
+  /**
+   * Calculate and accumulate Neuron Connection weight gradients.
+   * Does not update weights. Useful during batch/mini-batch training.
+   */
+  accumulateGradients() {
+    // NOTE can be parallel, Neuron ouputs and deltas are already set
+    this.outputLayer.accumulateGradients()
+
+    for (let i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
+      this.hiddenLayers[i].accumulateGradients()
+    }
+  }
+
+  /**
+   * Calculate and accumulate Neuron Connection weight gradients.
+   * Weights are immediately updated and the accumulated gradients are reset.
+   */
+  updateWeights() {
+    // NOTE can be parallel, Neuron outputs and deltas are already set
+    this.outputLayer.updateWeights()
+
+    for (let i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
+      this.hiddenLayers[i].updateWeights()
+    }
   }
 }
 

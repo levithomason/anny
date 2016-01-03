@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import validate from './Validate'
-import ERROR from './Error'
 
 /**
  * A Trainer teaches a {@link Network} how to correctly classify some `data`.
@@ -28,9 +27,6 @@ class Trainer {
    *
    *   Mini-batch `<number>`: Connection weights are updated every `<number>`
    *   training samples.
-   * @param {object} [options.errorFn]
-   *   The cost function.  The function used to calculate the error of the
-   *   Network. In other words, to what degree was the Network's output wrong.
    * @param {number} [options.errorThreshold=0.001]
    *   The target `error` value. The goal of the Trainer is to train the
    *   Network until the `error` is below this value.
@@ -56,7 +52,6 @@ class Trainer {
   constructor(options = {}) {
     const defaultOptions = {
       batch: false,
-      errorFn: ERROR.meanSquared,
       errorThreshold: 0.001,
       frequency: 100,
       maxEpochs: 20000,
@@ -82,7 +77,6 @@ class Trainer {
     // TODO: normalize data to the range of the activation functions
     const {
       batch,
-      errorFn,
       errorThreshold,
       frequency,
       maxEpochs,
@@ -93,75 +87,48 @@ class Trainer {
 
     const isBatch = batch === true
     const isOnline = batch === false
+    const isMiniBatch = _.isNumber(batch)
 
-    // use an 'each' loop so we can break out of it on success/fail
-    // a 'times' loop cannot be broken
-    let counter = 0
-    _.each(_.range(maxEpochs), epochIndex => {
-      const epoch = epochIndex + 1
-      // reset batch flag every epoch (batch)
-      let isBatchMatch = isBatch
+    // track samples iterated, allows for mini-batches that span epochs
+    let sampleCounter = 1
+    let epochCount = 1
 
-      // loop over the training data summing the error of all samples
-      // http://www.researchgate.net/post
-      //   /Neural_networks_and_mean-square_errors#rgw51_55cb2f1399589
-      network.error = _.sum(data, sample => {
-        const isMiniBatchMatch = _.isNumber(batch) && counter % batch === 0
+    for (let i = maxEpochs; i > 0; i -= 1) {
+      // sum the average error of all training samples
+      const error = _.sum(data, (sample, sampleIndex) => {
+        const shouldUpdate = isOnline
+          || isMiniBatch && sampleCounter % batch === 0
+          || isBatch && sampleIndex === data.length - 1
 
-        // make a prediction
+        // propagation: set inputs & outputs, then error & deltas
         network.activate(sample.input)
+        network.backprop(sample.output)
 
-        // backprop deltas
-        // https://en.wikipedia.org/wiki/Backpropagation/#Phase_1:_Propagation
-        // TODO abstract into ERROR.meanSquared.partial
-        const deltas = _.map(network.output, (actVal, i) => {
-          return actVal - sample.output[i]
-        })
+        // weight updates: update weights || accumulate weight gradients
+        if (shouldUpdate) network.updateWeights()
+        else network.accumulateGradients()
 
-        network.backprop(deltas)
-
-        // update weights
-        // https://en.wikipedia.org/wiki/Backpropagation/#Phase_2:_Weight_update
-        // TODO abstract into swappable weight update rules
-        const weightUpdateRule = (layer, shouldUpdate) => {
-          _.each(layer.neurons, (neuron) => {
-            _.each(neuron.incoming, connection => {
-              const gradient = connection.source.output * neuron.delta
-              const delta = gradient * neuron.learningRate
-              connection.accumulate(delta)
-              if (shouldUpdate) connection.update()
-            })
-          })
-        }
-
-        const shouldUpdate = isOnline || isBatchMatch || isMiniBatchMatch
-        weightUpdateRule(network.outputLayer, shouldUpdate)
-        _.each(network.hiddenLayers, layer => {
-          weightUpdateRule(layer, shouldUpdate)
-        })
-
-        // first sample is done, clear batch flag for subsequent samples
-        isBatchMatch = false
-        counter++
-
-        // get the error
-        return errorFn(sample.output, network.output) / data.length
+        sampleCounter++
+        return network.error / data.length
       })
 
+      // call onProgress after the first epoch and every `frequency` thereafter
+      if (onProgress && epochCount % frequency === 0) {
+        const stop = onProgress(error, epochCount) === false
+        if (stop) break
+      }
+
       // success
-      if (onSuccess && network.error <= errorThreshold) {
-        onSuccess(network.error, epoch)
-        return false
+      if (onSuccess && error <= errorThreshold) {
+        onSuccess(error, epochCount)
+        break
       }
 
       // fail
-      if (onFail && epoch === maxEpochs) onFail(network.error, epoch)
+      if (onFail && epochCount === maxEpochs) onFail(error, epochCount)
 
-      // call onProgress after the first epoch and every `frequency` thereafter
-      if (onProgress && epoch % frequency === 0) {
-        return onProgress(network.error, epoch)
-      }
-    })
+      epochCount++
+    }
   }
 
   /**

@@ -199,7 +199,6 @@ const validate = {
 
     const validOptions = [
       'batch',
-      'errorFn',
       'errorThreshold',
       'frequency',
       'maxEpochs',
@@ -215,10 +214,6 @@ const validate = {
 
     if (!_.isBoolean(options.batch) && !_.isNumber(options.batch)) {
       throw new Error(`training option "batch" must be a boolean or number.`)
-    }
-
-    if (!_.isFunction(options.errorFn)) {
-      throw new Error(`training option "errorFn" must be a function.`)
     }
 
     if (!_.isNumber(options.errorThreshold)) {

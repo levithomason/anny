@@ -121,6 +121,22 @@ class Neuron {
   }
 
   /**
+   * Calculate and accumulate Connection weight gradients.
+   * Does not update weights. Useful during batch/mini-batch training.
+   */
+  accumulateGradients() {
+    _.each(this.incoming, connection => connection.accumulate())
+  }
+
+  /**
+   * Calculate and accumulate Connection weight gradients.
+   * Weights are immediately updated and the accumulated gradients are reset.
+   */
+  updateWeights() {
+    _.each(this.incoming, connection => connection.update())
+  }
+
+  /**
    * Connect this Neuron to another Neuron.
    * @param {Neuron} target - The Neuron to connect to.
    * @param {number} weight - The strength of the connection.
@@ -174,51 +190,49 @@ Neuron.count = 0
  *   input.
  * @see Neuron
  */
-Neuron.Connection = function Connection(source, target, weight) {
-  /**
-   * A reference to the Neuron at the start of this Connection.
-   * @type {Neuron}
-   */
-  this.source = source
+Neuron.Connection = class Connection {
+  constructor(source, target, weight) {
+    /**
+     * A reference to the Neuron at the start of this Connection.
+     * @type {Neuron}
+     */
+    this.source = source
 
-  /**
-   * A reference to the Neuron at the end of this Connection.
-   * @type {Neuron}
-   */
-  this.target = target
+    /**
+     * A reference to the Neuron at the end of this Connection.
+     * @type {Neuron}
+     */
+    this.target = target
 
-  /**
-   * The weight is used as a multiplier for two purposes.  First, for
-   * activation, when transferring the output of the `source` Neuron to
-   * the input of the `target` Neuron. Second, during training, calculating the
-   * total error delta.
-   * @type {number}
-   */
-    // We add one to initialize the weight value as if this connection were
-    // already part of the fan.
-  this.weight = weight || INITIALIZE.weight(target.incoming.length)
+    /**
+     * The weight is used as a multiplier for two purposes.  First, for
+     * activation, when transferring the output of the `source` Neuron to
+     * the input of the `target` Neuron. Second, during training, calculating
+     * the total error delta.
+     * @type {number}
+     */
+      // We add one to initialize the weight value as if this connection were
+      // already part of the fan.
+    this.weight = weight || INITIALIZE.weight(target.incoming.length)
 
-  /**
-   * Accumulator for the weight change value.  When applied to the weight, this
-   * value is set to 0.
-   * @type {number}
-   */
-  this.delta = 0
-
-  /**
-   * Accumulate `delta`.
-   * @param {number} delta The pending change in `weight` value.
-   */
-  this.accumulate = (delta) => {
-    this.delta += delta
+    this.gradient = 0
   }
 
   /**
-   * Apply the current `delta` to the `weight` value and reset the `delta`.
+   * Calculate and accumulate `gradient`. Does not update `weight`.
    */
-  this.update = () => {
-    this.weight -= this.delta
-    this.delta = 0
+  accumulate() {
+    const gradient = this.source.output * this.target.delta
+    this.gradient += gradient * this.target.learningRate
+  }
+
+  /**
+   * Calculate and accumulate `gradient`, update `weight` and reset `gradient`.
+   */
+  update() {
+    this.accumulate()
+    this.weight -= this.gradient
+    this.gradient = 0
   }
 }
 

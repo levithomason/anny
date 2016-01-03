@@ -66,7 +66,23 @@ class Layer {
    * @returns {number[]}
    */
   backprop(deltas = []) {
-    return _.map(this.neurons, (neuron, i) => neuron.backprop(deltas[i]))
+    _.each(this.neurons, (neuron, i) => neuron.backprop(deltas[i]))
+  }
+
+  /**
+   * Calculate and accumulate Neuron Connection weight gradients.
+   * Does not update weights. Useful during batch/mini-batch training.
+   */
+  accumulateGradients() {
+    _.each(this.neurons, neuron => neuron.accumulateGradients())
+  }
+
+  /**
+   * Calculate and accumulate Neuron Connection weight gradients.
+   * Weights are immediately updated and the accumulated gradients are reset.
+   */
+  updateWeights() {
+    _.each(this.neurons, neuron => neuron.updateWeights())
   }
 
   /**
