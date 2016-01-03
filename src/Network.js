@@ -100,9 +100,10 @@ class Network {
 
   /**
    * Activate the Network with a given set of `input` values.
-   * @param {number[]} inputs - Values to activate the Network input Neurons.
-   *   Values should be normalized between -1 and 1 using Util.normalize.
-   * @returns {number[]} output values
+   * @param {number[]} inputs - Values to activate the Network's input Neurons
+   *   with.
+   * @returns {number[]} output - The output values of each Neuron in the output
+   *   Layer.
    */
   activate(inputs) {
     this.inputLayer.activate(inputs)

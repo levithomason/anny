@@ -43,6 +43,7 @@ class Neuron {
      * @see Neuron.Connection
      */
     this.incoming = []
+
     /**
      * An array of outgoing Connections to other Neurons.
      * @type {Array}
@@ -50,11 +51,18 @@ class Neuron {
      */
     this.outgoing = []
 
-    // signal values
+    /**
+     * The input value of the last activation.
+     * @type {number}
+     */
     this.input = 0
+
+    /**
+     * The output value of the last activation.
+     * @type {number}
+     */
     this.output = 0
 
-    // activation
     /**
      *
      * @type {ACTIVATION.tanh|{func, prime}|*}
@@ -108,7 +116,6 @@ class Neuron {
     if (this.isInput() || this.isBias) return this.delta
 
     // set deltas
-    // https://en.wikipedia.org/wiki/Backpropagation/#Phase_1:_Propagation
     if (!_.isUndefined(delta)) {
       this.delta = delta
     } else {
