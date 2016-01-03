@@ -10,7 +10,6 @@ dependencies:
 
 test:
   post:
-    - npm run coverage-check
     - npm run coverage-report
 
 general:
