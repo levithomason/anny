@@ -334,7 +334,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  meanSquared: function meanSquared(expected, actual) {
 	    return _lodash2.default.sum(actual, function (actVal, i) {
-	      return Math.pow(expected[i] - actVal, 2);
+	      return 0.5 * Math.pow(expected[i] - actVal, 2);
 	    }) / actual.length;
 	  },
 
@@ -408,9 +408,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param numInputs
 	   * @returns {number}
 	   */
-	  weight: function weight() {
-	    var numInputs = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
-
+	  weight: function weight(numInputs) {
 	    // 4.6 Initializing the weights (16)
 	    // We find ^-1/4 performs better than the original ^1/2
 	    var maxWeight = Math.pow(numInputs, -1 / 4);
@@ -512,30 +510,58 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * Activates all the Neurons in this Layer with the given array of values.
-	     * @param {number[]} [values] - Map of input values for each Neuron.
+	     * @param {number[]} [values=[]] - Map of input values for each Neuron.
 	     * @returns {number[]} - Array of Neuron output values.
 	     */
 
 	  }, {
 	    key: 'activate',
-	    value: function activate(values) {
+	    value: function activate() {
+	      var values = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+
 	      return _lodash2.default.map(this.neurons, function (neuron, i) {
-	        return neuron.activate(values ? values[i] : undefined);
+	        return neuron.activate(values[i]);
 	      });
 	    }
 
 	    /**
-	     * Train the Neurons in this Layer.  If target `outputs` are specified, the
-	     * Neurons will learn to output these values.  This is only useful for output
-	     * Layers.
-	     * @param {number[]} [outputs] - Map of target output values for each Neuron.
+	     * Sets all the Neuron `delta`s in this Layer to the given array of values.
+	     * @param {number[]} [deltas=[]] - Delta values, one for each Neuron.
+	     * @returns {number[]}
 	     */
 
 	  }, {
-	    key: 'train',
-	    value: function train(outputs) {
+	    key: 'backprop',
+	    value: function backprop() {
+	      var deltas = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+
 	      _lodash2.default.each(this.neurons, function (neuron, i) {
-	        neuron.train(outputs ? outputs[i] : undefined);
+	        return neuron.backprop(deltas[i]);
+	      });
+	    }
+
+	    /**
+	     * Calculate and accumulate Neuron Connection weight gradients.
+	     * Does not update weights. Useful during batch/mini-batch training.
+	     */
+
+	  }, {
+	    key: 'accumulateGradients',
+	    value: function accumulateGradients() {
+	      _lodash2.default.each(this.neurons, function (neuron) {
+	        return neuron.accumulateGradients();
+	      });
+	    }
+
+	    /**
+	     * Update Neuron Connection weights and reset their accumulated gradients.
+	     */
+
+	  }, {
+	    key: 'updateWeights',
+	    value: function updateWeights() {
+	      _lodash2.default.each(this.neurons, function (neuron) {
+	        return neuron.updateWeights();
 	      });
 	    }
 
@@ -630,6 +656,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @see Neuron.Connection
 	     */
 	    this.incoming = [];
+
 	    /**
 	     * An array of outgoing Connections to other Neurons.
 	     * @type {Array}
@@ -637,11 +664,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    this.outgoing = [];
 
-	    // signal values
+	    /**
+	     * The input value of the last activation.
+	     * @type {number}
+	     */
 	    this.input = 0;
+
+	    /**
+	     * The output value of the last activation.
+	     * @type {number}
+	     */
 	    this.output = 0;
 
-	    // activation
 	    /**
 	     *
 	     * @type {ACTIVATION.tanh|{func, prime}|*}
@@ -649,76 +683,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.activation = activation;
 
 	    // learning
-	    this.error = 0;
 	    this.delta = 0;
 	    this.learningRate = learningRate;
 	  }
 
 	  /**
-	   * Train the Neuron to output the `targetOutput`.  If a `targetOutput`
-	   * is not provided, the Neuron will train itself to minimize the error
-	   * of the Neurons from its outgoing connections.
-	   * @param {number} [targetOutput] - Manually set the target output.error.
+	   * Activate this Neuron, setting the input value and computing the output.
+	   *   Input Neuron output values will always be equal to their input
+	   * value. Bias Neurons always output 1. All other
+	   * Neurons will squash their input value to derive their
+	   * output.
+	   * @param {number} [input] - If omitted the input value will be calculated
+	   *   from the outputs and weights of the Neurons connected to this Neuron.
+	   * @returns {number}
 	   */
 
 	  _createClass(Neuron, [{
-	    key: 'train',
-	    value: function train(targetOutput) {
-	      var _this = this;
-
-	      var inputDerivative = this.activation.prime(this.input);
-
-	      if (!_lodash2.default.isUndefined(targetOutput)) {
-	        this.error = targetOutput - this.output;
-	      }
-
-	      // set the delta
-	      // https://www.youtube.com/watch?v=p1-FiWjThs8
-	      //
-	      // Input Neurons and Bias Neurons do not need to calculate their delta.
-	      // This is because the delta is only used to update the weight but only the
-	      //   target Neuron's delta is used: targetDelta * weight * gradient.
-	      // Since input Neurons and Bias Neurons are strictly source Neurons
-	      //   they will never be a target Neuron and their delta's never used
-	      if (!this.isInput() && !this.isBias) {
-	        if (this.isOutput()) {
-	          this.delta = -this.error * inputDerivative;
-	        } else {
-	          this.delta = _lodash2.default.sum(this.outgoing, function (connection) {
-	            return inputDerivative * connection.weight * connection.target.delta;
-	          });
-	        }
-	      }
-
-	      // adjust weights
-	      _lodash2.default.each(this.outgoing, function (connection) {
-	        // get gradient
-	        // https://youtu.be/p1-FiWjThs8?t=12m21s
-	        var gradient = _this.output * connection.target.delta;
-
-	        connection.weight -= gradient * _this.learningRate;
-	      });
-	    }
-
-	    /**
-	     * Activate this Neuron, setting the input value and computing the output.
-	     *   Input Neuron output values will always be equal to their input
-	     * value. Bias Neurons always output 1. All other
-	     * Neurons will squash their input value to derive their
-	     * output.
-	     * @param {number} [input] - If omitted the input value will be calculated
-	     *   from the outputs and weights of the Neurons connected to
-	     *   this Neuron.
-	     * @returns {number}
-	     */
-
-	  }, {
 	    key: 'activate',
 	    value: function activate(input) {
-	      if (this.isBias) {
-	        this.output = 1;
-	        return this.output;
-	      }
+	      if (this.isBias) return this.output = 1;
 
 	      // set the input
 	      if (!_lodash2.default.isUndefined(input)) {
@@ -733,9 +716,62 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 
 	      // set the output
-	      this.output = this.isInput() ? this.input : this.activation.func(this.input);
+	      return this.output = this.isInput() ? this.input : this.activation.func(this.input);
+	    }
 
-	      return this.output;
+	    /**
+	     * Set this Neuron's `delta` value, or compute it if omitted.
+	     * @param {number} [delta] - If omitted, the delta value will be calculated
+	     *   from the deltas and weights of the Neurons this Neuron is connected to.
+	     * @returns {number}
+	     */
+
+	  }, {
+	    key: 'backprop',
+	    value: function backprop(delta) {
+	      var _this = this;
+
+	      // input and bias neurons have no incoming connections to update
+	      if (this.isInput() || this.isBias) return this.delta;
+
+	      // set deltas
+	      if (!_lodash2.default.isUndefined(delta)) {
+	        this.delta = delta;
+	      } else {
+	        this.delta = _lodash2.default.sum(this.outgoing, function (_ref) {
+	          var target = _ref.target;
+	          var weight = _ref.weight;
+
+	          return _this.activation.prime(_this.input) * weight * target.delta;
+	        });
+	      }
+
+	      return this.delta;
+	    }
+
+	    /**
+	     * Calculate and accumulate Connection weight gradients.
+	     * Does not update weights. Useful during batch/mini-batch training.
+	     */
+
+	  }, {
+	    key: 'accumulateGradients',
+	    value: function accumulateGradients() {
+	      _lodash2.default.each(this.incoming, function (connection) {
+	        return connection.accumulate();
+	      });
+	    }
+
+	    /**
+	     * Update Connection weights and reset their accumulated gradients.
+	     */
+
+	  }, {
+	    key: 'updateWeights',
+	    value: function updateWeights() {
+	      _lodash2.default.each(this.incoming, function (connection) {
+	        return connection.update();
+	      });
 	    }
 
 	    /**
@@ -763,7 +799,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'isInput',
 	    value: function isInput() {
-	      return !this.isBias && this.incoming.length === 0;
+	      return !this.isBias && _lodash2.default.isEmpty(this.incoming);
 	    }
 
 	    /**
@@ -774,7 +810,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'isOutput',
 	    value: function isOutput() {
-	      return this.outgoing.length === 0;
+	      return _lodash2.default.isEmpty(this.outgoing);
 	    }
 	  }]);
 
@@ -805,30 +841,64 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   input.
 	 * @see Neuron
 	 */
-	Neuron.Connection = function Connection(source, target, weight) {
-	  /**
-	   * A reference to the Neuron at the start of this Connection.
-	   * @type {Neuron}
-	   */
-	  this.source = source;
+	Neuron.Connection = (function () {
+	  function Connection(source, target, weight) {
+	    _classCallCheck(this, Connection);
+
+	    /**
+	     * A reference to the Neuron at the start of this Connection.
+	     * @type {Neuron}
+	     */
+	    this.source = source;
+
+	    /**
+	     * A reference to the Neuron at the end of this Connection.
+	     * @type {Neuron}
+	     */
+	    this.target = target;
+
+	    /**
+	     * The weight is used as a multiplier for two purposes.  First, for
+	     * activation, when transferring the output of the `source` Neuron to
+	     * the input of the `target` Neuron. Second, during training, calculating
+	     * the total error delta.
+	     * @type {number}
+	     */
+	    // We add one to initialize the weight value as if this connection were
+	    // already part of the fan.
+	    this.weight = weight || _Initialize2.default.weight(target.incoming.length);
+
+	    this.gradient = 0;
+	  }
 
 	  /**
-	   * A reference to the Neuron at the end of this Connection.
-	   * @type {Neuron}
+	   * Calculate and accumulate `gradient`. Does not update `weight`.
 	   */
-	  this.target = target;
 
-	  /**
-	   * The weight is used as a multiplier for two purposes.  First, for
-	   * activation, when transferring the output of the `source` Neuron to
-	   * the input of the `target` Neuron. Second, during training, calculating the
-	   * total error delta.
-	   * @type {number}
-	   */
-	  // We add one to initialize the weight value as if this connection were
-	  // already part of the fan.
-	  this.weight = weight || _Initialize2.default.weight(target.incoming.length);
-	};
+	  _createClass(Connection, [{
+	    key: 'accumulate',
+	    value: function accumulate() {
+	      // delta this.output - target
+	      var gradient = this.source.output * this.target.delta;
+	      this.gradient += gradient * this.target.learningRate;
+	    }
+
+	    /**
+	     * Update `weight` and reset accumulated `gradient`.
+	     */
+
+	  }, {
+	    key: 'update',
+	    value: function update() {
+	      this.accumulate();
+	      // TODO support other weight update rules, like iRProp+
+	      this.weight -= this.gradient;
+	      this.gradient = 0;
+	    }
+	  }]);
+
+	  return Connection;
+	})();
 
 	exports.default = Neuron;
 
@@ -848,19 +918,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _Layer = __webpack_require__(6);
-
-	var _Layer2 = _interopRequireDefault(_Layer);
-
 	var _Error = __webpack_require__(3);
 
 	var _Error2 = _interopRequireDefault(_Error);
 
+	var _Layer = __webpack_require__(6);
+
+	var _Layer2 = _interopRequireDefault(_Layer);
+
 	var _Util = __webpack_require__(9);
-
-	var _Validate = __webpack_require__(10);
-
-	var _Validate2 = _interopRequireDefault(_Validate);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -918,18 +984,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.output = [];
 
 	    /**
-	     * The cost function.  The function used to calculate the error of the
-	     * Network. In other words, to what degree was the Network's output wrong.
-	     * @see ERROR
-	     * @type {ERROR}
+	     * The result of the `errorFn`.
+	     * @type {Number}
 	     */
-	    this.errorFn = _Error2.default.meanSquared;
+	    this.error = 0;
 
 	    /**
-	     * The result of the `errorFn`.  Initializes as `null`.
-	     * @type {null|number}
+	     * The cost function.  The function used to calculate Network `error`.
+	     * In other words, to what degree was the Network's output wrong.
+	     * @type {function}
 	     */
-	    this.error = null;
+	    this.errorFn = _Error2.default.meanSquared;
 
 	    /**
 	     * An array of all Layers in the Network.  It is a single dimension array
@@ -967,10 +1032,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  /**
-	   * Activate the network with a given set of `input` values.
-	   * @param {number[]} inputs - Values to activate the Network input Neurons.
-	   *   Values should be normalized between -1 and 1 using Util.normalize.
-	   * @returns {number[]} output values
+	   * Activate the Network with a given set of `input` values.
+	   * @param {number[]} inputs - Values to activate the Network's input Neurons
+	   *   with.
+	   * @returns {number[]} output - The output values of each Neuron in the output
+	   *   Layer.
 	   */
 
 	  _createClass(Network, [{
@@ -978,156 +1044,63 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function activate(inputs) {
 	      this.inputLayer.activate(inputs);
 	      _lodash2.default.invoke(this.hiddenLayers, 'activate');
-	      this.output = this.outputLayer.activate();
-	      return this.output;
+	      return this.output = this.outputLayer.activate();
 	    }
 
 	    /**
-	     * Correct the Network to produce the specified `output`.
-	     * @param {number[]} output - The target output for the Network.
-	     * Values in the array specify the target output of the Neuron in the output
-	     *   layer.
+	     * Set Network `error` and output Layer `delta`s and propagate them backward
+	     * through the Network. The input Layer has no use for deltas, so it is
+	     * skipped.
+	     * @param {number[]} targetOutput - The expected Network output vector.
 	     */
 
 	  }, {
-	    key: 'correct',
-	    value: function correct(output) {
-	      this.outputLayer.train(output);
+	    key: 'backprop',
+	    value: function backprop(targetOutput) {
+	      this.error = this.errorFn(targetOutput, this.output);
 
-	      // train hidden layers in reverse (last to first)
-	      for (var i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
-	        this.hiddenLayers[i].train();
-	      }
-
-	      this.inputLayer.train();
-	    }
-
-	    /**
-	     * Train the Network to produce the output from the given input.
-	     * @param {object[]} data - Array of objects in the form
-	     * `{input: [], output: []}`.
-	     * @param {{}} [options] Training options.
-	     * @param {number} [options.errorThreshold=0.001] The target `error` value.
-	     *   The goal of the Network is to train until the `error` is below this
-	     *   value.
-	     * @param {number} [options.frequency] - How many iterations through the
-	     *   training data between calling `options.onProgress`.
-	     * @param {number} [options.maxEpochs=20000] The max training iterations.
-	     *   The Network will stop training after iterating through the training data
-	     *   this number of times.  One full loop through the training data is
-	     *   counted as one epoch.
-	     * @param {Network~onFail} [options.onFail] - Called if the Network `error`
-	     *   does not fall below the `errorThreshold` after `maxEpochs`.
-	     * @param {Network~onProgress} [options.onProgress] - Called every
-	     *   `frequency` epochs.
-	     * @param {Network~onSuccess} [options.onSuccess] - Called if the Network
-	     *   `error` falls below the `errorThreshold` during training.
-	     */
-
-	  }, {
-	    key: 'train',
-	    value: function train(data) {
-	      var _this2 = this;
-
-	      var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-	      _Validate2.default.trainingData(this, data);
-	      // TODO: ensure data is normalized to the range of the activation functions
-	      var _options$errorThresho = options.errorThreshold;
-	      var errorThreshold = _options$errorThresho === undefined ? 0.001 : _options$errorThresho;
-	      var _options$frequency = options.frequency;
-	      var frequency = _options$frequency === undefined ? 100 : _options$frequency;
-	      var _options$maxEpochs = options.maxEpochs;
-	      var maxEpochs = _options$maxEpochs === undefined ? 20000 : _options$maxEpochs;
-	      var _options$onFail = options.onFail;
-	      var onFail = _options$onFail === undefined ? _lodash2.default.noop : _options$onFail;
-	      var _options$onProgress = options.onProgress;
-	      var onProgress = _options$onProgress === undefined ? _lodash2.default.noop : _options$onProgress;
-	      var _options$onSuccess = options.onSuccess;
-	      var onSuccess = _options$onSuccess === undefined ? _lodash2.default.noop : _options$onSuccess;
-
-	      if (!_lodash2.default.isNumber(errorThreshold)) {
-	        throw new Error('train(...) "errorThreshold" must be a number.');
-	      }
-
-	      if (!_lodash2.default.isNumber(frequency)) {
-	        throw new Error('train(...) "frequency" must be a number.');
-	      }
-
-	      if (!_lodash2.default.isNumber(maxEpochs)) {
-	        throw new Error('train(...) "maxEpochs" must be a number');
-	      }
-
-	      if (!_lodash2.default.isFunction(onFail)) {
-	        throw new Error('train(...) "onFail" must be a function.');
-	      }
-
-	      if (!_lodash2.default.isFunction(onProgress)) {
-	        throw new Error('train(...) "onProgress" must be a function.');
-	      }
-
-	      if (!_lodash2.default.isFunction(onSuccess)) {
-	        throw new Error('train(...) "onSuccess" must be a function.');
-	      }
-
-	      // use an 'each' loop so we can break out of it on success/fail
-	      // a 'times' loop cannot be broken
-	      _lodash2.default.each(_lodash2.default.range(maxEpochs), function (index) {
-	        var n = index + 1;
-
-	        // loop over the training data summing the error of all samples
-	        // http://www.researchgate.net/post
-	        //   /Neural_networks_and_mean-square_errors#rgw51_55cb2f1399589
-	        _this2.error = _lodash2.default.sum(_lodash2.default.map(data, function (sample) {
-	          // make a prediction
-	          _this2.activate(sample.input);
-
-	          // correct the error
-	          _this2.correct(sample.output);
-
-	          // get the error
-	          return _this2.errorFn(sample.output, _this2.output) / data.length;
-	        }));
-
-	        // success
-	        if (_this2.error <= errorThreshold) {
-	          onSuccess(_this2.error, n);
-	          return false;
-	        }
-
-	        // fail
-	        if (n === maxEpochs) onFail(_this2.error, n);
-
-	        // call onProgress after the first epoch and every `frequency` thereafter
-	        if (n % frequency === 0) return onProgress(_this2.error, n);
+	      // TODO abstract into ERROR.meanSquared.partial once ERROR is refactored
+	      var delta = _lodash2.default.map(this.output, function (actVal, j) {
+	        return actVal - targetOutput[j];
 	      });
+
+	      this.outputLayer.backprop(delta);
+
+	      for (var i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
+	        this.hiddenLayers[i].backprop();
+	      }
 	    }
 
 	    /**
-	     * Called if the Network error falls below the `errorThreshold`.
-	     * @callback Network~onSuccess
-	     * @param {number} error The Network error value at the time of success.
-	     * @param {number} epoch Indicates on which iteration through the training
-	     *   data the Network became successful.
+	     * Calculate and accumulate Neuron Connection weight gradients.
+	     * Does not update weights. Useful during batch/mini-batch training.
 	     */
+
+	  }, {
+	    key: 'accumulateGradients',
+	    value: function accumulateGradients() {
+	      // NOTE can be parallel, Neuron ouputs and deltas are already set
+	      this.outputLayer.accumulateGradients();
+
+	      for (var i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
+	        this.hiddenLayers[i].accumulateGradients();
+	      }
+	    }
 
 	    /**
-	     * Called if the Network error is not below the `errorThreshold` after
-	     * `maxEpochs` iterations through the training data set.
-	     * @callback Network~onFail
-	     * @param {number} error The Network error value at the time of success.
-	     * @param {number} epoch Indicates on which iteration through the training
-	     *   data the Network became successful.
+	     * Update Neuron Connection weights and reset their accumulated gradients.
 	     */
 
-	    /**
-	     * Called if the Network error falls below the `errorThreshold`.
-	     * @callback Network~onProgress
-	     * @param {number} error The Network error value at the time of success.
-	     * @param {number} epoch Indicates on which iteration through the training
-	     *   data the Network became successful.
-	     */
+	  }, {
+	    key: 'updateWeights',
+	    value: function updateWeights() {
+	      // NOTE can be parallel, Neuron outputs and deltas are already set
+	      this.outputLayer.updateWeights();
 
+	      for (var i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
+	        this.hiddenLayers[i].updateWeights();
+	      }
+	    }
 	  }]);
 
 	  return Network;
@@ -1144,6 +1117,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.normalize = normalize;
+	exports.type = type;
 
 	var _lodash = __webpack_require__(4);
 
@@ -1152,54 +1127,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/**
+	 * Normalizes an `array` of numbers to a range from -1 to 1. Optionally
+	 * specifying the `dataMin` and/or `dataMax` is useful when normalizing
+	 * multiple arrays that do not each contain the global min value or global
+	 * max value.
+	 * @param {number[]} array - The array to normalize.
+	 * @param {number} [min] - The number to use at the min value in the
+	 *   `array`. Defaults to the actual min `array` value.
+	 * @param {number} [max] - The number to use at the max value in the
+	 *   `array`. Defaults to the actual max `array` value.
+	 */
+	function normalize(array) {
+	  var min = arguments.length <= 1 || arguments[1] === undefined ? _lodash2.default.min(array) : arguments[1];
+	  var max = arguments.length <= 2 || arguments[2] === undefined ? _lodash2.default.max(array) : arguments[2];
+
+	  var offset = 0 - min;
+	  var range = max - min;
+
+	  return _lodash2.default.map(array, function (n) {
+	    if (n > max || n < min) {
+	      throw new Error(n + ' is beyond the scale range: ' + min + ' to ' + max);
+	    }
+	    return (n + offset) / (range / 2) - 1;
+	  });
+	}
+
+	/**
+	 * Thin helper for use getting object type.
+	 * @param {*} arg The value whose type should be returned.
+	 */
+	function type(arg) {
+	  return Object.prototype.toString.call(arg);
+	}
+
+	/**
 	 * @namespace
 	 * @type {{}}
 	 */
 	var util = {
-	  /**
-	   * Normalizes an `array` of numbers to a range from -1 to 1. Optionally
-	   * specifying the `dataMin` and/or `dataMax` is useful when normalizing
-	   * multiple arrays that do not each contain the global min value or global
-	   * max value.
-	   * @param {number[]} array - The array to normalize.
-	   * @param {number} [dataMin] - The number to use at the min value in the
-	   *   `array`. Defaults to the actual min `array` value.
-	   * @param {number} [dataMax] - The number to use at the max value in the
-	   *   `array`. Defaults to the actual max `array` value.
-	   */
-	  normalize: function normalize(array) {
-	    var dataMin = arguments.length <= 1 || arguments[1] === undefined ? _lodash2.default.min(array) : arguments[1];
-	    var dataMax = arguments.length <= 2 || arguments[2] === undefined ? _lodash2.default.max(array) : arguments[2];
-
-	    var offset = 0 - dataMin;
-	    var range = dataMax - dataMin;
-
-	    return _lodash2.default.map(array, function (n) {
-	      if (n > dataMax || n < dataMin) {
-	        throw new Error(n + ' is beyond the scale range: ' + dataMin + ' to ' + dataMax);
-	      }
-	      return (n + offset) / (range / 2) - 1;
-	    });
-	  },
-
-	  /**
-	   * Returns a new function that is an approximate derivative of the `func`.
-	   * @param func - The function to create an approximate derivative of.
-	   * @returns {function}
-	   */
-	  getApproximateDerivative: function getApproximateDerivative(func) {
-	    return function (x) {
-	      return (func(x + 1e-10) - func(x)) / 1e-10;
-	    };
-	  },
-
-	  /**
-	   * Thin helper for use getting object type.
-	   * @param {*} arg The value whose type should be returned.
-	   */
-	  type: function type(arg) {
-	    return Object.prototype.toString.call(arg);
-	  }
+	  normalize: normalize,
+	  type: type
 	};
 
 	exports.default = util;
@@ -1399,6 +1366,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	      validate.sampleInputFitsNetwork(sample, i, network);
 	      validate.sampleOutputFitsNetwork(sample, i, network);
 	    });
+	  },
+
+	  trainingOptions: function trainingOptions(options) {
+	    if (!_lodash2.default.isPlainObject(options)) {
+	      throw new Error('training "options" must be a plain object.');
+	    }
+
+	    var validOptions = ['batch', 'errorThreshold', 'frequency', 'maxEpochs', 'onFail', 'onProgress', 'onSuccess'];
+
+	    _lodash2.default.each(options, function (val, key) {
+	      if (_lodash2.default.includes(validOptions, key)) return;
+	      throw new Error('Unknown training option "' + key + '", try: ' + validOptions);
+	    });
+
+	    if (!_lodash2.default.isBoolean(options.batch) && !_lodash2.default.isNumber(options.batch)) {
+	      throw new Error('training option "batch" must be a boolean or number.');
+	    }
+
+	    if (!_lodash2.default.isNumber(options.errorThreshold)) {
+	      throw new Error('training option "errorThreshold" must be a number.');
+	    }
+
+	    if (!_lodash2.default.isNumber(options.frequency)) {
+	      throw new Error('training option "frequency" must be a number.');
+	    }
+
+	    if (!_lodash2.default.isNumber(options.maxEpochs)) {
+	      throw new Error('training option "maxEpochs" must be a number');
+	    }
+
+	    if (_lodash2.default.has(options, 'onFail') && !_lodash2.default.isFunction(options.onFail)) {
+	      throw new Error('training option "onFail" must be a function.');
+	    }
+
+	    if (_lodash2.default.has(options, 'onProgress') && !_lodash2.default.isFunction(options.onProgress)) {
+	      throw new Error('training option "onProgress" must be a function.');
+	    }
+
+	    if (_lodash2.default.has(options, 'onSuccess') && !_lodash2.default.isFunction(options.onSuccess)) {
+	      throw new Error('training option "onSuccess" must be a function.');
+	    }
 	  }
 	};
 

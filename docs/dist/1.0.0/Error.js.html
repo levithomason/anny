@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Source: Error.js</title>
+
+  <script src="scripts/prettify/prettify.js"></script>
+  <script src="scripts/prettify/lang-css.js"></script>
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="styles/jsdoc-default.css">
+  <link rel="stylesheet" href="styles/prettify-halflife.css">
+  <link rel="stylesheet" href="styles/jsdoc-default-override.css">
+  <link rel="stylesheet" href="styles/fork-me-ribbon.css">
+</head>
+
+<body>
+
+<div class="fork-me-ribbon">
+  <a href="https://github.com/dev-coop/anny/fork">
+    <i class="fa fa-code-fork"></i> Anny on <i class="fa fa-github"></i>
+  </a>
+</div>
+
+<div id="main">
+
+  <h1 class="page-title">Source: Error.js</h1>
+
+  
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import _ from 'lodash'
+
+/**
+ * Functions for calculating Network error.  The error is simply the difference
+ * between the correct output and the actual output.
+ * @namespace
+ * @see Network
+ * @type {object}
+ */
+const ERROR = {
+  /**
+   * @param {number[]} expected - Array of output values the Network should
+   *   have produced.
+   * @param {number[]} actual - Array of output values the Network actually
+   *   produced.
+   * @returns {number}
+   */
+  crossEntropy(expected, actual) {
+    return -(_.sum(actual, (actVal, i) => {
+      return Math.log(actVal) * expected[i]
+    })) / actual.length
+  },
+
+  // These taken from: https://www.youtube.com/watch?v=U4BTzF3Wzt0
+
+  /**
+   * @param {number[]} expected - Array of output values the Network should
+   *   have produced.
+   * @param {number[]} actual - Array of output values the Network actually
+   *   produced.
+   * @returns {number}
+   */
+  meanSquared(expected, actual) {
+    return _.sum(actual, (actVal, i) => {
+      return 0.5 * Math.pow(expected[i] - actVal, 2)
+    }) / actual.length
+  },
+
+  /**
+   * @param {number[]} expected - Array of output values the Network should
+   *   have produced.
+   * @param {number[]} actual - Array of output values the Network actually
+   *   produced.
+   * @returns {number}
+   */
+  rootMeanSquared(expected, actual) {
+    return Math.sqrt(ERROR.meanSquared(expected, actual))
+  },
+
+  /**
+   * @param {number[]} expected - Array of output values the Network should
+   *   have produced.
+   * @param {number[]} actual - Array of output values the Network actually
+   *   produced.
+   * @returns {number}
+   */
+  arcTan(expected, actual) {
+    return _.sum(actual, (actVal, i) => {
+      return Math.atan(expected[i] - actVal)
+    }) / actual.length
+  },
+}
+
+export default ERROR
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li><li><a href="Trainer.html">Trainer</a></li><li><a href="ValidationError.html">ValidationError</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="DATA.html">DATA</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li><li><a href="validate.html">validate</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li><li><a href="tutorial-Hack on Anny.html">Hack on Anny</a></li></ul><h3>Global</h3><ul><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#type">type</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+  Created by
+  <a href="https://www.github.com/levithomason" target="_blank">
+    Levi Thomason
+  </a>
+  and the
+  <a href="https://github.com/dev-coop" target="_blank">Dev Coop</a>.
+
+  <div class="divider"></div>
+
+  <div class="social-links">
+    <a href="https://www.github.com/levithomason" target="_blank">
+      <i class="fa fa-github-square fa-2x"></i>
+    </a>
+    <a href="https://twitter.com/levithomason7" target="_blank">
+      <i class="fa fa-twitter-square fa-2x"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/levithomason" target="_blank">
+      <i class="fa fa-linkedin-square fa-2x"></i>
+    </a>
+  </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

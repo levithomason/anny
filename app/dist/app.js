@@ -51,7 +51,9 @@ AnnyFactory.$inject = ["$rootScope"];function AnnyFactory($rootScope) {
       )
     })
 
+    /* eslint-disable no-console */
     console.log(results.join('\n'))
+    /* eslint-enable no-console */
 
     factory.emitChange()
   }
@@ -249,7 +251,6 @@ visNetwork.$inject = ["visNetworkOptions", "AnnyFactory", "$rootScope"];function
             var input = neuron.input.toFixed(3)
             var output = neuron.output.toFixed(3)
             var delta = neuron.delta.toFixed(6)
-            var error = neuron.error.toFixed(3)
 
             nodes.push({
               id: id,
@@ -263,7 +264,6 @@ visNetwork.$inject = ["visNetworkOptions", "AnnyFactory", "$rootScope"];function
               ] : neuron.isOutput() ? [
                 '\ni:', input,
                 '\no:', output,
-                '\ne:', error,
               ] : neuron.isBias ? [
                 '\no:', output,
               ] : /* hidden layer */ [
