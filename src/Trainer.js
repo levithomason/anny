@@ -65,7 +65,8 @@ class Trainer {
    * @param {Network} network - The Network to be trained.
    * @param {object[]} data - Array of objects in the form
    * `{input: [], output: []}`.
-   * @param {object} [overrides] Overrides are merged into this trainer
+   * @param {Object} [overrides] Overrides are merged into this trainer
+   * @param {Trainer~onSuccess} [overrides.onSuccess] Overrides are merged into this trainer
    *   instance's options.
    * @see Network
    * @see Data

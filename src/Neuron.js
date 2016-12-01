@@ -228,6 +228,7 @@ Neuron.Connection = class Connection {
    * Calculate and accumulate `gradient`. Does not update `weight`.
    */
   accumulate() {
+    // delta this.output - target
     const gradient = this.source.output * this.target.delta
     this.gradient += gradient * this.target.learningRate
   }
