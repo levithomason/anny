@@ -38,7 +38,9 @@ Train a multilayer perceptron to approximate an OR logic gate:
 
 ```js
 const network = new anny.Network([2, 1])
-network.train(anny.DATA.ORGate)
+const trainer = new Trainer()
+
+trainer.train(network, anny.DATA.ORGate)
 
 network.activate([0, 0]) // => 0.000836743108
 network.activate([0, 1]) // => 0.998253857294
