@@ -88,11 +88,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Neuron2 = _interopRequireDefault(_Neuron);
 
+	var _Trainer = __webpack_require__(10);
+
+	var _Trainer2 = _interopRequireDefault(_Trainer);
+
 	var _Util = __webpack_require__(9);
 
 	var _Util2 = _interopRequireDefault(_Util);
 
-	var _Validate = __webpack_require__(10);
+	var _Validate = __webpack_require__(11);
 
 	var _Validate2 = _interopRequireDefault(_Validate);
 
@@ -106,6 +110,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Layer: _Layer2.default,
 	  Network: _Network2.default,
 	  Neuron: _Neuron2.default,
+	  Trainer: _Trainer2.default,
 	  util: _Util2.default,
 	  validate: _Validate2.default
 	};
@@ -1173,6 +1178,205 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _lodash = __webpack_require__(4);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _Validate = __webpack_require__(11);
+
+	var _Validate2 = _interopRequireDefault(_Validate);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	/**
+	 * A Trainer teaches a {@link Network} how to correctly classify some `data`.
+	 *
+	 * @example
+	 * const network = new anny.Network([2, 1])
+	 * const trainer = new Trainer()
+	 *
+	 * trainer.train(network, anny.DATA.ORGate)
+	 *
+	 * network.activate([0, 0]) // => 0.000836743108
+	 * network.activate([0, 1]) // => 0.998253857294
+	 */
+
+	var Trainer = (function () {
+	  /**
+	   * @param {object} [options]
+	   * @param {boolean|number} [options.batch]
+	   *   Use batch, online (stochastic), or mini-batch learning modes.
+	   *
+	   *   Batch `true`: Connection weights are updated once after iterating
+	   *   through all the training samples in the training data (an epoch).
+	   *
+	   *   Online `false`: Connection weights are updated after every training
+	   *   sample in the training data.
+	   *
+	   *   Mini-batch `<number>`: Connection weights are updated every `<number>`
+	   *   training samples.
+	   * @param {number} [options.errorThreshold=0.001]
+	   *   The target `error` value. The goal of the Trainer is to train the
+	   *   Network until the `error` is below this value.
+	   * @param {number} [options.frequency=100]
+	   *   How many iterations through the training data between calling
+	   *   `options.onProgress`.
+	   * @param {number} [options.maxEpochs=20000]
+	   *   The max training iterations. The Trainer will stop training after
+	   *   iterating through the training data this number of times.  One full loop
+	   *   through the training data is counted as one epoch.
+	   * @param {Trainer~onFail} [options.onFail]
+	   *   Called if the Network `error` does not fall below the `errorThreshold`
+	   *   after `maxEpochs`.
+	   * @param {Trainer~onProgress} [options.onProgress]
+	   *   Called every `frequency` epochs.
+	   * @param {Trainer~onSuccess} [options.onSuccess]
+	   *   Called if the Network `error` falls below the `errorThreshold` during
+	   *   training.
+	   * @constructor
+	   */
+
+	  function Trainer() {
+	    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	    _classCallCheck(this, Trainer);
+
+	    var defaultOptions = {
+	      batch: false,
+	      errorThreshold: 0.001,
+	      frequency: 100,
+	      maxEpochs: 20000
+	    };
+
+	    var mergedOptions = _lodash2.default.merge(defaultOptions, options);
+	    _Validate2.default.trainingOptions(mergedOptions);
+	    this.options = mergedOptions;
+	  }
+
+	  /**
+	   * Train the `network` to classify the `data`.
+	   * @param {Network} network - The Network to be trained.
+	   * @param {object[]} data - Array of objects in the form
+	   * `{input: [], output: []}`.
+	   * @param {Object} [overrides] Overrides are merged into this trainer
+	   * @param {Trainer~onSuccess} [overrides.onSuccess] Overrides are merged into this trainer
+	   *   instance's options.
+	   * @see Network
+	   * @see Data
+	   */
+
+	  _createClass(Trainer, [{
+	    key: 'train',
+	    value: function train(network, data) {
+	      var overrides = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	      _Validate2.default.trainingData(network, data);
+	      var mergedOptions = _lodash2.default.merge(this.options, overrides);
+	      _Validate2.default.trainingOptions(mergedOptions);
+	      // TODO: normalize data to the range of the activation functions
+	      var batch = mergedOptions.batch;
+	      var errorThreshold = mergedOptions.errorThreshold;
+	      var frequency = mergedOptions.frequency;
+	      var maxEpochs = mergedOptions.maxEpochs;
+	      var onFail = mergedOptions.onFail;
+	      var onProgress = mergedOptions.onProgress;
+	      var onSuccess = mergedOptions.onSuccess;
+
+	      var isBatch = batch === true;
+	      var isOnline = batch === false;
+	      var isMiniBatch = _lodash2.default.isNumber(batch);
+
+	      // track samples iterated, allows for mini-batches that span epochs
+	      var sampleCounter = 1;
+	      var epochCount = 1;
+
+	      for (var i = maxEpochs; i > 0; i -= 1) {
+	        // sum the average error of all training samples
+	        var error = _lodash2.default.sum(data, function (sample, sampleIndex) {
+	          var shouldUpdate = isOnline || isMiniBatch && sampleCounter % batch === 0 || isBatch && sampleIndex === data.length - 1;
+
+	          // propagation: set inputs & outputs, then error & deltas
+	          network.activate(sample.input);
+	          network.backprop(sample.output);
+
+	          // weight updates: update weights || accumulate weight gradients
+	          if (shouldUpdate) network.updateWeights();else network.accumulateGradients();
+
+	          sampleCounter++;
+	          return network.error / data.length;
+	        });
+
+	        // call onProgress after the first epoch and every `frequency` thereafter
+	        if (onProgress && epochCount % frequency === 0) {
+	          var stop = onProgress(error, epochCount) === false;
+	          if (stop) break;
+	        }
+
+	        // success
+	        if (onSuccess && error <= errorThreshold) {
+	          onSuccess(error, epochCount);
+	          break;
+	        }
+
+	        // fail
+	        if (onFail && epochCount === maxEpochs) onFail(error, epochCount);
+
+	        epochCount++;
+	      }
+	    }
+
+	    /**
+	     * Called if the `network` error falls below the `errorThreshold`.
+	     * @callback Trainer~onSuccess
+	     * @param {number} error
+	     *   The `network` error value at the time of success.
+	     * @param {number} epoch
+	     *   Indicates on which iteration through the training data the `network`
+	     *   became successful.
+	     */
+
+	    /**
+	     * Called if the `network` error is not below the `errorThreshold` after
+	     * `maxEpochs` iterations through the training data set.
+	     * @callback Trainer~onFail
+	     * @param {number} error
+	     *   The `network` error value at the time of success.
+	     * @param {number} epoch
+	     *   Indicates on which iteration through the training data the `network`
+	     *   became successful.
+	     */
+
+	    /**
+	     * Called if the `network` error falls below the `errorThreshold`.
+	     * @callback Trainer~onProgress
+	     * @param {number} error
+	     *   The `network` error value at the time of success.
+	     * @param {number} epoch
+	     *   Indicates on which iteration through the training data the `network`
+	     *   became successful.
+	     */
+
+	  }]);
+
+	  return Trainer;
+	})();
+
+	exports.default = Trainer;
+
+/***/ },
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

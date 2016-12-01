@@ -83,7 +83,9 @@
 or try the <a href="http://dev-coop.github.io/anny">demo</a>.</p>
 <p>Train a multilayer perceptron to approximate an OR logic gate:</p>
 <pre class="prettyprint source lang-js"><code>const network = new anny.Network([2, 1])
-network.train(anny.DATA.ORGate)
+const trainer = new Trainer()
+
+trainer.train(network, anny.DATA.ORGate)
 
 network.activate([0, 0]) // => 0.000836743108
 network.activate([0, 1]) // => 0.998253857294</code></pre><h2>Why Anny?</h2><p>I wanted to understand machine learning.</p>

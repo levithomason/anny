@@ -3,6 +3,7 @@ function AnnyFactory($rootScope) {
 
   factory.init = function init() {
     factory.newNetwork([2, 1])
+    factory.trainer = new anny.Trainer()
   }
 
   factory.activate = function(inputs) {
@@ -25,9 +26,9 @@ function AnnyFactory($rootScope) {
     return [].concat(inputs, hiddenLayers, outputs)
   }
 
-  factory.train = function(trainingSet, callback, frequency) {
+  factory.train = function(trainingSet) {
     var results = ['Predictions after training:']
-    factory.network.train(trainingSet, callback, frequency)
+    factory.trainer.train(factory.network, trainingSet)
 
     _.each(trainingSet, function(sample) {
       var input = sample.input
