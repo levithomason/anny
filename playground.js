@@ -16,35 +16,39 @@ import {
 const datasetName = 'irisFlower'
 const dataset = DATA[datasetName]
 
+// shuffle
+const data = _.shuffle(dataset)
+
 // shuffle & normalize
-const data = _.shuffle(_.map(dataset, (sample) => {
-  const maxInput = _.max(_.flatten(_.pluck(dataset, 'input')))
-  sample.input = _.map(sample.input, input => input / maxInput)
-  return sample
-}))
+// const data = _.shuffle(_.map(dataset, (sample) => {
+//   const maxInput = _.max(_.flatten(_.pluck(dataset, 'input')))
+//   sample.input = _.map(sample.input, input => input / maxInput)
+//   return sample
+// }))
 
 // ----------------------------------------
 // Settings
 // ----------------------------------------
 
-const learningRate = 0.001
-
-// Network
-const layers = [
-  new Layer(4, ACTIVATION.tanh, 0.5),
-  new Layer(16, ACTIVATION.tanh, 0.45),
-  new Layer(12, ACTIVATION.tanh, 0.4),
-  new Layer(8, ACTIVATION.tanh, 0.35),
-  new Layer(3, ACTIVATION.tanh, 0.3),
-]
-
-const network = new Network(layers, ERROR.meanSquared)
 
 // Trainer
-const batch = false
+const batch = true
 const maxEpochs = 20000
 const frequency = 100
 const trainings = 1
+const errorThreshold = 0.001
+
+// Network
+const learningRate = 0.0015
+const layers = [
+  new Layer(4, ACTIVATION.tanh, learningRate),
+  new Layer(20, ACTIVATION.tanh, learningRate),
+  new Layer(15, ACTIVATION.tanh, learningRate),
+  new Layer(10, ACTIVATION.tanh, learningRate),
+  new Layer(3, ACTIVATION.tanh, learningRate),
+]
+
+const network = new Network(layers, ERROR.meanSquared)
 
 // ----------------------------------------
 // Multiple Train
@@ -74,6 +78,7 @@ _.times(trainings, training => {
   const trainer = new Trainer({
     batch,
     maxEpochs,
+    errorThreshold,
     frequency,
     onSuccess: (error, epoch) => {
       successes++
