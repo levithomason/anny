@@ -1,33 +1,50 @@
 /* eslint-disable no-console */
 import _ from 'lodash'
-import DATA from './src/Data'
-import Network from './src/Network'
-import Trainer from './src/Trainer'
+import {
+  ACTIVATION,
+  DATA,
+  ERROR,
+  Layer,
+  Network,
+  Trainer,
+} from './src'
+
+// ----------------------------------------
+// Dataset
+// ----------------------------------------
+
+const datasetName = 'irisFlower'
+const dataset = DATA[datasetName]
+
+// shuffle & normalize
+const data = _.shuffle(_.map(dataset, (sample) => {
+  const maxInput = _.max(_.flatten(_.pluck(dataset, 'input')))
+  sample.input = _.map(sample.input, input => input / maxInput)
+  return sample
+}))
 
 // ----------------------------------------
 // Settings
 // ----------------------------------------
 
-const dataSetName = 'ORGate'
-
-const hiddenLayers = [8]
 const learningRate = 0.001
+
+// Network
+const layers = [
+  new Layer(4, ACTIVATION.tanh, 0.5),
+  new Layer(16, ACTIVATION.tanh, 0.45),
+  new Layer(12, ACTIVATION.tanh, 0.4),
+  new Layer(8, ACTIVATION.tanh, 0.35),
+  new Layer(3, ACTIVATION.tanh, 0.3),
+]
+
+const network = new Network(layers, ERROR.meanSquared)
+
+// Trainer
 const batch = false
-
 const maxEpochs = 20000
-const frequency = 1000
+const frequency = 100
 const trainings = 1
-
-// ----------------------------------------
-// Shuffle & normalize data
-// ----------------------------------------
-
-const dataSet = DATA[dataSetName]
-const data = _.shuffle(_.map(dataSet, (sample) => {
-  const maxInput = _.max(_.flatten(_.pluck(dataSet, 'input')))
-  sample.input = _.map(sample.input, input => input / maxInput)
-  return sample
-}))
 
 // ----------------------------------------
 // Multiple Train
@@ -37,18 +54,14 @@ const epochs = []
 let successes = 0
 let fails = 0
 
-const layerSizes = _.flatten([
-  data[0].input.length,
-  hiddenLayers,
-  data[0].output.length,
-])
+const layerReadout = layers.map(l => `${l.size()}`).join(', ')
 
 console.log(`
-  data set     : ${dataSetName}
+  data set     : ${datasetName}
   batch        : ${batch}
   maxEpochs    : ${maxEpochs}
   frequency    : ${frequency}
-  layerSizes   : ${layerSizes.join(', ')}
+  layers       : ${layerReadout}
   learningRate : ${learningRate}
 `)
 
@@ -58,16 +71,6 @@ _.times(trainings, training => {
   console.log(`${_.repeat('-', 60)}`)
   console.log(`training ${training + 1}`)
 
-  // ----------------------------------------
-  // Network
-  // ----------------------------------------
-
-  const network = new Network(layerSizes)
-
-  // ----------------------------------------
-  // Trainer
-  // ----------------------------------------
-
   const trainer = new Trainer({
     batch,
     maxEpochs,
@@ -76,6 +79,12 @@ _.times(trainings, training => {
       successes++
       epochs.push(epoch)
       console.log(`\nSuccess: error ${error} @ ${epoch} epochs`)
+
+      dataset.forEach(sample => {
+        console.log('')
+        console.log(`  target: ${sample.output}`)
+        console.log(`  actual: ${network.activate(sample.input).map(n => n.toFixed(9))}`)
+      })
     },
     onFail: (error, epoch) => {
       fails++
@@ -105,8 +114,8 @@ console.log(`// Results`)
 console.log(`// ${_.repeat('-', 60)}`)
 
 console.log(`
-  data set     : ${dataSetName}
-  layerSizes   : ${layerSizes.join(', ')}
+  data set     : ${datasetName}
+  layerSizes   : ${layerReadout}
   learningRate : ${learningRate}
   batch        : ${batch}
   maxEpochs    : ${maxEpochs}

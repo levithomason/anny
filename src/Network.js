@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import ERROR from './Error'
 import Layer from './Layer'
-import {type} from './Util'
+import { type } from './Util'
 
 /**
  * A Network contains [Layers]{@link Layer} of [Neurons]{@link Neuron}.
@@ -9,45 +9,36 @@ import {type} from './Util'
  * @example
  * // 2 inputs
  * // 1 output
- * const net = new Network([2, 1]);
- *
- * @example
- * // 16 inputs
- * // 10 neuron hidden layer
- * // 4 neuron hidden layer
- * // 1 output
- * const net = new Network([16, 10, 4, 1]);
+ * const net = new Network([
+ *   new Layer(2, ACTIVATION.tanh),
+ *   new Layer(1, ACTIVATION.softmax)
+ * ])
  */
 class Network {
   /**
-   * Creates a Network of Layers consisting of Neurons. Each array element
-   * indicates a layer.  The value indicates the number of Neurons in that
-   * Layer.
+   * Creates a Network of Layers consisting of Neurons. Each array element indicates a layer.
    *
-   * The first element represents the number of Neurons in the input Layer.
-   * The last element represents the number of Neurons in the output Layer.
+   * The first element represents the input Layer.
+   * The last element represents the output Layer.
    * Each element in between represents a hidden Layer with n Neurons.
-   * @param {number[]} layerSizes - Number of neurons in each layer.
+   * @param {Layer[]} layers - An array of Layers.
+   * @param {function} [errorFn=ERROR.meanSquared] - The cost function to be minimized.
    * @constructor
    * @see Layer
    * @see Neuron
    */
-  constructor(layerSizes) {
-    if (!_.isArray(layerSizes)) {
-      throw new Error(
-        `Network() \`layerSizes\` must be an array, not: ${type(layerSizes)}`
-      )
+  constructor(layers, errorFn = ERROR.meanSquared) {
+    if (!_.isArray(layers)) {
+      throw new Error(`Network() \`layerSizes\` must be an array, not: ${type(layers)}`)
     }
 
-    if (_.isEmpty(layerSizes) || !_.every(layerSizes, _.isNumber)) {
-      throw new Error(
-        `Network() \`layerSizes\` array elements must be all numbers.`
-      )
+    if (_.isEmpty(layers) || !_.every(layers, layer => layer instanceof Layer)) {
+      throw new Error(`Network() every \`layers\` array element must be a Layer instance.`)
     }
 
     /**
-     * The output values of the Neurons in the last layer.  This is identical to
-     * the Network's `outputLayer` output.
+     * The output values of the Neurons in the last layer.
+     * This is identical to the Network's `outputLayer` output.
      * @type {Array}
      */
     this.output = []
@@ -63,14 +54,14 @@ class Network {
      * In other words, to what degree was the Network's output wrong.
      * @type {function}
      */
-    this.errorFn = ERROR.meanSquared
+    this.errorFn = errorFn
 
     /**
      * An array of all Layers in the Network.  It is a single dimension array
      * containing the `inputLayer`, `hiddenLayers`, and the `outputLayer`.
      * @type {Layer}
      */
-    this.allLayers = _.map(layerSizes, size => new Layer(size))
+    this.allLayers = [...layers]  // clone to prevent mutation
     /**
      * The first Layer of the Network.  This Layer receives input during
      * activation.
