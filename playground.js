@@ -96,13 +96,13 @@ _.times(trainings, training => {
       console.log(`\nFail: error ${error} @ ${epoch} epochs`)
     },
     onProgress: (error, epoch) => {
-      const sign = error === lastError && '-' || (error < lastError ? '↓' : '↑')
-      const lowest = error < lowestError ? '★' : ' '
-      const percent =
-        `${_.padLeft(100 - Math.round((lastError / error) * 100), 4)}%`
-      lowestError = Math.min(error, lowestError)
-      console.log(`${_.pad(epoch, 5)} ${lowest} ${sign} ${percent} ${error}`)
-      lastError = error
+      const fixedError = error.toFixed(6)
+      const sign = fixedError === lastError && '-' || (fixedError < lastError ? '↓' : '↑')
+      const lowest = fixedError < lowestError ? '★' : ' '
+      const percent = `${_.padLeft(100 - Math.round((lastError / fixedError) * 100), 4)}%`
+      lowestError = Math.min(fixedError, lowestError)
+      console.log(`${_.pad(epoch, 5)} ${lowest} ${sign} ${percent} ${fixedError}`)
+      lastError = fixedError
     },
   })
 
