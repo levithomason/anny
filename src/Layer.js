@@ -88,7 +88,7 @@ class Layer {
    * Returns the number of Neurons in this Layer, excluding Bias Neurons.
    */
   size() {
-    return _.filter(this.neurons, {isBias: false}).length
+    return _.filter(this.neurons, { isBias: false }).length
   }
 }
 

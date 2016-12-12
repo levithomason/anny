@@ -84,7 +84,7 @@ class Trainer {
       onFail,
       onProgress,
       onSuccess,
-      } = mergedOptions
+    } = mergedOptions
 
     const isBatch = batch === true
     const isOnline = batch === false

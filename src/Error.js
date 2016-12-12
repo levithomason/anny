@@ -17,8 +17,8 @@ const ERROR = {
    */
   crossEntropy(expected, actual) {
     return -(_.sum(actual, (actVal, i) => {
-      return Math.log(actVal) * expected[i]
-    })) / actual.length
+        return Math.log(actVal) * expected[i]
+      })) / actual.length
   },
 
   // These taken from: https://www.youtube.com/watch?v=U4BTzF3Wzt0
@@ -32,8 +32,8 @@ const ERROR = {
    */
   meanSquared(expected, actual) {
     return _.sum(actual, (actVal, i) => {
-      return 0.5 * Math.pow(expected[i] - actVal, 2)
-    }) / actual.length
+        return 0.5 * Math.pow(expected[i] - actVal, 2)
+      }) / actual.length
   },
 
   /**
@@ -56,8 +56,8 @@ const ERROR = {
    */
   arcTan(expected, actual) {
     return _.sum(actual, (actVal, i) => {
-      return Math.atan(expected[i] - actVal)
-    }) / actual.length
+        return Math.atan(expected[i] - actVal)
+      }) / actual.length
   },
 }
 

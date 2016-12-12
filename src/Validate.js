@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import {type} from './Util'
+import { type } from './Util'
 
 /**
  * Thin Error wrapper that concatenates all arguments into the Error message.
