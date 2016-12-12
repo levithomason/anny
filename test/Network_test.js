@@ -6,7 +6,7 @@ let sandbox
 
 describe('Network', () => {
   beforeEach(() => {
-    network = new Network([2, 1])
+    network = new Network([new Layer(2), new Layer(1)])
     sandbox = sinon.sandbox.create()
   })
 
@@ -39,7 +39,7 @@ describe('Network', () => {
     })
 
     it('has all layers in a single array', () => {
-      network = new Network([1, 1, 1])
+      network = new Network([new Layer(1), new Layer(1), new Layer(1)])
       network.allLayers.should.have.a.lengthOf(3)
       _.each(network.allLayers, layer => layer.should.be.an.instanceOf(Layer))
     })
@@ -67,8 +67,8 @@ describe('Network', () => {
       network.inputLayer.activate.called.should.equal(true)
     })
 
-    it('calls activate on the input layer', () => {
-      network = new Network([2, 2, 1])
+    it('calls activate on each hidden layer', () => {
+      network = new Network([new Layer(2), new Layer(2), new Layer(1)])
       _.each(network.hiddenLayers, l => l.activate = sandbox.spy())
       _.each(network.hiddenLayers, l => l.activate.called.should.equal(false))
       network.activate()
@@ -92,7 +92,7 @@ describe('Network', () => {
     })
 
     it('calls backprop on each hidden layer', () => {
-      network = new Network([2, 2, 1])
+      network = new Network([new Layer(2), new Layer(2), new Layer(1)])
       _.each(network.hiddenLayers, l => l.backprop = sandbox.spy())
       _.each(network.hiddenLayers, l => l.backprop.called.should.equal(false))
       network.backprop()

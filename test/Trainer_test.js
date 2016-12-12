@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import Trainer from '../src/Trainer'
 import Network from '../src/Network'
+import Layer from '../src/Layer'
 import DATA from '../src/Data'
 let trainer
 let network
@@ -10,7 +11,7 @@ let sandbox
 describe('Trainer', () => {
   beforeEach(() => {
     trainer = new Trainer()
-    network = new Network([2, 1])
+    network = new Network([new Layer(2), new Layer(1)])
     data = DATA.ORGate
     sandbox = sinon.sandbox.create()
   })
@@ -95,7 +96,7 @@ describe('Trainer', () => {
 
         it('stops training when false is returned', () => {
           // cannot solve XOR, would run run forever
-          network = new Network([2, 1])
+          network = new Network([new Layer(2), new Layer(1)])
           trainer.train(network, DATA.XORGate, {
             // ensure we run a few epochs, calling progress every epoch
             maxEpochs: 5,

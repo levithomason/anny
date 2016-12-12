@@ -2,6 +2,7 @@ import _ from 'lodash'
 import validate from '../src/Validate'
 
 import Network from '../src/Network'
+import Layer from '../src/Layer'
 
 let sample
 let data
@@ -17,9 +18,9 @@ const invoke = (func, ...args) => {
 describe('Validate', () => {
   beforeEach(() => {
     sandbox = sinon.sandbox.create()
-    sample = {input: [0], output: [0]}
+    sample = { input: [0], output: [0] }
     data = [sample]
-    network = new Network([1, 1])
+    network = new Network([new Layer(1), new Layer(1)])
   })
 
   afterEach(() => {
@@ -148,14 +149,14 @@ describe('Validate', () => {
 
   describe('sampleInputFitsNetwork', () => {
     it('throws if sample "input" size !== network input size', () => {
-      network = new Network([1, 1])
+      network = new Network([new Layer(1), new Layer(1)])
       sample.input = [0, 0]
       expect(invoke(validate.sampleInputFitsNetwork, sample, 0, network))
         .to.throw()
     })
 
     it('does not throw if sample "input" size === network input size', () => {
-      network = new Network([2, 1])
+      network = new Network([new Layer(2), new Layer(1)])
       sample.input = [0, 0]
       expect(invoke(validate.sampleInputFitsNetwork, sample, 0, network))
         .not.to.throw()
@@ -164,14 +165,14 @@ describe('Validate', () => {
 
   describe('sampleOutputFitsNetwork', () => {
     it('throws if sample "output" size !== network output size', () => {
-      network = new Network([1, 1])
+      network = new Network([new Layer(1), new Layer(1)])
       sample.output = [0, 0]
       expect(invoke(validate.sampleOutputFitsNetwork, sample, 0, network))
         .to.throw()
     })
 
     it('does not throw if sample "output" size === network output size', () => {
-      network = new Network([1, 2])
+      network = new Network([new Layer(1), new Layer(2)])
       sample.output = [0, 0]
       expect(invoke(validate.sampleOutputFitsNetwork, sample, 0, network))
         .not.to.throw()
@@ -245,7 +246,6 @@ describe('Validate', () => {
       validate.sampleOutputFitsNetwork.called.should.equal(true)
     })
   })
-
 
   describe('trainingOptions', () => {
     const misuse = badOptions => validate.trainingOptions(badOptions)

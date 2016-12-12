@@ -22,7 +22,7 @@ describe('Layer', () => {
       layer.neurons.should.have.length(size)
     })
     it('constructs neurons with the specified activation', () => {
-      const activation = {func: 'yo', prime: 'yep'}
+      const activation = { func: 'yo', prime: 'yep' }
       layer = new Layer(1, activation)
       layer.neurons[0].activation.should.deep.equal(activation)
     })
@@ -58,8 +58,8 @@ describe('Layer', () => {
 
   describe('size', () => {
     it('returns the number of non-bias neurons in the layer', () => {
-      const neurons = _.times(_.random(1, 99), n => ({isBias: false}))
-      const biasNeurons = _.times(_.random(1, 99), n => ({isBias: true}))
+      const neurons = _.times(_.random(1, 99), n => ({ isBias: false }))
+      const biasNeurons = _.times(_.random(1, 99), n => ({ isBias: true }))
       layer.neurons = _.union(neurons, biasNeurons)
       layer.size().should.equal(neurons.length)
     })

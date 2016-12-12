@@ -73,7 +73,6 @@
     "jsdoc": "jsdoc3/jsdoc",
     "mocha": "^2.2.5",
     "node-libs-browser": "^0.5.2",
-    "pre-commit": "^1.1.1",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.1",
     "sinon": "^1.15.4",

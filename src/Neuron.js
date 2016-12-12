@@ -119,7 +119,7 @@ class Neuron {
     if (!_.isUndefined(delta)) {
       this.delta = delta
     } else {
-      this.delta = _.sum(this.outgoing, ({target, weight}) => {
+      this.delta = _.sum(this.outgoing, ({ target, weight }) => {
         return this.activation.prime(this.input) * weight * target.delta
       })
     }
@@ -217,8 +217,8 @@ Neuron.Connection = class Connection {
      * the total error delta.
      * @type {number}
      */
-      // We add one to initialize the weight value as if this connection were
-      // already part of the fan.
+    // We add one to initialize the weight value as if this connection were
+    // already part of the fan.
     this.weight = weight || INITIALIZE.weight(target.incoming.length)
 
     this.gradient = 0

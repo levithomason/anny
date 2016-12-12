@@ -2,7 +2,7 @@ function AnnyFactory($rootScope) {
   var factory = {}
 
   factory.init = function init() {
-    factory.newNetwork([2, 1])
+    factory.newNetwork([new anny.Layer(2), new anny.Layer(1)])
     factory.trainer = new anny.Trainer()
   }
 
@@ -14,16 +14,15 @@ function AnnyFactory($rootScope) {
   factory.data = anny.DATA
 
   factory.getRandomLayers = function getRandomLayers() {
-    var inputs = 2
-    var outputs = 1
-    var numHiddenLayers = _.random(1, 3)
-    var hiddenLayers = []
+    var layers = [new anny.Layer(2)]
 
-    _.times(numHiddenLayers, function time() {
-      hiddenLayers.push(_.random(3, 5))
+    _.times(_.random(1, 3), function createHiddenLayer() {
+      layers.push(new anny.Layer(_.random(3, 5)))
     })
 
-    return [].concat(inputs, hiddenLayers, outputs)
+    layers.push(new anny.Layer(1))
+
+    return layers
   }
 
   factory.train = function(trainingSet) {
