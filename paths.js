@@ -3,8 +3,8 @@ const ROOT = __dirname
 const paths = {
   root: ROOT,
   appSrc: ROOT + '/app/src',
-  appBower: ROOT + '/app/bower',
   appDist: ROOT + '/app/dist',
+  appEntry: ROOT + '/app/src/js/main.js',
   annyDist: ROOT + '/dist',
   annySrc: ROOT + '/src',
   annyEntry: ROOT + '/src/index.js',

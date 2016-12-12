@@ -1,15 +1,11 @@
 {
-  "extends": [
-    "defaults/rules/eslint/es6/off"
-  ],
   "env": {
     "browser": true
   },
   "globals": {
-    "angular": false,
     "anny": false,
     "vis": false,
-    "_": false,
+    "_": false
   },
   "rules": {
     "no-nested-ternary": 0,

@@ -1,7 +1,7 @@
 const g = require('gulp-load-plugins')()
 const gulp = g.help(require('gulp'), require('../gulphelp'))
 import del from 'del'
-import {exec} from 'child_process'
+import { exec } from 'child_process'
 import runSequence from 'run-sequence'
 
 import pkg from '../../package.json'
@@ -11,7 +11,7 @@ gulp.task('docs', 'build docs for the current version', cb => {
   runSequence(
     'docs-clean',
     'docs-jsdoc',
-    'docs-less',
+    'docs-styles',
     'docs-index-html',
     cb
   )
@@ -34,12 +34,12 @@ gulp.task('docs-jsdoc', cb => {
   ].join(' && '), cb)
 })
 
-gulp.task('docs-less', cb => {
+gulp.task('docs-styles', cb => {
   return gulp.src([
-    `${paths.docsSrc}/static/styles/*.less`,
+    `${paths.docsSrc}/static/styles/*.styles`,
   ])
     .pipe(g.plumber())
-    .pipe(g.less())
+    .pipe(g.sass())
     .pipe(g.autoprefixer())
     .pipe(gulp.dest(`${paths.docsDist}/${pkg.version}/styles`))
 })

@@ -1,27 +1,65 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="App">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Anny</title>
 
-  <link rel="stylesheet" href="app/bower/vis/dist/vis.min.css"/>
-  <link rel="stylesheet" href="app/bower/ionicons/css/ionicons.min.css"/>
-  <link rel="stylesheet" href="app/dist/css/app.min.css"/>
-  <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Lato:300,700,100'/>
+  <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Lato:300,700,100' />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis-network.min.css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.css" />
+  <link rel="stylesheet" href="app/dist/css/main.css" />
 
-  <script src="app/bower/lodash/lodash.min.js"></script>
-  <script src="app/bower/jquery/dist/jquery.js"></script>
-  <script src="app/bower/angular/angular.min.js"></script>
-  <script src="app/bower/vis/dist/vis.js"></script>
-
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis-network.min.js"></script>
   <script src="dist/anny.js"></script>
-  <script src="app/dist/app.js"></script>
 </head>
 <body>
 
-<vis-network></vis-network>
+<div class="vis-network"></div>
 
-<toolbar></toolbar>
+<div class="ay-toolbar">
+  <a href="http://www.github.com/dev-coop/anny/" class="item github">
+    <i class="icon ion-social-github"></i>
+  </a>
 
+  <a href="docs" class="item github">
+    <i class="icon ion-ios-book"></i>
+  </a>
+
+  <div class="divider"></div>
+
+  <div class="header">Network</div>
+  <div class="item" onclick="annyApp.toolbar.newLogicNetwork()">
+    <i class="icon ion-network"></i>logic
+  </div>
+  <!--<div class="item" onclick="annyApp.toolbar.newIrisNetwork()">-->
+    <!--<i class="icon ion-ios-flower"></i>iris-->
+  <!--</div>-->
+  <div class="item" onclick="annyApp.toolbar.newRandomNetwork()">
+    <i class="icon ion-ios-shuffle"></i>rand
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="header">Train</div>
+  <div class="item" onclick="annyApp.toolbar.trainORGate()">
+    <i class="icon ion-ios-lightbulb-outline"></i>OR
+  </div>
+  <div class="item" onclick="annyApp.toolbar.trainXORGate()">
+    <i class="icon ion-ios-lightbulb-outline"></i>XOR
+  </div>
+  <div class="item" onclick="annyApp.toolbar.trainANDGate()">
+    <i class="icon ion-ios-lightbulb-outline"></i>AND
+  </div>
+  <div class="item" onclick="annyApp.toolbar.trainNANDGate()">
+    <i class="icon ion-ios-lightbulb-outline"></i>NAND
+  </div>
+  <!--<div class="item" onclick="annyApp.toolbar.trainIrisFlower()">-->
+    <!--<i class="icon ion-ios-lightbulb-outline"></i>Iris-->
+  <!--</div>-->
+</div>
+
+<div class="ay-console"></div>
+
+<script src="app/dist/js/main.js"></script>
 </body>
 </html>

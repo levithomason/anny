@@ -1,0 +1,43 @@
+@import "variables";
+
+.ay-toolbar {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  user-select: none;
+
+  .header,
+  .item {
+    float: left;
+    padding: ($ay-toolbar-item-size / 2) $ay-toolbar-item-size;
+    font-size: $ay-toolbar-item-size;
+    text-align: center;
+    line-height: $ay-toolbar-item-size + ($ay-toolbar-item-size / 2);
+    color: $ay-toolbar-item-color;
+  }
+
+  .item {
+    background: $ay-toolbar-item-bg;
+    cursor: pointer;
+    text-decoration: none;
+    &:hover {
+      background: lighten($ay-toolbar-item-bg, 10);
+      text-decoration: none;
+    }
+    & + .item {
+      margin-left: ($ay-toolbar-item-size / 4);
+    }
+
+    .icon {
+      font-size: $ay-toolbar-item-size * 1.5;
+      margin-right: ($ay-toolbar-item-size / 2);
+    }
+  }
+
+  .divider {
+    float: left;
+    width: 1em;
+    height: $ay-toolbar-item-size * 2;
+  }
+}
