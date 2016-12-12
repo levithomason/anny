@@ -321,12 +321,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   produced.
 	   * @returns {number}
 	   */
-
 	  crossEntropy: function crossEntropy(expected, actual) {
-	    return -_lodash2.default.sum(actual, function (actVal, i) {
-	      return Math.log(actVal) * expected[i];
-	    }) / actual.length;
+	    var sum = _lodash2.default.sum(actual, function (a, i) {
+	      return Math.log(a) * expected[i];
+	    });
+	    return -sum / actual.length;
 	  },
+
 
 	  // These taken from: https://www.youtube.com/watch?v=U4BTzF3Wzt0
 
@@ -338,10 +339,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {number}
 	   */
 	  meanSquared: function meanSquared(expected, actual) {
-	    return _lodash2.default.sum(actual, function (actVal, i) {
-	      return 0.5 * Math.pow(expected[i] - actVal, 2);
-	    }) / actual.length;
+	    var sum = _lodash2.default.sum(actual, function (a, i) {
+	      return 0.5 * Math.pow(expected[i] - a, 2);
+	    });
+	    return sum / actual.length;
 	  },
+
 
 	  /**
 	   * @param {number[]} expected - Array of output values the Network should
@@ -354,6 +357,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return Math.sqrt(ERROR.meanSquared(expected, actual));
 	  },
 
+
 	  /**
 	   * @param {number[]} expected - Array of output values the Network should
 	   *   have produced.
@@ -362,9 +366,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {number}
 	   */
 	  arcTan: function arcTan(expected, actual) {
-	    return _lodash2.default.sum(actual, function (actVal, i) {
-	      return Math.atan(expected[i] - actVal);
-	    }) / actual.length;
+	    var sum = _lodash2.default.sum(actual, function (a, i) {
+	      return Math.atan(expected[i] - a);
+	    });
+	    return sum / actual.length;
 	  }
 	};
 
@@ -402,11 +407,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Initialize the learning rate for a Neuron.
 	   * @returns {number}
 	   */
-
 	  learningRate: function learningRate() {
 	    // TODO: Implement 4.7 Choosing learning rates (pg 13)
 	    return 0.3;
 	  },
+
 
 	  /**
 	   * Initialize the weight for a Neuron.connection.
@@ -429,11 +434,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _lodash = __webpack_require__(4);
 
@@ -449,8 +456,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	/**
@@ -461,8 +466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   Layers are organized into a {@link Network}
 	 * @see {Neuron}
 	 */
-
-	var Layer = (function () {
+	var Layer = function () {
 	  /**
 	   * Creates a single dimension Layer of [Neurons]{@link Neuron}.
 	   * @param {number} size - The number of Neurons this Layer should have.
@@ -472,7 +476,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   the
 	   *   Neuron constructor.
 	   */
-
 	  function Layer(size, activation, learningRate) {
 	    _classCallCheck(this, Layer);
 
@@ -488,6 +491,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Connects every Neuron in this Layer to each Neuron in the `target` Layer.
 	   * @param {Layer} targetLayer - The Layer to connect to.
 	   */
+
 
 	  _createClass(Layer, [{
 	    key: 'connect',
@@ -522,7 +526,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'activate',
 	    value: function activate() {
-	      var values = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	      var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
 	      return _lodash2.default.map(this.neurons, function (neuron, i) {
 	        return neuron.activate(values[i]);
@@ -538,7 +542,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'backprop',
 	    value: function backprop() {
-	      var deltas = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	      var deltas = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
 	      _lodash2.default.each(this.neurons, function (neuron, i) {
 	        return neuron.backprop(deltas[i]);
@@ -582,7 +586,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return Layer;
-	})();
+	}();
 
 	exports.default = Layer;
 
@@ -592,11 +596,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _lodash = __webpack_require__(4);
 
@@ -623,8 +627,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 *   Neurons are organized into [Layers]{@link Layer}
 	 */
-
-	var Neuron = (function () {
+	var Neuron = function () {
 	  /**
 	   * @param {object} [activation=ACTIVATION.tanh] - An object containing an
 	   *   activation function and its first derivative. Typically selected from
@@ -634,10 +637,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   Usually a very small number (ie 0.01 - 0.5), experiment for optimal
 	   *   results.
 	   */
-
 	  function Neuron() {
-	    var activation = arguments.length <= 0 || arguments[0] === undefined ? _Activation2.default.tanh : arguments[0];
-	    var learningRate = arguments.length <= 1 || arguments[1] === undefined ? _Initialize2.default.learningRate() : arguments[1];
+	    var activation = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _Activation2.default.tanh;
+	    var learningRate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Initialize2.default.learningRate();
 
 	    _classCallCheck(this, Neuron);
 
@@ -703,6 +705,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {number}
 	   */
 
+
 	  _createClass(Neuron, [{
 	    key: 'activate',
 	    value: function activate(input) {
@@ -744,8 +747,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.delta = delta;
 	      } else {
 	        this.delta = _lodash2.default.sum(this.outgoing, function (_ref) {
-	          var target = _ref.target;
-	          var weight = _ref.weight;
+	          var target = _ref.target,
+	              weight = _ref.weight;
 
 	          return _this.activation.prime(_this.input) * weight * target.delta;
 	        });
@@ -820,7 +823,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return Neuron;
-	})();
+	}();
 
 	/**
 	 * A running total number of Neurons created.  It is only used to generate
@@ -828,6 +831,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * it is never decremented.
 	 * @type {number}
 	 */
+
 
 	Neuron.count = 0;
 
@@ -846,7 +850,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   input.
 	 * @see Neuron
 	 */
-	Neuron.Connection = (function () {
+	Neuron.Connection = function () {
 	  function Connection(source, target, weight) {
 	    _classCallCheck(this, Connection);
 
@@ -880,6 +884,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Calculate and accumulate `gradient`. Does not update `weight`.
 	   */
 
+
 	  _createClass(Connection, [{
 	    key: 'accumulate',
 	    value: function accumulate() {
@@ -903,7 +908,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return Connection;
-	})();
+	}();
 
 	exports.default = Neuron;
 
@@ -913,11 +918,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _lodash = __webpack_require__(4);
 
@@ -935,6 +940,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	/**
@@ -943,47 +950,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @example
 	 * // 2 inputs
 	 * // 1 output
-	 * const net = new Network([2, 1]);
-	 *
-	 * @example
-	 * // 16 inputs
-	 * // 10 neuron hidden layer
-	 * // 4 neuron hidden layer
-	 * // 1 output
-	 * const net = new Network([16, 10, 4, 1]);
+	 * const net = new Network([
+	 *   new Layer(2, ACTIVATION.tanh),
+	 *   new Layer(1, ACTIVATION.softmax)
+	 * ])
 	 */
-
-	var Network = (function () {
+	var Network = function () {
 	  /**
-	   * Creates a Network of Layers consisting of Neurons. Each array element
-	   * indicates a layer.  The value indicates the number of Neurons in that
-	   * Layer.
+	   * Creates a Network of Layers consisting of Neurons. Each array element indicates a layer.
 	   *
-	   * The first element represents the number of Neurons in the input Layer.
-	   * The last element represents the number of Neurons in the output Layer.
+	   * The first element represents the input Layer.
+	   * The last element represents the output Layer.
 	   * Each element in between represents a hidden Layer with n Neurons.
-	   * @param {number[]} layerSizes - Number of neurons in each layer.
+	   * @param {Layer[]} layers - An array of Layers.
+	   * @param {function} [errorFn=ERROR.meanSquared] - The cost function to be minimized.
 	   * @constructor
 	   * @see Layer
 	   * @see Neuron
 	   */
-
-	  function Network(layerSizes) {
+	  function Network(layers) {
 	    var _this = this;
+
+	    var errorFn = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Error2.default.meanSquared;
 
 	    _classCallCheck(this, Network);
 
-	    if (!_lodash2.default.isArray(layerSizes)) {
-	      throw new Error('Network() `layerSizes` must be an array, not: ' + (0, _Util.type)(layerSizes));
+	    if (!_lodash2.default.isArray(layers)) {
+	      throw new Error('Network() `layerSizes` must be an array, not: ' + (0, _Util.type)(layers));
 	    }
 
-	    if (_lodash2.default.isEmpty(layerSizes) || !_lodash2.default.every(layerSizes, _lodash2.default.isNumber)) {
-	      throw new Error('Network() `layerSizes` array elements must be all numbers.');
+	    if (_lodash2.default.isEmpty(layers) || !_lodash2.default.every(layers, function (layer) {
+	      return layer instanceof _Layer2.default;
+	    })) {
+	      throw new Error('Network() every `layers` array element must be a Layer instance.');
 	    }
 
 	    /**
-	     * The output values of the Neurons in the last layer.  This is identical to
-	     * the Network's `outputLayer` output.
+	     * The output values of the Neurons in the last layer.
+	     * This is identical to the Network's `outputLayer` output.
 	     * @type {Array}
 	     */
 	    this.output = [];
@@ -999,16 +1003,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * In other words, to what degree was the Network's output wrong.
 	     * @type {function}
 	     */
-	    this.errorFn = _Error2.default.meanSquared;
+	    this.errorFn = errorFn;
 
 	    /**
 	     * An array of all Layers in the Network.  It is a single dimension array
 	     * containing the `inputLayer`, `hiddenLayers`, and the `outputLayer`.
 	     * @type {Layer}
 	     */
-	    this.allLayers = _lodash2.default.map(layerSizes, function (size) {
-	      return new _Layer2.default(size);
-	    });
+	    this.allLayers = [].concat(_toConsumableArray(layers)); // clone to prevent mutation
 	    /**
 	     * The first Layer of the Network.  This Layer receives input during
 	     * activation.
@@ -1043,6 +1045,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {number[]} output - The output values of each Neuron in the output
 	   *   Layer.
 	   */
+
 
 	  _createClass(Network, [{
 	    key: 'activate',
@@ -1109,7 +1112,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return Network;
-	})();
+	}();
 
 	exports.default = Network;
 
@@ -1143,8 +1146,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   `array`. Defaults to the actual max `array` value.
 	 */
 	function normalize(array) {
-	  var min = arguments.length <= 1 || arguments[1] === undefined ? _lodash2.default.min(array) : arguments[1];
-	  var max = arguments.length <= 2 || arguments[2] === undefined ? _lodash2.default.max(array) : arguments[2];
+	  var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _lodash2.default.min(array);
+	  var max = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _lodash2.default.max(array);
 
 	  var offset = 0 - min;
 	  var range = max - min;
@@ -1182,11 +1185,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _lodash = __webpack_require__(4);
 
@@ -1212,8 +1215,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * network.activate([0, 0]) // => 0.000836743108
 	 * network.activate([0, 1]) // => 0.998253857294
 	 */
-
-	var Trainer = (function () {
+	var Trainer = function () {
 	  /**
 	   * @param {object} [options]
 	   * @param {boolean|number} [options.batch]
@@ -1247,9 +1249,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   training.
 	   * @constructor
 	   */
-
 	  function Trainer() {
-	    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
 	    _classCallCheck(this, Trainer);
 
@@ -1277,22 +1278,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @see Data
 	   */
 
+
 	  _createClass(Trainer, [{
 	    key: 'train',
 	    value: function train(network, data) {
-	      var overrides = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	      var overrides = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	      _Validate2.default.trainingData(network, data);
 	      var mergedOptions = _lodash2.default.merge(this.options, overrides);
 	      _Validate2.default.trainingOptions(mergedOptions);
 	      // TODO: normalize data to the range of the activation functions
-	      var batch = mergedOptions.batch;
-	      var errorThreshold = mergedOptions.errorThreshold;
-	      var frequency = mergedOptions.frequency;
-	      var maxEpochs = mergedOptions.maxEpochs;
-	      var onFail = mergedOptions.onFail;
-	      var onProgress = mergedOptions.onProgress;
-	      var onSuccess = mergedOptions.onSuccess;
+	      var batch = mergedOptions.batch,
+	          errorThreshold = mergedOptions.errorThreshold,
+	          frequency = mergedOptions.frequency,
+	          maxEpochs = mergedOptions.maxEpochs,
+	          onFail = mergedOptions.onFail,
+	          onProgress = mergedOptions.onProgress,
+	          onSuccess = mergedOptions.onSuccess;
+
 
 	      var isBatch = batch === true;
 	      var isOnline = batch === false;
@@ -1371,7 +1374,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return Trainer;
-	})();
+	}();
 
 	exports.default = Trainer;
 
@@ -1406,8 +1409,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {Error}
 	 * @constructor
 	 */
-
-	var ValidationError = (function (_Error) {
+	var ValidationError = function (_Error) {
 	  _inherits(ValidationError, _Error);
 
 	  function ValidationError(message) {
@@ -1415,7 +1417,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var msg = [].concat(message).join('');
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ValidationError).call(this, msg));
+	    var _this = _possibleConstructorReturn(this, (ValidationError.__proto__ || Object.getPrototypeOf(ValidationError)).call(this, msg));
 
 	    _this.name = 'ValidationError';
 	    _this.message = msg;
@@ -1424,12 +1426,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  return ValidationError;
-	})(Error);
+	}(Error);
 
 	/**
 	 * @namespace
 	 * @type {{}}
 	 */
+
 
 	var validate = {
 	  /**
