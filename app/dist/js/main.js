@@ -116,22 +116,26 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var data = exports.data = _anny2.default.DATA;
 	var trainer = exports.trainer = new _anny2.default.Trainer();
-	var network = exports.network = new _anny2.default.Network([2, 5, 3, 1]);
+	var network = exports.network = new _anny2.default.Network([new _anny2.default.Layer(2), new _anny2.default.Layer(5), new _anny2.default.Layer(3), new _anny2.default.Layer(1)]);
 
 	var getRandomLayers = exports.getRandomLayers = function getRandomLayers() {
-	  var layers = [2];
+	  var layers = [new _anny2.default.Layer(2)];
 
 	  (0, _times3.default)((0, _random3.default)(1, 3), function () {
-	    return layers.push((0, _random3.default)(3, 5));
+	    layers.push(new _anny2.default.Layer((0, _random3.default)(3, 5)));
 	  });
 
-	  layers.push(1);
+	  layers.push(new _anny2.default.Layer(1));
 
 	  return layers;
 	};
 
-	var newNetwork = exports.newNetwork = function newNetwork(layers) {
-	  exports.network = network = new _anny2.default.Network(layers || getRandomLayers());
+	var newNetwork = exports.newNetwork = function newNetwork(layerSizes) {
+	  var layers = layerSizes ? layerSizes.map(function (x) {
+	    return new _anny2.default.Layer(x);
+	  }) : getRandomLayers();
+
+	  exports.network = network = new _anny2.default.Network(layers);
 	};
 
 	var activate = exports.activate = function activate(inputs) {
@@ -1483,7 +1487,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 
 	      $console.log([// eslint-disable-line
-	      '', 'SUCCESS!', '', 'Predictions after training:'].concat(results).join('\n'));
+	      '', 'SUCCESS!', '', 'Activation Results:'].concat(results).join('\n'));
 
 	      graph.update(factory.network);
 	    },

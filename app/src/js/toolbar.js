@@ -25,7 +25,7 @@ export const train = (trainingSet) => {
         '',
         'SUCCESS!',
         '',
-        `Predictions after training:`,
+        `Activation Results:`,
         ...results,
       ].join('\n'))
 

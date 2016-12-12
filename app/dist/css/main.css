@@ -16,9 +16,11 @@ body {
 
 .ay-console {
   position: fixed;
+  padding-bottom: 10px;
+  padding-right: 20px;
+  bottom: 0;
+  right: 0;
   max-width: 400px;
-  bottom: 10px;
-  right: 20px;
   vertical-align: bottom;
   text-align: right;
   font-size: 13px;
@@ -29,6 +31,16 @@ body {
   z-index: 100;
   opacity: 0.7; }
   .ay-console:hover {
+    opacity: 1; }
+  .ay-console::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 100px;
+    background: -webkit-linear-gradient(270deg, #303536, transparent);
+    background: linear-gradient(180deg, #303536, transparent);
     opacity: 1; }
 
 .icon {
