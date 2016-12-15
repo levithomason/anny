@@ -33,14 +33,12 @@ gulp.task('app:build:fonts', cb => gulp.src([
     .pipe(gulp.dest(`${paths.appDist}/fonts`)))
 
 gulp.task('app:build:styles', (cb) => {
-  const minifyOpts = { keepSpecialComments: 0 }
-
   return gulp.src(`${paths.appSrc}/styles/main.scss`)
     .pipe(g.plumber())
     .pipe(g.sass())
     .pipe(g.autoprefixer())
     .pipe(gulp.dest(`${paths.appDist}/css`))
-    .pipe(g.minifyCss(minifyOpts))
+    .pipe(g.cleanCss())
     .pipe(g.rename('main.min.css'))
     .pipe(gulp.dest(`${paths.appDist}/css`))
 })
