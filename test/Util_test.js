@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import util from '../src/Util'
+import * as util from '../src/Util'
 
 describe('util', () => {
   describe('normalize', () => {
@@ -42,7 +42,7 @@ describe('util', () => {
   describe('type', () => {
     it('returns the same value as Object.prototype.toString.call()', () => {
       const types = [undefined, null, true, 0, '', [], {}, _.noop]
-      _.each(types, type => {
+      _.forEach(types, (type) => {
         util.type(type).should.equal(Object.prototype.toString.call(type))
       })
     })

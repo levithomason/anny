@@ -8,6 +8,16 @@
     ["transform-runtime", {
       "polyfill": false,
       "regenerator": false
+    }],
+    ["__coverage__", {
+      "only": "src/"
     }]
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "__coverage__"
+      ]
+    }
+  }
 }

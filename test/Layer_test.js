@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import Layer from '../src/Layer'
+
 let layer
 
 describe('Layer', () => {
@@ -58,8 +59,8 @@ describe('Layer', () => {
 
   describe('size', () => {
     it('returns the number of non-bias neurons in the layer', () => {
-      const neurons = _.times(_.random(1, 99), n => ({ isBias: false }))
-      const biasNeurons = _.times(_.random(1, 99), n => ({ isBias: true }))
+      const neurons = _.times(_.random(1, 99), () => ({ isBias: false }))
+      const biasNeurons = _.times(_.random(1, 99), () => ({ isBias: true }))
       layer.neurons = _.union(neurons, biasNeurons)
       layer.size().should.equal(neurons.length)
     })

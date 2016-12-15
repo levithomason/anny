@@ -1,8 +1,9 @@
-const g = require('gulp-load-plugins')()
-const gulp = g.help(require('gulp'), require('../gulphelp'))
 import paths from '../../paths'
 
-gulp.task('watch', 'rebuild when files change', cb => {
+const g = require('gulp-load-plugins')()
+const gulp = g.help(require('gulp'), require('../gulphelp'))
+
+gulp.task('watch', 'rebuild when files change', (cb) => {
   gulp.watch([
     // anny
     paths.annyEntry,

@@ -15,11 +15,9 @@ export function normalize(array, min = _.min(array), max = _.max(array)) {
   const offset = 0 - min
   const range = max - min
 
-  return _.map(array, n => {
+  return _.map(array, (n) => {
     if (n > max || n < min) {
-      throw new Error(
-        `${n} is beyond the scale range: ${min} to ${max}`
-      )
+      throw new Error(`${n} is beyond the scale range: ${min} to ${max}`)
     }
     return (n + offset) / (range / 2) - 1
   })
@@ -32,14 +30,3 @@ export function normalize(array, min = _.min(array), max = _.max(array)) {
 export function type(arg) {
   return Object.prototype.toString.call(arg)
 }
-
-/**
- * @namespace
- * @type {{}}
- */
-const util = {
-  normalize,
-  type,
-}
-
-export default util

@@ -6,7 +6,7 @@ import Layer from './Layer'
 import Network from './Network'
 import Neuron from './Neuron'
 import Trainer from './Trainer'
-import util from './Util'
+import * as util from './Util'
 import validate from './Validate'
 
 const anny = {

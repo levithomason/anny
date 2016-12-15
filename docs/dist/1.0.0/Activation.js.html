@@ -75,7 +75,7 @@ const ACTIVATION = {
   logistic: {
     // 4.4 The Sigmoid Fig. 4.a, Not recommended.
     func: x => 1 / (1 + Math.exp(-x)),
-    prime: x => {
+    prime: (x) => {
       const val = 1 / (1 + Math.exp(-x))
       return val * (1 - val)
     },
@@ -90,7 +90,7 @@ const ACTIVATION = {
    */
   identity: {
     func: x => x,
-    prime: x => 1,
+    prime: () => 1,
     rangeMin: -Infinity,
     rangeMax: Infinity,
   },
@@ -104,12 +104,12 @@ const ACTIVATION = {
    * @returns {number}
    */
   tanh: {
-    func: x => {
+    func: (x) => {
       const negExp = Math.exp(-x)
       const posExp = Math.exp(x)
       return (posExp - negExp) / (posExp + negExp)
     },
-    prime: x => 1 - Math.pow(Math.tanh(x), 2),
+    prime: x => 1 - Math.tanh(x) ** 2,
     rangeMin: -1,
     rangeMax: 1,
   },
@@ -138,7 +138,7 @@ export default ACTIVATION
 </div>
 
 <nav>
-  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li><li><a href="Trainer.html">Trainer</a></li><li><a href="ValidationError.html">ValidationError</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="DATA.html">DATA</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li><li><a href="validate.html">validate</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li><li><a href="tutorial-Hack on Anny.html">Hack on Anny</a></li></ul><h3>Global</h3><ul><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#type">type</a></li></ul>
+  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li><li><a href="Trainer.html">Trainer</a></li><li><a href="ValidationError.html">ValidationError</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="DATA.html">DATA</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="validate.html">validate</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li><li><a href="tutorial-Hack on Anny.html">Hack on Anny</a></li></ul><h3>Global</h3><ul><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#type">type</a></li></ul>
 </nav>
 
 <br class="clear">

@@ -33,7 +33,7 @@ class Network {
     }
 
     if (_.isEmpty(layers) || !_.every(layers, layer => layer instanceof Layer)) {
-      throw new Error(`Network() every \`layers\` array element must be a Layer instance.`)
+      throw new Error('Network() every `layers` array element must be a Layer instance.')
     }
 
     /**
@@ -67,7 +67,7 @@ class Network {
      * activation.
      * @type {Layer}
      */
-    this.inputLayer = _.first(this.allLayers)
+    this.inputLayer = _.head(this.allLayers)
 
     /**
      * An array of all layers between the `inputLayer` and `outputLayer`.
@@ -83,7 +83,7 @@ class Network {
     this.outputLayer = _.last(this.allLayers)
 
     // connect layers
-    _.each(this.allLayers, (layer, i) => {
+    _.forEach(this.allLayers, (layer, i) => {
       const next = this.allLayers[i + 1]
       if (next) layer.connect(next)
     })
@@ -91,30 +91,25 @@ class Network {
 
   /**
    * Activate the Network with a given set of `input` values.
-   * @param {number[]} inputs - Values to activate the Network's input Neurons
-   *   with.
-   * @returns {number[]} output - The output values of each Neuron in the output
-   *   Layer.
+   * @param {number[]} [inputs] - Values to activate the Network's input Neurons with.
+   * @returns {number[]} output - The output values of each Neuron in the output Layer.
    */
   activate(inputs) {
     this.inputLayer.activate(inputs)
-    _.invoke(this.hiddenLayers, 'activate')
+    _.invokeMap(this.hiddenLayers, 'activate')
     return this.output = this.outputLayer.activate()
   }
 
   /**
    * Set Network `error` and output Layer `delta`s and propagate them backward
-   * through the Network. The input Layer has no use for deltas, so it is
-   * skipped.
-   * @param {number[]} targetOutput - The expected Network output vector.
+   * through the Network. The input Layer has no use for deltas, so it is skipped.
+   * @param {number[]} [targetOutput] - The expected Network output vector.
    */
   backprop(targetOutput) {
     this.error = this.errorFn(targetOutput, this.output)
 
     // TODO abstract into ERROR.meanSquared.partial once ERROR is refactored
-    const delta = _.map(this.output, (actVal, j) => {
-      return actVal - targetOutput[j]
-    })
+    const delta = _.map(this.output, (actVal, j) => actVal - targetOutput[j])
 
     this.outputLayer.backprop(delta)
 

@@ -77,12 +77,12 @@ class Layer {
       this.neurons.push(biasNeuron)
     }
 
-    _.each(this.neurons, source => {
+    _.forEach(this.neurons, (source) => {
       // every neuron in this Layer is connected to each neuron in the next.
       // we can assume the numInputs to be the num of neurons in this Layer.
 
       // connect each neuron in this Layer to every Neuron in the targetLayer
-      _.each(targetLayer.neurons, target => {
+      _.forEach(targetLayer.neurons, (target) => {
         source.connect(target, INITIALIZE.weight(this.neurons.length))
       })
     })
@@ -94,7 +94,10 @@ class Layer {
    * @returns {number[]} - Array of Neuron output values.
    */
   activate(values = []) {
+    /* eslint-disable lodash/prefer-invoke-map */
+    // https://github.com/wix/eslint-plugin-lodash/issues/128
     return _.map(this.neurons, (neuron, i) => neuron.activate(values[i]))
+    /* eslint-enable lodash/prefer-invoke-map */
   }
 
   /**
@@ -103,7 +106,7 @@ class Layer {
    * @returns {number[]}
    */
   backprop(deltas = []) {
-    _.each(this.neurons, (neuron, i) => neuron.backprop(deltas[i]))
+    _.forEach(this.neurons, (neuron, i) => neuron.backprop(deltas[i]))
   }
 
   /**
@@ -111,14 +114,14 @@ class Layer {
    * Does not update weights. Useful during batch/mini-batch training.
    */
   accumulateGradients() {
-    _.each(this.neurons, neuron => neuron.accumulateGradients())
+    _.forEach(this.neurons, neuron => neuron.accumulateGradients())
   }
 
   /**
    * Update Neuron Connection weights and reset their accumulated gradients.
    */
   updateWeights() {
-    _.each(this.neurons, neuron => neuron.updateWeights())
+    _.forEach(this.neurons, neuron => neuron.updateWeights())
   }
 
   /**
@@ -140,7 +143,7 @@ export default Layer
 </div>
 
 <nav>
-  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li><li><a href="Trainer.html">Trainer</a></li><li><a href="ValidationError.html">ValidationError</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="DATA.html">DATA</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="util.html">util</a></li><li><a href="validate.html">validate</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li><li><a href="tutorial-Hack on Anny.html">Hack on Anny</a></li></ul><h3>Global</h3><ul><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#type">type</a></li></ul>
+  <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Layer.html">Layer</a></li><li><a href="Network.html">Network</a></li><li><a href="Neuron.html">Neuron</a></li><li><a href="Neuron.Connection.html">Connection</a></li><li><a href="Trainer.html">Trainer</a></li><li><a href="ValidationError.html">ValidationError</a></li></ul><h3>Namespaces</h3><ul><li><a href="ACTIVATION.html">ACTIVATION</a></li><li><a href="DATA.html">DATA</a></li><li><a href="ERROR.html">ERROR</a></li><li><a href="INITIALIZE.html">INITIALIZE</a></li><li><a href="validate.html">validate</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Example.html">Example</a></li><li><a href="tutorial-Hack on Anny.html">Hack on Anny</a></li></ul><h3>Global</h3><ul><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#type">type</a></li></ul>
 </nav>
 
 <br class="clear">

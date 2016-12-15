@@ -37,7 +37,7 @@ const validate = {
    */
   dataIsNotEmpty: (data) => {
     if (_.isEmpty(data)) {
-      throw new ValidationError(`Training data array must not be empty.`)
+      throw new ValidationError('Training data array must not be empty.')
     }
   },
 
@@ -61,7 +61,7 @@ const validate = {
   sampleHasInput: (sample, i) => {
     if (!_.isArray(sample.input)) {
       throw new ValidationError([
-        `Training object "input" property must be an array.`,
+        'Training object "input" property must be an array.',
         ` data[${i}]["input"] is type: ${type(sample.input)}`,
       ])
     }
@@ -74,7 +74,7 @@ const validate = {
   sampleHasOutput: (sample, i) => {
     if (!_.isArray(sample.output)) {
       throw new ValidationError([
-        `Training object "output" property must be an array.`,
+        'Training object "output" property must be an array.',
         ` data[${i}]["output"] is type: ${type(sample.output)}`,
       ])
     }
@@ -87,7 +87,7 @@ const validate = {
   sampleInputIsNotEmpty: (sample, i) => {
     if (_.isEmpty(sample.input)) {
       throw new ValidationError([
-        `Training object "input" array must not be empty.`,
+        'Training object "input" array must not be empty.',
         ` See data[${i}]["input"].`,
       ])
     }
@@ -100,7 +100,7 @@ const validate = {
   sampleOutputIsNotEmpty: (sample, i) => {
     if (_.isEmpty(sample.output)) {
       throw new ValidationError([
-        `Training object "output" array must not be empty.`,
+        'Training object "output" array must not be empty.',
         ` See data[${i}]["output"].`,
       ])
     }
@@ -111,10 +111,10 @@ const validate = {
    * @param {number} i The index of the sample in the training set.
    */
   sampleInputIsOnlyNumbers: (sample, i) => {
-    _.each(sample.input, n => {
+    _.forEach(sample.input, (n) => {
       if (!_.isNumber(n)) {
         throw new ValidationError([
-          `Training object "input" property values must be numbers.`,
+          'Training object "input" property values must be numbers.',
           ` data[${i}]["input"] contains: ${type(n)}`,
         ])
       }
@@ -126,10 +126,10 @@ const validate = {
    * @param {number} i The index of the sample in the training set.
    */
   sampleOutputIsOnlyNumbers: (sample, i) => {
-    _.each(sample.output, n => {
+    _.forEach(sample.output, (n) => {
       if (!_.isNumber(n)) {
         throw new ValidationError([
-          `Training object "output" property values must be numbers.`,
+          'Training object "output" property values must be numbers.',
           ` data[${i}]["output"] contains: ${type(n)}`,
         ])
       }
@@ -146,7 +146,7 @@ const validate = {
     const inputLayerSize = network.inputLayer.size()
     if (inputLayerSize !== sample.input.length) {
       throw new ValidationError([
-        `Training data "input" and network input layer size must be equal.`,
+        'Training data "input" and network input layer size must be equal.',
         ` data[${i}] input size is ${sample.input.length}.`,
         ` Network input size is ${inputLayerSize}.`,
       ])
@@ -163,7 +163,7 @@ const validate = {
     const outputLayerSize = network.outputLayer.size()
     if (outputLayerSize !== sample.output.length) {
       throw new ValidationError([
-        `Training data "output" and network output layer size must be equal.`,
+        'Training data "output" and network output layer size must be equal.',
         ` data[${i}] output size is ${sample.output.length}.`,
         ` Network output size is ${outputLayerSize}.`,
       ])
@@ -179,7 +179,7 @@ const validate = {
     validate.dataIsArray(data)
     validate.dataIsNotEmpty(data)
 
-    _.each(data, (sample, i) => {
+    _.forEach(data, (sample, i) => {
       validate.sampleIsObject(sample, i)
       validate.sampleHasInput(sample, i)
       validate.sampleHasOutput(sample, i)
@@ -194,7 +194,7 @@ const validate = {
 
   trainingOptions(options) {
     if (!_.isPlainObject(options)) {
-      throw new Error(`training "options" must be a plain object.`)
+      throw new Error('training "options" must be a plain object.')
     }
 
     const validOptions = [
@@ -207,37 +207,37 @@ const validate = {
       'onSuccess',
     ]
 
-    _.each(options, (val, key) => {
+    _.forEach(options, (val, key) => {
       if (_.includes(validOptions, key)) return
       throw new Error(`Unknown training option "${key}", try: ${validOptions}`)
     })
 
     if (!_.isBoolean(options.batch) && !_.isNumber(options.batch)) {
-      throw new Error(`training option "batch" must be a boolean or number.`)
+      throw new Error('training option "batch" must be a boolean or number.')
     }
 
     if (!_.isNumber(options.errorThreshold)) {
-      throw new Error(`training option "errorThreshold" must be a number.`)
+      throw new Error('training option "errorThreshold" must be a number.')
     }
 
     if (!_.isNumber(options.frequency)) {
-      throw new Error(`training option "frequency" must be a number.`)
+      throw new Error('training option "frequency" must be a number.')
     }
 
     if (!_.isNumber(options.maxEpochs)) {
-      throw new Error(`training option "maxEpochs" must be a number`)
+      throw new Error('training option "maxEpochs" must be a number')
     }
 
     if (_.has(options, 'onFail') && !_.isFunction(options.onFail)) {
-      throw new Error(`training option "onFail" must be a function.`)
+      throw new Error('training option "onFail" must be a function.')
     }
 
     if (_.has(options, 'onProgress') && !_.isFunction(options.onProgress)) {
-      throw new Error(`training option "onProgress" must be a function.`)
+      throw new Error('training option "onProgress" must be a function.')
     }
 
     if (_.has(options, 'onSuccess') && !_.isFunction(options.onSuccess)) {
-      throw new Error(`training option "onSuccess" must be a function.`)
+      throw new Error('training option "onSuccess" must be a function.')
     }
   },
 }

@@ -1,3 +1,32 @@
+const POSITIVE_HUE = 210
+const NEGATIVE_HUE = 30
+
+const positiveWeightColor = {
+  color: `hsl(${POSITIVE_HUE}, 20%, 25%)`,
+  hover: `hsl(${POSITIVE_HUE}, 35%, 45%)`,
+  highlight: `hsl(${POSITIVE_HUE}, 60%, 70%)`,
+}
+
+const negativeWeightColor = {
+  color: `hsl(${NEGATIVE_HUE}, 15%, 25%)`,
+  hover: `hsl(${NEGATIVE_HUE}, 40%, 40%)`,
+  highlight: `hsl(${NEGATIVE_HUE}, 60%, 60%)`,
+}
+
+const positiveNeuronColor = {
+  background: `hsl(${POSITIVE_HUE}, 20%, 60%)`,
+  hover: { background: `hsl(${POSITIVE_HUE}, 35%, 70%)` },
+  highlight: { background: `hsl(${POSITIVE_HUE}, 60%, 80%)` },
+}
+const negativeNeuronColor = {
+  background: `hsl(${NEGATIVE_HUE}, 20%, 60%)`,
+  hover: { background: `hsl(${NEGATIVE_HUE}, 35%, 70%)` },
+  highlight: { background: `hsl(${NEGATIVE_HUE}, 60%, 80%)` },
+}
+
+export const getWeightColor = weight => weight >= 0 ? positiveWeightColor : negativeWeightColor
+export const getNeuronColor = output => output >= 0 ? positiveNeuronColor : negativeNeuronColor
+
 const visNetworkOptions = {}
 
 // Nodes
@@ -16,23 +45,33 @@ visNetworkOptions.nodes = {
   },
   labelHighlightBold: true,
   mass: 1,
+  color: 'transparent',
 }
 
 // Groups
 visNetworkOptions.groups = {
-  normal: {
-    color: {
-      border: 'hsl(210, 20%, 25%)',
-      background: 'hsl(210, 80%, 80%)',
-      hover: {
-        border: 'hsl(210, 35%, 45%)',
-        background: 'hsl(210, 80%, 80%)',
-      },
-      highlight: {
-        border: 'hsl(210, 60%, 70%)',
-        background: 'hsl(210, 80%, 80%)',
-      },
+  input: {
+    shape: 'icon',
+    icon: {
+      face: 'Ionicons',
+      code: '\uf29e',
+      size: 25,
     },
+    borderWidth: 0,
+    borderWidthSelected: 0,
+  },
+  output: {
+    shape: 'icon',
+    icon: {
+      face: 'Ionicons',
+      code: '\uf29f',
+      size: 25,
+    },
+    borderWidth: 0,
+    borderWidthSelected: 0,
+  },
+  hidden: {
+    // ...
   },
   bias: {
     borderWidth: 2,

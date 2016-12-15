@@ -1,29 +1,30 @@
-const g = require('gulp-load-plugins')()
-const gulp = g.help(require('gulp'), require('../gulphelp'))
 import del from 'del'
 import { exec } from 'child_process'
 import runSequence from 'run-sequence'
 
-import pkg from '../../package.json'
+import pkg from '../../package'
 import paths from '../../paths'
 
-gulp.task('docs', 'build docs for the current version', cb => {
+const g = require('gulp-load-plugins')()
+const gulp = g.help(require('gulp'), require('../gulphelp'))
+
+gulp.task('docs', 'build docs for the current version', (cb) => {
   runSequence(
     'docs-clean',
     'docs-jsdoc',
     'docs-styles',
     'docs-index-html',
-    cb
+    cb,
   )
 })
 
-gulp.task('docs-clean', cb => {
+gulp.task('docs-clean', (cb) => {
   del(`${paths.docsDist}/${pkg.version}`, cb)
 })
 
-gulp.task('docs-jsdoc', cb => {
+gulp.task('docs-jsdoc', (cb) => {
   exec([
-    `$(npm bin)/jsdoc -c conf.json`,
+    '$(npm bin)/jsdoc -c conf.json',
 
     `mv ${paths.docsDist}/${pkg.name}/${pkg.version} ${paths.docsDist}`,
     `rm -rf ${paths.docsDist}/${pkg.name}`,
@@ -34,7 +35,7 @@ gulp.task('docs-jsdoc', cb => {
   ].join(' && '), cb)
 })
 
-gulp.task('docs-styles', cb => {
+gulp.task('docs-styles', (cb) => {
   return gulp.src([
     `${paths.docsSrc}/static/styles/*.styles`,
   ])
@@ -44,7 +45,7 @@ gulp.task('docs-styles', cb => {
     .pipe(gulp.dest(`${paths.docsDist}/${pkg.version}/styles`))
 })
 
-gulp.task('docs-index-html', cb => {
+gulp.task('docs-index-html', (cb) => {
   return gulp.src([`${paths.docsSrc}/index.html`])
     .pipe(g.replace(/CURRENT_PACKAGE_VERSION/g, `dist/${pkg.version}`))
     .pipe(gulp.dest(paths.docsRoot))

@@ -3,6 +3,7 @@ import Trainer from '../src/Trainer'
 import Network from '../src/Network'
 import Layer from '../src/Layer'
 import DATA from '../src/Data'
+
 let trainer
 let network
 let data

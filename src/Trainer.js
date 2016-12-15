@@ -94,24 +94,26 @@ class Trainer {
     let sampleCounter = 1
     let epochCount = 1
 
+    const getAverageSampleError = (sample, sampleIndex) => {
+      const shouldUpdate = isOnline
+        || isMiniBatch && sampleCounter % batch === 0
+        || isBatch && sampleIndex === data.length - 1
+
+      // propagation: set inputs & outputs, then error & deltas
+      network.activate(sample.input)
+      network.backprop(sample.output)
+
+      // weight updates: update weights || accumulate weight gradients
+      if (shouldUpdate) network.updateWeights()
+      else network.accumulateGradients()
+
+      sampleCounter++
+      return network.error / data.length
+    }
+
     for (let i = maxEpochs; i > 0; i -= 1) {
       // sum the average error of all training samples
-      const error = _.sum(data, (sample, sampleIndex) => {
-        const shouldUpdate = isOnline
-          || isMiniBatch && sampleCounter % batch === 0
-          || isBatch && sampleIndex === data.length - 1
-
-        // propagation: set inputs & outputs, then error & deltas
-        network.activate(sample.input)
-        network.backprop(sample.output)
-
-        // weight updates: update weights || accumulate weight gradients
-        if (shouldUpdate) network.updateWeights()
-        else network.accumulateGradients()
-
-        sampleCounter++
-        return network.error / data.length
-      })
+      const error = _.sumBy(data, getAverageSampleError)
 
       // call onProgress after the first epoch and every `frequency` thereafter
       if (onProgress && epochCount % frequency === 0) {

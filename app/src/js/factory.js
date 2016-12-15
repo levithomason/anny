@@ -3,7 +3,8 @@ import _ from 'lodash'
 
 export const data = anny.DATA
 export const trainer = new anny.Trainer()
-export let network = new anny.Network([
+// TODO do not mutate the network, use getter/setter, add setLayers, etc.
+export let network = new anny.Network([ // eslint-disable-line import/no-mutable-exports
   new anny.Layer(2),
   new anny.Layer(5),
   new anny.Layer(3),
@@ -24,7 +25,7 @@ export const getRandomLayers = () => {
 
 export const newNetwork = (layerSizes) => {
   const layers = layerSizes
-    ? layerSizes.map(x => new anny.Layer(x))
+    ? _.map(layerSizes, x => new anny.Layer(x))
     : getRandomLayers()
 
   network = new anny.Network(layers)

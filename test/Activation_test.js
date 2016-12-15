@@ -5,11 +5,11 @@ describe('ACTIVATION', () => {
   it('is an object', () => ACTIVATION.should.be.a('object'))
 
   it('has only object values', () => {
-    _.each(ACTIVATION, val => val.should.be.a('object'))
+    _.forEach(ACTIVATION, val => val.should.be.a('object'))
   })
 
   describe('activation object', () => {
-    _.each(ACTIVATION, object => {
+    _.forEach(ACTIVATION, (object) => {
       it('has a "func" method that returns a number', () => {
         object.func(_.random(-100, 100, true)).should.be.a('number')
       })

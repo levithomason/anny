@@ -1,4 +1,8 @@
-import _ from 'lodash'
+const sumBy = (cb, arr) => {
+  return arr.reduce((acc, next, i) => {
+    return acc + cb(next, i)
+  }, 0)
+}
 
 /**
  * Functions for calculating Network error.  The error is simply the difference
@@ -16,9 +20,9 @@ const ERROR = {
    * @returns {number}
    */
   crossEntropy(expected, actual) {
-    const sum = _.sum(actual, (a, i) => {
+    const sum = sumBy((a, i) => {
       return Math.log(a) * expected[i]
-    })
+    }, actual)
     return -sum / actual.length
   },
 
@@ -32,9 +36,9 @@ const ERROR = {
    * @returns {number}
    */
   meanSquared(expected, actual) {
-    const sum = _.sum(actual, (a, i) => {
-      return 0.5 * Math.pow(expected[i] - a, 2)
-    })
+    const sum = sumBy((a, i) => {
+      return 0.5 * ((expected[i] - a) ** 2)
+    }, actual)
     return sum / actual.length
   },
 
@@ -57,9 +61,9 @@ const ERROR = {
    * @returns {number}
    */
   arcTan(expected, actual) {
-    const sum = _.sum(actual, (a, i) => {
+    const sum = sumBy((a, i) => {
       return Math.atan(expected[i] - a)
-    })
+    }, actual)
     return sum / actual.length
   },
 }

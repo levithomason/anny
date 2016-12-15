@@ -40,12 +40,12 @@ class Layer {
       this.neurons.push(biasNeuron)
     }
 
-    _.each(this.neurons, source => {
+    _.forEach(this.neurons, (source) => {
       // every neuron in this Layer is connected to each neuron in the next.
       // we can assume the numInputs to be the num of neurons in this Layer.
 
       // connect each neuron in this Layer to every Neuron in the targetLayer
-      _.each(targetLayer.neurons, target => {
+      _.forEach(targetLayer.neurons, (target) => {
         source.connect(target, INITIALIZE.weight(this.neurons.length))
       })
     })
@@ -57,7 +57,10 @@ class Layer {
    * @returns {number[]} - Array of Neuron output values.
    */
   activate(values = []) {
+    /* eslint-disable lodash/prefer-invoke-map */
+    // https://github.com/wix/eslint-plugin-lodash/issues/128
     return _.map(this.neurons, (neuron, i) => neuron.activate(values[i]))
+    /* eslint-enable lodash/prefer-invoke-map */
   }
 
   /**
@@ -66,7 +69,7 @@ class Layer {
    * @returns {number[]}
    */
   backprop(deltas = []) {
-    _.each(this.neurons, (neuron, i) => neuron.backprop(deltas[i]))
+    _.forEach(this.neurons, (neuron, i) => neuron.backprop(deltas[i]))
   }
 
   /**
@@ -74,14 +77,14 @@ class Layer {
    * Does not update weights. Useful during batch/mini-batch training.
    */
   accumulateGradients() {
-    _.each(this.neurons, neuron => neuron.accumulateGradients())
+    _.forEach(this.neurons, neuron => neuron.accumulateGradients())
   }
 
   /**
    * Update Neuron Connection weights and reset their accumulated gradients.
    */
   updateWeights() {
-    _.each(this.neurons, neuron => neuron.updateWeights())
+    _.forEach(this.neurons, neuron => neuron.updateWeights())
   }
 
   /**

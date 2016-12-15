@@ -11,17 +11,35 @@
     "coverage-check": "istanbul check-coverage",
     "coverage-report": "codeclimate-test-reporter < coverage/lcov.info",
     "start": "gulp",
-    "test": "babel-node $(npm bin)/isparta cover _mocha -- -R dot",
-    "posttest": "npm run coverage-check",
+    "test": "NODE_ENV=test nyc mocha",
+    "posttest": "NODE_ENV=test npm run coverage-check",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "test:watch": "babel-node $(npm bin)/isparta cover _mocha -- -w",
+    "test:watch": "npm run test -- -w",
     "babel-node": "babel-node",
     "playground": "nodemon --exec npm run babel-node -- playground.js",
-    "postinstall": "bower install",
     "clean": "while read line; do rm -rf $line; done < .gitignore"
   },
-  "precommit": "lint, test, coverage-check",
+  "nyc": {
+    "lines": 99,
+    "statements": 99,
+    "functions": 99,
+    "branches": 99,
+    "include": [
+      "src/**/*.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "cache": true,
+    "all": true,
+    "check-coverage": true,
+    "report-dir": "./coverage"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/dev-coop/anny.git"
@@ -32,26 +50,30 @@
     "url": "https://github.com/dev-coop/anny/issues"
   },
   "homepage": "https://github.com/dev-coop/anny#readme",
-  "dependencies": {
-    "lodash": "^3.10.1",
-    "vis": "^4.17.0"
-  },
   "devDependencies": {
     "babel-cli": "^6.3.17",
     "babel-core": "^6.20.0",
     "babel-eslint": "^4.1.6",
     "babel-loader": "^6.2.9",
+    "babel-plugin-__coverage__": "^11.0.0",
     "babel-plugin-lodash": "^3.2.10",
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-1": "^6.16.0",
+    "babel-register": "^6.18.0",
     "babel-runtime": "^6.20.0",
     "chai": "^3.0.0",
     "codeclimate-test-reporter": "^0.1.0",
     "del": "^1.2.0",
-    "eslint": "^1.7.3",
-    "eslint-config-defaults": "^7.1.1",
+    "dirty-chai": "^1.2.2",
+    "eslint": "^3.12.2",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-config-defaults": "^9.0.0",
     "eslint-loader": "^1.6.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-lodash": "^2.2.3",
+    "eslint-plugin-react": "^6.8.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
     "gulp-babel": "^6.1.2",
@@ -70,15 +92,16 @@
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.6",
     "gulp-webserver": "^0.9.1",
-    "isparta": "^4.0.0",
-    "istanbul": "^0.3.17",
     "jsdoc": "jsdoc3/jsdoc",
+    "lodash": "^4.17.2",
     "mocha": "^2.2.5",
     "node-libs-browser": "^0.5.2",
+    "nyc": "^10.0.0",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.1",
     "sinon": "^1.15.4",
     "sinon-chai": "^2.8.0",
+    "vis": "^4.17.0",
     "webpack": "^1.10.1"
   }
 }

@@ -38,7 +38,7 @@ const ACTIVATION = {
   logistic: {
     // 4.4 The Sigmoid Fig. 4.a, Not recommended.
     func: x => 1 / (1 + Math.exp(-x)),
-    prime: x => {
+    prime: (x) => {
       const val = 1 / (1 + Math.exp(-x))
       return val * (1 - val)
     },
@@ -53,7 +53,7 @@ const ACTIVATION = {
    */
   identity: {
     func: x => x,
-    prime: x => 1,
+    prime: () => 1,
     rangeMin: -Infinity,
     rangeMax: Infinity,
   },
@@ -67,12 +67,12 @@ const ACTIVATION = {
    * @returns {number}
    */
   tanh: {
-    func: x => {
+    func: (x) => {
       const negExp = Math.exp(-x)
       const posExp = Math.exp(x)
       return (posExp - negExp) / (posExp + negExp)
     },
-    prime: x => 1 - Math.pow(Math.tanh(x), 2),
+    prime: x => 1 - Math.tanh(x) ** 2,
     rangeMin: -1,
     rangeMax: 1,
   },

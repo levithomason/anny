@@ -58,7 +58,7 @@ const epochs = []
 let successes = 0
 let fails = 0
 
-const layerReadout = layers.map(l => `${l.size()}`).join(', ')
+const layerReadout = _.map(layers, l => `${l.size()}`).join(', ')
 
 console.log(`
   data set     : ${datasetName}
@@ -69,7 +69,7 @@ console.log(`
   learningRate : ${learningRate}
 `)
 
-_.times(trainings, training => {
+_.times(trainings, (training) => {
   let lastError = 0
   let lowestError = Infinity
   console.log(`${_.repeat('-', 60)}`)
@@ -85,10 +85,10 @@ _.times(trainings, training => {
       epochs.push(epoch)
       console.log(`\nSuccess: error ${error} @ ${epoch} epochs`)
 
-      dataset.forEach(sample => {
+      _.forEach(dataset, (sample) => {
         console.log('')
         console.log(`  target: ${sample.output}`)
-        console.log(`  actual: ${network.activate(sample.input).map(n => n.toFixed(9))}`)
+        console.log(`  actual: ${_.map(network.activate(sample.input), n => n.toFixed(9))}`)
       })
     },
     onFail: (error, epoch) => {
@@ -99,7 +99,7 @@ _.times(trainings, training => {
       const fixedError = error.toFixed(6)
       const sign = fixedError === lastError && '-' || (fixedError < lastError ? '↓' : '↑')
       const lowest = fixedError < lowestError ? '★' : ' '
-      const percent = `${_.padLeft(100 - Math.round((lastError / fixedError) * 100), 4)}%`
+      const percent = `${_.padStart(100 - Math.round((lastError / fixedError) * 100), 4)}%`
       lowestError = Math.min(fixedError, lowestError)
       console.log(`${_.pad(epoch, 5)} ${lowest} ${sign} ${percent} ${fixedError}`)
       lastError = fixedError
@@ -113,9 +113,9 @@ _.times(trainings, training => {
 // Log results
 // ----------------------------------------
 
-console.log(``)
+console.log('')
 console.log(`// ${_.repeat('-', 60)}`)
-console.log(`// Results`)
+console.log('// Results')
 console.log(`// ${_.repeat('-', 60)}`)
 
 console.log(`
@@ -125,7 +125,7 @@ console.log(`
   batch        : ${batch}
   maxEpochs    : ${maxEpochs}
 --------------------------
-  epochs avg:  : ${_.round(_.sum(epochs, n => n / epochs.length))}
+  epochs avg:  : ${_.round(_.sumBy(epochs, n => n / epochs.length))}
   epoch range: : ${_.min(epochs)}-${_.max(epochs)}
 
   ratio        : ${successes}/${fails}

@@ -2,38 +2,56 @@ import index from '../src/index'
 
 describe('index', () => {
   it('has activation functions', () => {
-    index.ACTIVATION.should.be.a('object')
+    expect(index)
+      .to.have.property('ACTIVATION')
+      .which.is.an('object')
   })
 
   it('has data', () => {
-    index.DATA.should.be.a('object')
+    expect(index)
+      .to.have.property('DATA')
+      .which.is.an('object')
   })
 
   it('has error functions', () => {
-    index.ERROR.should.be.a('object')
+    expect(index)
+      .to.have.property('ERROR')
+      .which.is.an('object')
   })
 
   it('has initializer helpers', () => {
-    index.INITIALIZE.should.be.a('object')
+    expect(index)
+      .to.have.property('INITIALIZE')
+      .which.is.an('object')
   })
 
   it('has a Neuron constructor', () => {
-    index.Neuron.should.be.a('function')
+    expect(index)
+      .to.have.property('Neuron')
+      .which.is.a('function')
   })
 
   it('has a Layer constructor', () => {
-    index.Layer.should.be.a('function')
+    expect(index)
+      .to.have.property('Layer')
+      .which.is.a('function')
   })
 
   it('has a Network constructor', () => {
-    index.Network.should.be.a('function')
+    expect(index)
+      .to.have.property('Network')
+      .which.is.a('function')
   })
 
   it('has utils', () => {
-    index.util.should.be.a('object')
+    expect(index)
+      .to.have.property('util')
+      .which.is.an('object')
   })
 
   it('has validation', () => {
-    index.validate.should.be.a('object')
+    expect(index)
+      .to.have.property('validate')
+      .which.is.an('object')
   })
 })

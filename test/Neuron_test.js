@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import ACTIVATION from '../src/Activation'
 import Neuron from '../src/Neuron'
+
 const inputValues = [-1, 0, 1]
 let neuron
 
@@ -31,12 +32,12 @@ describe('Neuron', () => {
   describe('activate', () => {
     it('always outputs 1 if isBias Neuron', () => {
       neuron.isBias = true
-      inputValues.forEach((n) => {
+      _.forEach(inputValues, (n) => {
         neuron.activate(n).should.equal(1)
       })
     })
     it('sets the input when specified', () => {
-      inputValues.forEach(n => {
+      _.forEach(inputValues, (n) => {
         neuron.activate(n)
         neuron.input.should.equal(n)
       })

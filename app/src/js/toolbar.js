@@ -15,7 +15,7 @@ export const train = (trainingSet) => {
     onSuccess(error, epoch) {
       const results = []
 
-      _.each(trainingSet, (sample) => {
+      _.forEach(trainingSet, (sample) => {
         const input = sample.input
         const output = factory.network.activate(input)
         results.push(`[${input.toString()}] => ${_.pad(_.round(output, 2), 5)} == ${_.pad(output >= 0.5, 5)}`)
@@ -25,7 +25,7 @@ export const train = (trainingSet) => {
         '',
         'SUCCESS!',
         '',
-        `Activation Results:`,
+        'Activation Results:',
         ...results,
       ].join('\n'))
 

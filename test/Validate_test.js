@@ -11,9 +11,7 @@ let sandbox
 
 // helper that returns a function that calls validate with the args passed.
 // this is somewhat like _.invoke + _.partial
-const invoke = (func, ...args) => {
-  return () => func(...args)
-}
+const invoke = (func, ...args) => () => func(...args)
 
 describe('Validate', () => {
   beforeEach(() => {
@@ -53,7 +51,7 @@ describe('Validate', () => {
 
   describe('sampleIsObject', () => {
     it('throws if training samples are not plain objects', () => {
-      _.each([undefined, null, 'not a POJO', 1, [], _.noop], type => {
+      _.forEach([undefined, null, 'not a POJO', 1, [], _.noop], (type) => {
         sample = type
         expect(invoke(validate.sampleIsObject, sample, 0)).to.throw()
       })
@@ -67,7 +65,7 @@ describe('Validate', () => {
 
   describe('sampleHasInput', () => {
     it('throws if training objects do not have an "input" array', () => {
-      _.each([undefined, null, 'not an array', 1, {}, _.noop], type => {
+      _.forEach([undefined, null, 'not an array', 1, {}, _.noop], (type) => {
         sample.input = type
         expect(invoke(validate.sampleHasInput, sample, 0)).to.throw()
       })
@@ -81,7 +79,7 @@ describe('Validate', () => {
 
   describe('sampleHasOutput', () => {
     it('throws if training objects do not have an "output" array', () => {
-      _.each([undefined, null, 'not an array', 1, {}, _.noop], type => {
+      _.forEach([undefined, null, 'not an array', 1, {}, _.noop], (type) => {
         sample.output = type
         expect(invoke(validate.sampleHasOutput, sample, 0)).to.throw()
       })
@@ -119,7 +117,7 @@ describe('Validate', () => {
 
   describe('sampleInputIsOnlyNumbers', () => {
     it('throws if training sample "input" contains a non-number', () => {
-      _.each([undefined, null, 'a', {}, [], _.noop], type => {
+      _.forEach([undefined, null, 'a', {}, [], _.noop], (type) => {
         sample.input[0] = type
         expect(invoke(validate.sampleInputIsOnlyNumbers, sample, 0)).to.throw()
       })
@@ -134,7 +132,7 @@ describe('Validate', () => {
 
   describe('sampleOutputIsOnlyNumbers', () => {
     it('throws if training sample "output" contains a non-number', () => {
-      _.each([undefined, null, 'hi', {}, [], _.noop], type => {
+      _.forEach([undefined, null, 'hi', {}, [], _.noop], (type) => {
         sample.output[0] = type
         expect(invoke(validate.sampleOutputIsOnlyNumbers, sample, 0)).to.throw()
       })
@@ -180,67 +178,67 @@ describe('Validate', () => {
   })
 
   describe('trainingData', () => {
-    it(`calls dataIsArray`, () => {
+    it('calls dataIsArray', () => {
       sandbox.spy(validate, 'dataIsArray')
       validate.trainingData(network, data)
       validate.dataIsArray.called.should.equal(true)
     })
 
-    it(`calls dataIsNotEmpty`, () => {
+    it('calls dataIsNotEmpty', () => {
       sandbox.spy(validate, 'dataIsNotEmpty')
       validate.trainingData(network, data)
       validate.dataIsNotEmpty.called.should.equal(true)
     })
 
-    it(`calls sampleIsObject`, () => {
+    it('calls sampleIsObject', () => {
       sandbox.spy(validate, 'sampleIsObject')
       validate.trainingData(network, data)
       validate.sampleIsObject.called.should.equal(true)
     })
 
-    it(`calls sampleHasInput`, () => {
+    it('calls sampleHasInput', () => {
       sandbox.spy(validate, 'sampleHasInput')
       validate.trainingData(network, data)
       validate.sampleHasInput.called.should.equal(true)
     })
 
-    it(`calls sampleHasOutput`, () => {
+    it('calls sampleHasOutput', () => {
       sandbox.spy(validate, 'sampleHasOutput')
       validate.trainingData(network, data)
       validate.sampleHasOutput.called.should.equal(true)
     })
 
-    it(`calls sampleInputIsNotEmpty`, () => {
+    it('calls sampleInputIsNotEmpty', () => {
       sandbox.spy(validate, 'sampleInputIsNotEmpty')
       validate.trainingData(network, data)
       validate.sampleInputIsNotEmpty.called.should.equal(true)
     })
 
-    it(`calls sampleOutputIsNotEmpty`, () => {
+    it('calls sampleOutputIsNotEmpty', () => {
       sandbox.spy(validate, 'sampleOutputIsNotEmpty')
       validate.trainingData(network, data)
       validate.sampleOutputIsNotEmpty.called.should.equal(true)
     })
 
-    it(`calls sampleInputIsOnlyNumbers`, () => {
+    it('calls sampleInputIsOnlyNumbers', () => {
       sandbox.spy(validate, 'sampleInputIsOnlyNumbers')
       validate.trainingData(network, data)
       validate.sampleInputIsOnlyNumbers.called.should.equal(true)
     })
 
-    it(`calls sampleOutputIsOnlyNumbers`, () => {
+    it('calls sampleOutputIsOnlyNumbers', () => {
       sandbox.spy(validate, 'sampleOutputIsOnlyNumbers')
       validate.trainingData(network, data)
       validate.sampleOutputIsOnlyNumbers.called.should.equal(true)
     })
 
-    it(`calls sampleInputFitsNetwork`, () => {
+    it('calls sampleInputFitsNetwork', () => {
       sandbox.spy(validate, 'sampleInputFitsNetwork')
       validate.trainingData(network, data)
       validate.sampleInputFitsNetwork.called.should.equal(true)
     })
 
-    it(`calls sampleOutputFitsNetwork`, () => {
+    it('calls sampleOutputFitsNetwork', () => {
       sandbox.spy(validate, 'sampleOutputFitsNetwork')
       validate.trainingData(network, data)
       validate.sampleOutputFitsNetwork.called.should.equal(true)
@@ -271,7 +269,7 @@ describe('Validate', () => {
     it('throws if "options" contains an invalid option', () => {
       options.a = 'foo'
       expect(_.partial(misuse, options)).to.throw(
-        `Unknown training option "a", try: ${_.keys(_.without(options, 'a'))}`
+        `Unknown training option "a", try: ${_.keys(_.without(options, 'a'))}`,
       )
     })
 

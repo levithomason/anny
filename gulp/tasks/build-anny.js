@@ -1,23 +1,25 @@
-const g = require('gulp-load-plugins')()
-const gulp = g.help(require('gulp'), require('../gulphelp'))
 import del from 'del'
 import runSequence from 'run-sequence'
-import paths from '../../paths'
 import webpack from 'webpack'
 
-gulp.task('build-anny', cb => {
+import paths from '../../paths'
+
+const g = require('gulp-load-plugins')()
+const gulp = g.help(require('gulp'), require('../gulphelp'))
+
+gulp.task('build-anny', (cb) => {
   runSequence(
     'clean-build-anny',
     'build-anny-js',
-    cb
+    cb,
   )
 })
 
-gulp.task('clean-build-anny', cb => {
+gulp.task('clean-build-anny', (cb) => {
   del(paths.annyDist, cb)
 })
 
-gulp.task('build-anny-js', cb => {
+gulp.task('build-anny-js', (cb) => {
   const webpackOpts = {
     entry: paths.annyEntry,
     output: {
@@ -45,7 +47,7 @@ gulp.task('build-anny-js', cb => {
 
     g.util.log(
       g.util.colors.green('[webpack]'),
-      stats.toString('minimal')
+      stats.toString('minimal'),
     )
 
     cb()

@@ -22,7 +22,7 @@ class Neuron {
    *   results.
    */
   constructor(activation = ACTIVATION.tanh,
-              learningRate = INITIALIZE.learningRate()) {
+    learningRate = INITIALIZE.learningRate()) {
     /**
      * Flag identifying this Neuron as a Bias Neuron.  Bias Neurons are like
      * regular Neurons, except they have no incoming Connections and always
@@ -91,12 +91,11 @@ class Neuron {
     if (!_.isUndefined(input)) {
       this.input = input
     } else {
-      this.input = _.sum(this.incoming, connection => {
+      this.input = _.sumBy(this.incoming, connection =>
         // we don't need to add the bias neuron manually here.
         // since the bias Neuron is connected like all other Neurons and it's
         // output is always 1, the weight will be added by bias.output * weight.
-        return connection.source.output * connection.weight
-      })
+      connection.source.output * connection.weight)
     }
 
     // set the output
@@ -119,7 +118,7 @@ class Neuron {
     if (!_.isUndefined(delta)) {
       this.delta = delta
     } else {
-      this.delta = _.sum(this.outgoing, ({ target, weight }) => {
+      this.delta = _.sumBy(this.outgoing, ({ target, weight }) => {
         return this.activation.prime(this.input) * weight * target.delta
       })
     }
@@ -132,14 +131,14 @@ class Neuron {
    * Does not update weights. Useful during batch/mini-batch training.
    */
   accumulateGradients() {
-    _.each(this.incoming, connection => connection.accumulate())
+    _.forEach(this.incoming, connection => connection.accumulate())
   }
 
   /**
    * Update Connection weights and reset their accumulated gradients.
    */
   updateWeights() {
-    _.each(this.incoming, connection => connection.update())
+    _.forEach(this.incoming, connection => connection.update())
   }
 
   /**
