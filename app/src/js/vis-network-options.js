@@ -42,7 +42,7 @@ visNetworkOptions.nodes = {
   font: {
     color: '#777',
     size: 12,
-    face: 'Ionicons',
+    face: 'Lato',
   },
   labelHighlightBold: true,
   mass: 1,
