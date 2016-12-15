@@ -8,11 +8,9 @@
     "src"
   ],
   "scripts": {
-    "coverage-check": "istanbul check-coverage",
     "coverage-report": "codeclimate-test-reporter < coverage/lcov.info",
     "start": "gulp",
     "test": "NODE_ENV=test nyc mocha",
-    "posttest": "NODE_ENV=test npm run coverage-check",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "test:watch": "npm run test -- -w",
@@ -21,10 +19,6 @@
     "clean": "while read line; do rm -rf $line; done < .gitignore"
   },
   "nyc": {
-    "lines": 99,
-    "statements": 99,
-    "functions": 99,
-    "branches": 99,
     "include": [
       "src/**/*.js"
     ],
@@ -37,7 +31,7 @@
     ],
     "cache": true,
     "all": true,
-    "check-coverage": true,
+    "check-coverage": false,
     "report-dir": "./coverage"
   },
   "repository": {
