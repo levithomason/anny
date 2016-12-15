@@ -1,7 +1,0 @@
-# Heads Up!
-# Each line in this file is passed to `rm -rf` on `npm run clean`
-#
-
-coverage/
-node_modules/
-*.log*

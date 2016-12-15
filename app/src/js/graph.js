@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import vis from 'vis'
-import visNetworkOptions from './vis-network-options'
+import visNetworkOptions, { getNeuronColor, getWeightColor } from './vis-network-options'
 
 let visNetwork
 
@@ -9,51 +9,75 @@ export const getData = (annyNetwork) => {
   const edges = []
 
   // layers
-  _.each(annyNetwork.allLayers, (layer, layerIndex) => {
+  _.forEach(annyNetwork.allLayers, (layer, layerIndex) => {
     // neurons
-    _.each(layer.neurons, function(neuron) {
+    _.forEach(layer.neurons, (neuron) => {
       const id = neuron.id
-      const input = neuron.input.toFixed(3)
-      const output = neuron.output.toFixed(3)
+      const input = neuron.input.toFixed(2)
+      const output = neuron.output.toFixed(2)
       const delta = neuron.delta.toFixed(6)
 
-      nodes.push({
-        id: id,
+      // all nodes
+      let node = {
+        id,
         title: [
           '<b>id:</b> ', id, '<br/>',
+          '<b>input:</b> ', input, '<br/>',
+          '<b>output:</b> ', output, '<br/>',
           '<b>delta:</b> ', delta, '<br/>',
         ].join(''),
         level: layerIndex,
-        label: (neuron.isInput() ? [
-          '\no:', output,
-        ] : neuron.isOutput() ? [
-          '\ni:', input,
-          '\no:', output,
-        ] : neuron.isBias ? [
-          '\no:', output,
-        ] : /* hidden layer */ [
-          '\ni:', input,
-          '\no:', output,
-        ]).join(' '),
         value: Math.abs(output),
-        group: neuron.isBias ? 'bias' : 'normal',
-      })
+      }
+
+      if (neuron.isInput()) {
+        node = {
+          ...node,
+          group: 'input',
+          label: `${output} →`,
+          icon: {
+            size: _.clamp(Math.abs(output) * 25, 20, 35),
+            color: output >= 0 ? 'hsl(210, 60%, 70%)' : 'hsl(30, 60%, 60%)',
+          },
+        }
+      } else if (neuron.isOutput()) {
+        node = {
+          ...node,
+          group: 'output',
+          label: `→ ${input}\n${output} →`,
+          icon: {
+            size: _.clamp(Math.abs(output) * 25, 20, 35),
+            color: output >= 0 ? 'hsl(210, 60%, 70%)' : 'hsl(30, 60%, 60%)',
+          },
+        }
+      } else if (neuron.isBias) {
+        node = {
+          ...node,
+          group: 'bias',
+          label: `${output} →`,
+        }
+      } else /* is hidden */ {
+        node = {
+          ...node,
+          color: getNeuronColor(output),
+          group: 'hidden',
+          label: `→ ${input}\n${output} →`,
+        }
+      }
+
+      nodes.push(node)
 
       // connections
-      _.each(neuron.outgoing, function(connection) {
+      _.forEach(neuron.outgoing, (connection) => {
         const weight = connection.weight.toFixed(3)
 
         edges.push({
           from: connection.source.id,
           to: connection.target.id,
           value: Math.abs(weight),
-          title: 'weight: ' + weight,
+          title: `weight: ${weight}`,
           // matches border colors in network options factory
-          color: {
-            color: weight >= 0 ? 'hsl(210, 20%, 25%)' : 'hsl(30, 15%, 25%)',
-            hover: weight >= 0 ? 'hsl(210, 35%, 45%)' : 'hsl(30, 40%, 40%)',
-            highlight: weight >= 0 ? 'hsl(210, 60%, 70%)' : 'hsl(30, 60%, 60%)',
-          },
+          color: getWeightColor(weight),
         })
       })
     })

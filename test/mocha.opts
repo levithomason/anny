@@ -1,4 +1,0 @@
---recursive
---require ./test/globals.js
---ui bdd
---colors
