@@ -1,8 +1,4 @@
-const sumBy = (cb, arr) => {
-  return arr.reduce((acc, next, i) => {
-    return acc + cb(next, i)
-  }, 0)
-}
+import { sumBy } from './Util'
 
 /**
  * Functions for calculating Network error.  The error is simply the difference

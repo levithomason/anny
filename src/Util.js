@@ -30,3 +30,15 @@ export function normalize(array, min = _.min(array), max = _.max(array)) {
 export function type(arg) {
   return Object.prototype.toString.call(arg)
 }
+
+/**
+ * Sum all items in an array after passing each value to the iteratee.
+ * @param {function} cb - The iteratee
+ * @param {Array} arr - The array of items to sum
+ * @return {*}
+ */
+export const sumBy = (cb, arr) => {
+  return arr.reduce((acc, next, i) => {
+    return acc + cb(next, i)
+  }, 0)
+}

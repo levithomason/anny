@@ -13,7 +13,7 @@ import {
 // Dataset
 // ----------------------------------------
 
-const datasetName = 'irisFlower'
+const datasetName = 'ORGate'
 const dataset = DATA[datasetName]
 
 // shuffle
@@ -41,11 +41,10 @@ const errorThreshold = 0.001
 // Network
 const learningRate = 0.0015
 const layers = [
-  new Layer(4, ACTIVATION.tanh, learningRate),
-  new Layer(20, ACTIVATION.tanh, learningRate),
-  new Layer(15, ACTIVATION.tanh, learningRate),
+  new Layer(2, ACTIVATION.tanh, learningRate),
   new Layer(10, ACTIVATION.tanh, learningRate),
-  new Layer(3, ACTIVATION.tanh, learningRate),
+  new Layer(5, ACTIVATION.tanh, learningRate),
+  new Layer(1, ACTIVATION.tanh, learningRate),
 ]
 
 const network = new Network(layers, ERROR.meanSquared)
@@ -112,11 +111,6 @@ _.times(trainings, (training) => {
 // ----------------------------------------
 // Log results
 // ----------------------------------------
-
-console.log('')
-console.log(`// ${_.repeat('-', 60)}`)
-console.log('// Results')
-console.log(`// ${_.repeat('-', 60)}`)
 
 console.log(`
   data set     : ${datasetName}

@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import validate from './Validate'
+import { sumBy } from './Util'
 
 /**
  * A Trainer teaches a {@link Network} how to correctly classify some `data`.
@@ -113,7 +114,7 @@ class Trainer {
 
     for (let i = maxEpochs; i > 0; i -= 1) {
       // sum the average error of all training samples
-      const error = _.sumBy(data, getAverageSampleError)
+      const error = sumBy(getAverageSampleError, data)
 
       // call onProgress after the first epoch and every `frequency` thereafter
       if (onProgress && epochCount % frequency === 0) {
