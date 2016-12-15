@@ -3,7 +3,7 @@
 If you plan to submit your changes back to Anny, use the [Contributing](#Contributing) instructions.
 
 1. Install [node.js](https://nodejs.org/)
-1. `git clone https://github.com/dev-coop/anny.git`
+1. `git clone https://github.com/levithomason/anny.git`
 1. `cd anny`
 1. `npm install`
 1. `npm start`
@@ -12,14 +12,14 @@ If you plan to submit your changes back to Anny, use the [Contributing](#Contrib
 
 Use these instructions if you plan on submitting your changes to Anny.
 
-1. [Fork](https://github.com/dev-coop/anny/fork) Anny to your account
+1. [Fork](https://github.com/levithomason/anny/fork) Anny to your account
 1. `git clone <your fork>`
 1. `cd anny`
 1. `git checkout -b <new branch>`
 1. `npm install`
 1. `npm start`
 1. Make changes, commit and push
-1. Open a [Pull Request](https://github.com/dev-coop/anny/compare/integration...) with base: `integration` and compare: `<your branch>`.
+1. Open a [Pull Request](https://github.com/levithomason/anny/compare/integration...) with base: `master` and compare: `<your branch>`.
 
 We'll review your PR and help you get it merged into the `integration` branch.
 

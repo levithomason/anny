@@ -34,7 +34,12 @@ or try the [demo](http://levithomason.github.io/anny).
 Train a multilayer perceptron to approximate an OR logic gate:
 
 ```js
-const { Network, Layer, Trainer, DATA } = require('anny')
+const {
+  Network,
+  Layer,
+  Trainer,
+  DATA,
+} = require('anny')
 
 const network = new Network([new Layer(2), new Layer(1)])
 const trainer = new Trainer()

@@ -6,9 +6,9 @@ const gulp = g.help(require('gulp'), require('../gulphelp'))
 gulp.task('build', 'create a fresh anny and app build', (cb) => {
   runSequence(
     [
-      'build-anny',
-      'build-app',
-      'docs',
+      'anny:build',
+      'app:build',
+      'docs:build',
     ],
     cb,
   )

@@ -7,32 +7,32 @@ import paths from '../../paths'
 const g = require('gulp-load-plugins')()
 const gulp = g.help(require('gulp'), require('../gulphelp'))
 
-gulp.task('build-app', (cb) => {
+gulp.task('app:build', (cb) => {
   runSequence(
-    'clean-app-build',
+    'app:clean',
     [
-      'build-app-html',
-      'build-app-styles',
-      'build-app-fonts',
-      'build-app-js',
+      'app:build:html',
+      'app:build:styles',
+      'app:build:fonts',
+      'app:build:js',
     ],
     cb,
   )
 })
 
-gulp.task('clean-app-build', (cb) => {
+gulp.task('app:clean', (cb) => {
   del(paths.appDist, cb)
 })
 
-gulp.task('build-app-html', cb => gulp.src(`${paths.appSrc}/**/*.html`)
+gulp.task('app:build:html', cb => gulp.src(`${paths.appSrc}/**/*.html`)
     .pipe(gulp.dest(paths.appDist)))
 
-gulp.task('build-app-fonts', cb => gulp.src([
+gulp.task('app:build:fonts', cb => gulp.src([
   `${paths.appSrc}/fonts/**/*`,
 ])
     .pipe(gulp.dest(`${paths.appDist}/fonts`)))
 
-gulp.task('build-app-styles', (cb) => {
+gulp.task('app:build:styles', (cb) => {
   const minifyOpts = { keepSpecialComments: 0 }
 
   return gulp.src(`${paths.appSrc}/styles/main.scss`)
@@ -45,7 +45,7 @@ gulp.task('build-app-styles', (cb) => {
     .pipe(gulp.dest(`${paths.appDist}/css`))
 })
 
-gulp.task('build-app-js', (cb) => {
+gulp.task('app:build:js', (cb) => {
   const webpackOpts = {
     entry: paths.appEntry,
     output: {

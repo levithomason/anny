@@ -10,43 +10,39 @@ const gulp = g.help(require('gulp'), require('../gulphelp'))
 
 gulp.task('docs', 'build docs for the current version', (cb) => {
   runSequence(
-    'docs-clean',
-    'docs-jsdoc',
-    'docs-styles',
-    'docs-index-html',
+    'docs:clean',
+    'docs:build',
+    'docs:styles',
     cb,
   )
 })
 
-gulp.task('docs-clean', (cb) => {
-  del(`${paths.docsDist}/${pkg.version}`, cb)
+gulp.task('docs:clean', (cb) => {
+  del(paths.docsDist, cb)
 })
 
-gulp.task('docs-jsdoc', (cb) => {
-  exec([
-    '$(npm bin)/jsdoc -c conf.json',
+gulp.task('docs:build', (cb) => {
+  exec(`
+    $(npm bin)/jsdoc -c conf.json
 
-    `mv ${paths.docsDist}/${pkg.name}/${pkg.version} ${paths.docsDist}`,
-    `rm -rf ${paths.docsDist}/${pkg.name}`,
-
-    // remove fonts
-    `rm -rf ${paths.docsDist}/${pkg.version}/fonts`,
-
-  ].join(' && '), cb)
+    mv ${paths.docsDist}/${pkg.name}/${pkg.version}/* ${paths.docsDist}
+    rm -rf ${paths.docsDist}/${pkg.name}`, cb)
 })
 
-gulp.task('docs-styles', (cb) => {
+gulp.task('docs:styles', (cb) => {
   return gulp.src([
-    `${paths.docsSrc}/static/styles/*.styles`,
+    `${paths.docsSrc}/static/styles/*.scss`,
   ])
     .pipe(g.plumber())
     .pipe(g.sass())
     .pipe(g.autoprefixer())
-    .pipe(gulp.dest(`${paths.docsDist}/${pkg.version}/styles`))
+    .pipe(gulp.dest(`${paths.docsDist}/styles`))
 })
 
-gulp.task('docs-index-html', (cb) => {
-  return gulp.src([`${paths.docsSrc}/index.html`])
-    .pipe(g.replace(/CURRENT_PACKAGE_VERSION/g, `dist/${pkg.version}`))
-    .pipe(gulp.dest(paths.docsRoot))
+gulp.task('docs:deploy', 'deploy master branch', (cb) => {
+  exec('git push origin master:gh-pages', (err, stdout, stderr) => {
+    process.stdout.write(`${stdout}\n`)
+    process.stdout.write(`${stderr}\n`)
+    cb(err)
+  })
 })

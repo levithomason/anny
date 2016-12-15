@@ -7,19 +7,19 @@ import paths from '../../paths'
 const g = require('gulp-load-plugins')()
 const gulp = g.help(require('gulp'), require('../gulphelp'))
 
-gulp.task('build-anny', (cb) => {
+gulp.task('anny:build', (cb) => {
   runSequence(
-    'clean-build-anny',
-    'build-anny-js',
+    'anny:clean',
+    'anny:build',
     cb,
   )
 })
 
-gulp.task('clean-build-anny', (cb) => {
+gulp.task('anny:clean', (cb) => {
   del(paths.annyDist, cb)
 })
 
-gulp.task('build-anny-js', (cb) => {
+gulp.task('anny:build', (cb) => {
   const webpackOpts = {
     entry: paths.annyEntry,
     output: {

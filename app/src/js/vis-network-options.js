@@ -14,13 +14,14 @@ const negativeWeightColor = {
 }
 
 const positiveNeuronColor = {
-  background: `hsl(${POSITIVE_HUE}, 20%, 60%)`,
-  hover: { background: `hsl(${POSITIVE_HUE}, 35%, 70%)` },
+  background: `hsl(${POSITIVE_HUE}, 40%, 70%)`,
+  hover: { background: `hsl(${POSITIVE_HUE}, 50%, 75%)` },
   highlight: { background: `hsl(${POSITIVE_HUE}, 60%, 80%)` },
 }
+
 const negativeNeuronColor = {
-  background: `hsl(${NEGATIVE_HUE}, 20%, 60%)`,
-  hover: { background: `hsl(${NEGATIVE_HUE}, 35%, 70%)` },
+  background: `hsl(${NEGATIVE_HUE}, 40%, 70%)`,
+  hover: { background: `hsl(${NEGATIVE_HUE}, 50%, 75%)` },
   highlight: { background: `hsl(${NEGATIVE_HUE}, 60%, 80%)` },
 }
 
@@ -41,7 +42,7 @@ visNetworkOptions.nodes = {
   font: {
     color: '#777',
     size: 12,
-    face: 'Lato',
+    face: 'Ionicons',
   },
   labelHighlightBold: true,
   mass: 1,

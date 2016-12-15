@@ -104,27 +104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _coverage__file;
-
-	function _cover__() {
-	  if (!_coverage__file) _coverage__file = _coverage__getInitialState();
-	  return _coverage__file;
-	}
-
-	function _coverage__getInitialState() {
-	  var path = '/Users/levithomason/src/anny/src/index.js',
-	      hash = 'af0007395a65853a7488141ad029dd9f';
-	  var global = new Function('return this')();
-	  var coverage = global['__coverage__'] || (global['__coverage__'] = {});
-	  if (coverage[path] && coverage[path].hash === hash) return coverage[path];
-	  var coverageData = global['JSON'].parse('{"path":"/Users/levithomason/src/anny/src/index.js","s":{"1":0,"2":0,"3":0},"b":{},"f":{},"statementMap":{"1":{"start":{"line":12,"column":13},"end":{"line":23,"column":1}},"2":{"start":{"line":25,"column":0},"end":{"line":25,"column":21}},"3":{"start":{"line":26,"column":0},"end":{"line":26,"column":19}}},"fnMap":{},"branchMap":{}}');
-	  coverageData.hash = hash;
-	  return coverage[path] = coverageData;
-	}
-
-	_cover__();
-
-	var anny = (++_cover__().s['1'], {
+	var anny = {
 	  ACTIVATION: _Activation2.default,
 	  DATA: _Data2.default,
 	  ERROR: _Error2.default,
@@ -135,11 +115,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Trainer: _Trainer2.default,
 	  util: util,
 	  validate: _Validate2.default
-	});
+	};
 
-	++_cover__().s['2'];
 	module.exports = anny;
-	++_cover__().s['3'];
 	exports.default = anny;
 
 /***/ },
@@ -151,33 +129,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
-	var _coverage__file;
-
-	function _cover__() {
-	  if (!_coverage__file) _coverage__file = _coverage__getInitialState();
-	  return _coverage__file;
-	}
-
-	function _coverage__getInitialState() {
-	  var path = "/Users/levithomason/src/anny/src/Activation.js",
-	      hash = "9cf9df7bcadc382f78f7047a67c1135e";
-	  var global = new Function('return this')();
-	  var coverage = global['__coverage__'] || (global['__coverage__'] = {});
-	  if (coverage[path] && coverage[path].hash === hash) return coverage[path];
-	  var coverageData = global['JSON'].parse("{\"path\":\"/Users/levithomason/src/anny/src/Activation.js\",\"s\":{\"1\":0,\"2\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":0,\"7\":0,\"8\":0,\"9\":0,\"10\":0,\"11\":0,\"12\":0,\"13\":0,\"14\":0,\"15\":0,\"16\":0,\"17\":0},\"b\":{},\"f\":{\"1\":0,\"2\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":0,\"7\":0,\"8\":0,\"9\":0,\"10\":0,\"11\":0,\"12\":0},\"statementMap\":{\"1\":{\"start\":{\"line\":6,\"column\":19},\"end\":{\"line\":91,\"column\":1}},\"2\":{\"start\":{\"line\":14,\"column\":15},\"end\":{\"line\":14,\"column\":29}},\"3\":{\"start\":{\"line\":15,\"column\":16},\"end\":{\"line\":15,\"column\":38}},\"4\":{\"start\":{\"line\":26,\"column\":15},\"end\":{\"line\":26,\"column\":40}},\"5\":{\"start\":{\"line\":27,\"column\":16},\"end\":{\"line\":27,\"column\":41}},\"6\":{\"start\":{\"line\":40,\"column\":15},\"end\":{\"line\":40,\"column\":37}},\"7\":{\"start\":{\"line\":42,\"column\":18},\"end\":{\"line\":42,\"column\":40}},\"8\":{\"start\":{\"line\":43,\"column\":6},\"end\":{\"line\":43,\"column\":28}},\"9\":{\"start\":{\"line\":55,\"column\":15},\"end\":{\"line\":55,\"column\":16}},\"10\":{\"start\":{\"line\":56,\"column\":17},\"end\":{\"line\":56,\"column\":18}},\"11\":{\"start\":{\"line\":71,\"column\":21},\"end\":{\"line\":71,\"column\":33}},\"12\":{\"start\":{\"line\":72,\"column\":21},\"end\":{\"line\":72,\"column\":32}},\"13\":{\"start\":{\"line\":73,\"column\":6},\"end\":{\"line\":73,\"column\":50}},\"14\":{\"start\":{\"line\":75,\"column\":16},\"end\":{\"line\":75,\"column\":37}},\"15\":{\"start\":{\"line\":86,\"column\":15},\"end\":{\"line\":86,\"column\":44}},\"16\":{\"start\":{\"line\":87,\"column\":16},\"end\":{\"line\":87,\"column\":52}},\"17\":{\"start\":{\"line\":93,\"column\":0},\"end\":{\"line\":93,\"column\":25}}},\"fnMap\":{\"1\":{\"name\":null,\"line\":14,\"loc\":{\"start\":{\"line\":14,\"column\":10},\"end\":{\"line\":14,\"column\":29}}},\"2\":{\"name\":null,\"line\":15,\"loc\":{\"start\":{\"line\":15,\"column\":11},\"end\":{\"line\":15,\"column\":38}}},\"3\":{\"name\":null,\"line\":26,\"loc\":{\"start\":{\"line\":26,\"column\":10},\"end\":{\"line\":26,\"column\":40}}},\"4\":{\"name\":null,\"line\":27,\"loc\":{\"start\":{\"line\":27,\"column\":11},\"end\":{\"line\":27,\"column\":41}}},\"5\":{\"name\":null,\"line\":40,\"loc\":{\"start\":{\"line\":40,\"column\":10},\"end\":{\"line\":40,\"column\":37}}},\"6\":{\"name\":null,\"line\":41,\"loc\":{\"start\":{\"line\":41,\"column\":11},\"end\":{\"line\":44,\"column\":5}}},\"7\":{\"name\":null,\"line\":55,\"loc\":{\"start\":{\"line\":55,\"column\":10},\"end\":{\"line\":55,\"column\":16}}},\"8\":{\"name\":null,\"line\":56,\"loc\":{\"start\":{\"line\":56,\"column\":11},\"end\":{\"line\":56,\"column\":18}}},\"9\":{\"name\":null,\"line\":70,\"loc\":{\"start\":{\"line\":70,\"column\":10},\"end\":{\"line\":74,\"column\":5}}},\"10\":{\"name\":null,\"line\":75,\"loc\":{\"start\":{\"line\":75,\"column\":11},\"end\":{\"line\":75,\"column\":37}}},\"11\":{\"name\":null,\"line\":86,\"loc\":{\"start\":{\"line\":86,\"column\":10},\"end\":{\"line\":86,\"column\":44}}},\"12\":{\"name\":null,\"line\":87,\"loc\":{\"start\":{\"line\":87,\"column\":11},\"end\":{\"line\":87,\"column\":52}}}},\"branchMap\":{}}");
-	  coverageData.hash = hash;
-	  return coverage[path] = coverageData;
-	}
-
-	_cover__();
-
 	/**
 	 * Activation functions and their derivatives for a {@link Neuron}.
 	 * @namespace
 	 * @type {object}
 	 */
-	var ACTIVATION = (++_cover__().s["1"], {
+	var ACTIVATION = {
 	  /**
 	   * Simply max(0, x). Interestingly the derivative of the rectifier turns out
 	   * to be the logistic function.
@@ -186,10 +143,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  rectifier: {
 	    // https://en.wikipedia.org/wiki/Rectifier
 	    func: function func(x) {
-	      return ++_cover__().f["1"], ++_cover__().s["2"], Math.max(0, x);
+	      return Math.max(0, x);
 	    },
 	    prime: function prime(x) {
-	      return ++_cover__().f["2"], ++_cover__().s["3"], 1 / (1 + Math.exp(-x));
+	      return 1 / (1 + Math.exp(-x));
 	    },
 	    rangeMin: 0,
 	    rangeMax: Infinity
@@ -202,10 +159,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  softplus: {
 	    // https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
 	    func: function func(x) {
-	      return ++_cover__().f["3"], ++_cover__().s["4"], Math.log(1 + Math.exp(x));
+	      return Math.log(1 + Math.exp(x));
 	    },
 	    prime: function prime(x) {
-	      return ++_cover__().f["4"], ++_cover__().s["5"], Math.log(1 + Math.exp(x));
+	      return Math.log(1 + Math.exp(x));
 	    },
 	    rangeMin: 0,
 	    rangeMax: Infinity
@@ -220,13 +177,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  logistic: {
 	    // 4.4 The Sigmoid Fig. 4.a, Not recommended.
 	    func: function func(x) {
-	      return ++_cover__().f["5"], ++_cover__().s["6"], 1 / (1 + Math.exp(-x));
+	      return 1 / (1 + Math.exp(-x));
 	    },
 	    prime: function prime(x) {
-	      ++_cover__().f["6"];
-
-	      var val = (++_cover__().s["7"], 1 / (1 + Math.exp(-x)));
-	      ++_cover__().s["8"];
+	      var val = 1 / (1 + Math.exp(-x));
 	      return val * (1 - val);
 	    },
 	    rangeMin: 0,
@@ -240,10 +194,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  identity: {
 	    func: function func(x) {
-	      return ++_cover__().f["7"], ++_cover__().s["9"], x;
+	      return x;
 	    },
 	    prime: function prime() {
-	      return ++_cover__().f["8"], ++_cover__().s["10"], 1;
+	      return 1;
 	    },
 	    rangeMin: -Infinity,
 	    rangeMax: Infinity
@@ -259,15 +213,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  tanh: {
 	    func: function func(x) {
-	      ++_cover__().f["9"];
-
-	      var negExp = (++_cover__().s["11"], Math.exp(-x));
-	      var posExp = (++_cover__().s["12"], Math.exp(x));
-	      ++_cover__().s["13"];
+	      var negExp = Math.exp(-x);
+	      var posExp = Math.exp(x);
 	      return (posExp - negExp) / (posExp + negExp);
 	    },
 	    prime: function prime(x) {
-	      return ++_cover__().f["10"], ++_cover__().s["14"], 1 - Math.pow(Math.tanh(x), 2);
+	      return 1 - Math.pow(Math.tanh(x), 2);
 	    },
 	    rangeMin: -1,
 	    rangeMax: 1
@@ -280,17 +231,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  optimalTanh: {
 	    func: function func(x) {
-	      return ++_cover__().f["11"], ++_cover__().s["15"], 1.7159 * Math.tanh(x * 2 / 3);
+	      return 1.7159 * Math.tanh(x * 2 / 3);
 	    },
 	    prime: function prime(x) {
-	      return ++_cover__().f["12"], ++_cover__().s["16"], 1.14393 * (1 / Math.cosh(x * 2 / 3));
+	      return 1.14393 * (1 / Math.cosh(x * 2 / 3));
 	    },
 	    rangeMin: -1,
 	    rangeMax: 1
 	  }
-	});
+	};
 
-	++_cover__().s["17"];
 	exports.default = ACTIVATION;
 
 /***/ },
@@ -302,33 +252,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
-	var _coverage__file;
-
-	function _cover__() {
-	  if (!_coverage__file) _coverage__file = _coverage__getInitialState();
-	  return _coverage__file;
-	}
-
-	function _coverage__getInitialState() {
-	  var path = "/Users/levithomason/src/anny/src/Data.js",
-	      hash = "0f93ac027b882f98f340b40e3d9f73c4";
-	  var global = new Function('return this')();
-	  var coverage = global['__coverage__'] || (global['__coverage__'] = {});
-	  if (coverage[path] && coverage[path].hash === hash) return coverage[path];
-	  var coverageData = global['JSON'].parse("{\"path\":\"/Users/levithomason/src/anny/src/Data.js\",\"s\":{\"1\":0,\"2\":0},\"b\":{},\"f\":{},\"statementMap\":{\"1\":{\"start\":{\"line\":6,\"column\":13},\"end\":{\"line\":208,\"column\":1}},\"2\":{\"start\":{\"line\":210,\"column\":0},\"end\":{\"line\":210,\"column\":19}}},\"fnMap\":{},\"branchMap\":{}}");
-	  coverageData.hash = hash;
-	  return coverage[path] = coverageData;
-	}
-
-	_cover__();
-
 	/**
 	 * Example data for testing and benchmarking purposes.
 	 * @type {{}}
 	 * @namespace
 	 */
-	var DATA = (++_cover__().s["1"], {
+	var DATA = {
 	  /**
 	   * The 4 possible input patterns to a OR gate.
 	   * 2 inputs, 1 output, 4 samples
@@ -359,9 +288,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * 4 inputs, 3 output, 150 samples
 	   */
 	  irisFlower: [{ input: [5.1, 3.5, 1.4, 0.2], output: [1, 0, 0] }, { input: [4.9, 3.0, 1.4, 0.2], output: [1, 0, 0] }, { input: [4.7, 3.2, 1.3, 0.2], output: [1, 0, 0] }, { input: [4.6, 3.1, 1.5, 0.2], output: [1, 0, 0] }, { input: [5.0, 3.6, 1.4, 0.2], output: [1, 0, 0] }, { input: [5.4, 3.9, 1.7, 0.4], output: [1, 0, 0] }, { input: [4.6, 3.4, 1.4, 0.3], output: [1, 0, 0] }, { input: [5.0, 3.4, 1.5, 0.2], output: [1, 0, 0] }, { input: [4.4, 2.9, 1.4, 0.2], output: [1, 0, 0] }, { input: [4.9, 3.1, 1.5, 0.1], output: [1, 0, 0] }, { input: [5.4, 3.7, 1.5, 0.2], output: [1, 0, 0] }, { input: [4.8, 3.4, 1.6, 0.2], output: [1, 0, 0] }, { input: [4.8, 3.0, 1.4, 0.1], output: [1, 0, 0] }, { input: [4.3, 3.0, 1.1, 0.1], output: [1, 0, 0] }, { input: [5.8, 4.0, 1.2, 0.2], output: [1, 0, 0] }, { input: [5.7, 4.4, 1.5, 0.4], output: [1, 0, 0] }, { input: [5.4, 3.9, 1.3, 0.4], output: [1, 0, 0] }, { input: [5.1, 3.5, 1.4, 0.3], output: [1, 0, 0] }, { input: [5.7, 3.8, 1.7, 0.3], output: [1, 0, 0] }, { input: [5.1, 3.8, 1.5, 0.3], output: [1, 0, 0] }, { input: [5.4, 3.4, 1.7, 0.2], output: [1, 0, 0] }, { input: [5.1, 3.7, 1.5, 0.4], output: [1, 0, 0] }, { input: [4.6, 3.6, 1.0, 0.2], output: [1, 0, 0] }, { input: [5.1, 3.3, 1.7, 0.5], output: [1, 0, 0] }, { input: [4.8, 3.4, 1.9, 0.2], output: [1, 0, 0] }, { input: [5.0, 3.0, 1.6, 0.2], output: [1, 0, 0] }, { input: [5.0, 3.4, 1.6, 0.4], output: [1, 0, 0] }, { input: [5.2, 3.5, 1.5, 0.2], output: [1, 0, 0] }, { input: [5.2, 3.4, 1.4, 0.2], output: [1, 0, 0] }, { input: [4.7, 3.2, 1.6, 0.2], output: [1, 0, 0] }, { input: [4.8, 3.1, 1.6, 0.2], output: [1, 0, 0] }, { input: [5.4, 3.4, 1.5, 0.4], output: [1, 0, 0] }, { input: [5.2, 4.1, 1.5, 0.1], output: [1, 0, 0] }, { input: [5.5, 4.2, 1.4, 0.2], output: [1, 0, 0] }, { input: [4.9, 3.1, 1.5, 0.1], output: [1, 0, 0] }, { input: [5.0, 3.2, 1.2, 0.2], output: [1, 0, 0] }, { input: [5.5, 3.5, 1.3, 0.2], output: [1, 0, 0] }, { input: [4.9, 3.1, 1.5, 0.1], output: [1, 0, 0] }, { input: [4.4, 3.0, 1.3, 0.2], output: [1, 0, 0] }, { input: [5.1, 3.4, 1.5, 0.2], output: [1, 0, 0] }, { input: [5.0, 3.5, 1.3, 0.3], output: [1, 0, 0] }, { input: [4.5, 2.3, 1.3, 0.3], output: [1, 0, 0] }, { input: [4.4, 3.2, 1.3, 0.2], output: [1, 0, 0] }, { input: [5.0, 3.5, 1.6, 0.6], output: [1, 0, 0] }, { input: [5.1, 3.8, 1.9, 0.4], output: [1, 0, 0] }, { input: [4.8, 3.0, 1.4, 0.3], output: [1, 0, 0] }, { input: [5.1, 3.8, 1.6, 0.2], output: [1, 0, 0] }, { input: [4.6, 3.2, 1.4, 0.2], output: [1, 0, 0] }, { input: [5.3, 3.7, 1.5, 0.2], output: [1, 0, 0] }, { input: [5.0, 3.3, 1.4, 0.2], output: [1, 0, 0] }, { input: [7.0, 3.2, 4.7, 1.4], output: [0, 1, 0] }, { input: [6.4, 3.2, 4.5, 1.5], output: [0, 1, 0] }, { input: [6.9, 3.1, 4.9, 1.5], output: [0, 1, 0] }, { input: [5.5, 2.3, 4.0, 1.3], output: [0, 1, 0] }, { input: [6.5, 2.8, 4.6, 1.5], output: [0, 1, 0] }, { input: [5.7, 2.8, 4.5, 1.3], output: [0, 1, 0] }, { input: [6.3, 3.3, 4.7, 1.6], output: [0, 1, 0] }, { input: [4.9, 2.4, 3.3, 1.0], output: [0, 1, 0] }, { input: [6.6, 2.9, 4.6, 1.3], output: [0, 1, 0] }, { input: [5.2, 2.7, 3.9, 1.4], output: [0, 1, 0] }, { input: [5.0, 2.0, 3.5, 1.0], output: [0, 1, 0] }, { input: [5.9, 3.0, 4.2, 1.5], output: [0, 1, 0] }, { input: [6.0, 2.2, 4.0, 1.0], output: [0, 1, 0] }, { input: [6.1, 2.9, 4.7, 1.4], output: [0, 1, 0] }, { input: [5.6, 2.9, 3.6, 1.3], output: [0, 1, 0] }, { input: [6.7, 3.1, 4.4, 1.4], output: [0, 1, 0] }, { input: [5.6, 3.0, 4.5, 1.5], output: [0, 1, 0] }, { input: [5.8, 2.7, 4.1, 1.0], output: [0, 1, 0] }, { input: [6.2, 2.2, 4.5, 1.5], output: [0, 1, 0] }, { input: [5.6, 2.5, 3.9, 1.1], output: [0, 1, 0] }, { input: [5.9, 3.2, 4.8, 1.8], output: [0, 1, 0] }, { input: [6.1, 2.8, 4.0, 1.3], output: [0, 1, 0] }, { input: [6.3, 2.5, 4.9, 1.5], output: [0, 1, 0] }, { input: [6.1, 2.8, 4.7, 1.2], output: [0, 1, 0] }, { input: [6.4, 2.9, 4.3, 1.3], output: [0, 1, 0] }, { input: [6.6, 3.0, 4.4, 1.4], output: [0, 1, 0] }, { input: [6.8, 2.8, 4.8, 1.4], output: [0, 1, 0] }, { input: [6.7, 3.0, 5.0, 1.7], output: [0, 1, 0] }, { input: [6.0, 2.9, 4.5, 1.5], output: [0, 1, 0] }, { input: [5.7, 2.6, 3.5, 1.0], output: [0, 1, 0] }, { input: [5.5, 2.4, 3.8, 1.1], output: [0, 1, 0] }, { input: [5.5, 2.4, 3.7, 1.0], output: [0, 1, 0] }, { input: [5.8, 2.7, 3.9, 1.2], output: [0, 1, 0] }, { input: [6.0, 2.7, 5.1, 1.6], output: [0, 1, 0] }, { input: [5.4, 3.0, 4.5, 1.5], output: [0, 1, 0] }, { input: [6.0, 3.4, 4.5, 1.6], output: [0, 1, 0] }, { input: [6.7, 3.1, 4.7, 1.5], output: [0, 1, 0] }, { input: [6.3, 2.3, 4.4, 1.3], output: [0, 1, 0] }, { input: [5.6, 3.0, 4.1, 1.3], output: [0, 1, 0] }, { input: [5.5, 2.5, 4.0, 1.3], output: [0, 1, 0] }, { input: [5.5, 2.6, 4.4, 1.2], output: [0, 1, 0] }, { input: [6.1, 3.0, 4.6, 1.4], output: [0, 1, 0] }, { input: [5.8, 2.6, 4.0, 1.2], output: [0, 1, 0] }, { input: [5.0, 2.3, 3.3, 1.0], output: [0, 1, 0] }, { input: [5.6, 2.7, 4.2, 1.3], output: [0, 1, 0] }, { input: [5.7, 3.0, 4.2, 1.2], output: [0, 1, 0] }, { input: [5.7, 2.9, 4.2, 1.3], output: [0, 1, 0] }, { input: [6.2, 2.9, 4.3, 1.3], output: [0, 1, 0] }, { input: [5.1, 2.5, 3.0, 1.1], output: [0, 1, 0] }, { input: [5.7, 2.8, 4.1, 1.3], output: [0, 1, 0] }, { input: [6.3, 3.3, 6.0, 2.5], output: [0, 0, 1] }, { input: [5.8, 2.7, 5.1, 1.9], output: [0, 0, 1] }, { input: [7.1, 3.0, 5.9, 2.1], output: [0, 0, 1] }, { input: [6.3, 2.9, 5.6, 1.8], output: [0, 0, 1] }, { input: [6.5, 3.0, 5.8, 2.2], output: [0, 0, 1] }, { input: [7.6, 3.0, 6.6, 2.1], output: [0, 0, 1] }, { input: [4.9, 2.5, 4.5, 1.7], output: [0, 0, 1] }, { input: [7.3, 2.9, 6.3, 1.8], output: [0, 0, 1] }, { input: [6.7, 2.5, 5.8, 1.8], output: [0, 0, 1] }, { input: [7.2, 3.6, 6.1, 2.5], output: [0, 0, 1] }, { input: [6.5, 3.2, 5.1, 2.0], output: [0, 0, 1] }, { input: [6.4, 2.7, 5.3, 1.9], output: [0, 0, 1] }, { input: [6.8, 3.0, 5.5, 2.1], output: [0, 0, 1] }, { input: [5.7, 2.5, 5.0, 2.0], output: [0, 0, 1] }, { input: [5.8, 2.8, 5.1, 2.4], output: [0, 0, 1] }, { input: [6.4, 3.2, 5.3, 2.3], output: [0, 0, 1] }, { input: [6.5, 3.0, 5.5, 1.8], output: [0, 0, 1] }, { input: [7.7, 3.8, 6.7, 2.2], output: [0, 0, 1] }, { input: [7.7, 2.6, 6.9, 2.3], output: [0, 0, 1] }, { input: [6.0, 2.2, 5.0, 1.5], output: [0, 0, 1] }, { input: [6.9, 3.2, 5.7, 2.3], output: [0, 0, 1] }, { input: [5.6, 2.8, 4.9, 2.0], output: [0, 0, 1] }, { input: [7.7, 2.8, 6.7, 2.0], output: [0, 0, 1] }, { input: [6.3, 2.7, 4.9, 1.8], output: [0, 0, 1] }, { input: [6.7, 3.3, 5.7, 2.1], output: [0, 0, 1] }, { input: [7.2, 3.2, 6.0, 1.8], output: [0, 0, 1] }, { input: [6.2, 2.8, 4.8, 1.8], output: [0, 0, 1] }, { input: [6.1, 3.0, 4.9, 1.8], output: [0, 0, 1] }, { input: [6.4, 2.8, 5.6, 2.1], output: [0, 0, 1] }, { input: [7.2, 3.0, 5.8, 1.6], output: [0, 0, 1] }, { input: [7.4, 2.8, 6.1, 1.9], output: [0, 0, 1] }, { input: [7.9, 3.8, 6.4, 2.0], output: [0, 0, 1] }, { input: [6.4, 2.8, 5.6, 2.2], output: [0, 0, 1] }, { input: [6.3, 2.8, 5.1, 1.5], output: [0, 0, 1] }, { input: [6.1, 2.6, 5.6, 1.4], output: [0, 0, 1] }, { input: [7.7, 3.0, 6.1, 2.3], output: [0, 0, 1] }, { input: [6.3, 3.4, 5.6, 2.4], output: [0, 0, 1] }, { input: [6.4, 3.1, 5.5, 1.8], output: [0, 0, 1] }, { input: [6.0, 3.0, 4.8, 1.8], output: [0, 0, 1] }, { input: [6.9, 3.1, 5.4, 2.1], output: [0, 0, 1] }, { input: [6.7, 3.1, 5.6, 2.4], output: [0, 0, 1] }, { input: [6.9, 3.1, 5.1, 2.3], output: [0, 0, 1] }, { input: [5.8, 2.7, 5.1, 1.9], output: [0, 0, 1] }, { input: [6.8, 3.2, 5.9, 2.3], output: [0, 0, 1] }, { input: [6.7, 3.3, 5.7, 2.5], output: [0, 0, 1] }, { input: [6.7, 3.0, 5.2, 2.3], output: [0, 0, 1] }, { input: [6.3, 2.5, 5.0, 1.9], output: [0, 0, 1] }, { input: [6.5, 3.0, 5.2, 2.0], output: [0, 0, 1] }, { input: [6.2, 3.4, 5.4, 2.3], output: [0, 0, 1] }, { input: [5.9, 3.0, 5.1, 1.8], output: [0, 0, 1] }]
-	});
+	};
 
-	++_cover__().s["2"];
 	exports.default = DATA;
 
 /***/ },
@@ -373,38 +301,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
-	var _coverage__file;
-
-	function _cover__() {
-	  if (!_coverage__file) _coverage__file = _coverage__getInitialState();
-	  return _coverage__file;
-	}
-
-	function _coverage__getInitialState() {
-	  var path = "/Users/levithomason/src/anny/src/Error.js",
-	      hash = "ffb5d7c27ac467dfaa0d04537e0f2d7c";
-	  var global = new Function('return this')();
-	  var coverage = global['__coverage__'] || (global['__coverage__'] = {});
-	  if (coverage[path] && coverage[path].hash === hash) return coverage[path];
-	  var coverageData = global['JSON'].parse("{\"path\":\"/Users/levithomason/src/anny/src/Error.js\",\"s\":{\"1\":0,\"2\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":0,\"7\":0,\"8\":0,\"9\":0,\"10\":0,\"11\":0,\"12\":0,\"13\":0,\"14\":0,\"15\":0},\"b\":{},\"f\":{\"1\":0,\"2\":0,\"3\":0,\"4\":0,\"5\":0},\"statementMap\":{\"1\":{\"start\":{\"line\":1,\"column\":14},\"end\":{\"line\":5,\"column\":1}},\"2\":{\"start\":{\"line\":2,\"column\":2},\"end\":{\"line\":4,\"column\":7}},\"3\":{\"start\":{\"line\":3,\"column\":4},\"end\":{\"line\":3,\"column\":28}},\"4\":{\"start\":{\"line\":14,\"column\":14},\"end\":{\"line\":69,\"column\":1}},\"5\":{\"start\":{\"line\":23,\"column\":16},\"end\":{\"line\":25,\"column\":14}},\"6\":{\"start\":{\"line\":24,\"column\":6},\"end\":{\"line\":24,\"column\":38}},\"7\":{\"start\":{\"line\":26,\"column\":4},\"end\":{\"line\":26,\"column\":31}},\"8\":{\"start\":{\"line\":39,\"column\":16},\"end\":{\"line\":41,\"column\":14}},\"9\":{\"start\":{\"line\":40,\"column\":6},\"end\":{\"line\":40,\"column\":43}},\"10\":{\"start\":{\"line\":42,\"column\":4},\"end\":{\"line\":42,\"column\":30}},\"11\":{\"start\":{\"line\":53,\"column\":4},\"end\":{\"line\":53,\"column\":57}},\"12\":{\"start\":{\"line\":64,\"column\":16},\"end\":{\"line\":66,\"column\":14}},\"13\":{\"start\":{\"line\":65,\"column\":6},\"end\":{\"line\":65,\"column\":39}},\"14\":{\"start\":{\"line\":67,\"column\":4},\"end\":{\"line\":67,\"column\":30}},\"15\":{\"start\":{\"line\":71,\"column\":0},\"end\":{\"line\":71,\"column\":20}}},\"fnMap\":{\"1\":{\"name\":null,\"line\":1,\"loc\":{\"start\":{\"line\":1,\"column\":14},\"end\":{\"line\":5,\"column\":1}}},\"2\":{\"name\":null,\"line\":2,\"loc\":{\"start\":{\"line\":2,\"column\":20},\"end\":{\"line\":4,\"column\":3}}},\"3\":{\"name\":null,\"line\":23,\"loc\":{\"start\":{\"line\":23,\"column\":22},\"end\":{\"line\":25,\"column\":5}}},\"4\":{\"name\":null,\"line\":39,\"loc\":{\"start\":{\"line\":39,\"column\":22},\"end\":{\"line\":41,\"column\":5}}},\"5\":{\"name\":null,\"line\":64,\"loc\":{\"start\":{\"line\":64,\"column\":22},\"end\":{\"line\":66,\"column\":5}}}},\"branchMap\":{}}");
-	  coverageData.hash = hash;
-	  return coverage[path] = coverageData;
-	}
-
-	_cover__();
-
-	var sumBy = (++_cover__().s["1"], function (cb, arr) {
-	  ++_cover__().f["1"];
-	  ++_cover__().s["2"];
-
+	var sumBy = function sumBy(cb, arr) {
 	  return arr.reduce(function (acc, next, i) {
-	    ++_cover__().f["2"];
-	    ++_cover__().s["3"];
-
 	    return acc + cb(next, i);
 	  }, 0);
-	});
+	};
 
 	/**
 	 * Functions for calculating Network error.  The error is simply the difference
@@ -413,7 +314,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @see Network
 	 * @type {object}
 	 */
-	var ERROR = (++_cover__().s["4"], {
+	var ERROR = {
 	  /**
 	   * @param {number[]} expected - Array of output values the Network should
 	   *   have produced.
@@ -422,13 +323,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {number}
 	   */
 	  crossEntropy: function crossEntropy(expected, actual) {
-	    var sum = (++_cover__().s["5"], sumBy(function (a, i) {
-	      ++_cover__().f["3"];
-	      ++_cover__().s["6"];
-
+	    var sum = sumBy(function (a, i) {
 	      return Math.log(a) * expected[i];
-	    }, actual));
-	    ++_cover__().s["7"];
+	    }, actual);
 	    return -sum / actual.length;
 	  },
 
@@ -443,13 +340,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {number}
 	   */
 	  meanSquared: function meanSquared(expected, actual) {
-	    var sum = (++_cover__().s["8"], sumBy(function (a, i) {
-	      ++_cover__().f["4"];
-	      ++_cover__().s["9"];
-
+	    var sum = sumBy(function (a, i) {
 	      return 0.5 * Math.pow(expected[i] - a, 2);
-	    }, actual));
-	    ++_cover__().s["10"];
+	    }, actual);
 	    return sum / actual.length;
 	  },
 
@@ -462,8 +355,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {number}
 	   */
 	  rootMeanSquared: function rootMeanSquared(expected, actual) {
-	    ++_cover__().s["11"];
-
 	    return Math.sqrt(ERROR.meanSquared(expected, actual));
 	  },
 
@@ -476,18 +367,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {number}
 	   */
 	  arcTan: function arcTan(expected, actual) {
-	    var sum = (++_cover__().s["12"], sumBy(function (a, i) {
-	      ++_cover__().f["5"];
-	      ++_cover__().s["13"];
-
+	    var sum = sumBy(function (a, i) {
 	      return Math.atan(expected[i] - a);
-	    }, actual));
-	    ++_cover__().s["14"];
+	    }, actual);
 	    return sum / actual.length;
 	  }
-	});
+	};
 
-	++_cover__().s["15"];
 	exports.default = ERROR;
 
 /***/ },
@@ -506,39 +392,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _coverage__file;
-
-	function _cover__() {
-	  if (!_coverage__file) _coverage__file = _coverage__getInitialState();
-	  return _coverage__file;
-	}
-
-	function _coverage__getInitialState() {
-	  var path = '/Users/levithomason/src/anny/src/Initialize.js',
-	      hash = '2fa1f66c8746610a036e35fcdfe53ba8';
-	  var global = new Function('return this')();
-	  var coverage = global['__coverage__'] || (global['__coverage__'] = {});
-	  if (coverage[path] && coverage[path].hash === hash) return coverage[path];
-	  var coverageData = global['JSON'].parse('{"path":"/Users/levithomason/src/anny/src/Initialize.js","s":{"1":0,"2":0,"3":0,"4":0,"5":0},"b":{},"f":{},"statementMap":{"1":{"start":{"line":8,"column":19},"end":{"line":29,"column":1}},"2":{"start":{"line":15,"column":4},"end":{"line":15,"column":14}},"3":{"start":{"line":26,"column":22},"end":{"line":26,"column":43}},"4":{"start":{"line":27,"column":4},"end":{"line":27,"column":48}},"5":{"start":{"line":31,"column":0},"end":{"line":31,"column":25}}},"fnMap":{},"branchMap":{}}');
-	  coverageData.hash = hash;
-	  return coverage[path] = coverageData;
-	}
-
-	_cover__();
-
 	/**
 	 * Initialize Neuron and Connection values.
 	 * @namespace
 	 * @type {object}
 	 */
-	var INITIALIZE = (++_cover__().s['1'], {
+	var INITIALIZE = {
 	  /**
 	   * Initialize the learning rate for a Neuron.
 	   * @returns {number}
 	   */
 	  learningRate: function learningRate() {
-	    ++_cover__().s['2'];
-
 	    // TODO: Implement 4.7 Choosing learning rates (pg 13)
 	    return 0.3;
 	  },
@@ -552,13 +416,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  weight: function weight(numInputs) {
 	    // 4.6 Initializing the weights (16)
 	    // We find ^-1/4 performs better than the original ^1/2
-	    var maxWeight = (++_cover__().s['3'], Math.pow(numInputs, -1 / 4));
-	    ++_cover__().s['4'];
+	    var maxWeight = Math.pow(numInputs, -1 / 4);
 	    return (0, _random3.default)(-maxWeight, maxWeight, true);
 	  }
-	});
+	};
 
-	++_cover__().s['5'];
 	exports.default = INITIALIZE;
 
 /***/ },
@@ -1339,26 +1201,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _coverage__file;
-
-	function _cover__() {
-	  if (!_coverage__file) _coverage__file = _coverage__getInitialState();
-	  return _coverage__file;
-	}
-
-	function _coverage__getInitialState() {
-	  var path = '/Users/levithomason/src/anny/src/Layer.js',
-	      hash = '7cf19f8c94339939c9e685b0a8ef8fca';
-	  var global = new Function('return this')();
-	  var coverage = global['__coverage__'] || (global['__coverage__'] = {});
-	  if (coverage[path] && coverage[path].hash === hash) return coverage[path];
-	  var coverageData = global['JSON'].parse('{"path":"/Users/levithomason/src/anny/src/Layer.js","s":{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0},"b":{"1":[0,0],"2":[0,0]},"f":{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0},"statementMap":{"1":{"start":{"line":13,"column":0},"end":{"line":96,"column":1}},"2":{"start":{"line":24,"column":4},"end":{"line":26,"column":5}},"3":{"start":{"line":25,"column":6},"end":{"line":25,"column":77}},"4":{"start":{"line":27,"column":4},"end":{"line":27,"column":76}},"5":{"start":{"line":27,"column":39},"end":{"line":27,"column":75}},"6":{"start":{"line":37,"column":4},"end":{"line":41,"column":5}},"7":{"start":{"line":38,"column":25},"end":{"line":38,"column":37}},"8":{"start":{"line":39,"column":6},"end":{"line":39,"column":30}},"9":{"start":{"line":40,"column":6},"end":{"line":40,"column":35}},"10":{"start":{"line":43,"column":4},"end":{"line":51,"column":6}},"11":{"start":{"line":48,"column":6},"end":{"line":50,"column":8}},"12":{"start":{"line":49,"column":8},"end":{"line":49,"column":70}},"13":{"start":{"line":59,"column":20},"end":{"line":59,"column":22}},"14":{"start":{"line":62,"column":4},"end":{"line":62,"column":73}},"15":{"start":{"line":62,"column":46},"end":{"line":62,"column":72}},"16":{"start":{"line":71,"column":20},"end":{"line":71,"column":22}},"17":{"start":{"line":72,"column":4},"end":{"line":72,"column":70}},"18":{"start":{"line":72,"column":43},"end":{"line":72,"column":69}},"19":{"start":{"line":80,"column":4},"end":{"line":80,"column":67}},"20":{"start":{"line":80,"column":38},"end":{"line":80,"column":66}},"21":{"start":{"line":87,"column":4},"end":{"line":87,"column":61}},"22":{"start":{"line":87,"column":38},"end":{"line":87,"column":60}},"23":{"start":{"line":94,"column":4},"end":{"line":94,"column":59}},"24":{"start":{"line":98,"column":0},"end":{"line":98,"column":20}}},"fnMap":{"1":{"name":null,"line":23,"loc":{"start":{"line":23,"column":2},"end":{"line":28,"column":3}}},"2":{"name":null,"line":27,"loc":{"start":{"line":27,"column":33},"end":{"line":27,"column":75}}},"3":{"name":null,"line":43,"loc":{"start":{"line":43,"column":28},"end":{"line":51,"column":5}}},"4":{"name":null,"line":48,"loc":{"start":{"line":48,"column":37},"end":{"line":50,"column":7}}},"5":{"name":null,"line":62,"loc":{"start":{"line":62,"column":31},"end":{"line":62,"column":72}}},"6":{"name":null,"line":72,"loc":{"start":{"line":72,"column":28},"end":{"line":72,"column":69}}},"7":{"name":null,"line":80,"loc":{"start":{"line":80,"column":28},"end":{"line":80,"column":66}}},"8":{"name":null,"line":87,"loc":{"start":{"line":87,"column":28},"end":{"line":87,"column":60}}}},"branchMap":{"1":{"line":24,"type":"if","locations":[{"start":{"line":24,"column":27},"end":{"line":26,"column":5}},{"start":{"line":24,"column":27},"end":{"line":26,"column":5}}]},"2":{"line":37,"type":"if","locations":[{"start":{"line":37,"column":41},"end":{"line":41,"column":5}},{"start":{"line":37,"column":41},"end":{"line":41,"column":5}}]}}}');
-	  coverageData.hash = hash;
-	  return coverage[path] = coverageData;
-	}
-
-	_cover__();
-
 	/**
 	 * @class
 	 *   Layers are collections of [Neurons]{@link Neuron}.  They can do all the
@@ -1367,7 +1209,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   Layers are organized into a {@link Network}
 	 * @see {Neuron}
 	 */
-	var Layer = (++_cover__().s['1'], function () {
+	var Layer = function () {
 	  /**
 	   * Creates a single dimension Layer of [Neurons]{@link Neuron}.
 	   * @param {number} size - The number of Neurons this Layer should have.
@@ -1378,21 +1220,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   Neuron constructor.
 	   */
 	  function Layer(size, activation, learningRate) {
-	    ++_cover__().f['1'];
 	    (0, _classCallCheck3.default)(this, Layer);
-	    ++_cover__().s['2'];
 
 	    if (!(0, _isNumber3.default)(size)) {
-	      ++_cover__().b['1'][0];
-	      ++_cover__().s['3'];
-
 	      throw new Error('Layer() \'size\' must be a number, not: ' + (typeof size === 'undefined' ? 'undefined' : (0, _typeof3.default)(size)));
-	    } else {
-	      ++_cover__().b['1'][1];
 	    }
-	    ++_cover__().s['4'];
 	    this.neurons = (0, _times3.default)(size, function () {
-	      return ++_cover__().f['2'], ++_cover__().s['5'], new _Neuron2.default(activation, learningRate);
+	      return new _Neuron2.default(activation, learningRate);
 	    });
 	  }
 
@@ -1407,35 +1241,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function connect(targetLayer) {
 	      var _this = this;
 
-	      ++_cover__().s['6'];
-
 	      // if this Layer has no bias Neuron, add one
 	      // only Layers with outgoing connections get bias Neurons
 	      if (!(0, _some3.default)(this.neurons, 'isBias')) {
-	        ++_cover__().b['2'][0];
-
-	        var biasNeuron = (++_cover__().s['7'], new _Neuron2.default());
-	        ++_cover__().s['8'];
+	        var biasNeuron = new _Neuron2.default();
 	        biasNeuron.isBias = true;
-	        ++_cover__().s['9'];
 	        this.neurons.push(biasNeuron);
-	      } else {
-	        ++_cover__().b['2'][1];
 	      }
 
-	      ++_cover__().s['10'];
 	      (0, _forEach3.default)(this.neurons, function (source) {
-	        ++_cover__().f['3'];
-	        ++_cover__().s['11'];
-
 	        // every neuron in this Layer is connected to each neuron in the next.
 	        // we can assume the numInputs to be the num of neurons in this Layer.
 
 	        // connect each neuron in this Layer to every Neuron in the targetLayer
 	        (0, _forEach3.default)(targetLayer.neurons, function (target) {
-	          ++_cover__().f['4'];
-	          ++_cover__().s['12'];
-
 	          source.connect(target, _Initialize2.default.weight(_this.neurons.length));
 	        });
 	      });
@@ -1450,13 +1269,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'activate',
 	    value: function activate() {
-	      var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (++_cover__().s['13'], []);
-	      ++_cover__().s['14'];
+	      var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
 	      /* eslint-disable lodash/prefer-invoke-map */
 	      // https://github.com/wix/eslint-plugin-lodash/issues/128
 	      return (0, _map3.default)(this.neurons, function (neuron, i) {
-	        return ++_cover__().f['5'], ++_cover__().s['15'], neuron.activate(values[i]);
+	        return neuron.activate(values[i]);
 	      });
 	      /* eslint-enable lodash/prefer-invoke-map */
 	    }
@@ -1470,11 +1288,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'backprop',
 	    value: function backprop() {
-	      var deltas = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (++_cover__().s['16'], []);
-	      ++_cover__().s['17'];
+	      var deltas = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
 	      (0, _forEach3.default)(this.neurons, function (neuron, i) {
-	        return ++_cover__().f['6'], ++_cover__().s['18'], neuron.backprop(deltas[i]);
+	        return neuron.backprop(deltas[i]);
 	      });
 	    }
 
@@ -1486,10 +1303,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'accumulateGradients',
 	    value: function accumulateGradients() {
-	      ++_cover__().s['19'];
-
 	      (0, _forEach3.default)(this.neurons, function (neuron) {
-	        return ++_cover__().f['7'], ++_cover__().s['20'], neuron.accumulateGradients();
+	        return neuron.accumulateGradients();
 	      });
 	    }
 
@@ -1500,10 +1315,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'updateWeights',
 	    value: function updateWeights() {
-	      ++_cover__().s['21'];
-
 	      (0, _forEach3.default)(this.neurons, function (neuron) {
-	        return ++_cover__().f['8'], ++_cover__().s['22'], neuron.updateWeights();
+	        return neuron.updateWeights();
 	      });
 	    }
 
@@ -1514,14 +1327,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'size',
 	    value: function size() {
-	      ++_cover__().s['23'];
-
 	      return (0, _filter3.default)(this.neurons, { isBias: false }).length;
 	    }
 	  }]);
 	  return Layer;
-	}());
-	++_cover__().s['24'];
+	}();
+
 	exports.default = Layer;
 
 /***/ },
@@ -6658,26 +6469,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _coverage__file;
-
-	function _cover__() {
-	  if (!_coverage__file) _coverage__file = _coverage__getInitialState();
-	  return _coverage__file;
-	}
-
-	function _coverage__getInitialState() {
-	  var path = '/Users/levithomason/src/anny/src/Neuron.js',
-	      hash = 'ebf1b9deb31b708f45d9a348b9669914';
-	  var global = new Function('return this')();
-	  var coverage = global['__coverage__'] || (global['__coverage__'] = {});
-	  if (coverage[path] && coverage[path].hash === hash) return coverage[path];
-	  var coverageData = global['JSON'].parse('{"path":"/Users/levithomason/src/anny/src/Neuron.js","s":{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0,"32":0,"33":0,"34":0,"35":0,"36":0,"37":0,"38":0,"39":0,"40":0,"41":0,"42":0,"43":0,"44":0,"45":0,"46":0,"47":0,"48":0,"49":0,"50":0,"51":0,"52":0,"53":0,"54":0},"b":{"1":[0,0],"2":[0,0],"3":[0,0],"4":[0,0],"5":[0,0],"6":[0,0],"7":[0,0],"8":[0,0],"9":[0,0]},"f":{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0},"statementMap":{"1":{"start":{"line":14,"column":0},"end":{"line":173,"column":1}},"2":{"start":{"line":24,"column":27},"end":{"line":24,"column":42}},"3":{"start":{"line":25,"column":19},"end":{"line":25,"column":44}},"4":{"start":{"line":32,"column":4},"end":{"line":32,"column":23}},"5":{"start":{"line":38,"column":4},"end":{"line":38,"column":28}},"6":{"start":{"line":45,"column":4},"end":{"line":45,"column":22}},"7":{"start":{"line":52,"column":4},"end":{"line":52,"column":22}},"8":{"start":{"line":58,"column":4},"end":{"line":58,"column":18}},"9":{"start":{"line":64,"column":4},"end":{"line":64,"column":19}},"10":{"start":{"line":70,"column":4},"end":{"line":70,"column":32}},"11":{"start":{"line":73,"column":4},"end":{"line":73,"column":18}},"12":{"start":{"line":74,"column":4},"end":{"line":74,"column":36}},"13":{"start":{"line":88,"column":4},"end":{"line":88,"column":43}},"14":{"start":{"line":88,"column":21},"end":{"line":88,"column":43}},"15":{"start":{"line":91,"column":4},"end":{"line":99,"column":5}},"16":{"start":{"line":92,"column":6},"end":{"line":92,"column":24}},"17":{"start":{"line":94,"column":6},"end":{"line":98,"column":51}},"18":{"start":{"line":98,"column":6},"end":{"line":98,"column":50}},"19":{"start":{"line":102,"column":4},"end":{"line":104,"column":40}},"20":{"start":{"line":103,"column":8},"end":{"line":103,"column":18}},"21":{"start":{"line":104,"column":8},"end":{"line":104,"column":40}},"22":{"start":{"line":115,"column":4},"end":{"line":115,"column":56}},"23":{"start":{"line":115,"column":26},"end":{"line":115,"column":37}},"24":{"start":{"line":115,"column":39},"end":{"line":115,"column":56}},"25":{"start":{"line":118,"column":4},"end":{"line":124,"column":5}},"26":{"start":{"line":119,"column":6},"end":{"line":119,"column":24}},"27":{"start":{"line":121,"column":6},"end":{"line":123,"column":8}},"28":{"start":{"line":122,"column":8},"end":{"line":122,"column":72}},"29":{"start":{"line":126,"column":4},"end":{"line":126,"column":21}},"30":{"start":{"line":134,"column":4},"end":{"line":134,"column":67}},"31":{"start":{"line":134,"column":43},"end":{"line":134,"column":66}},"32":{"start":{"line":141,"column":4},"end":{"line":141,"column":63}},"33":{"start":{"line":141,"column":43},"end":{"line":141,"column":62}},"34":{"start":{"line":151,"column":4},"end":{"line":151,"column":29}},"35":{"start":{"line":151,"column":23},"end":{"line":151,"column":29}},"36":{"start":{"line":153,"column":23},"end":{"line":153,"column":66}},"37":{"start":{"line":154,"column":4},"end":{"line":154,"column":34}},"38":{"start":{"line":155,"column":4},"end":{"line":155,"column":36}},"39":{"start":{"line":163,"column":4},"end":{"line":163,"column":51}},"40":{"start":{"line":163,"column":27},"end":{"line":163,"column":51}},"41":{"start":{"line":171,"column":4},"end":{"line":171,"column":35}},"42":{"start":{"line":181,"column":0},"end":{"line":181,"column":16}},"43":{"start":{"line":198,"column":0},"end":{"line":244,"column":1}},"44":{"start":{"line":204,"column":4},"end":{"line":204,"column":24}},"45":{"start":{"line":210,"column":4},"end":{"line":210,"column":24}},"46":{"start":{"line":221,"column":4},"end":{"line":221,"column":69}},"47":{"start":{"line":221,"column":28},"end":{"line":221,"column":69}},"48":{"start":{"line":223,"column":4},"end":{"line":223,"column":21}},"49":{"start":{"line":231,"column":21},"end":{"line":231,"column":59}},"50":{"start":{"line":232,"column":4},"end":{"line":232,"column":56}},"51":{"start":{"line":239,"column":4},"end":{"line":239,"column":21}},"52":{"start":{"line":241,"column":4},"end":{"line":241,"column":32}},"53":{"start":{"line":242,"column":4},"end":{"line":242,"column":21}},"54":{"start":{"line":246,"column":0},"end":{"line":246,"column":21}}},"fnMap":{"1":{"name":null,"line":24,"loc":{"start":{"line":24,"column":2},"end":{"line":75,"column":3}}},"2":{"name":null,"line":94,"loc":{"start":{"line":94,"column":42},"end":{"line":98,"column":50}}},"3":{"name":null,"line":121,"loc":{"start":{"line":121,"column":42},"end":{"line":123,"column":7}}},"4":{"name":null,"line":134,"loc":{"start":{"line":134,"column":29},"end":{"line":134,"column":66}}},"5":{"name":null,"line":141,"loc":{"start":{"line":141,"column":29},"end":{"line":141,"column":62}}},"6":{"name":null,"line":199,"loc":{"start":{"line":199,"column":2},"end":{"line":224,"column":3}}}},"branchMap":{"1":{"line":88,"type":"if","locations":[{"start":{"line":88,"column":4},"end":{"line":88,"column":43}},{"start":{"line":88,"column":4},"end":{"line":88,"column":43}}]},"2":{"line":91,"type":"if","locations":[{"start":{"line":91,"column":31},"end":{"line":93,"column":5}},{"start":{"line":93,"column":11},"end":{"line":99,"column":5}}]},"3":{"line":102,"type":"cond-expr","locations":[{"start":{"line":102,"column":25},"end":{"line":104,"column":40}},{"start":{"line":102,"column":25},"end":{"line":104,"column":40}}]},"4":{"line":115,"type":"if","locations":[{"start":{"line":115,"column":4},"end":{"line":115,"column":56}},{"start":{"line":115,"column":4},"end":{"line":115,"column":56}}]},"5":{"line":115,"type":"binary-expr","locations":[{"start":{"line":115,"column":8},"end":{"line":115,"column":22}},{"start":{"line":115,"column":8},"end":{"line":115,"column":22}}]},"6":{"line":118,"type":"if","locations":[{"start":{"line":118,"column":31},"end":{"line":120,"column":5}},{"start":{"line":120,"column":11},"end":{"line":124,"column":5}}]},"7":{"line":151,"type":"if","locations":[{"start":{"line":151,"column":4},"end":{"line":151,"column":29}},{"start":{"line":151,"column":4},"end":{"line":151,"column":29}}]},"8":{"line":163,"type":"binary-expr","locations":[{"start":{"line":163,"column":11},"end":{"line":163,"column":23}},{"start":{"line":163,"column":11},"end":{"line":163,"column":23}}]},"9":{"line":221,"type":"binary-expr","locations":[{"start":{"line":221,"column":18},"end":{"line":221,"column":24}},{"start":{"line":221,"column":18},"end":{"line":221,"column":24}}]}}}');
-	  coverageData.hash = hash;
-	  return coverage[path] = coverageData;
-	}
-
-	_cover__();
-
 	/**
 	 * @class
 	 *   A Neuron is the base unit of the network. They are connected by a
@@ -6687,7 +6478,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 *   Neurons are organized into [Layers]{@link Layer}
 	 */
-	var Neuron = (++_cover__().s['1'], function () {
+	var Neuron = function () {
 	  /**
 	   * @param {object} [activation=ACTIVATION.tanh] - An object containing an
 	   *   activation function and its first derivative. Typically selected from
@@ -6698,11 +6489,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   results.
 	   */
 	  function Neuron() {
-	    var activation = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (++_cover__().s['2'], _Activation2.default.tanh);
-	    var learningRate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : (++_cover__().s['3'], _Initialize2.default.learningRate());
-	    ++_cover__().f['1'];
+	    var activation = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _Activation2.default.tanh;
+	    var learningRate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Initialize2.default.learningRate();
 	    (0, _classCallCheck3.default)(this, Neuron);
-	    ++_cover__().s['4'];
 
 	    /**
 	     * Flag identifying this Neuron as a Bias Neuron.  Bias Neurons are like
@@ -6716,7 +6505,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * A unique id beginning at 0 and incremented for every Neuron created.
 	     * @type {number}
 	     */
-	    ++_cover__().s['5'];
 	    this.id = Neuron.count++;
 
 	    /**
@@ -6724,7 +6512,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @type {Array}
 	     * @see Neuron.Connection
 	     */
-	    ++_cover__().s['6'];
 	    this.incoming = [];
 
 	    /**
@@ -6732,34 +6519,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @type {Array}
 	     * @see Neuron.Connection
 	     */
-	    ++_cover__().s['7'];
 	    this.outgoing = [];
 
 	    /**
 	     * The input value of the last activation.
 	     * @type {number}
 	     */
-	    ++_cover__().s['8'];
 	    this.input = 0;
 
 	    /**
 	     * The output value of the last activation.
 	     * @type {number}
 	     */
-	    ++_cover__().s['9'];
 	    this.output = 0;
 
 	    /**
 	     *
 	     * @type {ACTIVATION.tanh|{func, prime}|*}
 	     */
-	    ++_cover__().s['10'];
 	    this.activation = activation;
 
 	    // learning
-	    ++_cover__().s['11'];
 	    this.delta = 0;
-	    ++_cover__().s['12'];
 	    this.learningRate = learningRate;
 	  }
 
@@ -6778,38 +6559,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	  (0, _createClass3.default)(Neuron, [{
 	    key: 'activate',
 	    value: function activate(input) {
-	      ++_cover__().s['13'];
+	      if (this.isBias) return this.output = 1;
 
-	      if (this.isBias) {
-	          ++_cover__().b['1'][0];
-	          ++_cover__().s['14'];
-	          return this.output = 1;
-	        } else {
-	        ++_cover__().b['1'][1];
-	      } // set the input
-	      ++_cover__().s['15'];
+	      // set the input
 	      if (!(0, _isUndefined3.default)(input)) {
-	        ++_cover__().b['2'][0];
-	        ++_cover__().s['16'];
-
 	        this.input = input;
 	      } else {
-	        ++_cover__().b['2'][1];
-	        ++_cover__().s['17'];
-
 	        this.input = (0, _sumBy3.default)(this.incoming, function (connection) {
 	          return (
 	            // we don't need to add the bias neuron manually here.
 	            // since the bias Neuron is connected like all other Neurons and it's
 	            // output is always 1, the weight will be added by bias.output * weight.
-	            ++_cover__().f['2'], ++_cover__().s['18'], connection.source.output * connection.weight
+	            connection.source.output * connection.weight
 	          );
 	        });
 	      }
 
 	      // set the output
-	      ++_cover__().s['19'];
-	      return this.output = this.isInput() ? (++_cover__().b['3'][0], (++_cover__().s['20'], this.input)) : (++_cover__().b['3'][1], (++_cover__().s['21'], this.activation.func(this.input)));
+	      return this.output = this.isInput() ? this.input : this.activation.func(this.input);
 	    }
 
 	    /**
@@ -6824,37 +6591,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function backprop(delta) {
 	      var _this = this;
 
-	      ++_cover__().s['22'];
-
 	      // input and bias neurons have no incoming connections to update
-	      if ((++_cover__().b['5'][0], this.isInput()) || (++_cover__().b['5'][1], (++_cover__().s['23'], this.isBias))) {
-	          ++_cover__().b['4'][0];
-	          ++_cover__().s['24'];
-	          return this.delta;
-	        } else {
-	        ++_cover__().b['4'][1];
-	      } // set deltas
-	      ++_cover__().s['25'];
-	      if (!(0, _isUndefined3.default)(delta)) {
-	        ++_cover__().b['6'][0];
-	        ++_cover__().s['26'];
+	      if (this.isInput() || this.isBias) return this.delta;
 
+	      // set deltas
+	      if (!(0, _isUndefined3.default)(delta)) {
 	        this.delta = delta;
 	      } else {
-	        ++_cover__().b['6'][1];
-	        ++_cover__().s['27'];
-
 	        this.delta = (0, _sumBy3.default)(this.outgoing, function (_ref) {
 	          var target = _ref.target,
 	              weight = _ref.weight;
-	          ++_cover__().f['3'];
-	          ++_cover__().s['28'];
 
 	          return _this.activation.prime(_this.input) * weight * target.delta;
 	        });
 	      }
 
-	      ++_cover__().s['29'];
 	      return this.delta;
 	    }
 
@@ -6866,10 +6617,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'accumulateGradients',
 	    value: function accumulateGradients() {
-	      ++_cover__().s['30'];
-
 	      (0, _forEach3.default)(this.incoming, function (connection) {
-	        return ++_cover__().f['4'], ++_cover__().s['31'], connection.accumulate();
+	        return connection.accumulate();
 	      });
 	    }
 
@@ -6880,10 +6629,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'updateWeights',
 	    value: function updateWeights() {
-	      ++_cover__().s['32'];
-
 	      (0, _forEach3.default)(this.incoming, function (connection) {
-	        return ++_cover__().f['5'], ++_cover__().s['33'], connection.update();
+	        return connection.update();
 	      });
 	    }
 
@@ -6896,19 +6643,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'connect',
 	    value: function connect(target, weight) {
-	      ++_cover__().s['34'];
-
 	      // bias Neurons are not allowed to have incoming connections
-	      if (target.isBias) {
-	          ++_cover__().b['7'][0];
-	          ++_cover__().s['35'];
-	          return;
-	        } else {
-	        ++_cover__().b['7'][1];
-	      }var connection = (++_cover__().s['36'], new Neuron.Connection(this, target, weight));
-	      ++_cover__().s['37'];
+	      if (target.isBias) return;
+
+	      var connection = new Neuron.Connection(this, target, weight);
 	      this.outgoing.push(connection);
-	      ++_cover__().s['38'];
 	      target.incoming.push(connection);
 	    }
 
@@ -6920,9 +6659,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'isInput',
 	    value: function isInput() {
-	      ++_cover__().s['39'];
-
-	      return (++_cover__().b['8'][0], !this.isBias) && (++_cover__().b['8'][1], (++_cover__().s['40'], (0, _isEmpty3.default)(this.incoming)));
+	      return !this.isBias && (0, _isEmpty3.default)(this.incoming);
 	    }
 
 	    /**
@@ -6933,13 +6670,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'isOutput',
 	    value: function isOutput() {
-	      ++_cover__().s['41'];
-
 	      return (0, _isEmpty3.default)(this.outgoing);
 	    }
 	  }]);
 	  return Neuron;
-	}());
+	}();
 
 	/**
 	 * A running total number of Neurons created.  It is only used to generate
@@ -6948,7 +6683,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @type {number}
 	 */
 
-	++_cover__().s['42'];
+
 	Neuron.count = 0;
 
 	/**
@@ -6966,12 +6701,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   input.
 	 * @see Neuron
 	 */
-	++_cover__().s['43'];
 	Neuron.Connection = function () {
 	  function Connection(source, target, weight) {
-	    ++_cover__().f['6'];
 	    (0, _classCallCheck3.default)(this, Connection);
-	    ++_cover__().s['44'];
 
 	    /**
 	     * A reference to the Neuron at the start of this Connection.
@@ -6983,7 +6715,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * A reference to the Neuron at the end of this Connection.
 	     * @type {Neuron}
 	     */
-	    ++_cover__().s['45'];
 	    this.target = target;
 
 	    /**
@@ -6995,10 +6726,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    // We add one to initialize the weight value as if this connection were
 	    // already part of the fan.
-	    ++_cover__().s['46'];
-	    this.weight = (++_cover__().b['9'][0], weight) || (++_cover__().b['9'][1], (++_cover__().s['47'], _Initialize2.default.weight(target.incoming.length)));
+	    this.weight = weight || _Initialize2.default.weight(target.incoming.length);
 
-	    ++_cover__().s['48'];
 	    this.gradient = 0;
 	  }
 
@@ -7011,8 +6740,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'accumulate',
 	    value: function accumulate() {
 	      // delta this.output - target
-	      var gradient = (++_cover__().s['49'], this.source.output * this.target.delta);
-	      ++_cover__().s['50'];
+	      var gradient = this.source.output * this.target.delta;
 	      this.gradient += gradient * this.target.learningRate;
 	    }
 
@@ -7023,20 +6751,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'update',
 	    value: function update() {
-	      ++_cover__().s['51'];
-
 	      this.accumulate();
 	      // TODO support other weight update rules, like iRProp+
-	      ++_cover__().s['52'];
 	      this.weight -= this.gradient;
-	      ++_cover__().s['53'];
 	      this.gradient = 0;
 	    }
 	  }]);
 	  return Connection;
 	}();
 
-	++_cover__().s['54'];
 	exports.default = Neuron;
 
 /***/ },
@@ -7289,26 +7012,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _coverage__file;
-
-	function _cover__() {
-	  if (!_coverage__file) _coverage__file = _coverage__getInitialState();
-	  return _coverage__file;
-	}
-
-	function _coverage__getInitialState() {
-	  var path = '/Users/levithomason/src/anny/src/Network.js',
-	      hash = '1a7b1b9973e0faeb4f02e23d40b9e7c4';
-	  var global = new Function('return this')();
-	  var coverage = global['__coverage__'] || (global['__coverage__'] = {});
-	  if (coverage[path] && coverage[path].hash === hash) return coverage[path];
-	  var coverageData = global['JSON'].parse('{"path":"/Users/levithomason/src/anny/src/Network.js","s":{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0,"32":0,"33":0,"34":0,"35":0,"36":0,"37":0,"38":0,"39":0,"40":0,"41":0},"b":{"1":[0,0],"2":[0,0],"3":[0,0],"4":[0,0]},"f":{"1":0,"2":0,"3":0,"4":0},"statementMap":{"1":{"start":{"line":17,"column":0},"end":{"line":145,"column":1}},"2":{"start":{"line":30,"column":32},"end":{"line":30,"column":49}},"3":{"start":{"line":31,"column":4},"end":{"line":33,"column":5}},"4":{"start":{"line":32,"column":6},"end":{"line":32,"column":88}},"5":{"start":{"line":35,"column":4},"end":{"line":37,"column":5}},"6":{"start":{"line":35,"column":29},"end":{"line":35,"column":78}},"7":{"start":{"line":35,"column":55},"end":{"line":35,"column":77}},"8":{"start":{"line":36,"column":6},"end":{"line":36,"column":89}},"9":{"start":{"line":44,"column":4},"end":{"line":44,"column":20}},"10":{"start":{"line":50,"column":4},"end":{"line":50,"column":18}},"11":{"start":{"line":57,"column":4},"end":{"line":57,"column":26}},"12":{"start":{"line":64,"column":4},"end":{"line":64,"column":32}},"13":{"start":{"line":70,"column":4},"end":{"line":70,"column":44}},"14":{"start":{"line":76,"column":4},"end":{"line":76,"column":77}},"15":{"start":{"line":83,"column":4},"end":{"line":83,"column":45}},"16":{"start":{"line":86,"column":4},"end":{"line":89,"column":6}},"17":{"start":{"line":87,"column":19},"end":{"line":87,"column":40}},"18":{"start":{"line":88,"column":6},"end":{"line":88,"column":35}},"19":{"start":{"line":88,"column":16},"end":{"line":88,"column":35}},"20":{"start":{"line":98,"column":4},"end":{"line":98,"column":36}},"21":{"start":{"line":99,"column":4},"end":{"line":99,"column":46}},"22":{"start":{"line":100,"column":4},"end":{"line":100,"column":52}},"23":{"start":{"line":109,"column":4},"end":{"line":109,"column":56}},"24":{"start":{"line":112,"column":18},"end":{"line":112,"column":77}},"25":{"start":{"line":112,"column":52},"end":{"line":112,"column":76}},"26":{"start":{"line":114,"column":4},"end":{"line":114,"column":36}},"27":{"start":{"line":116,"column":4},"end":{"line":118,"column":5}},"28":{"start":{"line":116,"column":55},"end":{"line":116,"column":61}},"29":{"start":{"line":116,"column":17},"end":{"line":116,"column":45}},"30":{"start":{"line":117,"column":6},"end":{"line":117,"column":37}},"31":{"start":{"line":127,"column":4},"end":{"line":127,"column":42}},"32":{"start":{"line":129,"column":4},"end":{"line":131,"column":5}},"33":{"start":{"line":129,"column":55},"end":{"line":129,"column":61}},"34":{"start":{"line":129,"column":17},"end":{"line":129,"column":45}},"35":{"start":{"line":130,"column":6},"end":{"line":130,"column":48}},"36":{"start":{"line":139,"column":4},"end":{"line":139,"column":36}},"37":{"start":{"line":141,"column":4},"end":{"line":143,"column":5}},"38":{"start":{"line":141,"column":55},"end":{"line":141,"column":61}},"39":{"start":{"line":141,"column":17},"end":{"line":141,"column":45}},"40":{"start":{"line":142,"column":6},"end":{"line":142,"column":42}},"41":{"start":{"line":147,"column":0},"end":{"line":147,"column":22}}},"fnMap":{"1":{"name":null,"line":30,"loc":{"start":{"line":30,"column":2},"end":{"line":90,"column":3}}},"2":{"name":null,"line":35,"loc":{"start":{"line":35,"column":46},"end":{"line":35,"column":77}}},"3":{"name":null,"line":86,"loc":{"start":{"line":86,"column":30},"end":{"line":89,"column":5}}},"4":{"name":null,"line":112,"loc":{"start":{"line":112,"column":37},"end":{"line":112,"column":76}}}},"branchMap":{"1":{"line":31,"type":"if","locations":[{"start":{"line":31,"column":28},"end":{"line":33,"column":5}},{"start":{"line":31,"column":28},"end":{"line":33,"column":5}}]},"2":{"line":35,"type":"if","locations":[{"start":{"line":35,"column":80},"end":{"line":37,"column":5}},{"start":{"line":35,"column":80},"end":{"line":37,"column":5}}]},"3":{"line":35,"type":"binary-expr","locations":[{"start":{"line":35,"column":8},"end":{"line":35,"column":25}},{"start":{"line":35,"column":8},"end":{"line":35,"column":25}}]},"4":{"line":88,"type":"if","locations":[{"start":{"line":88,"column":6},"end":{"line":88,"column":35}},{"start":{"line":88,"column":6},"end":{"line":88,"column":35}}]}}}');
-	  coverageData.hash = hash;
-	  return coverage[path] = coverageData;
-	}
-
-	_cover__();
-
 	/**
 	 * A Network contains [Layers]{@link Layer} of [Neurons]{@link Neuron}.
 	 *
@@ -7320,7 +7023,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   new Layer(1, ACTIVATION.softmax)
 	 * ])
 	 */
-	var Network = (++_cover__().s['1'], function () {
+	var Network = function () {
 	  /**
 	   * Creates a Network of Layers consisting of Neurons. Each array element indicates a layer.
 	   *
@@ -7336,30 +7039,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Network(layers) {
 	    var _this = this;
 
-	    var errorFn = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : (++_cover__().s['2'], _Error2.default.meanSquared);
-	    ++_cover__().f['1'];
+	    var errorFn = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Error2.default.meanSquared;
 	    (0, _classCallCheck3.default)(this, Network);
-	    ++_cover__().s['3'];
 
 	    if (!(0, _isArray3.default)(layers)) {
-	      ++_cover__().b['1'][0];
-	      ++_cover__().s['4'];
-
 	      throw new Error('Network() `layerSizes` must be an array, not: ' + (0, _Util.type)(layers));
-	    } else {
-	      ++_cover__().b['1'][1];
 	    }
 
-	    ++_cover__().s['5'];
-	    if ((++_cover__().b['3'][0], (0, _isEmpty3.default)(layers)) || (++_cover__().b['3'][1], (++_cover__().s['6'], !(0, _every3.default)(layers, function (layer) {
-	      return ++_cover__().f['2'], ++_cover__().s['7'], layer instanceof _Layer2.default;
-	    })))) {
-	      ++_cover__().b['2'][0];
-	      ++_cover__().s['8'];
-
+	    if ((0, _isEmpty3.default)(layers) || !(0, _every3.default)(layers, function (layer) {
+	      return layer instanceof _Layer2.default;
+	    })) {
 	      throw new Error('Network() every `layers` array element must be a Layer instance.');
-	    } else {
-	      ++_cover__().b['2'][1];
 	    }
 
 	    /**
@@ -7367,14 +7057,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * This is identical to the Network's `outputLayer` output.
 	     * @type {Array}
 	     */
-	    ++_cover__().s['9'];
 	    this.output = [];
 
 	    /**
 	     * The result of the `errorFn`.
 	     * @type {Number}
 	     */
-	    ++_cover__().s['10'];
 	    this.error = 0;
 
 	    /**
@@ -7382,7 +7070,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * In other words, to what degree was the Network's output wrong.
 	     * @type {function}
 	     */
-	    ++_cover__().s['11'];
 	    this.errorFn = errorFn;
 
 	    /**
@@ -7390,21 +7077,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * containing the `inputLayer`, `hiddenLayers`, and the `outputLayer`.
 	     * @type {Layer}
 	     */
-	    ++_cover__().s['12'];
 	    this.allLayers = [].concat((0, _toConsumableArray3.default)(layers)); // clone to prevent mutation
 	    /**
 	     * The first Layer of the Network.  This Layer receives input during
 	     * activation.
 	     * @type {Layer}
 	     */
-	    ++_cover__().s['13'];
 	    this.inputLayer = (0, _head3.default)(this.allLayers);
 
 	    /**
 	     * An array of all layers between the `inputLayer` and `outputLayer`.
 	     * @type {Layer[]}
 	     */
-	    ++_cover__().s['14'];
 	    this.hiddenLayers = (0, _slice3.default)(this.allLayers, 1, this.allLayers.length - 1);
 
 	    /**
@@ -7412,23 +7096,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * "prediction" the Network has made for some given input.
 	     * @type {Layer}
 	     */
-	    ++_cover__().s['15'];
 	    this.outputLayer = (0, _last3.default)(this.allLayers);
 
 	    // connect layers
-	    ++_cover__().s['16'];
 	    (0, _forEach3.default)(this.allLayers, function (layer, i) {
-	      ++_cover__().f['3'];
-
-	      var next = (++_cover__().s['17'], _this.allLayers[i + 1]);
-	      ++_cover__().s['18'];
-	      if (next) {
-	          ++_cover__().b['4'][0];
-	          ++_cover__().s['19'];
-	          layer.connect(next);
-	        } else {
-	        ++_cover__().b['4'][1];
-	      }
+	      var next = _this.allLayers[i + 1];
+	      if (next) layer.connect(next);
 	    });
 	  }
 
@@ -7442,12 +7115,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  (0, _createClass3.default)(Network, [{
 	    key: 'activate',
 	    value: function activate(inputs) {
-	      ++_cover__().s['20'];
-
 	      this.inputLayer.activate(inputs);
-	      ++_cover__().s['21'];
 	      (0, _invokeMap3.default)(this.hiddenLayers, 'activate');
-	      ++_cover__().s['22'];
 	      return this.output = this.outputLayer.activate();
 	    }
 
@@ -7460,22 +7129,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'backprop',
 	    value: function backprop(targetOutput) {
-	      ++_cover__().s['23'];
-
 	      this.error = this.errorFn(targetOutput, this.output);
 
 	      // TODO abstract into ERROR.meanSquared.partial once ERROR is refactored
-	      var delta = (++_cover__().s['24'], (0, _map3.default)(this.output, function (actVal, j) {
-	        return ++_cover__().f['4'], ++_cover__().s['25'], actVal - targetOutput[j];
-	      }));
+	      var delta = (0, _map3.default)(this.output, function (actVal, j) {
+	        return actVal - targetOutput[j];
+	      });
 
-	      ++_cover__().s['26'];
 	      this.outputLayer.backprop(delta);
 
-	      ++_cover__().s['27'];
-	      for (var i = (++_cover__().s['29'], this.hiddenLayers.length - 1); i >= 0; ++_cover__().s['28'], i -= 1) {
-	        ++_cover__().s['30'];
-
+	      for (var i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
 	        this.hiddenLayers[i].backprop();
 	      }
 	    }
@@ -7488,15 +7151,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'accumulateGradients',
 	    value: function accumulateGradients() {
-	      ++_cover__().s['31'];
-
 	      // NOTE can be parallel, Neuron ouputs and deltas are already set
 	      this.outputLayer.accumulateGradients();
 
-	      ++_cover__().s['32'];
-	      for (var i = (++_cover__().s['34'], this.hiddenLayers.length - 1); i >= 0; ++_cover__().s['33'], i -= 1) {
-	        ++_cover__().s['35'];
-
+	      for (var i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
 	        this.hiddenLayers[i].accumulateGradients();
 	      }
 	    }
@@ -7508,22 +7166,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'updateWeights',
 	    value: function updateWeights() {
-	      ++_cover__().s['36'];
-
 	      // NOTE can be parallel, Neuron outputs and deltas are already set
 	      this.outputLayer.updateWeights();
 
-	      ++_cover__().s['37'];
-	      for (var i = (++_cover__().s['39'], this.hiddenLayers.length - 1); i >= 0; ++_cover__().s['38'], i -= 1) {
-	        ++_cover__().s['40'];
-
+	      for (var i = this.hiddenLayers.length - 1; i >= 0; i -= 1) {
 	        this.hiddenLayers[i].updateWeights();
 	      }
 	    }
 	  }]);
 	  return Network;
-	}());
-	++_cover__().s['41'];
+	}();
+
 	exports.default = Network;
 
 /***/ },
@@ -8330,26 +7983,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _coverage__file;
-
-	function _cover__() {
-	  if (!_coverage__file) _coverage__file = _coverage__getInitialState();
-	  return _coverage__file;
-	}
-
-	function _coverage__getInitialState() {
-	  var path = '/Users/levithomason/src/anny/src/Util.js',
-	      hash = '62c581842a3483b1388f81865785798c';
-	  var global = new Function('return this')();
-	  var coverage = global['__coverage__'] || (global['__coverage__'] = {});
-	  if (coverage[path] && coverage[path].hash === hash) return coverage[path];
-	  var coverageData = global['JSON'].parse('{"path":"/Users/levithomason/src/anny/src/Util.js","s":{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0},"b":{"1":[0,0],"2":[0,0]},"f":{"1":0,"2":0,"3":0},"statementMap":{"1":{"start":{"line":14,"column":39},"end":{"line":14,"column":51}},"2":{"start":{"line":14,"column":59},"end":{"line":14,"column":71}},"3":{"start":{"line":15,"column":17},"end":{"line":15,"column":24}},"4":{"start":{"line":16,"column":16},"end":{"line":16,"column":25}},"5":{"start":{"line":18,"column":2},"end":{"line":23,"column":4}},"6":{"start":{"line":19,"column":4},"end":{"line":21,"column":5}},"7":{"start":{"line":19,"column":19},"end":{"line":19,"column":26}},"8":{"start":{"line":20,"column":6},"end":{"line":20,"column":73}},"9":{"start":{"line":22,"column":4},"end":{"line":22,"column":41}},"10":{"start":{"line":31,"column":2},"end":{"line":31,"column":44}}},"fnMap":{"1":{"name":null,"line":14,"loc":{"start":{"line":14,"column":7},"end":{"line":24,"column":1}}},"2":{"name":null,"line":18,"loc":{"start":{"line":18,"column":22},"end":{"line":23,"column":3}}},"3":{"name":null,"line":30,"loc":{"start":{"line":30,"column":7},"end":{"line":32,"column":1}}}},"branchMap":{"1":{"line":19,"type":"if","locations":[{"start":{"line":19,"column":28},"end":{"line":21,"column":5}},{"start":{"line":19,"column":28},"end":{"line":21,"column":5}}]},"2":{"line":19,"type":"binary-expr","locations":[{"start":{"line":19,"column":8},"end":{"line":19,"column":15}},{"start":{"line":19,"column":8},"end":{"line":19,"column":15}}]}}}');
-	  coverageData.hash = hash;
-	  return coverage[path] = coverageData;
-	}
-
-	_cover__();
-
 	/**
 	 * Normalizes an `array` of numbers to a range from -1 to 1. Optionally
 	 * specifying the `dataMin` and/or `dataMax` is useful when normalizing
@@ -8362,27 +7995,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   `array`. Defaults to the actual max `array` value.
 	 */
 	function normalize(array) {
-	  var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : (++_cover__().s['1'], (0, _min3.default)(array));
-	  var max = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : (++_cover__().s['2'], (0, _max3.default)(array));
-	  ++_cover__().f['1'];
+	  var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : (0, _min3.default)(array);
+	  var max = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : (0, _max3.default)(array);
 
-	  var offset = (++_cover__().s['3'], 0 - min);
-	  var range = (++_cover__().s['4'], max - min);
+	  var offset = 0 - min;
+	  var range = max - min;
 
-	  ++_cover__().s['5'];
 	  return (0, _map3.default)(array, function (n) {
-	    ++_cover__().f['2'];
-	    ++_cover__().s['6'];
-
-	    if ((++_cover__().b['2'][0], n > max) || (++_cover__().b['2'][1], (++_cover__().s['7'], n < min))) {
-	      ++_cover__().b['1'][0];
-	      ++_cover__().s['8'];
-
+	    if (n > max || n < min) {
 	      throw new Error(n + ' is beyond the scale range: ' + min + ' to ' + max);
-	    } else {
-	      ++_cover__().b['1'][1];
 	    }
-	    ++_cover__().s['9'];
 	    return (n + offset) / (range / 2) - 1;
 	  });
 	}
@@ -8392,9 +8014,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {*} arg The value whose type should be returned.
 	 */
 	function type(arg) {
-	  ++_cover__().f['3'];
-	  ++_cover__().s['10'];
-
 	  return Object.prototype.toString.call(arg);
 	}
 
@@ -8582,26 +8201,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _coverage__file;
-
-	function _cover__() {
-	  if (!_coverage__file) _coverage__file = _coverage__getInitialState();
-	  return _coverage__file;
-	}
-
-	function _coverage__getInitialState() {
-	  var path = '/Users/levithomason/src/anny/src/Trainer.js',
-	      hash = '1bab42c93bc44130a2b24fdca182af30';
-	  var global = new Function('return this')();
-	  var coverage = global['__coverage__'] || (global['__coverage__'] = {});
-	  if (coverage[path] && coverage[path].hash === hash) return coverage[path];
-	  var coverageData = global['JSON'].parse('{"path":"/Users/levithomason/src/anny/src/Trainer.js","s":{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0,"32":0,"33":0,"34":0,"35":0,"36":0,"37":0,"38":0,"39":0,"40":0,"41":0,"42":0,"43":0,"44":0,"45":0,"46":0},"b":{"1":[0,0],"2":[0,0],"3":[0,0],"4":[0,0],"5":[0,0],"6":[0,0],"7":[0,0],"8":[0,0],"9":[0,0],"10":[0,0],"11":[0,0],"12":[0,0]},"f":{"1":0,"2":0},"statementMap":{"1":{"start":{"line":16,"column":0},"end":{"line":167,"column":1}},"2":{"start":{"line":50,"column":24},"end":{"line":50,"column":26}},"3":{"start":{"line":51,"column":27},"end":{"line":56,"column":5}},"4":{"start":{"line":58,"column":26},"end":{"line":58,"column":58}},"5":{"start":{"line":59,"column":4},"end":{"line":59,"column":43}},"6":{"start":{"line":60,"column":4},"end":{"line":60,"column":32}},"7":{"start":{"line":74,"column":35},"end":{"line":74,"column":37}},"8":{"start":{"line":75,"column":4},"end":{"line":75,"column":40}},"9":{"start":{"line":76,"column":26},"end":{"line":76,"column":58}},"10":{"start":{"line":77,"column":4},"end":{"line":77,"column":43}},"11":{"start":{"line":89,"column":20},"end":{"line":89,"column":34}},"12":{"start":{"line":90,"column":21},"end":{"line":90,"column":36}},"13":{"start":{"line":91,"column":24},"end":{"line":91,"column":41}},"14":{"start":{"line":94,"column":24},"end":{"line":94,"column":25}},"15":{"start":{"line":95,"column":21},"end":{"line":95,"column":22}},"16":{"start":{"line":97,"column":34},"end":{"line":112,"column":5}},"17":{"start":{"line":98,"column":27},"end":{"line":100,"column":53}},"18":{"start":{"line":100,"column":11},"end":{"line":100,"column":53}},"19":{"start":{"line":99,"column":11},"end":{"line":99,"column":53}},"20":{"start":{"line":99,"column":26},"end":{"line":99,"column":53}},"21":{"start":{"line":100,"column":22},"end":{"line":100,"column":53}},"22":{"start":{"line":103,"column":6},"end":{"line":103,"column":36}},"23":{"start":{"line":104,"column":6},"end":{"line":104,"column":37}},"24":{"start":{"line":107,"column":6},"end":{"line":108,"column":40}},"25":{"start":{"line":107,"column":24},"end":{"line":107,"column":47}},"26":{"start":{"line":108,"column":11},"end":{"line":108,"column":40}},"27":{"start":{"line":110,"column":6},"end":{"line":110,"column":21}},"28":{"start":{"line":111,"column":6},"end":{"line":111,"column":40}},"29":{"start":{"line":114,"column":4},"end":{"line":134,"column":5}},"30":{"start":{"line":114,"column":35},"end":{"line":114,"column":41}},"31":{"start":{"line":114,"column":17},"end":{"line":114,"column":26}},"32":{"start":{"line":116,"column":20},"end":{"line":116,"column":56}},"33":{"start":{"line":119,"column":6},"end":{"line":122,"column":7}},"34":{"start":{"line":119,"column":24},"end":{"line":119,"column":52}},"35":{"start":{"line":120,"column":21},"end":{"line":120,"column":60}},"36":{"start":{"line":121,"column":8},"end":{"line":121,"column":23}},"37":{"start":{"line":121,"column":18},"end":{"line":121,"column":23}},"38":{"start":{"line":125,"column":6},"end":{"line":128,"column":7}},"39":{"start":{"line":125,"column":23},"end":{"line":125,"column":46}},"40":{"start":{"line":126,"column":8},"end":{"line":126,"column":36}},"41":{"start":{"line":127,"column":8},"end":{"line":127,"column":13}},"42":{"start":{"line":131,"column":6},"end":{"line":131,"column":71}},"43":{"start":{"line":131,"column":20},"end":{"line":131,"column":44}},"44":{"start":{"line":131,"column":46},"end":{"line":131,"column":71}},"45":{"start":{"line":133,"column":6},"end":{"line":133,"column":18}},"46":{"start":{"line":169,"column":0},"end":{"line":169,"column":22}}},"fnMap":{"1":{"name":null,"line":50,"loc":{"start":{"line":50,"column":2},"end":{"line":61,"column":3}}},"2":{"name":null,"line":97,"loc":{"start":{"line":97,"column":34},"end":{"line":112,"column":5}}}},"branchMap":{"1":{"line":98,"type":"binary-expr","locations":[{"start":{"line":98,"column":27},"end":{"line":99,"column":53}},{"start":{"line":98,"column":27},"end":{"line":99,"column":53}}]},"2":{"line":98,"type":"binary-expr","locations":[{"start":{"line":98,"column":27},"end":{"line":98,"column":35}},{"start":{"line":98,"column":27},"end":{"line":98,"column":35}}]},"3":{"line":99,"type":"binary-expr","locations":[{"start":{"line":99,"column":11},"end":{"line":99,"column":22}},{"start":{"line":99,"column":11},"end":{"line":99,"column":22}}]},"4":{"line":100,"type":"binary-expr","locations":[{"start":{"line":100,"column":11},"end":{"line":100,"column":18}},{"start":{"line":100,"column":11},"end":{"line":100,"column":18}}]},"5":{"line":107,"type":"if","locations":[{"start":{"line":107,"column":6},"end":{"line":108,"column":40}},{"start":{"line":107,"column":6},"end":{"line":108,"column":40}}]},"6":{"line":119,"type":"if","locations":[{"start":{"line":119,"column":54},"end":{"line":122,"column":7}},{"start":{"line":119,"column":54},"end":{"line":122,"column":7}}]},"7":{"line":119,"type":"binary-expr","locations":[{"start":{"line":119,"column":10},"end":{"line":119,"column":20}},{"start":{"line":119,"column":10},"end":{"line":119,"column":20}}]},"8":{"line":121,"type":"if","locations":[{"start":{"line":121,"column":8},"end":{"line":121,"column":23}},{"start":{"line":121,"column":8},"end":{"line":121,"column":23}}]},"9":{"line":125,"type":"if","locations":[{"start":{"line":125,"column":48},"end":{"line":128,"column":7}},{"start":{"line":125,"column":48},"end":{"line":128,"column":7}}]},"10":{"line":125,"type":"binary-expr","locations":[{"start":{"line":125,"column":10},"end":{"line":125,"column":19}},{"start":{"line":125,"column":10},"end":{"line":125,"column":19}}]},"11":{"line":131,"type":"if","locations":[{"start":{"line":131,"column":6},"end":{"line":131,"column":71}},{"start":{"line":131,"column":6},"end":{"line":131,"column":71}}]},"12":{"line":131,"type":"binary-expr","locations":[{"start":{"line":131,"column":10},"end":{"line":131,"column":16}},{"start":{"line":131,"column":10},"end":{"line":131,"column":16}}]}}}');
-	  coverageData.hash = hash;
-	  return coverage[path] = coverageData;
-	}
-
-	_cover__();
-
 	/**
 	 * A Trainer teaches a {@link Network} how to correctly classify some `data`.
 	 *
@@ -8614,7 +8213,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * network.activate([0, 0]) // => 0.000836743108
 	 * network.activate([0, 1]) // => 0.998253857294
 	 */
-	var Trainer = (++_cover__().s['1'], function () {
+	var Trainer = function () {
 	  /**
 	   * @param {object} [options]
 	   * @param {boolean|number} [options.batch]
@@ -8649,21 +8248,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @constructor
 	   */
 	  function Trainer() {
-	    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (++_cover__().s['2'], {});
-	    ++_cover__().f['1'];
+	    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	    (0, _classCallCheck3.default)(this, Trainer);
 
-	    var defaultOptions = (++_cover__().s['3'], {
+	    var defaultOptions = {
 	      batch: false,
 	      errorThreshold: 0.001,
 	      frequency: 100,
 	      maxEpochs: 20000
-	    });
+	    };
 
-	    var mergedOptions = (++_cover__().s['4'], (0, _merge3.default)(defaultOptions, options));
-	    ++_cover__().s['5'];
+	    var mergedOptions = (0, _merge3.default)(defaultOptions, options);
 	    _Validate2.default.trainingOptions(mergedOptions);
-	    ++_cover__().s['6'];
 	    this.options = mergedOptions;
 	  }
 
@@ -8683,12 +8279,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  (0, _createClass3.default)(Trainer, [{
 	    key: 'train',
 	    value: function train(network, data) {
-	      var overrides = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : (++_cover__().s['7'], {});
-	      ++_cover__().s['8'];
+	      var overrides = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	      _Validate2.default.trainingData(network, data);
-	      var mergedOptions = (++_cover__().s['9'], (0, _merge3.default)(this.options, overrides));
-	      ++_cover__().s['10'];
+	      var mergedOptions = (0, _merge3.default)(this.options, overrides);
 	      _Validate2.default.trainingOptions(mergedOptions);
 	      // TODO: normalize data to the range of the activation functions
 	      var batch = mergedOptions.batch,
@@ -8700,86 +8294,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	          onSuccess = mergedOptions.onSuccess;
 
 
-	      var isBatch = (++_cover__().s['11'], batch === true);
-	      var isOnline = (++_cover__().s['12'], batch === false);
-	      var isMiniBatch = (++_cover__().s['13'], (0, _isNumber3.default)(batch));
+	      var isBatch = batch === true;
+	      var isOnline = batch === false;
+	      var isMiniBatch = (0, _isNumber3.default)(batch);
 
 	      // track samples iterated, allows for mini-batches that span epochs
-	      var sampleCounter = (++_cover__().s['14'], 1);
-	      var epochCount = (++_cover__().s['15'], 1);
+	      var sampleCounter = 1;
+	      var epochCount = 1;
 
-	      var getAverageSampleError = (++_cover__().s['16'], function (sample, sampleIndex) {
-	        ++_cover__().f['2'];
-
-	        var shouldUpdate = (++_cover__().s['17'], (++_cover__().b['1'][0], (++_cover__().b['2'][0], isOnline) || (++_cover__().b['2'][1], (++_cover__().s['19'], (++_cover__().b['3'][0], isMiniBatch) && (++_cover__().b['3'][1], (++_cover__().s['20'], sampleCounter % batch === 0))))) || (++_cover__().b['1'][1], (++_cover__().s['18'], (++_cover__().b['4'][0], isBatch) && (++_cover__().b['4'][1], (++_cover__().s['21'], sampleIndex === data.length - 1)))));
+	      var getAverageSampleError = function getAverageSampleError(sample, sampleIndex) {
+	        var shouldUpdate = isOnline || isMiniBatch && sampleCounter % batch === 0 || isBatch && sampleIndex === data.length - 1;
 
 	        // propagation: set inputs & outputs, then error & deltas
-	        ++_cover__().s['22'];
 	        network.activate(sample.input);
-	        ++_cover__().s['23'];
 	        network.backprop(sample.output);
 
 	        // weight updates: update weights || accumulate weight gradients
-	        ++_cover__().s['24'];
-	        if (shouldUpdate) {
-	            ++_cover__().b['5'][0];
-	            ++_cover__().s['25'];
-	            network.updateWeights();
-	          } else {
-	            ++_cover__().b['5'][1];
-	            ++_cover__().s['26'];
-	            network.accumulateGradients();
-	          }++_cover__().s['27'];
-	        sampleCounter++;
-	        ++_cover__().s['28'];
-	        return network.error / data.length;
-	      });
+	        if (shouldUpdate) network.updateWeights();else network.accumulateGradients();
 
-	      ++_cover__().s['29'];
-	      for (var i = (++_cover__().s['31'], maxEpochs); i > 0; ++_cover__().s['30'], i -= 1) {
+	        sampleCounter++;
+	        return network.error / data.length;
+	      };
+
+	      for (var i = maxEpochs; i > 0; i -= 1) {
 	        // sum the average error of all training samples
-	        var error = (++_cover__().s['32'], (0, _sumBy3.default)(data, getAverageSampleError));
+	        var error = (0, _sumBy3.default)(data, getAverageSampleError);
 
 	        // call onProgress after the first epoch and every `frequency` thereafter
-	        ++_cover__().s['33'];
-	        if ((++_cover__().b['7'][0], onProgress) && (++_cover__().b['7'][1], (++_cover__().s['34'], epochCount % frequency === 0))) {
-	          ++_cover__().b['6'][0];
-
-	          var stop = (++_cover__().s['35'], onProgress(error, epochCount) === false);
-	          ++_cover__().s['36'];
-	          if (stop) {
-	              ++_cover__().b['8'][0];
-	              ++_cover__().s['37'];
-	              break;
-	            } else {
-	            ++_cover__().b['8'][1];
-	          }
-	        } else {
-	          ++_cover__().b['6'][1];
+	        if (onProgress && epochCount % frequency === 0) {
+	          var stop = onProgress(error, epochCount) === false;
+	          if (stop) break;
 	        }
 
 	        // success
-	        ++_cover__().s['38'];
-	        if ((++_cover__().b['10'][0], onSuccess) && (++_cover__().b['10'][1], (++_cover__().s['39'], error <= errorThreshold))) {
-	          ++_cover__().b['9'][0];
-	          ++_cover__().s['40'];
-
+	        if (onSuccess && error <= errorThreshold) {
 	          onSuccess(error, epochCount);
-	          ++_cover__().s['41'];
 	          break;
-	        } else {
-	          ++_cover__().b['9'][1];
 	        }
 
 	        // fail
-	        ++_cover__().s['42'];
-	        if ((++_cover__().b['12'][0], onFail) && (++_cover__().b['12'][1], (++_cover__().s['43'], epochCount === maxEpochs))) {
-	            ++_cover__().b['11'][0];
-	            ++_cover__().s['44'];
-	            onFail(error, epochCount);
-	          } else {
-	          ++_cover__().b['11'][1];
-	        }++_cover__().s['45'];
+	        if (onFail && epochCount === maxEpochs) onFail(error, epochCount);
+
 	        epochCount++;
 	      }
 	    }
@@ -8817,8 +8372,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  }]);
 	  return Trainer;
-	}());
-	++_cover__().s['46'];
+	}();
+
 	exports.default = Trainer;
 
 /***/ },
@@ -9686,26 +9241,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _coverage__file;
-
-	function _cover__() {
-	  if (!_coverage__file) _coverage__file = _coverage__getInitialState();
-	  return _coverage__file;
-	}
-
-	function _coverage__getInitialState() {
-	  var path = '/Users/levithomason/src/anny/src/Validate.js',
-	      hash = '3d302f28c72861915eed14e7ed65772b';
-	  var global = new Function('return this')();
-	  var coverage = global['__coverage__'] || (global['__coverage__'] = {});
-	  if (coverage[path] && coverage[path].hash === hash) return coverage[path];
-	  var coverageData = global['JSON'].parse('{"path":"/Users/levithomason/src/anny/src/Validate.js","s":{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0,"32":0,"33":0,"34":0,"35":0,"36":0,"37":0,"38":0,"39":0,"40":0,"41":0,"42":0,"43":0,"44":0,"45":0,"46":0,"47":0,"48":0,"49":0,"50":0,"51":0,"52":0,"53":0,"54":0,"55":0,"56":0,"57":0,"58":0,"59":0,"60":0,"61":0,"62":0,"63":0,"64":0,"65":0,"66":0,"67":0,"68":0,"69":0,"70":0},"b":{"1":[0,0],"2":[0,0],"3":[0,0],"4":[0,0],"5":[0,0],"6":[0,0],"7":[0,0],"8":[0,0],"9":[0,0],"10":[0,0],"11":[0,0],"12":[0,0],"13":[0,0],"14":[0,0],"15":[0,0],"16":[0,0],"17":[0,0],"18":[0,0],"19":[0,0],"20":[0,0],"21":[0,0],"22":[0,0],"23":[0,0],"24":[0,0]},"f":{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0},"statementMap":{"1":{"start":{"line":11,"column":0},"end":{"line":19,"column":1}},"2":{"start":{"line":13,"column":16},"end":{"line":13,"column":43}},"3":{"start":{"line":15,"column":4},"end":{"line":15,"column":33}},"4":{"start":{"line":16,"column":4},"end":{"line":16,"column":22}},"5":{"start":{"line":17,"column":4},"end":{"line":17,"column":52}},"6":{"start":{"line":25,"column":17},"end":{"line":243,"column":1}},"7":{"start":{"line":30,"column":4},"end":{"line":32,"column":5}},"8":{"start":{"line":31,"column":6},"end":{"line":31,"column":85}},"9":{"start":{"line":39,"column":4},"end":{"line":41,"column":5}},"10":{"start":{"line":40,"column":6},"end":{"line":40,"column":73}},"11":{"start":{"line":49,"column":4},"end":{"line":54,"column":5}},"12":{"start":{"line":50,"column":6},"end":{"line":53,"column":8}},"13":{"start":{"line":62,"column":4},"end":{"line":67,"column":5}},"14":{"start":{"line":63,"column":6},"end":{"line":66,"column":8}},"15":{"start":{"line":75,"column":4},"end":{"line":80,"column":5}},"16":{"start":{"line":76,"column":6},"end":{"line":79,"column":8}},"17":{"start":{"line":88,"column":4},"end":{"line":93,"column":5}},"18":{"start":{"line":89,"column":6},"end":{"line":92,"column":8}},"19":{"start":{"line":101,"column":4},"end":{"line":106,"column":5}},"20":{"start":{"line":102,"column":6},"end":{"line":105,"column":8}},"21":{"start":{"line":114,"column":4},"end":{"line":121,"column":6}},"22":{"start":{"line":115,"column":6},"end":{"line":120,"column":7}},"23":{"start":{"line":116,"column":8},"end":{"line":119,"column":10}},"24":{"start":{"line":129,"column":4},"end":{"line":136,"column":6}},"25":{"start":{"line":130,"column":6},"end":{"line":135,"column":7}},"26":{"start":{"line":131,"column":8},"end":{"line":134,"column":10}},"27":{"start":{"line":146,"column":27},"end":{"line":146,"column":52}},"28":{"start":{"line":147,"column":4},"end":{"line":153,"column":5}},"29":{"start":{"line":148,"column":6},"end":{"line":152,"column":8}},"30":{"start":{"line":163,"column":28},"end":{"line":163,"column":54}},"31":{"start":{"line":164,"column":4},"end":{"line":170,"column":5}},"32":{"start":{"line":165,"column":6},"end":{"line":169,"column":8}},"33":{"start":{"line":179,"column":4},"end":{"line":179,"column":30}},"34":{"start":{"line":180,"column":4},"end":{"line":180,"column":33}},"35":{"start":{"line":182,"column":4},"end":{"line":192,"column":6}},"36":{"start":{"line":183,"column":6},"end":{"line":183,"column":40}},"37":{"start":{"line":184,"column":6},"end":{"line":184,"column":40}},"38":{"start":{"line":185,"column":6},"end":{"line":185,"column":41}},"39":{"start":{"line":186,"column":6},"end":{"line":186,"column":47}},"40":{"start":{"line":187,"column":6},"end":{"line":187,"column":48}},"41":{"start":{"line":188,"column":6},"end":{"line":188,"column":50}},"42":{"start":{"line":189,"column":6},"end":{"line":189,"column":51}},"43":{"start":{"line":190,"column":6},"end":{"line":190,"column":57}},"44":{"start":{"line":191,"column":6},"end":{"line":191,"column":58}},"45":{"start":{"line":196,"column":4},"end":{"line":198,"column":5}},"46":{"start":{"line":197,"column":6},"end":{"line":197,"column":67}},"47":{"start":{"line":200,"column":25},"end":{"line":208,"column":5}},"48":{"start":{"line":210,"column":4},"end":{"line":213,"column":6}},"49":{"start":{"line":211,"column":6},"end":{"line":211,"column":47}},"50":{"start":{"line":211,"column":41},"end":{"line":211,"column":47}},"51":{"start":{"line":212,"column":6},"end":{"line":212,"column":79}},"52":{"start":{"line":215,"column":4},"end":{"line":217,"column":5}},"53":{"start":{"line":215,"column":39},"end":{"line":215,"column":65}},"54":{"start":{"line":216,"column":6},"end":{"line":216,"column":77}},"55":{"start":{"line":219,"column":4},"end":{"line":221,"column":5}},"56":{"start":{"line":220,"column":6},"end":{"line":220,"column":75}},"57":{"start":{"line":223,"column":4},"end":{"line":225,"column":5}},"58":{"start":{"line":224,"column":6},"end":{"line":224,"column":70}},"59":{"start":{"line":227,"column":4},"end":{"line":229,"column":5}},"60":{"start":{"line":228,"column":6},"end":{"line":228,"column":69}},"61":{"start":{"line":231,"column":4},"end":{"line":233,"column":5}},"62":{"start":{"line":231,"column":36},"end":{"line":231,"column":65}},"63":{"start":{"line":232,"column":6},"end":{"line":232,"column":69}},"64":{"start":{"line":235,"column":4},"end":{"line":237,"column":5}},"65":{"start":{"line":235,"column":40},"end":{"line":235,"column":73}},"66":{"start":{"line":236,"column":6},"end":{"line":236,"column":73}},"67":{"start":{"line":239,"column":4},"end":{"line":241,"column":5}},"68":{"start":{"line":239,"column":39},"end":{"line":239,"column":71}},"69":{"start":{"line":240,"column":6},"end":{"line":240,"column":72}},"70":{"start":{"line":245,"column":0},"end":{"line":245,"column":23}}},"fnMap":{"1":{"name":null,"line":12,"loc":{"start":{"line":12,"column":2},"end":{"line":18,"column":3}}},"2":{"name":null,"line":29,"loc":{"start":{"line":29,"column":15},"end":{"line":33,"column":3}}},"3":{"name":null,"line":38,"loc":{"start":{"line":38,"column":18},"end":{"line":42,"column":3}}},"4":{"name":null,"line":48,"loc":{"start":{"line":48,"column":18},"end":{"line":55,"column":3}}},"5":{"name":null,"line":61,"loc":{"start":{"line":61,"column":18},"end":{"line":68,"column":3}}},"6":{"name":null,"line":74,"loc":{"start":{"line":74,"column":19},"end":{"line":81,"column":3}}},"7":{"name":null,"line":87,"loc":{"start":{"line":87,"column":25},"end":{"line":94,"column":3}}},"8":{"name":null,"line":100,"loc":{"start":{"line":100,"column":26},"end":{"line":107,"column":3}}},"9":{"name":null,"line":113,"loc":{"start":{"line":113,"column":28},"end":{"line":122,"column":3}}},"10":{"name":null,"line":114,"loc":{"start":{"line":114,"column":28},"end":{"line":121,"column":5}}},"11":{"name":null,"line":128,"loc":{"start":{"line":128,"column":29},"end":{"line":137,"column":3}}},"12":{"name":null,"line":129,"loc":{"start":{"line":129,"column":29},"end":{"line":136,"column":5}}},"13":{"name":null,"line":145,"loc":{"start":{"line":145,"column":26},"end":{"line":154,"column":3}}},"14":{"name":null,"line":162,"loc":{"start":{"line":162,"column":27},"end":{"line":171,"column":3}}},"15":{"name":null,"line":178,"loc":{"start":{"line":178,"column":16},"end":{"line":193,"column":3}}},"16":{"name":null,"line":182,"loc":{"start":{"line":182,"column":20},"end":{"line":192,"column":5}}},"17":{"name":null,"line":210,"loc":{"start":{"line":210,"column":23},"end":{"line":213,"column":5}}}},"branchMap":{"1":{"line":30,"type":"if","locations":[{"start":{"line":30,"column":26},"end":{"line":32,"column":5}},{"start":{"line":30,"column":26},"end":{"line":32,"column":5}}]},"2":{"line":39,"type":"if","locations":[{"start":{"line":39,"column":25},"end":{"line":41,"column":5}},{"start":{"line":39,"column":25},"end":{"line":41,"column":5}}]},"3":{"line":49,"type":"if","locations":[{"start":{"line":49,"column":34},"end":{"line":54,"column":5}},{"start":{"line":49,"column":34},"end":{"line":54,"column":5}}]},"4":{"line":62,"type":"if","locations":[{"start":{"line":62,"column":34},"end":{"line":67,"column":5}},{"start":{"line":62,"column":34},"end":{"line":67,"column":5}}]},"5":{"line":75,"type":"if","locations":[{"start":{"line":75,"column":35},"end":{"line":80,"column":5}},{"start":{"line":75,"column":35},"end":{"line":80,"column":5}}]},"6":{"line":88,"type":"if","locations":[{"start":{"line":88,"column":33},"end":{"line":93,"column":5}},{"start":{"line":88,"column":33},"end":{"line":93,"column":5}}]},"7":{"line":101,"type":"if","locations":[{"start":{"line":101,"column":34},"end":{"line":106,"column":5}},{"start":{"line":101,"column":34},"end":{"line":106,"column":5}}]},"8":{"line":115,"type":"if","locations":[{"start":{"line":115,"column":26},"end":{"line":120,"column":7}},{"start":{"line":115,"column":26},"end":{"line":120,"column":7}}]},"9":{"line":130,"type":"if","locations":[{"start":{"line":130,"column":26},"end":{"line":135,"column":7}},{"start":{"line":130,"column":26},"end":{"line":135,"column":7}}]},"10":{"line":147,"type":"if","locations":[{"start":{"line":147,"column":48},"end":{"line":153,"column":5}},{"start":{"line":147,"column":48},"end":{"line":153,"column":5}}]},"11":{"line":164,"type":"if","locations":[{"start":{"line":164,"column":50},"end":{"line":170,"column":5}},{"start":{"line":164,"column":50},"end":{"line":170,"column":5}}]},"12":{"line":196,"type":"if","locations":[{"start":{"line":196,"column":35},"end":{"line":198,"column":5}},{"start":{"line":196,"column":35},"end":{"line":198,"column":5}}]},"13":{"line":211,"type":"if","locations":[{"start":{"line":211,"column":6},"end":{"line":211,"column":47}},{"start":{"line":211,"column":6},"end":{"line":211,"column":47}}]},"14":{"line":215,"type":"if","locations":[{"start":{"line":215,"column":67},"end":{"line":217,"column":5}},{"start":{"line":215,"column":67},"end":{"line":217,"column":5}}]},"15":{"line":215,"type":"binary-expr","locations":[{"start":{"line":215,"column":8},"end":{"line":215,"column":35}},{"start":{"line":215,"column":8},"end":{"line":215,"column":35}}]},"16":{"line":219,"type":"if","locations":[{"start":{"line":219,"column":45},"end":{"line":221,"column":5}},{"start":{"line":219,"column":45},"end":{"line":221,"column":5}}]},"17":{"line":223,"type":"if","locations":[{"start":{"line":223,"column":40},"end":{"line":225,"column":5}},{"start":{"line":223,"column":40},"end":{"line":225,"column":5}}]},"18":{"line":227,"type":"if","locations":[{"start":{"line":227,"column":40},"end":{"line":229,"column":5}},{"start":{"line":227,"column":40},"end":{"line":229,"column":5}}]},"19":{"line":231,"type":"if","locations":[{"start":{"line":231,"column":67},"end":{"line":233,"column":5}},{"start":{"line":231,"column":67},"end":{"line":233,"column":5}}]},"20":{"line":231,"type":"binary-expr","locations":[{"start":{"line":231,"column":8},"end":{"line":231,"column":32}},{"start":{"line":231,"column":8},"end":{"line":231,"column":32}}]},"21":{"line":235,"type":"if","locations":[{"start":{"line":235,"column":75},"end":{"line":237,"column":5}},{"start":{"line":235,"column":75},"end":{"line":237,"column":5}}]},"22":{"line":235,"type":"binary-expr","locations":[{"start":{"line":235,"column":8},"end":{"line":235,"column":36}},{"start":{"line":235,"column":8},"end":{"line":235,"column":36}}]},"23":{"line":239,"type":"if","locations":[{"start":{"line":239,"column":73},"end":{"line":241,"column":5}},{"start":{"line":239,"column":73},"end":{"line":241,"column":5}}]},"24":{"line":239,"type":"binary-expr","locations":[{"start":{"line":239,"column":8},"end":{"line":239,"column":35}},{"start":{"line":239,"column":8},"end":{"line":239,"column":35}}]}}}');
-	  coverageData.hash = hash;
-	  return coverage[path] = coverageData;
-	}
-
-	_cover__();
-
 	/**
 	 * Thin Error wrapper that concatenates all arguments into the Error message.
 	 * @param {string|string[]} message - The error message, concatenated if an
@@ -9713,50 +9248,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {Error}
 	 * @constructor
 	 */
-	var ValidationError = (++_cover__().s['1'], function (_Error) {
+	var ValidationError = function (_Error) {
 	  (0, _inherits3.default)(ValidationError, _Error);
 
 	  function ValidationError(message) {
-	    ++_cover__().f['1'];
 	    (0, _classCallCheck3.default)(this, ValidationError);
 
-	    var msg = (++_cover__().s['2'], [].concat(message).join(''));
+	    var msg = [].concat(message).join('');
 
 	    var _this = (0, _possibleConstructorReturn3.default)(this, (ValidationError.__proto__ || Object.getPrototypeOf(ValidationError)).call(this, msg));
 
-	    ++_cover__().s['3'];
-
 	    _this.name = 'ValidationError';
-	    ++_cover__().s['4'];
 	    _this.message = msg;
-	    ++_cover__().s['5'];
 	    Error.captureStackTrace(_this, 'ValidationError');
 	    return _this;
 	  }
 
 	  return ValidationError;
-	}(Error));
+	}(Error);
 
 	/**
 	 * @namespace
 	 * @type {{}}
 	 */
 
-	var validate = (++_cover__().s['6'], {
+
+	var validate = {
 	  /**
 	   * @param {array} data The training data set.
 	   */
 	  dataIsArray: function dataIsArray(data) {
-	    ++_cover__().f['2'];
-	    ++_cover__().s['7'];
-
 	    if (!(0, _isArray3.default)(data)) {
-	      ++_cover__().b['1'][0];
-	      ++_cover__().s['8'];
-
 	      throw new ValidationError('Training data must be an array, not: ' + (0, _Util.type)(data));
-	    } else {
-	      ++_cover__().b['1'][1];
 	    }
 	  },
 
@@ -9764,16 +9287,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {array} data The training data set.
 	   */
 	  dataIsNotEmpty: function dataIsNotEmpty(data) {
-	    ++_cover__().f['3'];
-	    ++_cover__().s['9'];
-
 	    if ((0, _isEmpty3.default)(data)) {
-	      ++_cover__().b['2'][0];
-	      ++_cover__().s['10'];
-
 	      throw new ValidationError('Training data array must not be empty.');
-	    } else {
-	      ++_cover__().b['2'][1];
 	    }
 	  },
 
@@ -9782,16 +9297,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} i The index of the sample in the training set.
 	   */
 	  sampleIsObject: function sampleIsObject(sample, i) {
-	    ++_cover__().f['4'];
-	    ++_cover__().s['11'];
-
 	    if (!(0, _isPlainObject3.default)(sample)) {
-	      ++_cover__().b['3'][0];
-	      ++_cover__().s['12'];
-
 	      throw new ValidationError(['Training data array elements must be objects. Element at index ' + i, ' is of type: ' + (0, _Util.type)(sample)]);
-	    } else {
-	      ++_cover__().b['3'][1];
 	    }
 	  },
 
@@ -9800,16 +9307,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} i The index of the sample in the training set.
 	   */
 	  sampleHasInput: function sampleHasInput(sample, i) {
-	    ++_cover__().f['5'];
-	    ++_cover__().s['13'];
-
 	    if (!(0, _isArray3.default)(sample.input)) {
-	      ++_cover__().b['4'][0];
-	      ++_cover__().s['14'];
-
 	      throw new ValidationError(['Training object "input" property must be an array.', ' data[' + i + ']["input"] is type: ' + (0, _Util.type)(sample.input)]);
-	    } else {
-	      ++_cover__().b['4'][1];
 	    }
 	  },
 
@@ -9818,16 +9317,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} i The index of the sample in the training set.
 	   */
 	  sampleHasOutput: function sampleHasOutput(sample, i) {
-	    ++_cover__().f['6'];
-	    ++_cover__().s['15'];
-
 	    if (!(0, _isArray3.default)(sample.output)) {
-	      ++_cover__().b['5'][0];
-	      ++_cover__().s['16'];
-
 	      throw new ValidationError(['Training object "output" property must be an array.', ' data[' + i + ']["output"] is type: ' + (0, _Util.type)(sample.output)]);
-	    } else {
-	      ++_cover__().b['5'][1];
 	    }
 	  },
 
@@ -9836,16 +9327,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} i The index of the sample in the training set.
 	   */
 	  sampleInputIsNotEmpty: function sampleInputIsNotEmpty(sample, i) {
-	    ++_cover__().f['7'];
-	    ++_cover__().s['17'];
-
 	    if ((0, _isEmpty3.default)(sample.input)) {
-	      ++_cover__().b['6'][0];
-	      ++_cover__().s['18'];
-
 	      throw new ValidationError(['Training object "input" array must not be empty.', ' See data[' + i + ']["input"].']);
-	    } else {
-	      ++_cover__().b['6'][1];
 	    }
 	  },
 
@@ -9854,16 +9337,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} i The index of the sample in the training set.
 	   */
 	  sampleOutputIsNotEmpty: function sampleOutputIsNotEmpty(sample, i) {
-	    ++_cover__().f['8'];
-	    ++_cover__().s['19'];
-
 	    if ((0, _isEmpty3.default)(sample.output)) {
-	      ++_cover__().b['7'][0];
-	      ++_cover__().s['20'];
-
 	      throw new ValidationError(['Training object "output" array must not be empty.', ' See data[' + i + ']["output"].']);
-	    } else {
-	      ++_cover__().b['7'][1];
 	    }
 	  },
 
@@ -9872,20 +9347,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} i The index of the sample in the training set.
 	   */
 	  sampleInputIsOnlyNumbers: function sampleInputIsOnlyNumbers(sample, i) {
-	    ++_cover__().f['9'];
-	    ++_cover__().s['21'];
-
 	    (0, _forEach3.default)(sample.input, function (n) {
-	      ++_cover__().f['10'];
-	      ++_cover__().s['22'];
-
 	      if (!(0, _isNumber3.default)(n)) {
-	        ++_cover__().b['8'][0];
-	        ++_cover__().s['23'];
-
 	        throw new ValidationError(['Training object "input" property values must be numbers.', ' data[' + i + ']["input"] contains: ' + (0, _Util.type)(n)]);
-	      } else {
-	        ++_cover__().b['8'][1];
 	      }
 	    });
 	  },
@@ -9895,20 +9359,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} i The index of the sample in the training set.
 	   */
 	  sampleOutputIsOnlyNumbers: function sampleOutputIsOnlyNumbers(sample, i) {
-	    ++_cover__().f['11'];
-	    ++_cover__().s['24'];
-
 	    (0, _forEach3.default)(sample.output, function (n) {
-	      ++_cover__().f['12'];
-	      ++_cover__().s['25'];
-
 	      if (!(0, _isNumber3.default)(n)) {
-	        ++_cover__().b['9'][0];
-	        ++_cover__().s['26'];
-
 	        throw new ValidationError(['Training object "output" property values must be numbers.', ' data[' + i + ']["output"] contains: ' + (0, _Util.type)(n)]);
-	      } else {
-	        ++_cover__().b['9'][1];
 	      }
 	    });
 	  },
@@ -9920,17 +9373,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   set.
 	   */
 	  sampleInputFitsNetwork: function sampleInputFitsNetwork(sample, i, network) {
-	    ++_cover__().f['13'];
-
-	    var inputLayerSize = (++_cover__().s['27'], network.inputLayer.size());
-	    ++_cover__().s['28'];
+	    var inputLayerSize = network.inputLayer.size();
 	    if (inputLayerSize !== sample.input.length) {
-	      ++_cover__().b['10'][0];
-	      ++_cover__().s['29'];
-
 	      throw new ValidationError(['Training data "input" and network input layer size must be equal.', ' data[' + i + '] input size is ' + sample.input.length + '.', ' Network input size is ' + inputLayerSize + '.']);
-	    } else {
-	      ++_cover__().b['10'][1];
 	    }
 	  },
 
@@ -9941,17 +9386,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   set.
 	   */
 	  sampleOutputFitsNetwork: function sampleOutputFitsNetwork(sample, i, network) {
-	    ++_cover__().f['14'];
-
-	    var outputLayerSize = (++_cover__().s['30'], network.outputLayer.size());
-	    ++_cover__().s['31'];
+	    var outputLayerSize = network.outputLayer.size();
 	    if (outputLayerSize !== sample.output.length) {
-	      ++_cover__().b['11'][0];
-	      ++_cover__().s['32'];
-
 	      throw new ValidationError(['Training data "output" and network output layer size must be equal.', ' data[' + i + '] output size is ' + sample.output.length + '.', ' Network output size is ' + outputLayerSize + '.']);
-	    } else {
-	      ++_cover__().b['11'][1];
 	    }
 	  },
 
@@ -9961,140 +9398,64 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {object[]} data The data set to train the Network on.
 	   */
 	  trainingData: function trainingData(network, data) {
-	    ++_cover__().f['15'];
-	    ++_cover__().s['33'];
-
 	    validate.dataIsArray(data);
-	    ++_cover__().s['34'];
 	    validate.dataIsNotEmpty(data);
 
-	    ++_cover__().s['35'];
 	    (0, _forEach3.default)(data, function (sample, i) {
-	      ++_cover__().f['16'];
-	      ++_cover__().s['36'];
-
 	      validate.sampleIsObject(sample, i);
-	      ++_cover__().s['37'];
 	      validate.sampleHasInput(sample, i);
-	      ++_cover__().s['38'];
 	      validate.sampleHasOutput(sample, i);
-	      ++_cover__().s['39'];
 	      validate.sampleInputIsNotEmpty(sample, i);
-	      ++_cover__().s['40'];
 	      validate.sampleOutputIsNotEmpty(sample, i);
-	      ++_cover__().s['41'];
 	      validate.sampleInputIsOnlyNumbers(sample, i);
-	      ++_cover__().s['42'];
 	      validate.sampleOutputIsOnlyNumbers(sample, i);
-	      ++_cover__().s['43'];
 	      validate.sampleInputFitsNetwork(sample, i, network);
-	      ++_cover__().s['44'];
 	      validate.sampleOutputFitsNetwork(sample, i, network);
 	    });
 	  },
 
 	  trainingOptions: function trainingOptions(options) {
-	    ++_cover__().s['45'];
-
 	    if (!(0, _isPlainObject3.default)(options)) {
-	      ++_cover__().b['12'][0];
-	      ++_cover__().s['46'];
-
 	      throw new Error('training "options" must be a plain object.');
-	    } else {
-	      ++_cover__().b['12'][1];
 	    }
 
-	    var validOptions = (++_cover__().s['47'], ['batch', 'errorThreshold', 'frequency', 'maxEpochs', 'onFail', 'onProgress', 'onSuccess']);
+	    var validOptions = ['batch', 'errorThreshold', 'frequency', 'maxEpochs', 'onFail', 'onProgress', 'onSuccess'];
 
-	    ++_cover__().s['48'];
 	    (0, _forEach3.default)(options, function (val, key) {
-	      ++_cover__().f['17'];
-	      ++_cover__().s['49'];
-
-	      if ((0, _includes3.default)(validOptions, key)) {
-	          ++_cover__().b['13'][0];
-	          ++_cover__().s['50'];
-	          return;
-	        } else {
-	        ++_cover__().b['13'][1];
-	      }++_cover__().s['51'];
+	      if ((0, _includes3.default)(validOptions, key)) return;
 	      throw new Error('Unknown training option "' + key + '", try: ' + validOptions);
 	    });
 
-	    ++_cover__().s['52'];
-	    if ((++_cover__().b['15'][0], !(0, _isBoolean3.default)(options.batch)) && (++_cover__().b['15'][1], (++_cover__().s['53'], !(0, _isNumber3.default)(options.batch)))) {
-	      ++_cover__().b['14'][0];
-	      ++_cover__().s['54'];
-
+	    if (!(0, _isBoolean3.default)(options.batch) && !(0, _isNumber3.default)(options.batch)) {
 	      throw new Error('training option "batch" must be a boolean or number.');
-	    } else {
-	      ++_cover__().b['14'][1];
 	    }
 
-	    ++_cover__().s['55'];
 	    if (!(0, _isNumber3.default)(options.errorThreshold)) {
-	      ++_cover__().b['16'][0];
-	      ++_cover__().s['56'];
-
 	      throw new Error('training option "errorThreshold" must be a number.');
-	    } else {
-	      ++_cover__().b['16'][1];
 	    }
 
-	    ++_cover__().s['57'];
 	    if (!(0, _isNumber3.default)(options.frequency)) {
-	      ++_cover__().b['17'][0];
-	      ++_cover__().s['58'];
-
 	      throw new Error('training option "frequency" must be a number.');
-	    } else {
-	      ++_cover__().b['17'][1];
 	    }
 
-	    ++_cover__().s['59'];
 	    if (!(0, _isNumber3.default)(options.maxEpochs)) {
-	      ++_cover__().b['18'][0];
-	      ++_cover__().s['60'];
-
 	      throw new Error('training option "maxEpochs" must be a number');
-	    } else {
-	      ++_cover__().b['18'][1];
 	    }
 
-	    ++_cover__().s['61'];
-	    if ((++_cover__().b['20'][0], (0, _has3.default)(options, 'onFail')) && (++_cover__().b['20'][1], (++_cover__().s['62'], !(0, _isFunction3.default)(options.onFail)))) {
-	      ++_cover__().b['19'][0];
-	      ++_cover__().s['63'];
-
+	    if ((0, _has3.default)(options, 'onFail') && !(0, _isFunction3.default)(options.onFail)) {
 	      throw new Error('training option "onFail" must be a function.');
-	    } else {
-	      ++_cover__().b['19'][1];
 	    }
 
-	    ++_cover__().s['64'];
-	    if ((++_cover__().b['22'][0], (0, _has3.default)(options, 'onProgress')) && (++_cover__().b['22'][1], (++_cover__().s['65'], !(0, _isFunction3.default)(options.onProgress)))) {
-	      ++_cover__().b['21'][0];
-	      ++_cover__().s['66'];
-
+	    if ((0, _has3.default)(options, 'onProgress') && !(0, _isFunction3.default)(options.onProgress)) {
 	      throw new Error('training option "onProgress" must be a function.');
-	    } else {
-	      ++_cover__().b['21'][1];
 	    }
 
-	    ++_cover__().s['67'];
-	    if ((++_cover__().b['24'][0], (0, _has3.default)(options, 'onSuccess')) && (++_cover__().b['24'][1], (++_cover__().s['68'], !(0, _isFunction3.default)(options.onSuccess)))) {
-	      ++_cover__().b['23'][0];
-	      ++_cover__().s['69'];
-
+	    if ((0, _has3.default)(options, 'onSuccess') && !(0, _isFunction3.default)(options.onSuccess)) {
 	      throw new Error('training option "onSuccess" must be a function.');
-	    } else {
-	      ++_cover__().b['23'][1];
 	    }
 	  }
-	});
+	};
 
-	++_cover__().s['70'];
 	exports.default = validate;
 
 /***/ },
