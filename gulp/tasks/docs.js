@@ -38,11 +38,3 @@ gulp.task('docs:styles', (cb) => {
     .pipe(g.autoprefixer())
     .pipe(gulp.dest(`${paths.docsDist}/styles`))
 })
-
-gulp.task('docs:deploy', 'deploy master branch', (cb) => {
-  exec('git push origin master:gh-pages', (err, stdout, stderr) => {
-    process.stdout.write(`${stdout}\n`)
-    process.stdout.write(`${stderr}\n`)
-    cb(err)
-  })
-})

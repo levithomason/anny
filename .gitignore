@@ -1,10 +1,7 @@
-# Heads Up!
-# Each line in this file is passed to `rm -rf` on `npm run clean`
-#
-
-.nyc_output/
-coverage/
-node_modules/
 *.log*
-dist/
+.nyc_output/
 app/dist/
+coverage/
+dist/
+node_modules/
+tmp/

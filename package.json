@@ -10,7 +10,9 @@
   "scripts": {
     "babel-node": "babel-node",
     "build": "gulp build",
-    "deploy": "gulp deploy",
+    "predeploy": "rm -rf tmp && mkdir tmp && cp -R app dist docs index.html tmp && npm run build",
+    "deploy": "gh-pages -d tmp",
+    "postdeploy": "rm -rf tmp",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "playground": "nodemon --exec npm run babel-node -- playground.js",
@@ -67,6 +69,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-lodash": "^2.2.3",
     "eslint-plugin-react": "^6.8.0",
+    "gh-pages": "^0.12.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
     "gulp-babel": "^6.1.2",
