@@ -1,23 +1,13 @@
 machine:
   node:
-    version: 4.2.1
-  ruby:
-    version: 2.2.3
-
-dependencies:
-  cache_directories:
-    - "app/bower"
+    version: 6
 
 test:
+  pre:
+    - npm run lint
   post:
-    - npm run coverage-report
+    - bash <(curl -s https://codecov.io/bash)
 
 general:
   artifacts:
-    - "coverage"
-
-deployment:
-  production:
-    branch: master
-    commands:
-      - sh scripts/circle_deploy.sh
+    - coverage

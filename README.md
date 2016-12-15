@@ -1,22 +1,19 @@
 <p align="center">
-  <a href="http://dev-coop.github.io/anny/">
-    <img height="150" width="150" src="https://raw.githubusercontent.com/dev-coop/anny/master/logo.png">
+  <a href="http://levithomason.github.io/anny/">
+    <img height="150" width="150" src="https://raw.githubusercontent.com/levithomason/anny/master/logo.png">
   </a>
 </p>
 
 <h1 align="center">
-  <a href="http://dev-coop.github.io/anny">Anny</a>
+  <a href="http://levithomason.github.io/anny">Anny</a>
 </h1>
 
 <p align="center">
-  <a href="https://circleci.com/gh/dev-coop/anny">
-    <img src="https://img.shields.io/circleci/project/dev-coop/anny/master.svg?style=flat-square" alt="CircleCI"/>
+  <a href="https://circleci.com/gh/levithomason/anny">
+    <img src="https://img.shields.io/circleci/project/levithomason/anny/master.svg?style=flat-square" alt="CircleCI"/>
   </a>
-  <a href="https://codeclimate.com/github/dev-coop/anny/coverage">
-    <img src="https://img.shields.io/codeclimate/coverage/github/dev-coop/anny.svg?style=flat-square" alt="Test Coverage"/>
-  </a>
-  <a href="https://codeclimate.com/github/dev-coop/anny">
-    <img src="https://img.shields.io/codeclimate/github/dev-coop/anny.svg?style=flat-square" alt="Code Climate"/>
+  <a href="https://codeclimate.com/github/levithomason/anny/coverage">
+    <img src="https://img.shields.io/codeclimate/coverage/github/levithomason/anny.svg?style=flat-square" alt="Test Coverage"/>
   </a>
 </p>
 
@@ -31,16 +28,18 @@ npm install anny --save
 
 ## Get Started
 
-Read the [documentation](http://dev-coop.github.io/anny/docs)
-or try the [demo](http://dev-coop.github.io/anny).
+Read the [documentation](http://levithomason.github.io/anny/docs)
+or try the [demo](http://levithomason.github.io/anny).
 
 Train a multilayer perceptron to approximate an OR logic gate:
 
 ```js
-const network = new anny.Network([2, 1])
+const { Network, Layer, Trainer, DATA } = require('anny')
+
+const network = new Network([new Layer(2), new Layer(1)])
 const trainer = new Trainer()
 
-trainer.train(network, anny.DATA.ORGate)
+trainer.train(network, DATA.ORGate)
 
 network.activate([0, 0]) // => 0.000836743108
 network.activate([0, 1]) // => 0.998253857294
