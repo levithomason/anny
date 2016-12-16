@@ -30,7 +30,6 @@ const data = _.shuffle(dataset)
 // Settings
 // ----------------------------------------
 
-
 // Trainer
 const batch = true
 const maxEpochs = 20000
@@ -87,7 +86,7 @@ _.times(trainings, (training) => {
       _.forEach(dataset, (sample) => {
         console.log('')
         console.log(`  target: ${sample.output}`)
-        console.log(`  actual: ${_.map(network.activate(sample.input), n => n.toFixed(9))}`)
+        console.log(`  actual: ${_.invokeMap(_.map(network.activate(sample.input)), 'toFixed', 9)}`)
       })
     },
     onFail: (error, epoch) => {

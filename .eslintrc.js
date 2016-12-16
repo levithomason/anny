@@ -13,7 +13,6 @@ module.exports = {
     'import/no-extraneous-dependencies': 0,
     'lodash/prefer-constant': 0,
     'lodash/prefer-lodash-method': 0,
-    'lodash/prefer-invoke-map': 0,
     'lodash/prefer-noop': 0,
     'max-len': [2, 120],
     'no-confusing-arrow': 0,
