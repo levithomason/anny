@@ -57,10 +57,7 @@ class Layer {
    * @returns {number[]} - Array of Neuron output values.
    */
   activate(values = []) {
-    /* eslint-disable lodash/prefer-invoke-map */
-    // https://github.com/wix/eslint-plugin-lodash/issues/128
     return _.map(this.neurons, (neuron, i) => neuron.activate(values[i]))
-    /* eslint-enable lodash/prefer-invoke-map */
   }
 
   /**
