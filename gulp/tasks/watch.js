@@ -4,15 +4,14 @@ const g = require('gulp-load-plugins')()
 const gulp = g.help(require('gulp'), require('../gulphelp'))
 
 gulp.task('watch', 'rebuild when files change', (cb) => {
-  gulp.watch([
-    // anny
-    paths.annyEntry,
-    `${paths.annySrc}/**/*`,
+  // anny
+  gulp.watch(`${paths.annySrc}/**/*`, ['anny:build'])
 
-    // app
-    `${paths.root}/index.html`,
+  // app
+  gulp.watch([
     `${paths.appSrc}/**/*`,
-  ], ['build'])
+    `${paths.root}/index.html`,
+  ], ['app:build'])
 
   // docs
   gulp.watch([
@@ -22,9 +21,7 @@ gulp.task('watch', 'rebuild when files change', (cb) => {
   ], ['docs'])
 
   // docs less
-  gulp.watch([
-    `${paths.docsSrc}/**/*.less`,
-  ], ['docs-less'])
+  gulp.watch(`${paths.docsSrc}/static/styles/**/*`, ['docs:styles'])
 
   cb()
 })

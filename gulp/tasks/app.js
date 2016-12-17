@@ -54,7 +54,7 @@ gulp.task('app:build:js', (cb) => {
     },
     module: {
       loaders: [
-        { test: /\.js$/, loaders: ['babel', 'eslint'], include: [paths.appSrc] },
+        { test: /\.js$/, loaders: ['babel'], include: [paths.appSrc] },
       ],
     },
     externals: {
