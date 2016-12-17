@@ -37,7 +37,7 @@ gulp.task('anny:build', (cb) => {
     },
     module: {
       loaders: [
-        { test: /\.js$/, loaders: ['babel', 'eslint'], include: [paths.annySrc] },
+        { test: /\.js$/, loaders: ['babel'], include: [paths.annySrc] },
       ],
     },
   }

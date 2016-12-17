@@ -101,6 +101,19 @@ class Network {
   }
 
   /**
+   * Add a layer to the output of the Network.
+   * @param {Layer} layer - The layer to add.
+   */
+  addLayer(layer) {
+    this.outputLayer.connect(layer)
+    this.outputLayer = layer
+    this.allLayers = [...this.allLayers, layer]
+    _.each(this.allLayers, (layer) => {
+      _.each(_.sortBy(layer.neurons, 'id'), n => console.log(n.id))
+    })
+  }
+
+  /**
    * Set Network `error` and output Layer `delta`s and propagate them backward
    * through the Network. The input Layer has no use for deltas, so it is skipped.
    * @param {number[]} [targetOutput] - The expected Network output vector.
