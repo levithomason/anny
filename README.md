@@ -26,7 +26,7 @@
 npm install anny --save
 ```
 
-## Get Started
+## Getting Started
 
 Read the [documentation](http://levithomason.github.io/anny/docs)
 or try the [demo](http://levithomason.github.io/anny).
