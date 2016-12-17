@@ -31,6 +31,14 @@ export const newNetwork = (layerSizes) => {
   network = new anny.Network(layers)
 }
 
+export const addLayer = () => {
+  network.addLayer(new anny.Layer(1))
+}
+
+export const addNeuron = () => {
+  _.sample(network.hiddenLayers).addNeuron()
+}
+
 export const activate = (inputs) => {
   network.activate(inputs || _.times(network.inputLayer.neurons.length, Math.random))
 }

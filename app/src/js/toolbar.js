@@ -48,6 +48,16 @@ export const newLogicNetwork = () => {
   graph.update(factory.network)
 }
 
+export const addLayer = () => {
+  factory.addLayer()
+  graph.update(factory.network)
+}
+
+export const addNeuron = () => {
+  factory.addNeuron()
+  graph.update(factory.network)
+}
+
 export const newRandomNetwork = () => {
   factory.newNetwork()
   graph.update(factory.network)

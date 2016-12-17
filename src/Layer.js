@@ -14,17 +14,18 @@ class Layer {
   /**
    * Creates a single dimension Layer of [Neurons]{@link Neuron}.
    * @param {number} size - The number of Neurons this Layer should have.
-   * @param {number} [learningRate] - The learning rate passed directly to the
-   *   Neuron constructor.
-   * @param {object} [activation] - The activation function passed directly to
-   *   the
-   *   Neuron constructor.
+   * @param {number} [learningRate] - The learning rate passed directly to the Neuron constructor.
+   * @param {object} [activation] - The activation function passed directly to the Neuron constructor.
    */
   constructor(size, activation, learningRate) {
     if (!_.isNumber(size)) {
       throw new Error(`Layer() 'size' must be a number, not: ${typeof size}`)
     }
-    this.neurons = _.times(size, () => new Neuron(activation, learningRate))
+    this.neurons = _.times(size, () => {
+      const neuron = new Neuron(activation, learningRate)
+      neuron.layer = this
+      return neuron
+    })
   }
 
   /**
@@ -58,6 +59,26 @@ class Layer {
    */
   activate(values = []) {
     return _.map(this.neurons, (neuron, i) => neuron.activate(values[i]))
+  }
+
+  /**
+   * Add a Neuron to this layer.
+   * @param {number} [learningRate] - The learning rate passed directly to the
+   *   Neuron constructor.
+   * @param {object} [activation] - The activation function passed directly to
+   */
+  addNeuron(activation, learningRate) {
+    const neuron = new Neuron(activation, learningRate)
+    this.neurons.push(neuron)
+
+    const sourceLayer = _.get(this.neurons, '[0].connection.source.layer')
+    console.log(sourceLayer)
+
+    if (sourceLayer) {
+      _.forEach(sourceLayer.neurons, (source) => {
+        source.connect(neuron, INITIALIZE.weight(sourceLayer.neurons.length))
+      })
+    }
   }
 
   /**
